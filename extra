@@ -1,0 +1,15 @@
+npm init -y(package.json)
+npm i express(express)
+npm i ejs(ejs)
+npm i mongoose(mongodb)
+touch app.js(main file)
+nodemon app.js(run the file)
+
+CMD me likho:(for mongodb)
+cd C:\Users\Hp\Downloads\mongosh-2.5.8-win32-x64\mongosh-2.5.8-win32-x64\bin
+mongosh.exe
+(show dbs)
+https://mongoosejs.com/ (link of website)
+
+
+
