@@ -5,11 +5,29 @@ npm i mongoose(mongodb)
 touch app.js(main file)
 nodemon app.js(run the file)
 
+
 CMD me likho:(for mongodb)
 cd C:\Users\Hp\Downloads\mongosh-2.5.8-win32-x64\mongosh-2.5.8-win32-x64\bin
 mongosh.exe
 (show dbs)
 https://mongoosejs.com/ (link of website)
+collection(table) row(document1,document2.....)
+model folder create=>(listing)
+(user wanderlust)
+(show collections)----Listing=Listings
+(db.listings.find()) is sa pahaly prt refresh krna lazmi
+db.listings.deleteMany({})
+
+
+init folder(data.js)
+index.js (init)
+cd init ----node index.js(run)
+
+
+
+
+
+
 
 
 
