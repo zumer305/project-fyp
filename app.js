@@ -71,6 +71,16 @@ app.get("/listings/:id",async(req,res)=>{
     res.render("listings/show.ejs",{listing});
 
 });
+//create route
+app.post("/listings",async(req,res)=>{
+//   let {title,description,price,country,image,location}=req.body;
+const newListing=new Listing(req.body.listing);
+ await newListing.save();
+ res.redirect("/listings");
+
+
+});
+
 
 
 
