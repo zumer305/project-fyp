@@ -7,6 +7,11 @@ const mongoose= require("mongoose");
 
 const Listing=require("./models/listing.js");//import file listing
 
+//path
+const path=require("path");
+app.set("view engine","ejs");
+app.set("views",path.join(__dirname,"views"));
+
 
 app.listen(8080,()=>{
     console.log("app is listening to the port 8080");
@@ -30,17 +35,25 @@ async function main(){ //async(wait) , sync(linewise)
 
 
 //testListing
-app.get("/testListing",async(req,res)=>{
-    let sampleListing=new Listing({
-        title:"My new Villa",
-        description:"By the beach",
-        price:1200,
-        location:"calengute,Goa",
-        country:"India",
-    });
-     await sampleListing.save();
-     console.log("sample is saved");
-     res.send("success");
+// app.get("/testListing",async(req,res)=>{
+//     let sampleListing=new Listing({
+//         title:"My new Villa",
+//         description:"By the beach",
+//         price:1200,
+//         location:"calengute,Goa",
+//         country:"India",
+//     });
+//      await sampleListing.save();
+//      console.log("sample is saved");
+//      res.send("success");
 
+// });
+
+
+//index route
+app.get("/listings",async(req,res)=>{
+    const allListings=await Listing.find({});
+    res.render("listings/index.ejs",{allListings});
+   
 });
 
