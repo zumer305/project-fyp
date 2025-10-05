@@ -13,6 +13,10 @@ app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(express.urlencoded({extended:true})); // let{id}=req.params;
 
+const methodOverride = require("method-override");
+app.use(methodOverride("_method"));
+
+
 
 app.listen(8080,()=>{
     console.log("app is listening to the port 8080");
@@ -80,6 +84,27 @@ const newListing=new Listing(req.body.listing);
 
 
 });
+//edit route
+app.get("/listings/:id/edit", async (req, res) => {
+  let { id } = req.params;
+  const listing = await Listing.findById(id);
+  res.render("listings/edit.ejs", { listing });
+});
+//update route
+app.put("/listings/:id", async (req, res) => {
+  let { id } = req.params;
+  await Listing.findByIdAndUpdate(id,{...req.body.listing});
+res.redirect(`/listings/${id}`);
+});
+//delete route
+app.delete("/listings/:id", async (req, res) => {
+  let { id } = req.params;
+  let deletedListing=await Listing.findByIdAndDelete(id);
+res.redirect("/listings/");
+
+});
+
+
 
 
 
