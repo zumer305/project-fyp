@@ -16,3 +16,33 @@
      /* custom styling ko prefer rather than bootstrap */
     color:#222222 !important;
 }
+.f-info-links a{
+    text-decoration: none;
+    color:#222222;
+}
+.f-info-links a:hover{
+    text-decoration: underline;
+
+}
+.f-info{
+    height: 8rem;
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+    display:flex;
+    text-align: center;
+}
+.f-info-links ,.f-info-socials,.f-info-brand{
+    width:100%;
+    display: flex;
+    align-items: center;
+      justify-content: center;
+}
+
+
+.f-info-socials i{
+font-size: 1.2rem;
+    margin-right:1rem;
+
+}
