@@ -7,6 +7,9 @@ const mongoose= require("mongoose");
 
 const Listing=require("./models/listing.js");//import file listing
 
+const ejsMate=require("ejs-mate");
+app.engine("ejs",ejsMate);
+
 //path
 const path=require("path");
 app.set("view engine","ejs");
@@ -15,6 +18,8 @@ app.use(express.urlencoded({extended:true})); // let{id}=req.params;
 
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
+
+app.use(express.static(path.join(__dirname,"/public")));
 
 
 

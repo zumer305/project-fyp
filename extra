@@ -35,6 +35,25 @@ npm i method-override
 
 
 
+styling----------------------------------
+npm i ejs-mate(template ha jasy navbar,footer bar bar use hota)
+1.<% layout("/layouts/boiler")%>
+2. <div class="container">
+        <%-body%>
+    </div>
+
+
+public folder--css folder---style.css file 
+
+
+
+
+
+
+
+
+
+
 
 
 
