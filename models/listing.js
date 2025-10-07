@@ -8,8 +8,11 @@ const listingSchema=new Schema({
     description:String,
     image:{
         type:String,
+        // await Listing.create({ title: "Hotel", price: 1000 }) mtlab ka enter he ni kiya image variable
         default:"https://unsplash.com/photos/green-leaf-tree-under-blue-sky-tGTVxeOr_Rs",
+        // empty iska matlab kch likha ni
         set:(v)=> v===""? "https://unsplash.com/photos/green-leaf-tree-under-blue-sky-tGTVxeOr_Rs":v,
+
     },
     price:Number,
     location:String,
