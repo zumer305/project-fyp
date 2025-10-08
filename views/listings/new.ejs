@@ -6,8 +6,9 @@
     <div class="col-8 offset-2" >
  
   <h3>Create a new listing</h3>
+  <!-- nonvalidate means different browsers ki settings  -->
         
-  <form method="POST" action="/listings">
+  <form method="POST" action="/listings" novalidate class="needs-validation"> 
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
       <input
@@ -15,12 +16,13 @@
         placeholder="Add a catchy title"
         type="text"
         class="form-control"
+        required
       />
     </div>
 
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>
-      <textarea name="listing[description]" class="form-control"></textarea>
+      <textarea name="listing[description]" class="form-control" required></textarea>
     </div>
 
     <div class="mb-3">
@@ -45,13 +47,14 @@
         placeholder="1200"
         type="number"
         class="form-control"
+        required
       />
     </div>
    
   
     <div class="mb-3 col-md-8">
       <label for="country" class="form-label">Country</label>
-      <input name="listing[country]" placeholder="India" type="text"   class="form-control" />
+      <input name="listing[country]" placeholder="India" type="text"   class="form-control" required />
     </div>
     </div>
 
@@ -67,6 +70,7 @@
         placeholder="Jaipur,Rajahstan"
         type="text"
         class="form-control"
+        required
       />
     </div>
  
