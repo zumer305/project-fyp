@@ -21,7 +21,9 @@ app.use(methodOverride("_method"));
 
 app.use(express.static(path.join(__dirname,"/public")));
 
-
+// errors 
+const wrapAsync=require("./utils/wrapAsync.js");
+const ExpressError=require("./utils/ExpressError.js");
 
 app.listen(8080,()=>{
     console.log("app is listening to the port 8080");
@@ -81,14 +83,19 @@ app.get("/listings/:id",async(req,res)=>{
 
 });
 //create route
-app.post("/listings",async(req,res)=>{
+app.post("/listings",wrapAsync(async(req,res,next)=>{
 //   let {title,description,price,country,image,location}=req.body;
-const newListing=new Listing(req.body.listing);
+
+    const newListing=new Listing(req.body.listing);
  await newListing.save();
  res.redirect("/listings");
 
 
-});
+
+
+
+
+}));
 //edit route
 app.get("/listings/:id/edit", async (req, res) => {
   let { id } = req.params;
@@ -108,6 +115,14 @@ app.delete("/listings/:id", async (req, res) => {
 res.redirect("/listings/");
 
 });
+// ..................................................................
+app.all("*",(req,res,next)=>{
+    next(new ExpressError(404,"Page not found")); 
+})
+app.use((err,req,res,next)=>{
+    let{statusCode,message}=err;
+    res.status(statusCode).send(message);
+})
 
 
 
