@@ -76,12 +76,12 @@ app.get("/listings/new",async(req,res)=>{
 
 });
 //show route
-app.get("/listings/:id",async(req,res)=>{
+app.get("/listings/:id",wrapAsync(async(req,res)=>{
     let{id}=req.params;
     const listing=await Listing.findById(id);
     res.render("listings/show.ejs",{listing});
 
-});
+}));
 //create route
 app.post("/listings",wrapAsync(async(req,res,next)=>{
 //   let {title,description,price,country,image,location}=req.body;
@@ -97,31 +97,32 @@ app.post("/listings",wrapAsync(async(req,res,next)=>{
 
 }));
 //edit route
-app.get("/listings/:id/edit", async (req, res) => {
+app.get("/listings/:id/edit",wrapAsync( async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/edit.ejs", { listing });
-});
+}));
 //update route
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id",wrapAsync( async (req, res) => {
   let { id } = req.params;
   await Listing.findByIdAndUpdate(id,{...req.body.listing});
 res.redirect(`/listings/${id}`);
-});
+}));
 //delete route
-app.delete("/listings/:id", async (req, res) => {
+app.delete("/listings/:id", wrapAsync(async (req, res) => {
   let { id } = req.params;
   let deletedListing=await Listing.findByIdAndDelete(id);
 res.redirect("/listings/");
 
-});
+}));
 // ..................................................................
 app.all("*",(req,res,next)=>{
     next(new ExpressError(404,"Page not found")); 
 })
 app.use((err,req,res,next)=>{
-    let{statusCode,message}=err;
-    res.status(statusCode).send(message);
+    let{statusCode=500,message="Something went wrong!"}=err;
+    // res.status(statusCode).send(message);
+    res.status(statusCode).render("error.ejs",{message});
 })
 
 
