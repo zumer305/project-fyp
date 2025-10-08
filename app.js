@@ -25,6 +25,9 @@ app.use(express.static(path.join(__dirname,"/public")));
 const wrapAsync=require("./utils/wrapAsync.js");
 const ExpressError=require("./utils/ExpressError.js");
 
+
+const {listingSchema}=require("./schema.js");
+
 app.listen(8080,()=>{
     console.log("app is listening to the port 8080");
 });
@@ -84,16 +87,30 @@ app.get("/listings/:id",wrapAsync(async(req,res)=>{
 }));
 //create route
 app.post("/listings",wrapAsync(async(req,res,next)=>{
-//   let {title,description,price,country,image,location}=req.body;
+    let result=listingSchema.validate(req.body);
+    console.log(result);
+    if(result.error){
+        throw new ExpressError(400,result.error);
+    }
+// if(!req.body.listing){
+//     throw new ExpressError(400,"Send valid data for listing");
+// }
 
     const newListing=new Listing(req.body.listing);
+//         if(!newListing.title){
+//     throw new ExpressError(400,"Title is missing");
+// }
+//     if(!newListing.description){
+//     throw new ExpressError(400,"Description is missing");
+// }
+//     if(!newListing.location){
+//     throw new ExpressError(400,"Location is missing");
+// }
+//     if(!newListing.country){
+//     throw new ExpressError(400,"Country is missing");
+// }
  await newListing.save();
  res.redirect("/listings");
-
-
-
-
-
 
 }));
 //edit route
