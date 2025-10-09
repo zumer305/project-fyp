@@ -73,3 +73,21 @@ npm install express@4 for *
 
 npm i joi(security)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+error.js
+1     localhost:8080/listings/abc (wrong id)
+2     localhost:8080/random (page not found)
+3     string pass ki instead of number to (price error)
