@@ -170,7 +170,7 @@ res.redirect(`/listings/${listing._id}`)
 app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
   let { id, reviewId } = req.params;
 
-  await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+  await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });//pull=delete
   await Review.findByIdAndDelete(reviewId);
 
   res.redirect(`/listings/${id}`);
