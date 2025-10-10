@@ -5,7 +5,7 @@
       <h3><b><%=listing.title%></b></h3>
     </div>
 
-    <div class="card col-6 offset-3 show-card">
+    <div class="card col-6 offset-3 show-card listing-card">
       <img
         src="<%=listing.image%>"
         class="card-img-top show-img"
@@ -43,10 +43,22 @@
   <div class="col-8 offset-3 mb-3">
     <hr />
     <h4>Leave a review</h4>
-    <form action="/listings/<%=listing.id%>/reviews" method="POST" novalidate class="needs-validation">
+    <form
+      action="/listings/<%=listing.id%>/reviews"
+      method="POST"
+      novalidate
+      class="needs-validation"
+    >
       <div class="mb-3 mt-3">
         <label for="rating" class="form-label">Rating</label>
-        <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" />
+        <input
+          type="range"
+          min="1"
+          max="5"
+          id="rating"
+          name="review[rating]"
+          class="form-range"
+        />
       </div>
 
       <div class="mb-3 mt-3">
@@ -64,5 +76,21 @@
 
       <button class="btn btn-outline-dark">Submit</button>
     </form>
+    <hr />
+    <p><b>All Reviews</b></p>
+    <div class="row">
+
+  
+<%for(review of listing.reviews){%>
+    <div class="card col-5 mb-3 ms-3">
+    <div class="card-body">
+      <h5 class="card-title">Jane Doe</h5>
+      <p class="card-text"><%=review.comment%></p>
+         <p class="card-text"><%=review.rating%> stars</p>
+    </div>
+    </div>
+
+  <%}%>
   </div>
+    </div>
 </body>
