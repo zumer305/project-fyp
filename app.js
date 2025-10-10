@@ -6,6 +6,7 @@ const app=express();
 const mongoose= require("mongoose");
 
 const Listing=require("./models/listing.js");//import file listing
+const Review=require("./models/review.js");//import file listing
 
 const ejsMate=require("ejs-mate");
 app.engine("ejs",ejsMate);
@@ -26,7 +27,7 @@ const wrapAsync=require("./utils/wrapAsync.js");
 const ExpressError=require("./utils/ExpressError.js");
 
 
-const {listingSchema}=require("./schema.js");
+const {listingSchema,reviewSchema}=require("./schema.js");
 
 app.listen(8080,()=>{
     console.log("app is listening to the port 8080");
@@ -64,6 +65,24 @@ async function main(){ //async(wait) , sync(linewise)
 
 // });
 
+const validateListing = (req, res, next) => {
+    let { error } = listingSchema.validate(req.body);
+    if (error) {
+        let errMsg = error.details.map(el => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+};
+const validateReview = (req, res, next) => {
+    let { error } = reviewSchema.validate(req.body);
+    if (error) {
+        let errMsg = error.details.map(el => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+};
 
 
 
@@ -86,7 +105,7 @@ app.get("/listings/:id",wrapAsync(async(req,res)=>{
 
 }));
 //create route
-app.post("/listings",wrapAsync(async(req,res,next)=>{
+app.post("/listings",validateListing,wrapAsync(async(req,res,next)=>{
     let result=listingSchema.validate(req.body);
     console.log(result);
     if(result.error){
@@ -132,6 +151,19 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
 res.redirect("/listings/");
 
 }));
+
+//reviews(POST ROUTE)
+app.post("/listings/:id/reviews",validateReview,wrapAsync( async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+res.redirect(`/listings/${listing._id}`)
+}));
+
 // ..................................................................
 app.all("*",(req,res,next)=>{
     next(new ExpressError(404,"Page not found")); 
@@ -141,7 +173,6 @@ app.use((err,req,res,next)=>{
     // res.status(statusCode).send(message);
     res.status(statusCode).render("error.ejs",{message});
 })
-
 
 
 
