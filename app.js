@@ -19,6 +19,9 @@ const path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+//session
+const session=require("express-session");
+
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 const methodOverride = require("method-override");
@@ -41,6 +44,20 @@ main()
 async function main() {
   await mongoose.connect(url);
 }
+
+//session
+const sessionOptions= {
+    secret: "mysupersecretcode",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+      expires:Date.now() +7*24*60*60*1000,
+      maxAge:+7*24*60*60*1000,
+      httpOnly:true,
+    }
+  };
+app.use(session(sessionOptions));
+// app.use(flash());
 
 // test route
 app.get("/", (req, res) => {
