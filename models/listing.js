@@ -7,14 +7,15 @@ const listingSchema=new Schema({
         required:true,
     },
     description:String,
-    image:{
-        type:String,
-        // await Listing.create({ title: "Hotel", price: 1000 }) mtlab ka enter he ni kiya image variable
-        default:"https://unsplash.com/photos/green-leaf-tree-under-blue-sky-tGTVxeOr_Rs",
-        // empty iska matlab kch likha ni
-        set:(v)=> v===""? "https://unsplash.com/photos/green-leaf-tree-under-blue-sky-tGTVxeOr_Rs":v,
-
-    },
+ image: {
+  type: String,
+  default:
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+  set: (v) =>
+    v === ""
+      ? "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
+      : v,
+},
     price:Number,
     location:String,
     country:String,
