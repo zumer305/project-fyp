@@ -29,6 +29,8 @@ const ExpressError=require("./utils/ExpressError.js");
 
 const {listingSchema,reviewSchema}=require("./schema.js");
 
+const listings=require("./routes/listing.js");
+
 app.listen(8080,()=>{
     console.log("app is listening to the port 8080");
 });
@@ -83,6 +85,8 @@ const validateReview = (req, res, next) => {
         next();
     }
 };
+
+app.use("./listings",listings);
 
 
 
