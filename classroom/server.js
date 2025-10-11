@@ -37,16 +37,28 @@ app.use(flash());
 // /register?name=zumer
 app.get("/register", (req, res) => {
     let{name="anyone"}=req.query;
-    req.session.name=name,
+    req.session.name=name;
+    if(name==="anyone"){
+       req.flash("error","user not registered successfully!");
+    }
+    else{
     req.flash("success","user registered successfully!");
+    }
   res.redirect("/hello");
 });
 // /hello
 // /register?name=zumer
 // /hello
+app.use((req,res,next)=>{
+   res.locals.successMsg=req.flash("success");
+    res.locals.errorMsg=req.flash("error");
+    next();
+
+})
 app.get("/hello", (req, res) => {
   // res.send(`hello ${req.session.name}`);
-  res.render("page.ejs",{name:req.session.name,msg:req.flash("success")});
+ 
+  res.render("page.ejs",{name:req.session.name});
 });
 
 
