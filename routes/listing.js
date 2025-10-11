@@ -58,7 +58,7 @@ router.post("/",validateListing,wrapAsync(async(req,res,next)=>{
 //     throw new ExpressError(400,"Country is missing");
 // }
  await newListing.save();
- req.flash("success","New isting created!");
+ req.flash("success","New listing created!");
  res.redirect("/listings");
 
 }));
@@ -72,12 +72,14 @@ router.get("/:id/edit",wrapAsync( async (req, res) => {
 router.put("/:id",wrapAsync( async (req, res) => {
   let { id } = req.params;
   await Listing.findByIdAndUpdate(id,{...req.body.listing});
+   req.flash("success","Listing updated!");
 res.redirect(`/listings/${id}`);
 }));
 //delete route
 router.delete("/:id", wrapAsync(async (req, res) => {
   let { id } = req.params;
   let deletedListing=await Listing.findByIdAndDelete(id);
+   req.flash("success","Listing Deleted!");
 res.redirect("/listings/");
 
 }));
