@@ -119,3 +119,11 @@ server(joi {serveride------schema,validate,middleware-pass})
 
 
 routes>>>>>>>>>>>>>>>>>>>>>.listing.js,review.js
+
+
+
+
+
+cookies(temp info store krti about browser)
+
+npm i cookie-parser   {signed(code)/unsigned}
