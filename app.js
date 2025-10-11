@@ -21,6 +21,8 @@ app.set("views", path.join(__dirname, "views"));
 
 //session
 const session=require("express-session");
+//flash
+const flash=require("connect-flash");
 
 // middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -51,18 +53,31 @@ const sessionOptions= {
     resave:false,
     saveUninitialized:true,
     cookie:{
-      expires:Date.now() +7*24*60*60*1000,
+      expires:Date.now() +7*24*60*60*1000, //after 1 week cookie me sa login pass email de
+    
       maxAge:+7*24*60*60*1000,
       httpOnly:true,
     }
   };
+  // test route
+app.get("/", (req, res) => {
+  res.send("This is root");
+});
+
 app.use(session(sessionOptions));
-// app.use(flash());
+// listing review sa pahaly flash ko likhna
+app.use(flash());
 
 // test route
 app.get("/", (req, res) => {
   res.send("This is root");
 });
+
+// middleware alert msj 
+app.use((req,res,next)=>{
+  res.locals.success=req.flash("success");
+  next();
+})
 
 // mount routers (⚠️ IMPORTANT: use `/` not `./`)
 app.use("/listings", listings);

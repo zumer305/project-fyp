@@ -58,6 +58,7 @@ router.post("/",validateListing,wrapAsync(async(req,res,next)=>{
 //     throw new ExpressError(400,"Country is missing");
 // }
  await newListing.save();
+ req.flash("success","New isting created!");
  res.redirect("/listings");
 
 }));
