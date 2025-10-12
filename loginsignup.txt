@@ -16,3 +16,28 @@ npm i passport-local-mongoose (mongodb)
 
 
 1- user.js models ma
+2- app.js me 3 lines start abc
+a-const passport=require("passport");
+b-const LocalStrategy=require("passport-local");
+c-const User=require("./models/user.js");
+//session---------------------------------------------------old code(session 1 website ka diff pages)
+const sessionOptions= {
+    secret: "mysupersecretcode",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+      expires:Date.now() +7*24*60*60*1000, //after 1 week cookie me sa login pass email de
+    
+      maxAge:+7*24*60*60*1000,
+      httpOnly:true,
+    }
+  };
+  app.use(session(sessionOptions));
+// listing review sa pahaly flash ko likhna
+app.use(flash());-----------------------------------------------------
+//passport (session ka bad)
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));//authenticate(login or sign up)
+passport.serializeUser(User.serializeUser());//store
+passport.deserializeUser(User.deserializeUser());//unstore

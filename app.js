@@ -37,6 +37,12 @@ const ExpressError = require("./utils/ExpressError.js");
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
 
+
+//passport
+const passport=require("passport");
+const LocalStrategy=require("passport-local");
+const User=require("./models/user.js");
+
 // connect MongoDB
 const url = "mongodb://127.0.0.1:27017/wanderlust";
 main()
@@ -67,6 +73,13 @@ app.get("/", (req, res) => {
 app.use(session(sessionOptions));
 // listing review sa pahaly flash ko likhna
 app.use(flash());
+
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));//authenticate(login or sign up)
+passport.serializeUser(User.serializeUser());//store
+passport.deserializeUser(User.deserializeUser());//unstore
 
 // test route
 app.get("/", (req, res) => {
