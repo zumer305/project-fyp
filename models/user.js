@@ -8,7 +8,7 @@ const userSchema=new Schema({
         required:true
     },
 })
-User.plugin(passportLocalMongoose);//automatically (user,pass(hash or salt))
+userSchema.plugin(passportLocalMongoose);//automatically (user,pass(hash or salt))
 module.exports=mongoose.model("user",userSchema);
 //also (set pass , change pass) automatic
 

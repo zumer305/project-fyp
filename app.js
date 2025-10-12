@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
 
+
 // ejs-mate setup
 const ejsMate = require("ejs-mate");
 app.engine("ejs", ejsMate);
@@ -34,8 +35,10 @@ app.use(express.static(path.join(__dirname, "/public")));
 const ExpressError = require("./utils/ExpressError.js");
 
 // routes import
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+
 
 
 //passport
@@ -93,9 +96,24 @@ app.use((req,res,next)=>{
   next();
 })
 
+//register method pbkdf2
+app.get("/demouser",async(req,res)=>{
+
+  let fakeUser=new User({
+    email:"zumer305@gmail.com",
+    username:"delta-student",//auto column ata lkn data to dana
+  });
+  let registeredUser=await User.register(fakeUser,"helloWorld");//khudi check ka sai ha username k ni
+res.send(registeredUser);
+
+})
+
 // mount routers (⚠️ IMPORTANT: use `/` not `./`)
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/", userRouter);
+
+
 
 // 404 handler
 app.all("*", (req, res, next) => {

@@ -41,3 +41,41 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));//authenticate(login or sign up)
 passport.serializeUser(User.serializeUser());//store
 passport.deserializeUser(User.deserializeUser());//unstore
+//register method----- / route k neechy code ana (hash pbkdf2)
+app.get("/demouser",async(req,res)=>{
+
+  let fakeUser=new User({
+    email:"zumer305@gmail.com",
+    username:"delta-student",//auto column ata lkn data to dana
+  });
+  let registeredUser=await User.register(fakeUser,"helloWorld");//khudi check ka sai ha username k ni
+res.send(registeredUser);
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ab routes wala folder ma jana 
+user.js banna
+const userRouter = require("./routes/user.js");app.js ma ana
+app.use("/", userRouter);
