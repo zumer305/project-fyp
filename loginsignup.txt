@@ -87,3 +87,10 @@ app.use("/", userRouter);
 views-users-signup.ejs bnani file
 get(app ma kiya) upload
 post(signup.ejs) download
+
+
+
+
+
+
+views ma login.ejs
