@@ -97,16 +97,16 @@ app.use((req,res,next)=>{
 })
 
 //register method pbkdf2
-app.get("/demouser",async(req,res)=>{
+// app.get("/demouser",async(req,res)=>{
 
-  let fakeUser=new User({
-    email:"zumer305@gmail.com",
-    username:"delta-student",//auto column ata lkn data to dana
-  });
-  let registeredUser=await User.register(fakeUser,"helloWorld");//khudi check ka sai ha username k ni
-res.send(registeredUser);
+//   let fakeUser=new User({
+//     email:"zumer305@gmail.com",
+//     username:"delta-student",//auto column ata lkn data to dana
+//   });
+//   let registeredUser=await User.register(fakeUser,"helloWorld");//khudi check ka sai ha username k ni
+// res.send(registeredUser);
 
-})
+// })
 
 // mount routers (⚠️ IMPORTANT: use `/` not `./`)
 app.use("/listings", listingsRouter);
