@@ -15,4 +15,4 @@ npm i passport-local
 npm i passport-local-mongoose (mongodb)
 
 
-
+1- user.js models ma
