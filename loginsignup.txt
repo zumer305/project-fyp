@@ -79,3 +79,11 @@ ab routes wala folder ma jana
 user.js banna
 const userRouter = require("./routes/user.js");app.js ma ana
 app.use("/", userRouter);
+
+
+
+
+
+views-users-signup.ejs bnani file
+get(app ma kiya) upload
+post(signup.ejs) download
