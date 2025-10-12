@@ -2,4 +2,17 @@ Authentication(verifying-jisny signup wahi login)
 Authorization(access)
 
 
-password(hash-form)
+
+password(hash-form {just inputsa output}   {output sa input nahi})
+HASH GENERATOR  WEBSITE 
+SALT------(zumer@#$)
+SALT THEN HASHING 
+
+
+
+npm i passport (passport Authentication for middleware node js)
+npm i passport-local
+npm i passport-local-mongoose (mongodb)
+
+
+
