@@ -4,7 +4,7 @@ const wrapAsync=require("../utils/wrapAsync.js");
 const ExpressError=require("../utils/ExpressError.js");
 const Review=require("../models/review.js");//import file listing
 const Listing=require("../models/listing.js");//import file listing
-const{validateReview,isLoggedIn}=require("../middleware.js");
+const{validateReview,isLoggedIn, isReviewAuthor}=require("../middleware.js");
 
 
 
@@ -26,7 +26,7 @@ res.redirect(`/listings/${listing._id}`)
 
 //delete review route
 // delete review route
-router.delete("/:reviewId", wrapAsync(async (req, res) => {
+router.delete("/:reviewId",isLoggedIn,isReviewAuthor, wrapAsync(async (req, res) => {
   let { id, reviewId } = req.params;
 
   await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });//pull=delete
