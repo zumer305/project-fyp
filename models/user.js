@@ -9,7 +9,7 @@ const userSchema=new Schema({
     },
 })
 userSchema.plugin(passportLocalMongoose);//automatically (user,pass(hash or salt))
-module.exports=mongoose.model("user",userSchema);
+module.exports=mongoose.model("User",userSchema);
 //also (set pass , change pass) automatic
 
 
