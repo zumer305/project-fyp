@@ -180,3 +180,58 @@ npm i connect flash(for alert type msjs one time)
 npm i express-session
 github cookie (1 week bad browser sa login data hat jata agar expiry date set ki)
 npm i connect-flash (msj alert show)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+filing--------------------------------
+npm i multer
+npm i dotenv
+npm i cloudinarynpm install multer-storage-cloudinary --legacy-peer-deps
+

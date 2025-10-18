@@ -8,13 +8,8 @@ const listingSchema=new Schema({
     },
     description:String,
  image: {
-  type: String,
-  default:
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
-  set: (v) =>
-    v === ""
-      ? "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
-      : v,
+ url:String,
+ filename:String
 },
     price:Number,
     location:String,

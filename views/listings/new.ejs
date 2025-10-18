@@ -8,7 +8,7 @@
   <h3>Create a new listing</h3>
   <!-- nonvalidate means different browsers ki settings succes or failure {novalidate class="needs-validation"}{valid/invalid}  -->
         
-  <form method="POST" action="/listings" novalidate class="needs-validation"> 
+  <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data"> 
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
       <input
@@ -27,12 +27,14 @@
              <div class="invalid-feedback">Please Enter a short description</div>
     </div>
 
-    <div class="mb-3">
-      <label for="image" class="form-label">Image Link</label>
+
+
+     <div class="mb-3">
+      <label for="image" class="form-label">Upload Listing Image</label>
       <input
         name="listing[image]"
-        placeholder="Enter image"
-        type="text"
+      
+        type="file"
         class="form-control"
       />
        <div class="invalid-feedback">Please Enter a valid Image</div>

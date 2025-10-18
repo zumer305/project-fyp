@@ -6,6 +6,9 @@ const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 // const{validateListing}=require("../middleware.js");
 const express = require("express");
 const router = express.Router();
+const multer=require("multer");
+const {storage}=require("../cloudConfig.js");
+const upload=multer({storage});
 
 const listingController=require("../controllers/listings.js");
 
@@ -14,9 +17,12 @@ router.route("/")
 .post(
 
   isLoggedIn,
+  
+  upload.single("listing[image]"),
   validateListing,
   wrapAsync(listingController.createListing)
 );
+
 
 //new route
 router.get("/new", isLoggedIn,listingController.renderNewForm);
