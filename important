@@ -1,2 +1,7 @@
 abc abc@gmail.com abcd
 abcd abcd@gmail.com abcd
+
+
+model(database)
+view(frontend)
+controller(backend)
