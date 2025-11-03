@@ -1,5 +1,80 @@
 <% layout("/layouts/boiler")%>
 <body>
+
+   </div>
+      <div class="hero">
+    <div>
+      <h1>Plan Your Next Adventure</h1>
+      <p>With the Power of AI ✈️</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="input-card">
+      <h2>Location Type</h2>
+      <select class="input-field">
+        <option>Beach</option>
+        <option>Mountain</option>
+        <option>City</option>
+      </select>
+
+      <h2>Budget Range</h2>
+      <div class="range-label">
+        💵 Budget: <span class="range-box">$<span id="budgetValue">1000</span></span>
+      </div>
+      <input type="range" min="100" max="5000" value="1000" id="budgetSlider" />
+
+      <h2>Trip Duration</h2>
+      <select class="input-field">
+        <option>3 days</option>
+        <option>5 days</option>
+        <option>7 days</option>
+        <option>10 days</option>
+      </select>
+
+      <h2>Weather Preference</h2>
+      <div class="chips">
+        <div class="chip">Warm</div>
+        <div class="chip">Cool</div>
+        <div class="chip">Any</div>
+      </div>
+
+      <h2>Travel Type</h2>
+      <div class="chips">
+        <div class="chip">Solo</div>
+        <div class="chip">Family</div>
+        <div class="chip">Friends</div>
+      </div>
+
+      <button class="generate-button">🔍 Generate</button>
+    </div>
+
+    <div class="categories">
+      <div class="category-card">
+        <img src="https://media.istockphoto.com/id/1973514400/photo/chinese-young-woman-using-smart-phone-in-the-train.jpg?s=1024x1024&w=is&k=20&c=i4ETQ14QDH3AS1fTq1NzmTWHmO2SPjtBq-pSAwCKbMs=" />
+        <h3>Explore Destinations</h3>
+      </div>
+      <div class="category-card">
+        <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dHJhdmVsJTIwZ3JvdXB8ZW58MHx8MHx8fDA%3D" alt="Travel Group" />
+        <h3>Join Travel Group</h3>
+      </div>
+      <div class="category-card">
+        <img src="https://media.istockphoto.com/id/1086145112/photo/young-solo-traveler-woman-in-singapore-street-market-checking-the-map.jpg?s=612x612&w=0&k=20&c=4b4m5BMZg8B2LjaMLsM3G5M1XWe9XTCHwaadEiBLTwM=" alt="Map View" />
+        <h3>View Map</h3>
+      </div>
+      <div class="category-card">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGhvdGVsfGVufDB8fDB8fHww" alt="Hotels" />
+        <h3>Hotel Finder</h3>
+      </div>
+      <div class="category-card">
+        <img src="https://www.shutterstock.com/image-photo/businessman-touching-emergency-plan-text-260nw-2498022723.jpg" alt="Emergency" />
+        <h3>Emergency Info</h3>
+      </div>
+      <div class="category-card">
+        <img src="https://media.istockphoto.com/id/489556478/photo/travelling-tools.jpg?s=612x612&w=0&k=20&c=QtLGCZnOrH5vy8Q39Hi9d6TV3_IMxb3kjgdNDh8QZJk=" alt="Trends" />
+        <h3>Travel Trends</h3>
+      </div>
+    </div>
    
 
   <div class="row mt-3">
@@ -85,6 +160,7 @@
  
     <button class="btn btn-dark add-btn mt-3" >Add</button>
   </form>
+  
 
     </div>
   </div>
