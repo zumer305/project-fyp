@@ -1,8 +1,78 @@
 
 <% layout("/layouts/boiler")%>
-
+<style>
+  .travel-box {
+    width: 300px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background: #e0f0ff; /* light blue theme */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
+  .travel-box h3 {
+    text-align: center;
+    color: #007acc;
+  }
+  .travel-box label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  .travel-box select,
+  .travel-box input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #007acc;
+  }
+  .travel-box button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .travel-box button:hover {
+    background-color: #005f99;
+  }
+  .result {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #005f99;
+    text-align: center;
+  }
+</style>
 
 <body>
+
+<div class="travel-box">
+  <h3>🌍 Travel Budget</h3>
+
+  <label for="country">Select Central Asian Country:</label>
+  <select id="country">
+    <option value="">-- Choose Country --</option>
+    <option value="Azerbaijan">Azerbaijan</option>
+    <option value="Kazakhstan">Kazakhstan</option>
+    <option value="Kyrgyzstan">Kyrgyzstan</option>
+    <option value="Tajikistan">Tajikistan</option>
+    <option value="Turkmenistan">Turkmenistan</option>
+    <option value="Uzbekistan">Uzbekistan</option>
+  </select>
+
+  <label for="budget">Enter Budget (USD):</label>
+  <input type="number" id="budget" placeholder="e.g. 10000" oninput="showBudget()">
+
+  <div class="result" id="result"></div>
+
+  <!-- Button to go to packages page -->
+  <button onclick="goToPackages()">View Packages</button>
+</div>
+
 
   <h2>🧠 AI Destination Recommendations</h2>
   <div class="grid">
@@ -147,6 +217,45 @@
       </div>
     </div>
 
+
+
+
+
+
+
+<button onclick="goToPackages()">View Packages</button>
+
+<script>
+function showBudget() {
+  const budget = document.getElementById('budget').value;
+  const result = document.getElementById('result');
+  
+  if (budget) {
+    if (budget < 5000) {
+      result.innerHTML = `<span style="color: #dc3545;">💰 Budget: $${budget} - Consider increasing for better packages</span>`;
+    } else if (budget >= 5000 && budget < 10000) {
+      result.innerHTML = `<span style="color: #ffc107;">💰 Budget: $${budget} - Good for basic packages</span>`;
+    } else if (budget >= 10000 && budget < 15000) {
+      result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Excellent for premium packages!</span>`;
+    } else {
+      result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Luxury packages available!</span>`;
+    }
+  } else {
+    result.innerHTML = '';
+  }
+}
+
+function goToPackages() {
+  const country = document.getElementById('country').value;
+  const budget = document.getElementById('budget').value;
+
+  if (country && budget) {
+    window.location.href = `/packages?country=${country}&budget=${budget}`;
+  } else {
+    alert('Please select a country and enter your budget first!');
+  }
+}
+</script>
 
 </body>
 
