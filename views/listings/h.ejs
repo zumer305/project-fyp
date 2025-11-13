@@ -101,7 +101,7 @@
           <h3>Create Group</h3>
         </div>
         <p>Start a new travel group and invite friends via email or code.</p>
-        <button>➕ Create</button>
+        <button id="btn-create-group">➕ Create</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
@@ -109,7 +109,7 @@
           <h3>Join Group</h3>
         </div>
         <p>Join a group using an invite code from your friends.</p>
-        <button>🔗 Join</button>
+        <button id="btn-join-group">🔗 Join</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
@@ -117,7 +117,7 @@
           <h3>Group Chat</h3>
         </div>
         <p>Chat with your group members in real-time.</p>
-        <button>💬 Open Chat</button>
+        <button id="btn-open-chat">💬 Open Chat</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
@@ -125,7 +125,7 @@
           <h3>Shared Itinerary</h3>
         </div>
         <p>View and export your planned group trip itinerary.</p>
-        <button>🗺️ View Plan</button>
+        <button id="btn-view-plan">🗺️ View Plan</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
@@ -133,7 +133,7 @@
           <h3>Expense Split</h3>
         </div>
         <p>Track spending and calculate balances between members.</p>
-        <button>💸 View Summary</button>
+        <button id="btn-expense-summary">💸 View Summary</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
@@ -141,7 +141,7 @@
           <h3>Share Live Location</h3>
         </div>
         <p>Share your real-time location with group members during the trip.</p>
-        <button>📍 Share Now</button>
+        <button id="btn-share-location">📍 Share Now</button>
       </div>
     </div>
   </div>
@@ -155,7 +155,7 @@
           <h3>Nearby Mosques</h3>
         </div>
         <p>Find mosques nearby with prayer times and distance info.</p>
-        <button>🕌 Find Mosques</button>
+        <button id="btn-find-mosques">🕌 Find Mosques</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
@@ -163,7 +163,7 @@
           <h3>Qiblah Direction</h3>
         </div>
         <p>View direction of Qiblah from your current location.</p>
-        <button>🕋 Show Qiblah</button>
+        <button id="btn-show-qiblah">🕋 Show Qiblah</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
@@ -171,7 +171,7 @@
           <h3>Halal Food Locator</h3>
         </div>
         <p>Discover nearby halal restaurants and certified food places.</p>
-        <button>🍽️ Find Halal</button>
+        <button id="btn-find-halal">🍽️ Find Halal</button>
       </div>
     </div>
   </div>
@@ -226,6 +226,7 @@
 <button onclick="goToPackages()">View Packages</button>
 
 <script>
+const isLoggedIn = <%- JSON.stringify(!!currUser) %>;
 function showBudget() {
   const budget = document.getElementById('budget').value;
   const result = document.getElementById('result');
@@ -255,6 +256,84 @@ function goToPackages() {
     alert('Please select a country and enter your budget first!');
   }
 }
+
+// Helpers
+async function getCoords() {
+  return new Promise((resolve) => {
+    if (!navigator.geolocation) return resolve({ lat: null, lon: null });
+    navigator.geolocation.getCurrentPosition(
+      (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+      () => resolve({ lat: null, lon: null })
+    );
+  });
+}
+
+// Groups
+document.getElementById('btn-create-group').addEventListener('click', async () => {
+  if (!isLoggedIn) return window.location.href = '/login';
+  const name = prompt('Enter group name:', 'My Trip Group');
+  if (!name) return;
+  const res = await fetch('/api/groups', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name }) });
+  const data = await res.json();
+  if (res.ok) {
+    alert('Group created: ' + data.group._id);
+  } else {
+    alert('Error: ' + (data.message || 'Failed'));
+  }
+});
+
+document.getElementById('btn-join-group').addEventListener('click', async () => {
+  if (!isLoggedIn) return window.location.href = '/login';
+  const id = prompt('Enter group ID to join:');
+  if (!id) return;
+  const res = await fetch(`/api/groups/${id}/join`, { method: 'POST' });
+  const data = await res.json();
+  alert(res.ok ? 'Joined group!' : ('Error: ' + (data.message || 'Failed')));
+});
+
+document.getElementById('btn-open-chat').addEventListener('click', async () => {
+  if (!isLoggedIn) return window.location.href = '/login';
+  const id = prompt('Enter group ID to view messages:');
+  if (!id) return;
+  const res = await fetch(`/api/groups/${id}/messages`);
+  const data = await res.json();
+  if (res.ok) {
+    alert(`Messages loaded: ${data.messages.length}`);
+  } else {
+    alert('Error: ' + (data.message || 'Failed'));
+  }
+});
+
+// Map/Location
+document.getElementById('btn-share-location').addEventListener('click', async () => {
+  const coords = await getCoords();
+  const res = await fetch(`/api/map/nearby?lat=${coords.lat}&lon=${coords.lon}&type=hotel`);
+  const data = await res.json();
+  alert(res.ok ? `Nearby hotels found: ${data.hotels.length}` : ('Error: ' + (data.message || 'Failed')));
+});
+
+// Faith tools
+document.getElementById('btn-find-mosques').addEventListener('click', async () => {
+  const c = await getCoords();
+  const res = await fetch(`/api/faith/mosques?lat=${c.lat}&lon=${c.lon}`);
+  const data = await res.json();
+  alert(res.ok ? `Mosques: ${data.items.map(i=>i.name).join(', ')}` : ('Error: ' + (data.message || 'Failed')));
+});
+
+document.getElementById('btn-show-qiblah').addEventListener('click', async () => {
+  const c = await getCoords();
+  const res = await fetch(`/api/faith/qiblah?lat=${c.lat}&lon=${c.lon}`);
+  const data = await res.json();
+  alert(res.ok ? `Qiblah angle: ${data.angle}°` : ('Error: ' + (data.message || 'Failed')));
+});
+
+document.getElementById('btn-find-halal').addEventListener('click', async () => {
+  const c = await getCoords();
+  const res = await fetch(`/api/faith/halal?lat=${c.lat}&lon=${c.lon}`);
+  const data = await res.json();
+  alert(res.ok ? `Halal places: ${data.items.map(i=>i.name).join(', ')}` : ('Error: ' + (data.message || 'Failed')));
+});
+</script>
 </script>
 
 </body>

@@ -7,6 +7,11 @@ const userSchema=new Schema({
         type:String,
         required:true
     },
+    role: {
+        type: String,
+        enum: ["user", "admin"],
+        default: "user"
+    }
 })
 userSchema.plugin(passportLocalMongoose);//automatically (user,pass(hash or salt))
 module.exports=mongoose.model("User",userSchema);
