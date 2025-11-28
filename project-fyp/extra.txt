@@ -1,0 +1,237 @@
+npm init -y(package.json)
+npm i express(express)
+npm i ejs(ejs)
+npm i mongoose(mongodb)
+touch app.js(main file)
+nodemon app.js(run the file)
+
+
+CMD me likho:(for mongodb)
+cd C:\Users\Hp\Downloads\mongosh-2.5.8-win32-x64\mongosh-2.5.8-win32-x64\bin
+mongosh.exe
+(show dbs)
+https://mongoosejs.com/ (link of website)
+collection(table) row(document1,document2.....)
+model folder create=>(listing)
+(user wanderlust)
+(show collections)----Listing=Listings
+(db.listings.find()) is sa pahaly prt refresh krna lazmi
+db.listings.deleteMany({})
+
+
+init folder(data.js)
+index.js (init)
+cd init ----node index.js(run)
+
+
+views-listings-index.js
+
+get server sa lana(post server ko bhjna) 
+
+npm i method-override
+
+
+
+
+
+
+styling----------------------------------
+npm i ejs-mate(template ha jasy navbar,footer bar bar use hota)
+1.<% layout("/layouts/boiler")%>
+2. <div class="container">
+        <%-body%>
+    </div>
+
+
+public folder--css folder---style.css file 
+
+
+font cdn or font awesome
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+justify-content(left/right)
+align-items(top/bottom)
+
+
+request   middleware    response
+
+
+
+
+form validation(means is field ma data ni ha to redish)
+
+
+
+
+
+mongodb errors(wrapAsync)
+
+
+npm install express@4 for *
+
+npm i joi(security)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+error.js
+1     localhost:8080/listings/abc (wrong id)
+2     localhost:8080/random (page not found)
+3     string pass ki instead of number to (price error)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+reviews
+
+
+
+
+client(form)
+server(joi {serveride------schema,validate,middleware-pass})
+
+
+
+
+
+routes>>>>>>>>>>>>>>>>>>>>>.listing.js,review.js
+
+
+
+
+
+cookies(temp info store krti about browser)
+
+npm i cookie-parser   {signed(code)/unsigned}
+
+
+stateless-cash ki koi info ni/statefull-online info hoti
+
+
+npm i express-session(temp store info of cart) classroom
+
+
+npm i connect flash(for alert type msjs one time)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+npm i express-session
+github cookie (1 week bad browser sa login data hat jata agar expiry date set ki)
+npm i connect-flash (msj alert show)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+filing--------------------------------
+npm i multer
+npm i dotenv
+npm i cloudinarynpm install multer-storage-cloudinary --legacy-peer-deps
+

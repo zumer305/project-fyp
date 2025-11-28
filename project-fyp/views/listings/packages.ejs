@@ -1,0 +1,316 @@
+<% layout("/layouts/boiler")%>
+
+<style>
+  .packages-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .page-header {
+    text-align: center;
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+  }
+  
+  .budget-info {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    border-left: 5px solid #007bff;
+  }
+  
+  .package-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .package-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .package-header {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    padding: 25px;
+    text-align: center;
+  }
+  
+  .package-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .package-price {
+    font-size: 1.5rem;
+    background: rgba(255,255,255,0.2);
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: inline-block;
+  }
+  
+  .package-body {
+    padding: 30px;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+  
+  .feature-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #28a745;
+  }
+  
+  .feature-title {
+    color: #495057;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .feature-icon {
+    margin-right: 10px;
+    font-size: 1.3rem;
+  }
+  
+  .feature-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .feature-list li {
+    padding: 5px 0;
+    color: #6c757d;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .feature-list li:before {
+    content: "✓";
+    color: #28a745;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+  
+  .muslim-features {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  
+  .muslim-features h4 {
+    color: #f39c12;
+    margin-bottom: 15px;
+  }
+  
+  .tech-features {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  
+  .tech-features h4 {
+    color: #ecf0f1;
+    margin-bottom: 15px;
+  }
+  
+  .no-packages {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    margin: 20px 0;
+  }
+  
+  .no-packages h3 {
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+  
+  .btn-back {
+    background: linear-gradient(45deg, #6c757d, #495057);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-back:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    color: white;
+  }
+  
+  .duration-badge {
+    background: rgba(255,255,255,0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-left: 10px;
+  }
+  
+  .weather-info {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .weather-info strong {
+    color: #fdcb6e;
+  }
+</style>
+
+<div class="packages-container">
+  <div class="page-header">
+    <h1>🌍 Travel Packages for <%= country %></h1>
+    <p>Discover your perfect journey with AI-powered recommendations</p>
+  </div>
+
+  <div class="budget-info">
+    <h3>💰 Your Budget: $<%= budget.toLocaleString() %></h3>
+    <p>Budget Category: <strong><%= budgetCategory === 'budget20k' ? 'Premium Range ($15,000+)' : 'Economy Range ($10,000-$14,999)' %></strong></p>
+  </div>
+
+  <% if (packagesList.length > 0) { %>
+    <h2 class="text-center mb-4">📦 Available Packages</h2>
+    
+    <% packagesList.forEach(package => { %>
+      <div class="package-card">
+        <div class="package-header">
+          <div class="package-title">
+            <%= package.name %>
+            <span class="duration-badge"><%= package.duration %></span>
+          </div>
+          <div class="package-price">
+            $<%= package.price.toLocaleString() %>
+          </div>
+        </div>
+        
+        <div class="package-body">
+          <% if (package.weather) { %>
+            <div class="weather-info">
+              <strong>🌤️ Current Weather:</strong> <%= package.weather.current %> | 
+              <strong>Forecast:</strong> <%= package.weather.forecast %>
+            </div>
+          <% } %>
+          
+          <div class="features-grid">
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🏨</span>
+                Accommodation
+              </div>
+              <p><%= package.hotel %></p>
+            </div>
+            
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🍽️</span>
+                Food & Dining
+              </div>
+              <p><%= package.food %></p>
+            </div>
+            
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🚗</span>
+                Transportation
+              </div>
+              <p><%= package.transport %></p>
+            </div>
+            
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🎯</span>
+                Must-Visit Attractions
+              </div>
+              <ul class="feature-list">
+                <% package.attractions.forEach(attraction => { %>
+                  <li><%= attraction %></li>
+                <% }) %>
+              </ul>
+            </div>
+            
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🛍️</span>
+                Shopping Destinations
+              </div>
+              <ul class="feature-list">
+                <% package.shopping.forEach(shop => { %>
+                  <li><%= shop %></li>
+                <% }) %>
+              </ul>
+            </div>
+          </div>
+          
+          <% if (package.muslimFeatures) { %>
+            <div class="muslim-features">
+              <h4>🕌 Muslim-Friendly Features</h4>
+              <ul class="feature-list">
+                <% package.muslimFeatures.forEach(feature => { %>
+                  <li><%= feature %></li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+          
+          <div class="tech-features">
+            <h4>📱 Advanced Travel Features</h4>
+            <ul class="feature-list">
+              <li>🔐 Multi-device login synchronization</li>
+              <li>📍 Live location sharing with family & friends</li>
+              <li>🌐 Real-time language translation</li>
+              <li>🕐 Prayer time notifications</li>
+              <li>🧭 Qibla direction finder</li>
+              <li>🕌 Nearby mosque locator</li>
+              <li>🍽️ Halal food finder with reviews</li>
+              <li>🌤️ Weather forecast integration</li>
+              <li>💰 Budget tracking and alerts</li>
+              <li>📱 Mobile app with offline capabilities</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+    
+  <% } else { %>
+    <div class="no-packages">
+      <h3>😔 No packages available for your selected criteria</h3>
+      <p>Try adjusting your budget or selecting a different destination</p>
+      <a href="/" class="btn-back">← Back to Home</a>
+    </div>
+  <% } %>
+  
+  <div class="text-center mt-4">
+    <a href="/" class="btn-back">← Back to Home</a>
+  </div>
+</div>

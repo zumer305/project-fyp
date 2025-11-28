@@ -1,0 +1,104 @@
+----------------------------authenticate--------------------------------
+Authentication(verifying-jisny signup wahi login)
+Authorization(access)
+
+
+
+password(hash-form {just inputsa output}   {output sa input nahi})
+HASH GENERATOR  WEBSITE 
+SALT------(zumer@#$)
+SALT THEN HASHING 
+
+
+
+npm i passport (passport Authentication for middleware node js)
+npm i passport-local
+npm i passport-local-mongoose (mongodb)
+
+
+1- user.js models ma
+2- app.js me 3 lines start abc
+a-const passport=require("passport");
+b-const LocalStrategy=require("passport-local");
+c-const User=require("./models/user.js");
+//session---------------------------------------------------old code(session 1 website ka diff pages)
+const sessionOptions= {
+    secret: "mysupersecretcode",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+      expires:Date.now() +7*24*60*60*1000, //after 1 week cookie me sa login pass email de
+    
+      maxAge:+7*24*60*60*1000,
+      httpOnly:true,
+    }
+  };
+  app.use(session(sessionOptions));
+// listing review sa pahaly flash ko likhna
+app.use(flash());-----------------------------------------------------
+//passport (session ka bad)
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));//authenticate(login or sign up)
+passport.serializeUser(User.serializeUser());//store
+passport.deserializeUser(User.deserializeUser());//unstore
+//register method----- / route k neechy code ana (hash pbkdf2)
+app.get("/demouser",async(req,res)=>{
+
+  let fakeUser=new User({
+    email:"zumer305@gmail.com",
+    username:"delta-student",//auto column ata lkn data to dana
+  });
+  let registeredUser=await User.register(fakeUser,"helloWorld");//khudi check ka sai ha username k ni
+res.send(registeredUser);
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ab routes wala folder ma jana 
+user.js banna
+const userRouter = require("./routes/user.js");app.js ma ana
+app.use("/", userRouter);
+
+
+
+
+
+views-users-signup.ejs bnani file
+get(app ma kiya) upload
+post(signup.ejs) download
+
+
+
+
+
+
+views ma login.ejs
+
+
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+-------------------------AUTHORIZATION---------------------------------------------
+to create listing must be login
