@@ -48,7 +48,7 @@
   }
 </style>
 
-<body>
+<body data-logged-in="<%= !!currUser %>">
 
 <div class="travel-box">
   <h3>🌍 Travel Budget</h3>
@@ -226,7 +226,7 @@
 <button onclick="goToPackages()">View Packages</button>
 
 <script>
-const isLoggedIn = <%- JSON.stringify(!!currUser) %>;
+const isLoggedIn = document.body.dataset.loggedIn === "true";
 function showBudget() {
   const budget = document.getElementById('budget').value;
   const result = document.getElementById('result');
@@ -360,7 +360,6 @@ document.getElementById('btn-find-halal').addEventListener('click', async () => 
   const data = await res.json();
   alert(res.ok ? `Halal places: ${data.items.map(i=>i.name).join(', ')}` : ('Error: ' + (data.message || 'Failed')));
 });
-</script>
 </script>
 
 </body>
