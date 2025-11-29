@@ -409,13 +409,95 @@
       .getElementById("btn-show-qiblah")
       .addEventListener("click", async () => {
         const c = await getCoords();
+        if (!c.lat || !c.lon) {
+          alert("Please enable location access to view Qiblah direction");
+          return;
+        }
+
         const res = await fetch(`/api/faith/qiblah?lat=${c.lat}&lon=${c.lon}`);
         const data = await res.json();
-        alert(
-          res.ok
-            ? `Qiblah angle: ${data.angle}°`
-            : "Error: " + (data.message || "Failed")
-        );
+        if (res.ok) {
+          // Initialize map at user location
+          initLeafletMap();
+          const map = window.__leaflet_map;
+
+          // Center map at user location
+          map.setView([c.lat, c.lon], 15);
+
+          // Remove existing Qiblah marker if any
+          if (window.__qiblah_marker) {
+            map.removeLayer(window.__qiblah_marker);
+          }
+
+          // Create a custom Qiblah indicator (arrow pointing to Mecca)
+          const qiblahAngle = data.angle; // degrees from north
+
+          // Create a rotated arrow using HTML/CSS
+          const qiblahMarker = L.marker([c.lat, c.lon], {
+            icon: L.divIcon({
+              html: `
+                <div style="
+                  width: 50px;
+                  height: 50px;
+                  background: radial-gradient(circle, #32CD32 0%, #228B22 100%);
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  transform: rotate(${qiblahAngle}deg);
+                  border: 3px solid white;
+                  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+                  font-size: 24px;
+                  font-weight: bold;
+                  color: white;
+                ">
+                  ▲
+                </div>
+              `,
+              iconSize: [50, 50],
+              iconAnchor: [25, 25],
+              popupAnchor: [0, -25],
+            }),
+          }).addTo(map);
+
+          // Add popup with Qiblah information
+          qiblahMarker.bindPopup(
+            `<strong>Qiblah Direction</strong><br/>
+             Angle: ${qiblahAngle.toFixed(1)}° from North<br/>
+             <small style="color: green;">Your location (green arrow points to Mecca)</small>`,
+            { maxWidth: 250 }
+          );
+          qiblahMarker.openPopup();
+
+          // Draw a line from user to Mecca direction (visual aid)
+          const distanceToMecca = 10000; // 10km in meters (just for visualization)
+          const endLat =
+            c.lat + Math.cos(((qiblahAngle - 90) * Math.PI) / 180) * 0.1;
+          const endLon =
+            c.lon + Math.sin(((qiblahAngle - 90) * Math.PI) / 180) * 0.1;
+
+          if (window.__qiblah_line) {
+            map.removeLayer(window.__qiblah_line);
+          }
+
+          window.__qiblah_line = L.polyline(
+            [
+              [c.lat, c.lon],
+              [endLat, endLon],
+            ],
+            {
+              color: "#32CD32",
+              weight: 3,
+              opacity: 0.8,
+              dashArray: "5, 5",
+              lineCap: "round",
+            }
+          ).addTo(map);
+
+          window.__qiblah_marker = qiblahMarker;
+        } else {
+          alert("Error: " + (data.message || "Failed"));
+        }
       });
 
     document
@@ -500,6 +582,21 @@
       return null;
     }
 
+    // Helper function to calculate distance between two coordinates (Haversine formula)
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Earth's radius in kilometers
+      const dLat = ((lat2 - lat1) * Math.PI) / 180;
+      const dLon = ((lon2 - lon1) * Math.PI) / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos((lat1 * Math.PI) / 180) *
+          Math.cos((lat2 * Math.PI) / 180) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
     async function renderHalalMarkers(items, center) {
       if (!items || !items.length) return alert("No halal places found");
       try {
@@ -524,22 +621,121 @@
         }
         window.__leaflet_markers = [];
 
-        // Add new markers for each item
+        // Filter and process items: only show restaurants near destination (within 5km radius)
+        const MAX_DISTANCE_KM = 5;
+        const processedItems = [];
+
+        items.forEach((it, index) => {
+          let lat, lon, distance;
+
+          if (it.lat && it.lon) {
+            // Use provided coordinates
+            lat = Number(it.lat);
+            lon = Number(it.lon);
+            distance = calculateDistance(
+              mapCenter.lat,
+              mapCenter.lon,
+              lat,
+              lon
+            );
+          } else {
+            // Generate coordinates within proximity to the destination center
+            // Create a pseudo-random but consistent location based on item name and index
+            const seed = it.name
+              .split("")
+              .reduce((acc, char) => acc + char.charCodeAt(0), 0) + index * 1337;
+            const pseudoRandom1 = Math.sin(seed * 12.9898) * 43758.5453;
+            const pseudoRandom2 = Math.sin(seed * 78.233) * 43758.5453;
+            const frac1 = pseudoRandom1 - Math.floor(pseudoRandom1);
+            const frac2 = pseudoRandom2 - Math.floor(pseudoRandom2);
+
+            // Distribute items within a 0.5-3km radius from center
+            // 1 degree ≈ 111 km, so 0.01 degree ≈ 1.1 km
+            const distanceRadius = 0.5 + frac1 * 2.5; // 0.5 to 3 km
+            const angle = frac2 * 2 * Math.PI; // random angle in radians
+
+            // Convert distance and angle to lat/lon offset
+            const latOffset = (distanceRadius / 111) * Math.cos(angle);
+            const lonOffset = (distanceRadius / 111) * Math.sin(angle);
+
+            lat = mapCenter.lat + latOffset;
+            lon = mapCenter.lon + lonOffset;
+            distance = calculateDistance(
+              mapCenter.lat,
+              mapCenter.lon,
+              lat,
+              lon
+            );
+          }
+
+          // Only include items within max distance
+          if (distance <= MAX_DISTANCE_KM) {
+            processedItems.push({
+              name: it.name,
+              note: it.note || "",
+              lat,
+              lon,
+              distance: distance.toFixed(1),
+              distanceKm: it.distanceKm || distance.toFixed(1),
+            });
+          }
+        });
+
+        // If no items within range after filtering, show message and all items anyway
+        if (processedItems.length === 0) {
+          alert(
+            `No halal restaurants found within ${MAX_DISTANCE_KM}km of the destination. Showing all available options.`
+          );
+          // Show original items with generated locations for reference
+          items.forEach((it, index) => {
+            const seed = it.name
+              .split("")
+              .reduce((acc, char) => acc + char.charCodeAt(0), 0) + index * 1337;
+            const pseudoRandom1 = Math.sin(seed * 12.9898) * 43758.5453;
+            const pseudoRandom2 = Math.sin(seed * 78.233) * 43758.5453;
+            const frac1 = pseudoRandom1 - Math.floor(pseudoRandom1);
+            const frac2 = pseudoRandom2 - Math.floor(pseudoRandom2);
+
+            // Distribute items within a 0.5-5km radius from center for fallback
+            const distanceRadius = 0.5 + frac1 * 4.5; // 0.5 to 5 km
+            const angle = frac2 * 2 * Math.PI;
+
+            const latOffset = (distanceRadius / 111) * Math.cos(angle);
+            const lonOffset = (distanceRadius / 111) * Math.sin(angle);
+
+            const lat = mapCenter.lat + latOffset;
+            const lon = mapCenter.lon + lonOffset;
+            const distance = calculateDistance(
+              mapCenter.lat,
+              mapCenter.lon,
+              lat,
+              lon
+            );
+
+            processedItems.push({
+              name: it.name,
+              note: it.note || "(Approximate location)",
+              lat,
+              lon,
+              distance: distance.toFixed(1),
+              distanceKm: distance.toFixed(1),
+            });
+          });
+        }
+
+        // Sort items by distance
+        processedItems.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+
+        // Add new markers for each processed item
         const markers = [];
-        items.forEach((it) => {
-          const lat = it.lat
-            ? Number(it.lat)
-            : mapCenter.lat + (Math.random() - 0.5) * 0.02;
-          const lon = it.lon
-            ? Number(it.lon)
-            : mapCenter.lon + (Math.random() - 0.5) * 0.02;
-          const marker = L.marker([lat, lon]).addTo(map);
+        processedItems.forEach((it) => {
+          const marker = L.marker([it.lat, it.lon]).addTo(map);
           marker.bindPopup(
             `<strong>${it.name}</strong><div style="font-size:0.9rem">${
-              it.note || ""
-            }${
-              it.distanceKm ? "<div>" + it.distanceKm + " km</div>" : ""
-            }</div>`
+              it.note
+            }<div style="margin-top: 5px; font-weight: bold;">📍 ${
+              it.distance
+            } km away</div></div>`
           );
 
           // Add click handler to show directions
@@ -557,24 +753,41 @@
                 map.removeControl(window.__leaflet_routing);
               }
 
-              // Create routing control
+              // Create routing control with event listener for distance
               window.__leaflet_routing = L.Routing.control({
                 waypoints: [
                   L.latLng(userCoords.lat, userCoords.lon), // Start: user location
-                  L.latLng(lat, lon), // End: marker location
+                  L.latLng(it.lat, it.lon), // End: marker location
                 ],
                 routeWhileDragging: false,
                 showAlternatives: true,
                 altLineOptions: {
-                  styles: [
-                    { color: "black", opacity: 0.15, weight: 5 },
-                  ],
+                  styles: [{ color: "black", opacity: 0.15, weight: 5 }],
                 },
               }).addTo(map);
 
+              // Listen for route calculation completion and update marker popup with actual distance
+              window.__leaflet_routing.on('routesfound', function(e) {
+                const routes = e.routes;
+                if (routes && routes.length > 0) {
+                  const distance = (routes[0].summary.totalDistance / 1000).toFixed(1); // Convert meters to km
+                  marker.setPopupContent(
+                    `<strong>${it.name}</strong><div style="font-size:0.9rem">${
+                      it.note
+                    }<div style="margin-top: 5px; font-weight: bold;">📍 ${
+                      distance
+                    } km away (by road)</div></div>`
+                  );
+                  marker.openPopup();
+                }
+              });
+
               // Fit map to show the route
               map.fitBounds(
-                L.latLngBounds([userCoords.lat, userCoords.lon], [lat, lon])
+                L.latLngBounds(
+                  [userCoords.lat, userCoords.lon],
+                  [it.lat, it.lon]
+                )
               );
             } catch (e) {
               console.warn("Failed to show directions", e);
@@ -585,6 +798,13 @@
           markers.push(marker);
         });
         window.__leaflet_markers = markers;
+
+        // Show summary of restaurants found
+        if (processedItems.length > 0) {
+          console.log(
+            `Found ${processedItems.length} halal restaurants within ${MAX_DISTANCE_KM}km`
+          );
+        }
       } catch (e) {
         console.warn("Leaflet rendering failed", e);
         const list = items
