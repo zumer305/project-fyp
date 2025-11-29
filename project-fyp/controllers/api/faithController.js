@@ -17,11 +17,30 @@ module.exports.mosques = async (req, res) => {
 module.exports.qiblah = async (req, res) => {
   try {
     const { lat, lon } = req.query;
-    // Simple placeholder angle; replace with proper calculation
-    const angle = 293.0; // degrees from North
+    const userLat = Number(lat);
+    const userLon = Number(lon);
+
+    // Mecca coordinates
+    const meccaLat = 21.4225;
+    const meccaLon = 39.8262;
+
+    // Calculate bearing from user location to Mecca
+    // Formula: θ = atan2( sin Δλ ⋅ cos φ2 , cos φ1 ⋅ sin φ2 − sin φ1 ⋅ cos φ2 ⋅ cos Δλ )
+    const dLon = (meccaLon - userLon) * (Math.PI / 180);
+    const y = Math.sin(dLon) * Math.cos((meccaLat * Math.PI) / 180);
+    const x =
+      Math.cos((userLat * Math.PI) / 180) * Math.sin((meccaLat * Math.PI) / 180) -
+      Math.sin((userLat * Math.PI) / 180) *
+        Math.cos((meccaLat * Math.PI) / 180) *
+        Math.cos(dLon);
+
+    let angle = Math.atan2(y, x) * (180 / Math.PI);
+    // Normalize to 0-360 range
+    angle = (angle + 360) % 360;
+
     return res.json({
-      coords: { lat: Number(lat) || null, lon: Number(lon) || null },
-      angle,
+      coords: { lat: userLat || null, lon: userLon || null },
+      angle: parseFloat(angle.toFixed(1)),
     });
   } catch {
     return res.status(500).json({ message: "Qiblah calc failed" });

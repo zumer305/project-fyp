@@ -471,10 +471,9 @@
 
           // Draw a line from user to Mecca direction (visual aid)
           const distanceToMecca = 10000; // 10km in meters (just for visualization)
-          const endLat =
-            c.lat + Math.cos(((qiblahAngle - 90) * Math.PI) / 180) * 0.1;
-          const endLon =
-            c.lon + Math.sin(((qiblahAngle - 90) * Math.PI) / 180) * 0.1;
+          const angleRad = (qiblahAngle * Math.PI) / 180;
+          const endLat = c.lat + Math.cos(angleRad) * 0.1;
+          const endLon = c.lon + Math.sin(angleRad) * 0.1;
 
           if (window.__qiblah_line) {
             map.removeLayer(window.__qiblah_line);
