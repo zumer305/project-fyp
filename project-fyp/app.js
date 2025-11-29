@@ -122,6 +122,11 @@ app.get("/packages", (req, res) => {
   res.render("listings/packages", { country, budget, packagesList, budgetCategory });
 });
 
+// Package detail page (client reads cached selection from browser storage)
+app.get('/package-detail', (req, res) => {
+  res.render('listings/packageDetail');
+});
+
 // Mount routers
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);

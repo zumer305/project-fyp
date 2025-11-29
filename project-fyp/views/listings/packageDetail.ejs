@@ -1,0 +1,99 @@
+<% layout('/layouts/boiler') %>
+
+<style>
+  .detail-container {
+    max-width: 900px;
+    margin: 36px auto;
+    padding: 20px;
+  }
+  .detail-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .detail-header {
+    background: linear-gradient(90deg,#3375ae,#0f8e95);
+    color: #fff;
+    padding: 28px;
+  }
+  .detail-body { padding: 24px; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
+  .feature-list { list-style: none; padding: 0; }
+  .feature-list li { padding: 6px 0; border-bottom: 1px dashed #eee; }
+  .side-box { background: #f7f9fb; padding: 18px; border-radius: 8px; }
+  .btn-action { padding: 10px 14px; border-radius: 8px; background:#007bff; color:#fff; text-decoration:none; display:inline-block; }
+  @media (max-width:800px){ .detail-grid{ grid-template-columns: 1fr; } }
+</style>
+
+<div class="detail-container">
+  <div class="detail-card">
+    <div class="detail-header">
+      <h1 id="pkg-name">Package Details</h1>
+      <div id="pkg-sub" style="opacity:.95;margin-top:6px"></div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-grid">
+        <div>
+          <h3>Overview</h3>
+          <p id="pkg-overview"></p>
+
+          <h4>Highlights</h4>
+          <ul id="pkg-highlights" class="feature-list"></ul>
+
+          <h4>Muslim-friendly Features</h4>
+          <ul id="pkg-muslim" class="feature-list"></ul>
+
+          <h4>Weather</h4>
+          <p id="pkg-weather"></p>
+        </div>
+
+        <aside class="side-box">
+          <h4>Price & Booking</h4>
+          <div style="font-size:1.4rem;font-weight:700;margin:8px 0" id="pkg-price">$0</div>
+          <div>Duration: <span id="pkg-duration"></span></div>
+          <div style="margin-top:12px"><a id="btn-book" class="btn-action" href="#">Proceed to Booking</a></div>
+
+          <hr style="margin:14px 0" />
+          <h5>Accommodation</h5>
+          <p id="pkg-hotel"></p>
+          <h5>Food</h5>
+          <p id="pkg-food"></p>
+          <div style="margin-top:12px"><a href="/" class="btn-action" style="background:#6c757d">Back to Home</a></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const raw = localStorage.getItem('selectedPackage');
+    if (!raw) {
+      alert('No package selected in browser cache. Please select a package first.');
+      return window.location.href = '/';
+    }
+    let pkg;
+    try { pkg = JSON.parse(raw); } catch(e){ console.warn(e); alert('Invalid cached package'); return window.location.href = '/'; }
+
+    document.getElementById('pkg-name').textContent = pkg.name || 'Package';
+    document.getElementById('pkg-sub').textContent = pkg._id ? `ID: ${pkg._id}` : '';
+    document.getElementById('pkg-overview').textContent = `Transport: ${pkg.transport || 'N/A'} · Hotel: ${pkg.hotel || 'N/A'}`;
+    const highlights = document.getElementById('pkg-highlights');
+    (pkg.attractions||[]).forEach(a=>{ const li = document.createElement('li'); li.textContent = a; highlights.appendChild(li); });
+    const muslimList = document.getElementById('pkg-muslim');
+    (pkg.muslimFeatures||[]).forEach(m=>{ const li = document.createElement('li'); li.textContent = m; muslimList.appendChild(li); });
+    document.getElementById('pkg-weather').textContent = pkg.weather ? `${pkg.weather.current || ''} — ${pkg.weather.forecast || ''}` : 'N/A';
+    document.getElementById('pkg-price').textContent = `$${(pkg.price||0).toLocaleString()}`;
+    document.getElementById('pkg-duration').textContent = pkg.duration || 'N/A';
+    document.getElementById('pkg-hotel').textContent = pkg.hotel || 'N/A';
+    document.getElementById('pkg-food').textContent = pkg.food || 'N/A';
+
+    const bookBtn = document.getElementById('btn-book');
+    bookBtn.href = `/book?packageId=${encodeURIComponent(pkg._id||'')}`;
+    bookBtn.addEventListener('click', (e)=>{
+      if (!pkg._id) { e.preventDefault(); alert('Cannot book: package id missing.'); return window.location.href = '/packages'; }
+      // allow navigation to /book
+    });
+  })();
+</script>

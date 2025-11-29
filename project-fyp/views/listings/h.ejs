@@ -360,6 +360,16 @@ document.getElementById('btn-find-halal').addEventListener('click', async () => 
   const data = await res.json();
   alert(res.ok ? `Halal places: ${data.items.map(i=>i.name).join(', ')}` : ('Error: ' + (data.message || 'Failed')));
 });
+
+// View Details button: show the cached selected package on a detail page
+document.querySelectorAll('.view').forEach(b => b.addEventListener('click', () => {
+  const raw = localStorage.getItem('selectedPackage');
+  if (!raw) {
+    alert('Please select a package first from the Packages page.');
+    return window.location.href = '/packages';
+  }
+  window.location.href = '/package-detail';
+}));
 </script>
 
 </body>
