@@ -74,7 +74,7 @@
 </div>
 
 
-  <h2>🧠 AI Destination Recommendations</h2>
+  <h2>🧠 My Selected Package</h2>
   <div class="grid">
     <div class="card">
       <img src="https://concept.kg/media/redactor/ik.jpg" alt="Issyk-Kul Lake">
@@ -86,8 +86,6 @@
       </div>
       <div class="actions">
         <button class="view">👁️ View Details</button>
-        <button class="save">❤️ Save</button>
-        <button class="add">🧳 Add</button>
       </div>
     </div>
   </div>
@@ -364,12 +362,131 @@ document.getElementById('btn-find-halal').addEventListener('click', async () => 
 // View Details button: show the cached selected package on a detail page
 document.querySelectorAll('.view').forEach(b => b.addEventListener('click', () => {
   const raw = localStorage.getItem('selectedPackage');
-  if (!raw) {
-    alert('Please select a package first from the Packages page.');
-    return window.location.href = '/packages';
+  if (raw) {
+    // already selected by user
+    return window.location.href = '/package-detail';
   }
-  window.location.href = '/package-detail';
+  // if this View button has a recommended package attached, use it temporarily
+  const rec = b.dataset.recommendation;
+  if (rec) {
+    try {
+      const obj = JSON.parse(decodeURIComponent(rec));
+      localStorage.setItem('selectedPackage', JSON.stringify(obj));
+      return window.location.href = '/package-detail';
+    } catch (e) {
+      console.warn('failed to parse recommendation', e);
+    }
+  }
+  alert('Please select a package first from the Packages page.');
+  return window.location.href = '/packages';
 }));
+
+  // If a package is cached, replace the hard-coded AI card with its details
+  (async function populateAICardFromCache(){
+    try {
+      const raw = localStorage.getItem('selectedPackage');
+      const card = document.querySelector('.grid .card');
+      if (!card) return;
+
+      let pkg = null;
+      let usedRecommendation = false;
+
+      if (raw) {
+        try { pkg = JSON.parse(raw); } catch (e) { pkg = null; }
+      }
+
+      if (!pkg) {
+        // fetch random destination from server
+        try {
+          const res = await fetch('/api/destinations');
+          if (res.ok) {
+            const data = await res.json();
+            const items = data.items || [];
+            if (items.length > 0) {
+              pkg = items[Math.floor(Math.random() * items.length)];
+              usedRecommendation = true;
+            }
+          }
+        } catch (e) {
+          // fallback: leave pkg null
+          console.warn('Failed to fetch recommendations from server', e);
+        }
+      }
+
+      if (!pkg) return; // nothing to show
+
+      // Add a small badge indicating this is a recommendation when using server-provided item
+      const header = card.querySelector('h3');
+      if (usedRecommendation && header) {
+        const badge = document.createElement('div');
+        badge.textContent = 'Recommendation for you';
+        badge.style.fontSize = '0.85rem';
+        badge.style.color = '#0f8e95';
+        badge.style.fontWeight = '700';
+        badge.style.marginBottom = '6px';
+        header.parentNode.insertBefore(badge, header);
+      }
+
+      // Update image if present
+      const img = card.querySelector('img');
+      if (img && (pkg.images && pkg.images.length)) img.src = pkg.images[0];
+
+      // Update title
+      const titleEl = card.querySelector('h3');
+      if (titleEl && pkg.name) titleEl.textContent = pkg.name;
+
+      // Update price paragraph (first <p> after title)
+      const pEls = card.querySelectorAll('p');
+      if (pEls && pEls.length > 0) {
+        const priceEl = pEls[0];
+        if (pkg.minBudget || pkg.maxBudget) {
+          const priceText = pkg.minBudget && pkg.maxBudget ? `${pkg.minBudget}-${pkg.maxBudget}` : (pkg.minBudget || pkg.maxBudget || 'N/A');
+          priceEl.textContent = `💰 $${priceText} / trip`;
+        } else if (pkg.price) {
+          priceEl.textContent = `💰 $${Number(pkg.price).toLocaleString()} / trip`;
+        }
+        if (pEls[1]) pEls[1].textContent = pkg.description ? pkg.description.substring(0,80) + '...' : (pkg.country ? pkg.country : '');
+      }
+
+      // Update tags to show duration and first attractions
+      const tags = card.querySelector('.tags');
+      if (tags) {
+        tags.innerHTML = '';
+        if (pkg.typicalDuration) {
+          const s = document.createElement('span'); s.textContent = `#${pkg.typicalDuration}d`; tags.appendChild(s);
+        }
+        if (pkg.attractions && pkg.attractions.length) {
+          pkg.attractions.slice(0,3).forEach(t => { const s = document.createElement('span'); s.textContent = `#${t.replace(/\s+/g,'')}`; tags.appendChild(s); });
+        }
+      }
+
+      // Attach recommendation data to View button when not using a real cached package
+      const viewBtn = card.querySelector('.view');
+      if (viewBtn) {
+        if (usedRecommendation) {
+          // store a lightweight object that matches selectedPackage shape
+          const obj = {
+            _id: pkg._id || pkg.id,
+            name: pkg.name,
+            price: pkg.minBudget || pkg.price || pkg.maxBudget,
+            duration: pkg.typicalDuration ? `${pkg.typicalDuration} days` : undefined,
+            hotel: (pkg.hotels && pkg.hotels[0]) || undefined,
+            transport: undefined,
+            attractions: pkg.attractions || [],
+            shopping: [],
+            muslimFeatures: [],
+            weather: undefined
+          };
+          viewBtn.dataset.recommendation = encodeURIComponent(JSON.stringify(obj));
+        } else {
+          delete viewBtn.dataset.recommendation;
+        }
+      }
+
+    } catch (e) {
+      console.warn('Could not populate AI card from cached package or server recommendations', e);
+    }
+  })();
 </script>
 
 </body>
