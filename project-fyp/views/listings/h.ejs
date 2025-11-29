@@ -535,6 +535,47 @@
               it.distanceKm ? "<div>" + it.distanceKm + " km</div>" : ""
             }</div>`
           );
+
+          // Add click handler to show directions
+          marker.on("click", async () => {
+            try {
+              // Get user's current location
+              const userCoords = await getCoords();
+              if (!userCoords.lat || !userCoords.lon) {
+                alert("Please enable location access to view directions");
+                return;
+              }
+
+              // Clear any existing routing control
+              if (window.__leaflet_routing) {
+                map.removeControl(window.__leaflet_routing);
+              }
+
+              // Create routing control
+              window.__leaflet_routing = L.Routing.control({
+                waypoints: [
+                  L.latLng(userCoords.lat, userCoords.lon), // Start: user location
+                  L.latLng(lat, lon), // End: marker location
+                ],
+                routeWhileDragging: false,
+                showAlternatives: true,
+                altLineOptions: {
+                  styles: [
+                    { color: "black", opacity: 0.15, weight: 5 },
+                  ],
+                },
+              }).addTo(map);
+
+              // Fit map to show the route
+              map.fitBounds(
+                L.latLngBounds([userCoords.lat, userCoords.lon], [lat, lon])
+              );
+            } catch (e) {
+              console.warn("Failed to show directions", e);
+              alert("Could not load directions. Try again.");
+            }
+          });
+
           markers.push(marker);
         });
         window.__leaflet_markers = markers;
