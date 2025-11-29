@@ -1,4 +1,3 @@
-
 <% layout("/layouts/boiler")%>
 <style>
   .travel-box {
@@ -7,7 +6,7 @@
     padding: 20px;
     border-radius: 10px;
     background: #e0f0ff; /* light blue theme */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
   }
   .travel-box h3 {
@@ -48,36 +47,44 @@
   }
 </style>
 
+<!-- Leaflet CSS moved to global layout for consistency (see layouts/boiler.ejs) -->
+
 <body data-logged-in="<%= !!currUser %>">
+  <div class="travel-box">
+    <h3>🌍 Travel Budget</h3>
 
-<div class="travel-box">
-  <h3>🌍 Travel Budget</h3>
+    <label for="country">Select Central Asian Country:</label>
+    <select id="country">
+      <option value="">-- Choose Country --</option>
+      <option value="Azerbaijan">Azerbaijan</option>
+      <option value="Kazakhstan">Kazakhstan</option>
+      <option value="Kyrgyzstan">Kyrgyzstan</option>
+      <option value="Tajikistan">Tajikistan</option>
+      <option value="Turkmenistan">Turkmenistan</option>
+      <option value="Uzbekistan">Uzbekistan</option>
+    </select>
 
-  <label for="country">Select Central Asian Country:</label>
-  <select id="country">
-    <option value="">-- Choose Country --</option>
-    <option value="Azerbaijan">Azerbaijan</option>
-    <option value="Kazakhstan">Kazakhstan</option>
-    <option value="Kyrgyzstan">Kyrgyzstan</option>
-    <option value="Tajikistan">Tajikistan</option>
-    <option value="Turkmenistan">Turkmenistan</option>
-    <option value="Uzbekistan">Uzbekistan</option>
-  </select>
+    <label for="budget">Enter Budget (USD):</label>
+    <input
+      type="number"
+      id="budget"
+      placeholder="e.g. 10000"
+      oninput="showBudget()"
+    />
 
-  <label for="budget">Enter Budget (USD):</label>
-  <input type="number" id="budget" placeholder="e.g. 10000" oninput="showBudget()">
+    <div class="result" id="result"></div>
 
-  <div class="result" id="result"></div>
-
-  <!-- Button to go to packages page -->
-  <button onclick="goToPackages()">View Packages</button>
-</div>
-
+    <!-- Button to go to packages page -->
+    <button onclick="goToPackages()">View Packages</button>
+  </div>
 
   <h2>🧠 My Selected Package</h2>
   <div class="grid">
     <div class="card">
-      <img src="https://concept.kg/media/redactor/ik.jpg" alt="Issyk-Kul Lake">
+      <img
+        src="https://concept.kg/media/redactor/ik.jpg"
+        alt="Issyk-Kul Lake"
+      />
       <h3>Issyk-Kul Lake, Kyrgyzstan</h3>
       <p>💰 $620 / trip</p>
       <p>⭐ 4.6 (185 reviews)</p>
@@ -95,7 +102,9 @@
     <div class="grid">
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/add-user-group-man-man.png"/>
+          <img
+            src="https://img.icons8.com/ios-filled/50/add-user-group-man-man.png"
+          />
           <h3>Create Group</h3>
         </div>
         <p>Start a new travel group and invite friends via email or code.</p>
@@ -103,7 +112,7 @@
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/link--v1.png"/>
+          <img src="https://img.icons8.com/ios-filled/50/link--v1.png" />
           <h3>Join Group</h3>
         </div>
         <p>Join a group using an invite code from your friends.</p>
@@ -111,7 +120,7 @@
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-glyphs/30/chat--v1.png"/>
+          <img src="https://img.icons8.com/ios-glyphs/30/chat--v1.png" />
           <h3>Group Chat</h3>
         </div>
         <p>Chat with your group members in real-time.</p>
@@ -119,7 +128,7 @@
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/map.png"/>
+          <img src="https://img.icons8.com/ios-filled/50/map.png" />
           <h3>Shared Itinerary</h3>
         </div>
         <p>View and export your planned group trip itinerary.</p>
@@ -127,7 +136,7 @@
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-glyphs/30/money.png"/>
+          <img src="https://img.icons8.com/ios-glyphs/30/money.png" />
           <h3>Expense Split</h3>
         </div>
         <p>Track spending and calculate balances between members.</p>
@@ -135,7 +144,7 @@
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/marker.png"/>
+          <img src="https://img.icons8.com/ios-filled/50/marker.png" />
           <h3>Share Live Location</h3>
         </div>
         <p>Share your real-time location with group members during the trip.</p>
@@ -149,7 +158,7 @@
     <div class="grid">
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/mosque.png"/>
+          <img src="https://img.icons8.com/ios-filled/50/mosque.png" />
           <h3>Nearby Mosques</h3>
         </div>
         <p>Find mosques nearby with prayer times and distance info.</p>
@@ -157,7 +166,7 @@
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/compass.png"/>
+          <img src="https://img.icons8.com/ios-filled/50/compass.png" />
           <h3>Qiblah Direction</h3>
         </div>
         <p>View direction of Qiblah from your current location.</p>
@@ -165,7 +174,7 @@
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/restaurant.png"/>
+          <img src="https://img.icons8.com/ios-filled/50/restaurant.png" />
           <h3>Halal Food Locator</h3>
         </div>
         <p>Discover nearby halal restaurants and certified food places.</p>
@@ -173,321 +182,575 @@
       </div>
     </div>
   </div>
-    <!-- 📍 Map Section -->
-    <div class="section">
-      <h2>Explore on Map</h2>
-      <div class="map">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.361624195853!2d74.6059308!3d42.8746211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389ecfbe7c1b17b1%3A0x53dff206c62b9f6a!2sBishkek!5e0!3m2!1sen!2skg!4v1718450000000"
-          allowfullscreen="" loading="lazy">
-        </iframe>
+  <!-- 📍 Map Section -->
+  <div class="section">
+    <h2>Explore on Map</h2>
+    <div class="map">
+      <!-- Interactive map: will load Leaflet (OpenStreetMap) dynamically -->
+      <div
+        id="map"
+        style="
+          width: 100%;
+          height: 420px;
+          border-radius: 8px;
+          overflow: hidden;
+          background: #e9eef3;
+          display: block;
+          position: relative;
+          min-height: 200px;
+        "
+      ></div>
+    </div>
+  </div>
+
+  <!-- 📡 Scraped Info Section -->
+  <div class="section">
+    <h2>Live Destination Insights</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>💸 Local Taxi Fares</h3>
+        <p>Base fare starts at $1.2 with $0.5/km. Rideshare apps available.</p>
+        <a class="view-more" href="#">View More</a>
+        <div class="updated-note">Updated automatically</div>
+      </div>
+      <div class="card">
+        <h3>📅 Festivals & Events</h3>
+        <p>
+          Don't miss the "Nowruz Spring Festival" in March with local music and
+          food.
+        </p>
+        <a class="view-more" href="#">View More</a>
+        <div class="updated-note">Updated automatically</div>
+      </div>
+      <div class="card">
+        <h3>🥘 Famous Food Spots</h3>
+        <p>Try "Osh" at Faiza Restaurant or local cafes on Chuy Avenue.</p>
+        <a class="view-more" href="#">View More</a>
+        <div class="updated-note">Updated automatically</div>
+      </div>
+      <div class="card">
+        <h3>💡 Budgeted Tour Suggestions</h3>
+        <p>
+          3-Day Trip: City Tour → Ala Archa Park → Osh Bazaar. Budget under
+          $100.
+        </p>
+        <a class="view-more" href="#">View More</a>
+        <div class="updated-note">Updated automatically</div>
       </div>
     </div>
+  </div>
 
-    <!-- 📡 Scraped Info Section -->
-    <div class="section">
-      <h2>Live Destination Insights</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>💸 Local Taxi Fares</h3>
-          <p>Base fare starts at $1.2 with $0.5/km. Rideshare apps available.</p>
-          <a class="view-more" href="#">View More</a>
-          <div class="updated-note">Updated automatically</div>
-        </div>
-        <div class="card">
-          <h3>📅 Festivals & Events</h3>
-          <p>Don't miss the "Nowruz Spring Festival" in March with local music and food.</p>
-          <a class="view-more" href="#">View More</a>
-          <div class="updated-note">Updated automatically</div>
-        </div>
-        <div class="card">
-          <h3>🥘 Famous Food Spots</h3>
-          <p>Try "Osh" at Faiza Restaurant or local cafes on Chuy Avenue.</p>
-          <a class="view-more" href="#">View More</a>
-          <div class="updated-note">Updated automatically</div>
-        </div>
-        <div class="card">
-          <h3>💡 Budgeted Tour Suggestions</h3>
-          <p>3-Day Trip: City Tour → Ala Archa Park → Osh Bazaar. Budget under $100.</p>
-          <a class="view-more" href="#">View More</a>
-          <div class="updated-note">Updated automatically</div>
-        </div>
-      </div>
-    </div>
+  <button onclick="goToPackages()">View Packages</button>
 
+  <script>
+    const isLoggedIn = document.body.dataset.loggedIn === "true";
+    function showBudget() {
+      const budget = document.getElementById("budget").value;
+      const result = document.getElementById("result");
 
-
-
-
-
-
-<button onclick="goToPackages()">View Packages</button>
-
-<script>
-const isLoggedIn = document.body.dataset.loggedIn === "true";
-function showBudget() {
-  const budget = document.getElementById('budget').value;
-  const result = document.getElementById('result');
-  
-  if (budget) {
-    if (budget < 5000) {
-      result.innerHTML = `<span style="color: #dc3545;">💰 Budget: $${budget} - Consider increasing for better packages</span>`;
-    } else if (budget >= 5000 && budget < 10000) {
-      result.innerHTML = `<span style="color: #ffc107;">💰 Budget: $${budget} - Good for basic packages</span>`;
-    } else if (budget >= 10000 && budget < 15000) {
-      result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Excellent for premium packages!</span>`;
-    } else {
-      result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Luxury packages available!</span>`;
-    }
-  } else {
-    result.innerHTML = '';
-  }
-}
-
-function goToPackages() {
-  const country = document.getElementById('country').value;
-  const budget = document.getElementById('budget').value;
-
-  if (country && budget) {
-    window.location.href = `/packages?country=${country}&budget=${budget}`;
-  } else {
-    alert('Please select a country and enter your budget first!');
-  }
-}
-
-// Helpers
-async function getCoords() {
-  return new Promise((resolve) => {
-    if (!navigator.geolocation) return resolve({ lat: null, lon: null });
-    navigator.geolocation.getCurrentPosition(
-      (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-      () => resolve({ lat: null, lon: null })
-    );
-  });
-}
-
-// Groups
-document.getElementById('btn-create-group').addEventListener('click', async () => {
-  if (!isLoggedIn) return window.location.href = '/login';
-  const name = prompt('Enter group name:', 'My Trip Group');
-  if (!name) return;
-  const res = await fetch('/api/groups', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name }) });
-  const data = await res.json();
-  if (res.ok) {
-    alert('Group created: ' + data.group._id);
-  } else {
-    alert('Error: ' + (data.message || 'Failed'));
-  }
-});
-
-document.getElementById('btn-join-group').addEventListener('click', async () => {
-  if (!isLoggedIn) return window.location.href = '/login';
-  const id = prompt('Enter group ID to join:');
-  if (!id) return;
-  const res = await fetch(`/api/groups/${id}/join`, { method: 'POST' });
-  const data = await res.json();
-  alert(res.ok ? 'Joined group!' : ('Error: ' + (data.message || 'Failed')));
-});
-
-document.getElementById('btn-open-chat').addEventListener('click', async () => {
-  if (!isLoggedIn) return window.location.href = '/login';
-  const id = prompt('Enter group ID to view messages:');
-  if (!id) return;
-  const res = await fetch(`/api/groups/${id}/messages`);
-  const data = await res.json();
-  if (res.ok) {
-    alert(`Messages loaded: ${data.messages.length}`);
-  } else {
-    alert('Error: ' + (data.message || 'Failed'));
-  }
-});
-
-document.getElementById('btn-view-plan').addEventListener('click', async () => {
-  if (!isLoggedIn) return window.location.href = '/login';
-  const id = prompt('Enter group ID to view plan:');
-  if (!id) return;
-  const res = await fetch(`/api/groups/${id}/plan`);
-  const data = await res.json();
-  if (res.ok) {
-    const lines = data.itinerary.map(i => `Day ${i.day}: ${i.title}`).join('\n');
-    alert(`Itinerary Loaded:\n${lines}`);
-  } else {
-    alert('Error: ' + (data.message || 'Failed'));
-  }
-});
-
-document.getElementById('btn-expense-summary').addEventListener('click', async () => {
-  if (!isLoggedIn) return window.location.href = '/login';
-  const id = prompt('Enter group ID to view expenses:');
-  if (!id) return;
-  const res = await fetch(`/api/groups/${id}/expenses`);
-  const data = await res.json();
-  if (res.ok) {
-    alert(`Total: $${data.summary.total} | Per Member: $${data.summary.perMember}`);
-  } else {
-    alert('Error: ' + (data.message || 'Failed'));
-  }
-});
-
-// Map/Location
-document.getElementById('btn-share-location').addEventListener('click', async () => {
-  const coords = await getCoords();
-  const res = await fetch(`/api/map/nearby?lat=${coords.lat}&lon=${coords.lon}&type=hotel`);
-  const data = await res.json();
-  alert(res.ok ? `Nearby hotels found: ${data.hotels.length}` : ('Error: ' + (data.message || 'Failed')));
-});
-
-// Faith tools
-document.getElementById('btn-find-mosques').addEventListener('click', async () => {
-  const c = await getCoords();
-  const res = await fetch(`/api/faith/mosques?lat=${c.lat}&lon=${c.lon}`);
-  const data = await res.json();
-  alert(res.ok ? `Mosques: ${data.items.map(i=>i.name).join(', ')}` : ('Error: ' + (data.message || 'Failed')));
-});
-
-document.getElementById('btn-show-qiblah').addEventListener('click', async () => {
-  const c = await getCoords();
-  const res = await fetch(`/api/faith/qiblah?lat=${c.lat}&lon=${c.lon}`);
-  const data = await res.json();
-  alert(res.ok ? `Qiblah angle: ${data.angle}°` : ('Error: ' + (data.message || 'Failed')));
-});
-
-document.getElementById('btn-find-halal').addEventListener('click', async () => {
-  const c = await getCoords();
-  const res = await fetch(`/api/faith/halal?lat=${c.lat}&lon=${c.lon}`);
-  const data = await res.json();
-  alert(res.ok ? `Halal places: ${data.items.map(i=>i.name).join(', ')}` : ('Error: ' + (data.message || 'Failed')));
-});
-
-// View Details button: show the cached selected package on a detail page
-document.querySelectorAll('.view').forEach(b => b.addEventListener('click', () => {
-  const raw = localStorage.getItem('selectedPackage');
-  if (raw) {
-    // already selected by user
-    return window.location.href = '/package-detail';
-  }
-  // if this View button has a recommended package attached, use it temporarily
-  const rec = b.dataset.recommendation;
-  if (rec) {
-    try {
-      const obj = JSON.parse(decodeURIComponent(rec));
-      localStorage.setItem('selectedPackage', JSON.stringify(obj));
-      return window.location.href = '/package-detail';
-    } catch (e) {
-      console.warn('failed to parse recommendation', e);
-    }
-  }
-  alert('Please select a package first from the Packages page.');
-  return window.location.href = '/packages';
-}));
-
-  // If a package is cached, replace the hard-coded AI card with its details
-  (async function populateAICardFromCache(){
-    try {
-      const raw = localStorage.getItem('selectedPackage');
-      const card = document.querySelector('.grid .card');
-      if (!card) return;
-
-      let pkg = null;
-      let usedRecommendation = false;
-
-      if (raw) {
-        try { pkg = JSON.parse(raw); } catch (e) { pkg = null; }
+      if (budget) {
+        if (budget < 5000) {
+          result.innerHTML = `<span style="color: #dc3545;">💰 Budget: $${budget} - Consider increasing for better packages</span>`;
+        } else if (budget >= 5000 && budget < 10000) {
+          result.innerHTML = `<span style="color: #ffc107;">💰 Budget: $${budget} - Good for basic packages</span>`;
+        } else if (budget >= 10000 && budget < 15000) {
+          result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Excellent for premium packages!</span>`;
+        } else {
+          result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Luxury packages available!</span>`;
+        }
+      } else {
+        result.innerHTML = "";
       }
+    }
 
-      if (!pkg) {
-        // fetch random destination from server
+    function goToPackages() {
+      const country = document.getElementById("country").value;
+      const budget = document.getElementById("budget").value;
+
+      if (country && budget) {
+        window.location.href = `/packages?country=${country}&budget=${budget}`;
+      } else {
+        alert("Please select a country and enter your budget first!");
+      }
+    }
+
+    // Helpers
+    async function getCoords() {
+      return new Promise((resolve) => {
+        if (!navigator.geolocation) return resolve({ lat: null, lon: null });
+        navigator.geolocation.getCurrentPosition(
+          (pos) =>
+            resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+          () => resolve({ lat: null, lon: null })
+        );
+      });
+    }
+
+    // Groups
+    document
+      .getElementById("btn-create-group")
+      .addEventListener("click", async () => {
+        if (!isLoggedIn) return (window.location.href = "/login");
+        const name = prompt("Enter group name:", "My Trip Group");
+        if (!name) return;
+        const res = await fetch("/api/groups", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert("Group created: " + data.group._id);
+        } else {
+          alert("Error: " + (data.message || "Failed"));
+        }
+      });
+
+    document
+      .getElementById("btn-join-group")
+      .addEventListener("click", async () => {
+        if (!isLoggedIn) return (window.location.href = "/login");
+        const id = prompt("Enter group ID to join:");
+        if (!id) return;
+        const res = await fetch(`/api/groups/${id}/join`, { method: "POST" });
+        const data = await res.json();
+        alert(
+          res.ok ? "Joined group!" : "Error: " + (data.message || "Failed")
+        );
+      });
+
+    document
+      .getElementById("btn-open-chat")
+      .addEventListener("click", async () => {
+        if (!isLoggedIn) return (window.location.href = "/login");
+        const id = prompt("Enter group ID to view messages:");
+        if (!id) return;
+        const res = await fetch(`/api/groups/${id}/messages`);
+        const data = await res.json();
+        if (res.ok) {
+          alert(`Messages loaded: ${data.messages.length}`);
+        } else {
+          alert("Error: " + (data.message || "Failed"));
+        }
+      });
+
+    document
+      .getElementById("btn-view-plan")
+      .addEventListener("click", async () => {
+        if (!isLoggedIn) return (window.location.href = "/login");
+        const id = prompt("Enter group ID to view plan:");
+        if (!id) return;
+        const res = await fetch(`/api/groups/${id}/plan`);
+        const data = await res.json();
+        if (res.ok) {
+          const lines = data.itinerary
+            .map((i) => `Day ${i.day}: ${i.title}`)
+            .join("\n");
+          alert(`Itinerary Loaded:\n${lines}`);
+        } else {
+          alert("Error: " + (data.message || "Failed"));
+        }
+      });
+
+    document
+      .getElementById("btn-expense-summary")
+      .addEventListener("click", async () => {
+        if (!isLoggedIn) return (window.location.href = "/login");
+        const id = prompt("Enter group ID to view expenses:");
+        if (!id) return;
+        const res = await fetch(`/api/groups/${id}/expenses`);
+        const data = await res.json();
+        if (res.ok) {
+          alert(
+            `Total: $${data.summary.total} | Per Member: $${data.summary.perMember}`
+          );
+        } else {
+          alert("Error: " + (data.message || "Failed"));
+        }
+      });
+
+    // Map/Location
+    document
+      .getElementById("btn-share-location")
+      .addEventListener("click", async () => {
+        const coords = await getCoords();
+        const res = await fetch(
+          `/api/map/nearby?lat=${coords.lat}&lon=${coords.lon}&type=hotel`
+        );
+        const data = await res.json();
+        alert(
+          res.ok
+            ? `Nearby hotels found: ${data.hotels.length}`
+            : "Error: " + (data.message || "Failed")
+        );
+      });
+
+    // Faith tools
+    document
+      .getElementById("btn-find-mosques")
+      .addEventListener("click", async () => {
+        const c = await getCoords();
+        const res = await fetch(`/api/faith/mosques?lat=${c.lat}&lon=${c.lon}`);
+        const data = await res.json();
+        alert(
+          res.ok
+            ? `Mosques: ${data.items.map((i) => i.name).join(", ")}`
+            : "Error: " + (data.message || "Failed")
+        );
+      });
+
+    document
+      .getElementById("btn-show-qiblah")
+      .addEventListener("click", async () => {
+        const c = await getCoords();
+        const res = await fetch(`/api/faith/qiblah?lat=${c.lat}&lon=${c.lon}`);
+        const data = await res.json();
+        alert(
+          res.ok
+            ? `Qiblah angle: ${data.angle}°`
+            : "Error: " + (data.message || "Failed")
+        );
+      });
+
+    document
+      .getElementById("btn-find-halal")
+      .addEventListener("click", async () => {
+        // Try to use selected package (session temporary or persistent) for destination lookup
+        const tmpRaw = sessionStorage.getItem("selectedPackage_temp");
+        const selRaw = localStorage.getItem("selectedPackage");
+        const pkgRaw = tmpRaw || selRaw;
         try {
-          const res = await fetch('/api/destinations');
-          if (res.ok) {
-            const data = await res.json();
-            const items = data.items || [];
-            if (items.length > 0) {
-              pkg = items[Math.floor(Math.random() * items.length)];
-              usedRecommendation = true;
+          if (pkgRaw) {
+            const pkg = JSON.parse(pkgRaw);
+            // prefer city, then country
+            const city = pkg.city || undefined;
+            const country = pkg.country || undefined;
+            const q = city
+              ? `?city=${encodeURIComponent(city)}`
+              : country
+              ? `?country=${encodeURIComponent(country)}`
+              : "";
+            if (q) {
+              const res = await fetch(`/api/faith/halal${q}`);
+              const data = await res.json();
+              if (res.ok) {
+                // Render markers on the map for the returned items; pass the area so we can geocode for centering
+                await renderHalalMarkers(data.items, {
+                  area: data.area || city || country,
+                });
+                return;
+              } else {
+                alert("Error: " + (data.message || "Failed"));
+                return;
+              }
             }
           }
         } catch (e) {
-          // fallback: leave pkg null
-          console.warn('Failed to fetch recommendations from server', e);
+          console.warn("Failed to lookup halal by package", e);
         }
-      }
 
-      if (!pkg) return; // nothing to show
-
-      // Add a small badge indicating this is a recommendation when using server-provided item
-      const header = card.querySelector('h3');
-      if (usedRecommendation && header) {
-        const badge = document.createElement('div');
-        badge.textContent = 'Recommendation for you';
-        badge.style.fontSize = '0.85rem';
-        badge.style.color = '#0f8e95';
-        badge.style.fontWeight = '700';
-        badge.style.marginBottom = '6px';
-        header.parentNode.insertBefore(badge, header);
-      }
-
-      // Update image if present
-      const img = card.querySelector('img');
-      if (img && (pkg.images && pkg.images.length)) img.src = pkg.images[0];
-
-      // Update title
-      const titleEl = card.querySelector('h3');
-      if (titleEl && pkg.name) titleEl.textContent = pkg.name;
-
-      // Update price paragraph (first <p> after title)
-      const pEls = card.querySelectorAll('p');
-      if (pEls && pEls.length > 0) {
-        const priceEl = pEls[0];
-        if (pkg.minBudget || pkg.maxBudget) {
-          const priceText = pkg.minBudget && pkg.maxBudget ? `${pkg.minBudget}-${pkg.maxBudget}` : (pkg.minBudget || pkg.maxBudget || 'N/A');
-          priceEl.textContent = `💰 $${priceText} / trip`;
-        } else if (pkg.price) {
-          priceEl.textContent = `💰 $${Number(pkg.price).toLocaleString()} / trip`;
-        }
-        if (pEls[1]) pEls[1].textContent = pkg.description ? pkg.description.substring(0,80) + '...' : (pkg.country ? pkg.country : '');
-      }
-
-      // Update tags to show duration and first attractions
-      const tags = card.querySelector('.tags');
-      if (tags) {
-        tags.innerHTML = '';
-        if (pkg.typicalDuration) {
-          const s = document.createElement('span'); s.textContent = `#${pkg.typicalDuration}d`; tags.appendChild(s);
-        }
-        if (pkg.attractions && pkg.attractions.length) {
-          pkg.attractions.slice(0,3).forEach(t => { const s = document.createElement('span'); s.textContent = `#${t.replace(/\s+/g,'')}`; tags.appendChild(s); });
-        }
-      }
-
-      // Attach recommendation data to View button when not using a real cached package
-      const viewBtn = card.querySelector('.view');
-      if (viewBtn) {
-        if (usedRecommendation) {
-          // store a lightweight object that matches selectedPackage shape
-          const obj = {
-            _id: pkg._id || pkg.id,
-            name: pkg.name,
-            price: pkg.minBudget || pkg.price || pkg.maxBudget,
-            duration: pkg.typicalDuration ? `${pkg.typicalDuration} days` : undefined,
-            hotel: (pkg.hotels && pkg.hotels[0]) || undefined,
-            transport: undefined,
-            attractions: pkg.attractions || [],
-            shopping: [],
-            muslimFeatures: [],
-            weather: undefined
-          };
-          viewBtn.dataset.recommendation = encodeURIComponent(JSON.stringify(obj));
+        // Fallback to geolocation-based lookup
+        const c = await getCoords();
+        const res = await fetch(`/api/faith/halal?lat=${c.lat}&lon=${c.lon}`);
+        const data = await res.json();
+        if (res.ok) {
+          renderHalalMarkers(data.items, null);
         } else {
-          delete viewBtn.dataset.recommendation;
+          alert("Error: " + (data.message || "Failed"));
         }
-      }
+      });
 
-    } catch (e) {
-      console.warn('Could not populate AI card from cached package or server recommendations', e);
+    // --- Standard Leaflet Map (from https://leafletjs.com/) ---
+    function initLeafletMap() {
+      if (window.__leaflet_map) return; // already initialized
+      const map = L.map("map").setView([42.8746, 74.5698], 12);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+      window.__leaflet_map = map;
     }
-  })();
-</script>
 
+    // Initialize map on page load
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initLeafletMap);
+    } else {
+      initLeafletMap();
+    }
+
+    async function geocodeAreaNominatim(area) {
+      try {
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          area
+        )}&limit=1`;
+        const res = await fetch(url, { headers: { "Accept-Language": "en" } });
+        if (!res.ok) throw new Error("Geocode failed");
+        const data = await res.json();
+        if (data && data[0])
+          return { lat: Number(data[0].lat), lon: Number(data[0].lon) };
+      } catch (e) {
+        console.warn("Nominatim geocode failed", e);
+      }
+      return null;
+    }
+
+    async function renderHalalMarkers(items, center) {
+      if (!items || !items.length) return alert("No halal places found");
+      try {
+        const mapEl = document.getElementById("map");
+        // Ensure map is initialized
+        initLeafletMap();
+        const map = window.__leaflet_map;
+
+        // Determine center: prefer provided lat/lon, else geocode area, else fallback
+        let mapCenter = { lat: 42.8746, lon: 74.5698 };
+        if (center && center.lat && center.lon)
+          mapCenter = { lat: Number(center.lat), lon: Number(center.lon) };
+        else if (center && center.area) {
+          const geo = await geocodeAreaNominatim(center.area);
+          if (geo) mapCenter = geo;
+        }
+
+        // Re-center map and clear old markers
+        map.setView([mapCenter.lat, mapCenter.lon], 12);
+        if (window.__leaflet_markers) {
+          window.__leaflet_markers.forEach((m) => map.removeLayer(m));
+        }
+        window.__leaflet_markers = [];
+
+        // Add new markers for each item
+        const markers = [];
+        items.forEach((it) => {
+          const lat = it.lat
+            ? Number(it.lat)
+            : mapCenter.lat + (Math.random() - 0.5) * 0.02;
+          const lon = it.lon
+            ? Number(it.lon)
+            : mapCenter.lon + (Math.random() - 0.5) * 0.02;
+          const marker = L.marker([lat, lon]).addTo(map);
+          marker.bindPopup(
+            `<strong>${it.name}</strong><div style="font-size:0.9rem">${
+              it.note || ""
+            }${
+              it.distanceKm ? "<div>" + it.distanceKm + " km</div>" : ""
+            }</div>`
+          );
+          markers.push(marker);
+        });
+        window.__leaflet_markers = markers;
+      } catch (e) {
+        console.warn("Leaflet rendering failed", e);
+        const list = items
+          .map((i) => `- ${i.name}${i.note ? " — " + i.note : ""}`)
+          .join("\n");
+        alert("Halal places:\n" + list + "\n\n(Map rendering failed)");
+      }
+    }
+
+    // View Details button: show the cached selected package on a detail page
+    document.querySelectorAll(".view").forEach((b) =>
+      b.addEventListener("click", () => {
+        const raw = localStorage.getItem("selectedPackage");
+        if (raw) {
+          // already selected by user
+          return (window.location.href = "/package-detail");
+        }
+        // if this View button has a recommended package attached, open it (use sessionStorage so we don't overwrite user's explicit selection)
+        const rec = b.dataset.recommendation;
+        if (rec) {
+          try {
+            const obj = JSON.parse(decodeURIComponent(rec));
+            // store temporarily in sessionStorage so it only lasts for this tab/session
+            sessionStorage.setItem("selectedPackage_temp", JSON.stringify(obj));
+            return (window.location.href = "/package-detail");
+          } catch (e) {
+            console.warn("failed to parse recommendation", e);
+          }
+        }
+        alert("Please select a package first from the Packages page.");
+        return (window.location.href = "/packages");
+      })
+    );
+
+    // If a package is cached, replace the hard-coded AI card with its details
+    (async function populateAICardFromCache() {
+      try {
+        const raw = localStorage.getItem("selectedPackage");
+        const card = document.querySelector(".grid .card");
+        if (!card) return;
+
+        let pkg = null;
+        let usedRecommendation = false;
+
+        if (raw) {
+          try {
+            pkg = JSON.parse(raw);
+          } catch (e) {
+            pkg = null;
+          }
+        }
+
+        if (!pkg) {
+          // fetch random destination from server
+          try {
+            const countryInput =
+              (document.getElementById("country") &&
+                document.getElementById("country").value) ||
+              "";
+            const budgetInput =
+              (document.getElementById("budget") &&
+                document.getElementById("budget").value) ||
+              "";
+            const q = `?country=${encodeURIComponent(
+              countryInput
+            )}&budget=${encodeURIComponent(budgetInput)}`;
+            const res = await fetch("/api/packages" + q);
+            if (res.ok) {
+              const data = await res.json();
+              const items = data.items || [];
+              if (items.length > 0) {
+                pkg = items[Math.floor(Math.random() * items.length)];
+                usedRecommendation = true;
+              }
+            }
+          } catch (e) {
+            // fallback: leave pkg null
+            console.warn(
+              "Failed to fetch package recommendations from server",
+              e
+            );
+          }
+        }
+
+        if (!pkg) return; // nothing to show
+
+        // Add a small badge indicating this is a recommendation when using server-provided item
+        const header = card.querySelector("h3");
+        if (usedRecommendation && header) {
+          const badge = document.createElement("div");
+          badge.textContent = "Recommendation for you";
+          badge.style.fontSize = "0.85rem";
+          badge.style.color = "#0f8e95";
+          badge.style.fontWeight = "700";
+          badge.style.marginBottom = "6px";
+          header.parentNode.insertBefore(badge, header);
+        }
+
+        // Update image if present
+        const img = card.querySelector("img");
+        if (img && pkg.image) img.src = pkg.image;
+        else if (img && pkg.images && pkg.images.length)
+          img.src = pkg.images[0];
+
+        // Update title
+        const titleEl = card.querySelector("h3");
+        if (titleEl && pkg.name) titleEl.textContent = pkg.name;
+
+        // Update price paragraph (first <p> after title)
+        const pEls = card.querySelectorAll("p");
+        if (pEls && pEls.length > 0) {
+          const priceEl = pEls[0];
+          if (pkg.minBudget || pkg.maxBudget) {
+            const priceText =
+              pkg.minBudget && pkg.maxBudget
+                ? `${pkg.minBudget}-${pkg.maxBudget}`
+                : pkg.minBudget || pkg.maxBudget || "N/A";
+            priceEl.textContent = `💰 $${priceText} / trip`;
+          } else if (pkg.price) {
+            priceEl.textContent = `💰 $${Number(
+              pkg.price
+            ).toLocaleString()} / trip`;
+          }
+          if (pEls[1])
+            pEls[1].textContent = pkg.description
+              ? pkg.description.substring(0, 80) + "..."
+              : pkg.country
+              ? pkg.country
+              : "";
+        }
+
+        // Update tags to show duration and first attractions
+        const tags = card.querySelector(".tags");
+        if (tags) {
+          tags.innerHTML = "";
+          if (pkg.duration) {
+            const s = document.createElement("span");
+            s.textContent = `#${pkg.duration}`;
+            tags.appendChild(s);
+          } else if (pkg.typicalDuration) {
+            const s = document.createElement("span");
+            s.textContent = `#${pkg.typicalDuration}d`;
+            tags.appendChild(s);
+          }
+          if (pkg.attractions && pkg.attractions.length) {
+            pkg.attractions.slice(0, 3).forEach((t) => {
+              const s = document.createElement("span");
+              s.textContent = `#${t.replace(/\s+/g, "")}`;
+              tags.appendChild(s);
+            });
+          }
+        }
+
+        // Attach recommendation data to View button when not using a real cached package
+        const viewBtn = card.querySelector(".view");
+        if (viewBtn) {
+          if (usedRecommendation) {
+            // store the full package object returned by generatePackages so detail page can render it
+            viewBtn.dataset.recommendation = encodeURIComponent(
+              JSON.stringify(pkg)
+            );
+          } else {
+            delete viewBtn.dataset.recommendation;
+          }
+        }
+      } catch (e) {
+        console.warn(
+          "Could not populate AI card from cached package or server recommendations",
+          e
+        );
+      }
+    })();
+
+    // Ensure map redraw on window resize or when page becomes visible again (fixes tiles in some layouts)
+    (function () {
+      let __leaflet_invalidate_timer = null;
+      window.addEventListener("resize", () => {
+        if (__leaflet_invalidate_timer)
+          clearTimeout(__leaflet_invalidate_timer);
+        __leaflet_invalidate_timer = setTimeout(() => {
+          try {
+            if (window.__leaflet_map) {
+              window.__leaflet_map.invalidateSize();
+              if (
+                window.__leaflet_tileLayer &&
+                window.__leaflet_tileLayer.redraw
+              )
+                window.__leaflet_tileLayer.redraw();
+            }
+          } catch (e) {
+            console.warn("Leaflet invalidate on resize failed", e);
+          }
+        }, 200);
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+          setTimeout(() => {
+            try {
+              if (window.__leaflet_map) {
+                window.__leaflet_map.invalidateSize();
+                if (
+                  window.__leaflet_tileLayer &&
+                  window.__leaflet_tileLayer.redraw
+                )
+                  window.__leaflet_tileLayer.redraw();
+              }
+            } catch (e) {
+              console.warn("Leaflet invalidate on visibilitychange failed", e);
+            }
+          }, 150);
+        }
+      });
+    })();
+  </script>
 </body>
-

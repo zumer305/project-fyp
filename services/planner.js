@@ -3,7 +3,7 @@ const path = require("path");
 
 // Simple CSV parser that handles quoted fields and commas
 function parseCSV(content) {
-  const lines = content.split(/\r?\n/).filter(l => l.trim().length > 0);
+  const lines = content.split(/\r?\n/).filter((l) => l.trim().length > 0);
   if (lines.length === 0) return [];
   const header = splitCSVLine(lines[0]);
   const rows = [];
@@ -39,14 +39,20 @@ function splitCSVLine(line) {
     }
   }
   result.push(current);
-  return result.map(v => v.trim());
+  return result.map((v) => v.trim());
 }
 
 let DATA_CACHE = null;
 function loadDataset() {
   if (DATA_CACHE) return DATA_CACHE;
   // Point to dataset inside project-fyp/dataset
-  const datasetPath = path.join(__dirname, "..", "project-fyp", "dataset", "central_asia_travel_dataset_500.csv");
+  const datasetPath = path.join(
+    __dirname,
+    "..",
+    "project-fyp",
+    "dataset",
+    "central_asia_travel_dataset_500.csv"
+  );
   if (!fs.existsSync(datasetPath)) {
     console.warn("Dataset file not found:", datasetPath);
     DATA_CACHE = [];
@@ -74,7 +80,7 @@ function budgetBreakdown(total) {
 
 function pickCityRows(data, country) {
   const cNorm = normalize(country);
-  return data.filter(r => normalize(r.country) === cNorm);
+  return data.filter((r) => normalize(r.country) === cNorm);
 }
 
 function coerceInt(val, fallback) {
@@ -85,58 +91,84 @@ function coerceInt(val, fallback) {
 function makePackageFromRow(row, budget, durationDays) {
   const days = coerceInt(row.suggested_days, durationDays || 5);
   const breakdown = budgetBreakdown(budget);
-  const attractions = (row.attractions || "").split(/\s*;\s*|\s*,\s*/).filter(Boolean);
+  const attractions = (row.attractions || "")
+    .split(/\s*;\s*|\s*,\s*/)
+    .filter(Boolean);
   const muslimFeatures = [];
   if (row.halal_info) muslimFeatures.push(row.halal_info);
-  if (row.tags && /mosque|qibla|prayer/i.test(row.tags)) muslimFeatures.push("Mosque & Qibla guidance");
+  if (row.tags && /mosque|qibla|prayer/i.test(row.tags))
+    muslimFeatures.push("Mosque & Qibla guidance");
 
   return {
+    country: row.country || undefined,
+    city: row.city || undefined,
     name: `${row.city || row.country} ${row.category || "Trip"}`,
     price: budget,
     duration: `${days} Days`,
     hotel: `Estimated hotel budget - $${breakdown.hotel} total`,
     food: `Halal-friendly meals - $${breakdown.food} total`,
     transport: `Local transport & airport transfers - $${breakdown.transport} total`,
-    attractions: attractions.length ? attractions : [(row.response || "").slice(0, 120) + "..."],
+    attractions: attractions.length
+      ? attractions
+      : [(row.response || "").slice(0, 120) + "..."],
     shopping: ["Local markets", "Souks & bazaars"],
-    weather: { current: "Check live weather", forecast: row.best_time || "Best season varies" },
-    muslimFeatures: muslimFeatures.length ? muslimFeatures : ["Halal options", "Nearby mosques", "Prayer time notifications"],
+    weather: {
+      current: "Check live weather",
+      forecast: row.best_time || "Best season varies",
+    },
+    muslimFeatures: muslimFeatures.length
+      ? muslimFeatures
+      : ["Halal options", "Nearby mosques", "Prayer time notifications"],
   };
 }
 
 function fallbackPackage(country, budget, durationDays) {
   const days = durationDays || 5;
   const breakdown = budgetBreakdown(budget);
-  return [{
-    name: `${country} Standard Package`,
-    price: budget,
-    duration: `${days} Days`,
-    hotel: `Comfortable stay - $${breakdown.hotel}`,
-    food: `Halal meals - $${breakdown.food}`,
-    transport: `Transfers & local travel - $${breakdown.transport}`,
-    attractions: ["City tour", "Cultural sites", "Local markets"],
-    shopping: ["Traditional markets", "Local crafts"],
-    weather: { current: "Check live weather", forecast: "Seasonal weather expected" },
-    muslimFeatures: ["Halal food available", "Mosque locations provided", "Prayer time info"],
-  }];
+  return [
+    {
+      country: country || undefined,
+      name: `${country} Standard Package`,
+      price: budget,
+      duration: `${days} Days`,
+      hotel: `Comfortable stay - $${breakdown.hotel}`,
+      food: `Halal meals - $${breakdown.food}`,
+      transport: `Transfers & local travel - $${breakdown.transport}`,
+      attractions: ["City tour", "Cultural sites", "Local markets"],
+      shopping: ["Traditional markets", "Local crafts"],
+      weather: {
+        current: "Check live weather",
+        forecast: "Seasonal weather expected",
+      },
+      muslimFeatures: [
+        "Halal food available",
+        "Mosque locations provided",
+        "Prayer time info",
+      ],
+    },
+  ];
 }
 
 function generatePackages({ country, budget, durationDays }) {
   const data = loadDataset();
-  if (!country || !budget) return fallbackPackage(country || "Destination", budget || 0, durationDays);
+  if (!country || !budget)
+    return fallbackPackage(country || "Destination", budget || 0, durationDays);
   const rows = pickCityRows(data, country);
   if (!rows.length) return fallbackPackage(country, budget, durationDays);
 
   // Prefer rows that look itinerary-like
-  const scored = rows.map(r => ({
+  const scored = rows.map((r) => ({
     row: r,
-    score: (r.category && /itinerary|plan|package/i.test(r.category) ? 3 : 1) +
-           (r.response && r.response.length > 200 ? 1 : 0) +
-           (r.attractions ? r.attractions.split(/;|,/).length : 0)
+    score:
+      (r.category && /itinerary|plan|package/i.test(r.category) ? 3 : 1) +
+      (r.response && r.response.length > 200 ? 1 : 0) +
+      (r.attractions ? r.attractions.split(/;|,/).length : 0),
   }));
   scored.sort((a, b) => b.score - a.score);
 
-  const top = scored.slice(0, 3).map(s => makePackageFromRow(s.row, budget, durationDays));
+  const top = scored
+    .slice(0, 3)
+    .map((s) => makePackageFromRow(s.row, budget, durationDays));
   return top.length ? top : fallbackPackage(country, budget, durationDays);
 }
 

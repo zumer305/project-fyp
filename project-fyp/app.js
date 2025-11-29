@@ -49,7 +49,7 @@ async function main() {
   console.log("Connected to MongoDB");
 }
 
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
 
 // ===================
 // EJS MATE + VIEWS
@@ -78,8 +78,8 @@ const sessionOptions = {
   cookie: {
     httpOnly: true,
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
-    maxAge: 7 * 24 * 60 * 60 * 1000
-  }
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  },
 };
 
 app.use(session(sessionOptions));
@@ -119,12 +119,30 @@ app.get("/packages", (req, res) => {
 
   const packagesList = generatePackages({ country, budget, durationDays });
   const budgetCategory = budget >= 15000 ? "budget20k" : "budget10k";
-  res.render("listings/packages", { country, budget, packagesList, budgetCategory });
+  res.render("listings/packages", {
+    country,
+    budget,
+    packagesList,
+    budgetCategory,
+  });
+});
+
+// API: return generated packages as JSON (used by home recommendations)
+app.get("/api/packages", (req, res) => {
+  try {
+    const country = (req.query.country || "").trim();
+    const budget = parseInt(req.query.budget) || 0;
+    const durationDays = parseInt(req.query.days) || undefined;
+    const packagesList = generatePackages({ country, budget, durationDays });
+    return res.json({ items: packagesList });
+  } catch (e) {
+    return res.status(500).json({ message: "Server error" });
+  }
 });
 
 // Package detail page (client reads cached selection from browser storage)
-app.get('/package-detail', (req, res) => {
-  res.render('listings/packageDetail');
+app.get("/package-detail", (req, res) => {
+  res.render("listings/packageDetail");
 });
 
 // Mount routers
@@ -169,8 +187,17 @@ io.on("connection", (socket) => {
   socket.on("message", async ({ groupId, userId, content }) => {
     if (!groupId || !content) return;
     try {
-      const msg = await Message.create({ group: groupId, user: userId, content });
-      io.to(`group:${groupId}`).emit("message", { id: msg.id, userId, content, createdAt: msg.createdAt });
+      const msg = await Message.create({
+        group: groupId,
+        user: userId,
+        content,
+      });
+      io.to(`group:${groupId}`).emit("message", {
+        id: msg.id,
+        userId,
+        content,
+        createdAt: msg.createdAt,
+      });
     } catch (e) {
       // swallow
     }
