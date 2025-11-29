@@ -378,11 +378,14 @@
           `/api/map/nearby?lat=${coords.lat}&lon=${coords.lon}&type=hotel`
         );
         const data = await res.json();
-        alert(
-          res.ok
-            ? `Nearby hotels found: ${data.hotels.length}`
-            : "Error: " + (data.message || "Failed")
-        );
+        if (res.ok) {
+          // Render hotels on map with routing
+          await renderHalalMarkers(data.hotels, {
+            area: "Nearby Hotels",
+          });
+        } else {
+          alert("Error: " + (data.message || "Failed"));
+        }
       });
 
     // Faith tools
@@ -392,11 +395,14 @@
         const c = await getCoords();
         const res = await fetch(`/api/faith/mosques?lat=${c.lat}&lon=${c.lon}`);
         const data = await res.json();
-        alert(
-          res.ok
-            ? `Mosques: ${data.items.map((i) => i.name).join(", ")}`
-            : "Error: " + (data.message || "Failed")
-        );
+        if (res.ok) {
+          // Render mosques on map with routing (same as halal food)
+          await renderHalalMarkers(data.items, {
+            area: data.area || "Current Location",
+          });
+        } else {
+          alert("Error: " + (data.message || "Failed"));
+        }
       });
 
     document
