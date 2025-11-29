@@ -393,7 +393,8 @@
       <div class="card-actions">
         <button
           class="btn btn-select"
-          data-id="<%= package._id ? package._id : package.id %>"
+          data-id="<%= (package._id && package._id.toString) ? package._id.toString() : (package.id || '') %>"
+          data-package="<%= encodeURIComponent(JSON.stringify({ _id: ((package._id && package._id.toString) ? package._id.toString() : (package.id || '')), name: package.name, price: package.price, duration: package.duration, hotel: package.hotel, food: package.food, transport: package.transport, attractions: package.attractions, shopping: package.shopping, muslimFeatures: package.muslimFeatures, weather: package.weather })) %>"
         >
           Select
         </button>
@@ -439,7 +440,34 @@
       btn.addEventListener("click", (e) => {
         const id = btn.dataset.id;
         if (!isLoggedIn) return (window.location.href = "/login");
-        showToast("Selecting package...");
+
+        // Try to persist the selected package into browser storage (localStorage)
+        try {
+          const raw = btn.getAttribute("data-package");
+          if (raw) {
+            const pkg = JSON.parse(decodeURIComponent(raw));
+            // Store under a single key. Overwrites previous selection.
+            localStorage.setItem("selectedPackage", JSON.stringify(pkg));
+            // Also store some context to make it easy to resume
+            localStorage.setItem(
+              "selectedPackage_context",
+              JSON.stringify({ country, budget })
+            );
+            showToast("Package saved in browser cache");
+          }
+        } catch (err) {
+          // Non-fatal: continue to redirect even if storage fails
+          console.warn("Failed to save package to localStorage", err);
+          showToast("Continuing without saving");
+        }
+
+        // if id is missing, avoid going to /book with empty id — go home instead
+        if (!id) {
+          showToast("Invalid package selected. Redirecting home...");
+          setTimeout(() => (window.location.href = "/"), 700);
+          return;
+        }
+
         // redirect to booking/selection page with context
         const u = `/book?packageId=${encodeURIComponent(
           id
