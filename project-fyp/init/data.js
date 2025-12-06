@@ -270,7 +270,7 @@ const sampleListings = [
       "Escape to this charming beachfront cottage for a relaxing getaway. Enjoy stunning ocean views and easy access to the beach.",
     image: {
       filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      url: "https://media.istockphoto.com/id/1572635966/photo/aerial-panorama-view-of-the-chorsu-market-in-tashkent-uzbekistan.jpg?s=612x612&w=0&k=20&c=g0ojUlC401tAiGXjt4rv-ZukP1XqZtpuCNW_aVuAqM4=",
     },
     price: 15000,
     location: "Tashkent",
@@ -282,7 +282,7 @@ const sampleListings = [
       "Stay in the heart of the city in this stylish loft apartment. Perfect for urban explorers!",
     image: {
       filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      url: "https://media.tacdn.com/media/attractions-splice-spp-674x446/0f/dd/17/4b.jpg",
     },
     price: 12000,
     location: "Dushanbe",
@@ -294,7 +294,7 @@ const sampleListings = [
       "Unplug and unwind in this peaceful mountain cabin. Surrounded by nature, it's a perfect place to recharge.",
     image: {
       filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      url: "https://eurasia.travel/wp-content/uploads/2024/09/Jalal-Abad-Kyrgyzstan-4.jpg",
     },
     price: 10000,
     location: "Jalal-Abad",
@@ -306,7 +306,7 @@ const sampleListings = [
       "Experience the charm of Tuscany in this beautifully restored villa. Explore the rolling hills and vineyards.",
     image: {
       filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      url: "https://stantrips.com/assets/img/sights-kz/aktau/aktau.jpg",
     },
     price: 25000,
     location: "Aktau",
@@ -330,7 +330,7 @@ const sampleListings = [
       "Step out of your door onto the sandy beach. This beachfront condo offers the ultimate relaxation.",
     image: {
       filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      url: "https://trvlland.com/wp-content/uploads/2022/09/uzbekistan_tashkent-3-1024x663.jpg",
     },
     price: 20000,
     location: "Turkmenbashi",
@@ -342,7 +342,7 @@ const sampleListings = [
       "Spend your days fishing and kayaking on the serene lake. This cozy cabin is perfect for outdoor enthusiasts.",
     image: {
       filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      url: "https://www.remotelands.com/storage/media/1569/conversions/b140723034-banner-size.jpg",
     },
     price: 9000,
     location: "Jalal-Abad",
@@ -354,10 +354,10 @@ const sampleListings = [
       "Indulge in luxury living with panoramic city views from this stunning penthouse apartment.",
     image: {
       filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1622396481328-9b1b78cdd9fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Bishkek_City%27s_business_center.jpg/1200px-Bishkek_City%27s_business_center.jpg",
     },
     price: 35000,
-    location: "Jalal-Abad",
+    location: "Bishkek",
     country: "Central Asian",
   },
   {
@@ -366,7 +366,7 @@ const sampleListings = [
       "Hit the slopes right from your doorstep in this ski-in/ski-out chalet in the Swiss Alps.",
     image: {
       filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1502784444187-359ac186c5bb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Rudaki_Tomb_in_Panjkent-after_restored.jpg/250px-Rudaki_Tomb_in_Panjkent-after_restored.jpg",
     },
     price: 30000,
     location: "Panjakent",
@@ -378,12 +378,86 @@ const sampleListings = [
       "Experience the thrill of the wild in a comfortable safari lodge. Witness the Great Migration up close.",
     image: {
       filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+      url: "https://upload.wikimedia.org/wikipedia/en/2/21/Entrance_to_city_%283891734657%29.jpg",
     },
     price: 40000,
     location: "Turkmenbashi",
     country: "Central Asian",
   },
+    {
+    title: "Tajikistan",
+    description:
+      "Stay in the heart of the city in this stylish loft apartment. Perfect for urban explorers!",
+    image: {
+      filename: "listingimage",
+      url: "https://media.tacdn.com/media/attractions-splice-spp-674x446/0f/dd/17/4b.jpg",
+    },
+    price: 12000,
+    location: "Dushanbe",
+    country: "Central Asian",
+  },
+  {
+    title: "Kyrgyzstan",
+    description:
+      "Unplug and unwind in this peaceful mountain cabin. Surrounded by nature, it's a perfect place to recharge.",
+    image: {
+      filename: "listingimage",
+      url: "https://eurasia.travel/wp-content/uploads/2024/09/Jalal-Abad-Kyrgyzstan-4.jpg",
+    },
+    price: 10000,
+    location: "Jalal-Abad",
+    country: "Central Asian",
+  },
+  {
+    title: "Kazakhstan",
+    description:
+      "Experience the charm of Tuscany in this beautifully restored villa. Explore the rolling hills and vineyards.",
+    image: {
+      filename: "listingimage",
+      url: "https://stantrips.com/assets/img/sights-kz/aktau/aktau.jpg",
+    },
+    price: 25000,
+    location: "Aktau",
+    country: "Central Asian",
+  },
+
+  {
+    title: "Uzbekistan",
+    description:
+      "Escape to this charming beachfront cottage for a relaxing getaway. Enjoy stunning ocean views and easy access to the beach.",
+    image: {
+      filename: "listingimage",
+      url: "https://media.istockphoto.com/id/1572635966/photo/aerial-panorama-view-of-the-chorsu-market-in-tashkent-uzbekistan.jpg?s=612x612&w=0&k=20&c=g0ojUlC401tAiGXjt4rv-ZukP1XqZtpuCNW_aVuAqM4=",
+    },
+    price: 15000,
+    location: "Tashkent",
+    country: "Central Asian",
+  },
+  {
+    title: "Tajikistan",
+    description:
+      "Stay in the heart of the city in this stylish loft apartment. Perfect for urban explorers!",
+    image: {
+      filename: "listingimage",
+      url: "https://media.tacdn.com/media/attractions-splice-spp-674x446/0f/dd/17/4b.jpg",
+    },
+    price: 12000,
+    location: "Dushanbe",
+    country: "Central Asian",
+  },
+  {
+    title: "Kyrgyzstan",
+    description:
+      "Unplug and unwind in this peaceful mountain cabin. Surrounded by nature, it's a perfect place to recharge.",
+    image: {
+      filename: "listingimage",
+      url: "https://eurasia.travel/wp-content/uploads/2024/09/Jalal-Abad-Kyrgyzstan-4.jpg",
+    },
+    price: 10000,
+    location: "Jalal-Abad",
+    country: "Central Asian",
+  },
+  
   // ... (same pattern continues for all other listings)
 ];
 
