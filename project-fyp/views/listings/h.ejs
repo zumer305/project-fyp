@@ -60,7 +60,7 @@
   }
 </style>
 
-<!-- Leaflet CSS moved to global layout for consistency (see layouts/boiler.ejs) -->
+<!-- Mapbox GL JS CSS moved to global layout for consistency (see layouts/boiler.ejs) -->
 
 <body data-logged-in="<%= !!currUser %>">
   <div class="travel-box">
@@ -199,7 +199,7 @@
   <div class="section">
     <h2>Explore on Map</h2>
     <div class="map">
-      <!-- Interactive map: will load Leaflet (OpenStreetMap) dynamically -->
+      <!-- Interactive map: will load Mapbox GL dynamically -->
       <div
         id="map"
         style="
@@ -291,11 +291,20 @@
     // Helpers
     async function getCoords() {
       return new Promise((resolve) => {
-        if (!navigator.geolocation) return resolve({ lat: null, lon: null });
+        if (!navigator.geolocation) {
+          console.log("Geolocation not supported");
+          return resolve({ lat: null, lon: null });
+        }
         navigator.geolocation.getCurrentPosition(
-          (pos) =>
-            resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-          () => resolve({ lat: null, lon: null })
+          (pos) => {
+            console.log("Got user location:", pos.coords.latitude, pos.coords.longitude);
+            resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+          },
+          (err) => {
+            console.warn("Geolocation denied or failed:", err.message);
+            resolve({ lat: null, lon: null });
+          },
+          { timeout: 10000, enableHighAccuracy: false }
         );
       });
     }
@@ -403,6 +412,9 @@
       }
     }
 
+    // Wait for DOM to be ready before attaching event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      
     // Groups
     document
       .getElementById("btn-create-group")
@@ -509,41 +521,62 @@
     document
       .getElementById("btn-find-mosques")
       .addEventListener("click", async () => {
+        let destination = null;
+        let destinationType = 'city'; // or 'country'
         const pkg = getSelectedPackageCached();
-        const fallbackArea = pkg ? pkg.city || pkg.country : null;
-        try {
-          let res;
-          if (pkg) {
-            const query = buildFaithQueryParams(pkg);
-            if (!query) {
-              alert(
-                "Saved package is missing city/country details. Please pick a different package."
-              );
-              return;
-            }
-            res = await fetch(`/api/faith/mosques${query}`);
+        
+        // First priority: Use cached package destination
+        if (pkg && (pkg.city || pkg.country)) {
+          if (pkg.city) {
+            destination = pkg.city;
+            destinationType = 'city';
           } else {
-            const coords = await getCoords();
-            if (coords.lat == null || coords.lon == null) {
-              alert(
-                "We couldn't detect your current location. Please enable location services or select a package first."
-              );
-              return;
-            }
-            res = await fetch(
-              `/api/faith/mosques?lat=${coords.lat}&lon=${coords.lon}`
-            );
+            destination = pkg.country;
+            destinationType = 'country';
           }
-          const data = await res.json();
-          if (!res.ok) {
-            alert("Error: " + (data.message || "Failed"));
+          console.log(`Using cached destination: ${destination} (${destinationType})`);
+        } else {
+          // Fallback: Prompt user
+          destination = prompt("Enter destination (city or country name):", "Bishkek");
+          if (!destination || !destination.trim()) {
+            alert("Please enter a destination to search for mosques.");
             return;
           }
-          const center = buildMapCenter(data, fallbackArea || "Current Location");
-          await renderHalalMarkers(data.items, center);
+          destinationType = 'city'; // assume city by default
+        }
+        
+        const fallbackArea = destination;
+        try {
+          // Build query with both city and country if available
+          let queryParams = new URLSearchParams();
+          if (destinationType === 'city') {
+            queryParams.set('city', destination);
+            if (pkg && pkg.country) {
+              queryParams.set('country', pkg.country);
+            }
+          } else {
+            queryParams.set('country', destination);
+          }
+          
+          console.log(`Fetching mosques for: ${queryParams.toString()}`);
+          const res = await fetch(`/api/faith/mosques?${queryParams.toString()}`);
+          const data = await res.json();
+          
+          console.log("Mosque API response:", data);
+          
+          if (!res.ok) {
+            alert("Error: " + (data.message || "Failed to find mosques"));
+            return;
+          }
+          if (data.fallback) {
+            console.warn("Using fallback data:", data.message);
+            alert(data.message || "Using fallback mosque results. Live lookup unavailable.");
+          }
+          const center = buildMapCenter(data, fallbackArea || destination);
+          await renderMapboxMarkers(data.items, center);
           updateMapAreaLabel(center && center.area);
         } catch (e) {
-          console.warn("Failed to load mosques", e);
+          console.error("Failed to load mosques", e);
           alert(
             "Could not load mosques right now. Please check your connection or try again later."
           );
@@ -562,81 +595,95 @@
         const res = await fetch(`/api/faith/qiblah?lat=${c.lat}&lon=${c.lon}`);
         const data = await res.json();
         if (res.ok) {
-          // Initialize map at user location
-          initLeafletMap();
-          const map = window.__leaflet_map;
+          // Initialize Mapbox map at user location
+          initMapboxMap();
+          const map = window.__mapbox_map;
 
           // Center map at user location
-          map.setView([c.lat, c.lon], 15);
+          map.flyTo({ center: [c.lon, c.lat], zoom: 15 });
 
           // Remove existing Qiblah marker if any
           if (window.__qiblah_marker) {
-            map.removeLayer(window.__qiblah_marker);
+            window.__qiblah_marker.remove();
           }
 
           // Create a custom Qiblah indicator (arrow pointing to Mecca)
           const qiblahAngle = data.angle; // degrees from north
 
-          // Create a rotated arrow using HTML/CSS
-          const qiblahMarker = L.marker([c.lat, c.lon], {
-            icon: L.divIcon({
-              html: `
-                <div style="
-                  width: 50px;
-                  height: 50px;
-                  background: radial-gradient(circle, #32CD32 0%, #228B22 100%);
-                  border-radius: 50%;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  transform: rotate(${qiblahAngle}deg);
-                  border: 3px solid white;
-                  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-                  font-size: 24px;
-                  font-weight: bold;
-                  color: white;
-                ">
-                  ▲
-                </div>
-              `,
-              iconSize: [50, 50],
-              iconAnchor: [25, 25],
-              popupAnchor: [0, -25],
-            }),
-          }).addTo(map);
+          // Create a rotated arrow using HTML/CSS as a DOM element
+          const qiblahElement = document.createElement('div');
+          qiblahElement.innerHTML = `
+            <div style="
+              width: 50px;
+              height: 50px;
+              background: radial-gradient(circle, #32CD32 0%, #228B22 100%);
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transform: rotate(${qiblahAngle}deg);
+              border: 3px solid white;
+              box-shadow: 0 0 10px rgba(0,0,0,0.3);
+              font-size: 24px;
+              font-weight: bold;
+              color: white;
+            ">
+              ▲
+            </div>
+          `;
 
-          // Add popup with Qiblah information
-          qiblahMarker.bindPopup(
-            `<strong>Qiblah Direction</strong><br/>
-             Angle: ${qiblahAngle.toFixed(1)}° from North<br/>
-             <small style="color: green;">Your location (green arrow points to Mecca)</small>`,
-            { maxWidth: 250 }
-          );
-          qiblahMarker.openPopup();
+          // Create popup content
+          const popupHTML = `
+            <strong>Qiblah Direction</strong><br/>
+            Angle: ${qiblahAngle.toFixed(1)}° from North<br/>
+            <small style="color: green;">Your location (green arrow points to Mecca)</small>
+          `;
+
+          // Create Mapbox marker with custom element
+          const qiblahMarker = new mapboxgl.Marker({ element: qiblahElement })
+            .setLngLat([c.lon, c.lat])
+            .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML))
+            .addTo(map);
+
+          qiblahMarker.togglePopup();
 
           // Draw a line from user to Mecca direction (visual aid)
-          const distanceToMecca = 10000; // 10km in meters (just for visualization)
           const angleRad = (qiblahAngle * Math.PI) / 180;
           const endLat = c.lat + Math.cos(angleRad) * 0.1;
           const endLon = c.lon + Math.sin(angleRad) * 0.1;
 
-          if (window.__qiblah_line) {
-            map.removeLayer(window.__qiblah_line);
+          // Remove old line if exists
+          if (map.getSource('qiblah-line')) {
+            map.removeLayer('qiblah-line-layer');
+            map.removeSource('qiblah-line');
           }
 
-          window.__qiblah_line = L.polyline(
-            [
-              [c.lat, c.lon],
-              [endLat, endLon],
-            ],
-            {
-              color: "#32CD32",
-              weight: 3,
-              opacity: 0.8,
-              dashArray: "5, 5",
-              lineCap: "round",
+          // Add line to map
+          map.addSource('qiblah-line', {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              geometry: {
+                type: 'LineString',
+                coordinates: [
+                  [c.lon, c.lat],
+                  [endLon, endLat]
+                ]
+              }
             }
-          ).addTo(map);
+          });
+
+          map.addLayer({
+            id: 'qiblah-line-layer',
+            type: 'line',
+            source: 'qiblah-line',
+            paint: {
+              'line-color': '#32CD32',
+              'line-width': 3,
+              'line-opacity': 0.8,
+              'line-dasharray': [2, 2]
+            }
+          });
 
           window.__qiblah_marker = qiblahMarker;
         } else {
@@ -647,51 +694,180 @@
     document
       .getElementById("btn-find-halal")
       .addEventListener("click", async () => {
+        let destination = null;
+        let destinationType = 'city';
         const pkg = getSelectedPackageCached();
-        if (!pkg) {
-          alert("Please select a travel package first so we know which destination to search.");
-          return;
-        }
-
-        const query = buildFaithQueryParams(pkg);
-        if (!query) {
-          alert("Saved package is missing city/country details. Please pick a different package.");
-          return;
-        }
-
-        const fallbackArea = pkg.city || pkg.country;
-        try {
-          const res = await fetch(`/api/faith/halal${query}`);
-          const data = await res.json();
-          if (!res.ok) {
-            alert("Error: " + (data.message || "Failed"));
+        
+        // First priority: Use cached package destination
+        if (pkg && (pkg.city || pkg.country)) {
+          if (pkg.city) {
+            destination = pkg.city;
+            destinationType = 'city';
+          } else {
+            destination = pkg.country;
+            destinationType = 'country';
+          }
+          console.log(`Using cached destination: ${destination} (${destinationType})`);
+        } else {
+          // Fallback: Prompt user
+          destination = prompt("Enter destination (city or country name):", "Bishkek");
+          if (!destination || !destination.trim()) {
+            alert("Please enter a destination to search for halal food.");
             return;
           }
+          destinationType = 'city';
+        }
+
+        const fallbackArea = destination;
+        try {
+          // Build query with both city and country if available
+          let queryParams = new URLSearchParams();
+          if (destinationType === 'city') {
+            queryParams.set('city', destination);
+            if (pkg && pkg.country) {
+              queryParams.set('country', pkg.country);
+            }
+          } else {
+            queryParams.set('country', destination);
+          }
+          
+          console.log(`Fetching halal places for: ${queryParams.toString()}`);
+          const res = await fetch(`/api/faith/halal?${queryParams.toString()}`);
+          const data = await res.json();
+          
+          console.log("Halal API response:", data);
+          
+          if (!res.ok) {
+            alert("Error: " + (data.message || "Failed to find halal food"));
+            return;
+          }
+          if (data.fallback) {
+            console.warn("Using fallback data:", data.message);
+            alert(data.message || "Using fallback halal listings. Live lookup unavailable.");
+          }
           const center = buildMapCenter(data, fallbackArea);
-          await renderHalalMarkers(data.items, center);
+          await renderMapboxMarkers(data.items, center);
           updateMapAreaLabel(center && center.area);
         } catch (e) {
-          console.warn("Failed to lookup halal by package", e);
+          console.error("Failed to lookup halal food", e);
           alert("Could not load halal food spots for this destination right now. Please try again later.");
         }
       });
 
-    // --- Standard Leaflet Map (from https://leafletjs.com/) ---
-    function initLeafletMap() {
-      if (window.__leaflet_map) return; // already initialized
-      const map = L.map("map").setView([42.8746, 74.5698], 12);
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
-      window.__leaflet_map = map;
+    }); // End of DOMContentLoaded
+
+    // --- Mapbox GL Map (using your Mapbox token) ---
+    function initMapboxMap() {
+      if (window.__mapbox_map) return; // already initialized
+      
+      mapboxgl.accessToken = 'pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w';
+      
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v12', // Mapbox Streets style
+        center: [74.5698, 42.8746], // [lng, lat] for Bishkek
+        zoom: 11
+      });
+      
+      // Add navigation controls (zoom buttons)
+      map.addControl(new mapboxgl.NavigationControl());
+      
+      window.__mapbox_map = map;
+      window.__mapbox_markers = [];
     }
 
     // Initialize map on page load
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initLeafletMap);
+      document.addEventListener("DOMContentLoaded", initMapboxMap);
     } else {
-      initLeafletMap();
+      initMapboxMap();
+    }
+
+    // Mapbox Directions function
+    async function getDirectionsTo(destLat, destLon, destName) {
+      try {
+        // Get user's current location
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+        
+        const userLon = position.coords.longitude;
+        const userLat = position.coords.latitude;
+        
+        const map = window.__mapbox_map;
+        
+        // Mapbox Directions API
+        const accessToken = 'pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w';
+        const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${userLon},${userLat};${destLon},${destLat}?geometries=geojson&access_token=${accessToken}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.routes && data.routes.length > 0) {
+          const route = data.routes[0];
+          const distance = (route.distance / 1000).toFixed(2); // Convert to km
+          const duration = Math.round(route.duration / 60); // Convert to minutes
+          
+          // Remove existing route if any
+          if (map.getSource('route')) {
+            map.removeLayer('route');
+            map.removeSource('route');
+          }
+          
+          // Add route line to map
+          map.addSource('route', {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              properties: {},
+              geometry: route.geometry
+            }
+          });
+          
+          map.addLayer({
+            id: 'route',
+            type: 'line',
+            source: 'route',
+            layout: {
+              'line-join': 'round',
+              'line-cap': 'round'
+            },
+            paint: {
+              'line-color': '#007acc',
+              'line-width': 5,
+              'line-opacity': 0.75
+            }
+          });
+          
+          // Add user location marker
+          if (window.__user_marker) {
+            window.__user_marker.remove();
+          }
+          window.__user_marker = new mapboxgl.Marker({ color: '#22c55e' })
+            .setLngLat([userLon, userLat])
+            .setPopup(new mapboxgl.Popup().setHTML('<strong>Your Location</strong>'))
+            .addTo(map);
+          
+          // Fit map to show entire route
+          const coordinates = route.geometry.coordinates;
+          const bounds = coordinates.reduce((bounds, coord) => {
+            return bounds.extend(coord);
+          }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+          
+          map.fitBounds(bounds, { padding: 50 });
+          
+          alert(`Route to ${destName}\n\nDistance: ${distance} km\nEstimated time: ${duration} minutes`);
+        } else {
+          alert('Could not find a route to this location');
+        }
+      } catch (error) {
+        console.error('Directions error:', error);
+        if (error.code === 1) {
+          alert('Please enable location access to get directions');
+        } else {
+          alert('Failed to get directions. Please try again.');
+        }
+      }
     }
 
     async function geocodeAreaNominatim(area) {
@@ -725,223 +901,123 @@
       return R * c;
     }
 
-    async function renderHalalMarkers(items, center) {
-      if (!items || !items.length) return alert("No halal places found");
+    async function renderMapboxMarkers(items, center) {
+      if (!items || !items.length) {
+        alert("No places found for this destination. Try a different city or country.");
+        return;
+      }
+      
       try {
-        const mapEl = document.getElementById("map");
+        console.log("Rendering", items.length, "items on Mapbox map");
+        
         // Ensure map is initialized
-        initLeafletMap();
-        const map = window.__leaflet_map;
+        initMapboxMap();
+        const map = window.__mapbox_map;
 
-        // Determine center: prefer provided lat/lon, else geocode area, else fallback
+        // Determine center: prefer provided lat/lon, else fallback
         let mapCenter = { lat: 42.8746, lon: 74.5698 };
-        if (center && center.lat && center.lon)
+        if (center && center.lat && center.lon) {
           mapCenter = { lat: Number(center.lat), lon: Number(center.lon) };
-        else if (center && center.area) {
-          const geo = await geocodeAreaNominatim(center.area);
-          if (geo) mapCenter = geo;
         }
 
+        console.log("Map center:", mapCenter);
         updateMapAreaLabel(center && center.area);
 
-        // Re-center map and clear old markers
-        map.setView([mapCenter.lat, mapCenter.lon], 12);
-        if (window.__leaflet_markers) {
-          window.__leaflet_markers.forEach((m) => map.removeLayer(m));
+        // Clear old markers
+        if (window.__mapbox_markers) {
+          window.__mapbox_markers.forEach((m) => m.remove());
         }
-        window.__leaflet_markers = [];
+        window.__mapbox_markers = [];
 
-        // Filter and process items: only show restaurants near destination (within 5km radius)
-        const MAX_DISTANCE_KM = 5;
-        const processedItems = [];
+        // Process all items
+        const processedItems = items.map((it) => {
+          let lat, lon;
 
-        items.forEach((it, index) => {
-          let lat, lon, distance;
-
-          if (it.lat && it.lon) {
-            // Use provided coordinates
+          if (it.lat != null && it.lon != null) {
             lat = Number(it.lat);
             lon = Number(it.lon);
-            distance = calculateDistance(
-              mapCenter.lat,
-              mapCenter.lon,
-              lat,
-              lon
-            );
           } else {
-            // Generate coordinates within proximity to the destination center
-            // Create a pseudo-random but consistent location based on item name and index
-            const seed = it.name
-              .split("")
-              .reduce((acc, char) => acc + char.charCodeAt(0), 0) + index * 1337;
-            const pseudoRandom1 = Math.sin(seed * 12.9898) * 43758.5453;
-            const pseudoRandom2 = Math.sin(seed * 78.233) * 43758.5453;
-            const frac1 = pseudoRandom1 - Math.floor(pseudoRandom1);
-            const frac2 = pseudoRandom2 - Math.floor(pseudoRandom2);
-
-            // Distribute items within a 0.5-3km radius from center
-            // 1 degree ≈ 111 km, so 0.01 degree ≈ 1.1 km
-            const distanceRadius = 0.5 + frac1 * 2.5; // 0.5 to 3 km
-            const angle = frac2 * 2 * Math.PI; // random angle in radians
-
-            // Convert distance and angle to lat/lon offset
-            const latOffset = (distanceRadius / 111) * Math.cos(angle);
-            const lonOffset = (distanceRadius / 111) * Math.sin(angle);
-
-            lat = mapCenter.lat + latOffset;
-            lon = mapCenter.lon + lonOffset;
-            distance = calculateDistance(
-              mapCenter.lat,
-              mapCenter.lon,
-              lat,
-              lon
-            );
+            console.warn("Item missing coordinates:", it.name);
+            return null;
           }
 
-          // Only include items within max distance
-          if (distance <= MAX_DISTANCE_KM) {
-            processedItems.push({
-              name: it.name,
-              note: it.note || "",
-              lat,
-              lon,
-              distance: distance.toFixed(1),
-              distanceKm: it.distanceKm || distance.toFixed(1),
-            });
-          }
-        });
+          const distance = calculateDistance(mapCenter.lat, mapCenter.lon, lat, lon);
 
-        // If no items within range after filtering, show message and all items anyway
+          return {
+            name: it.name,
+            note: it.note || "",
+            lat,
+            lon,
+            distance: distance.toFixed(1),
+          };
+        }).filter(Boolean);
+
         if (processedItems.length === 0) {
-          alert(
-            `No halal restaurants found within ${MAX_DISTANCE_KM}km of the destination. Showing all available options.`
-          );
-          // Show original items with generated locations for reference
-          items.forEach((it, index) => {
-            const seed = it.name
-              .split("")
-              .reduce((acc, char) => acc + char.charCodeAt(0), 0) + index * 1337;
-            const pseudoRandom1 = Math.sin(seed * 12.9898) * 43758.5453;
-            const pseudoRandom2 = Math.sin(seed * 78.233) * 43758.5453;
-            const frac1 = pseudoRandom1 - Math.floor(pseudoRandom1);
-            const frac2 = pseudoRandom2 - Math.floor(pseudoRandom2);
-
-            // Distribute items within a 0.5-5km radius from center for fallback
-            const distanceRadius = 0.5 + frac1 * 4.5; // 0.5 to 5 km
-            const angle = frac2 * 2 * Math.PI;
-
-            const latOffset = (distanceRadius / 111) * Math.cos(angle);
-            const lonOffset = (distanceRadius / 111) * Math.sin(angle);
-
-            const lat = mapCenter.lat + latOffset;
-            const lon = mapCenter.lon + lonOffset;
-            const distance = calculateDistance(
-              mapCenter.lat,
-              mapCenter.lon,
-              lat,
-              lon
-            );
-
-            processedItems.push({
-              name: it.name,
-              note: it.note || "(Approximate location)",
-              lat,
-              lon,
-              distance: distance.toFixed(1),
-              distanceKm: distance.toFixed(1),
-            });
-          });
+          alert("No valid location data found. The destination may not have mapped mosques/restaurants.");
+          return;
         }
 
         // Sort items by distance
         processedItems.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
 
-        // Add new markers for each processed item
+        console.log("Processed items:", processedItems.length);
+
+        // Add new Mapbox markers
         const markers = [];
-        processedItems.forEach((it) => {
-          const marker = L.marker([it.lat, it.lon]).addTo(map);
-          marker.bindPopup(
-            `<strong>${it.name}</strong><div style="font-size:0.9rem">${
-              it.note
-            }<div style="margin-top: 5px; font-weight: bold;">📍 ${
-              it.distance
-            } km away</div></div>`
-          );
+        const bounds = new mapboxgl.LngLatBounds();
 
-          // Add click handler to show directions
-          marker.on("click", async () => {
-            try {
-              // Get user's current location
-              const userCoords = await getCoords();
-              if (!userCoords.lat || !userCoords.lon) {
-                alert("Please enable location access to view directions");
-                return;
-              }
+        processedItems.forEach((it, index) => {
+          // Create popup content with directions button
+          const popupHTML = `
+            <div style="font-family: Arial, sans-serif;">
+              <strong style="font-size: 14px;">${it.name}</strong>
+              <div style="font-size: 12px; margin-top: 4px;">${it.note}</div>
+              <div style="margin-top: 6px; font-weight: bold; font-size: 12px;">📍 ${it.distance} km from center</div>
+              <button onclick="getDirectionsTo(${it.lat}, ${it.lon}, '${it.name.replace(/'/g, "\\'")}')" 
+                      style="margin-top: 8px; padding: 6px 12px; background: #007acc; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 12px;">
+                🚗 Get Directions
+              </button>
+            </div>
+          `;
 
-              // Clear any existing routing control
-              if (window.__leaflet_routing) {
-                map.removeControl(window.__leaflet_routing);
-              }
-
-              // Create routing control with event listener for distance
-              window.__leaflet_routing = L.Routing.control({
-                waypoints: [
-                  L.latLng(userCoords.lat, userCoords.lon), // Start: user location
-                  L.latLng(it.lat, it.lon), // End: marker location
-                ],
-                routeWhileDragging: false,
-                showAlternatives: true,
-                altLineOptions: {
-                  styles: [{ color: "black", opacity: 0.15, weight: 5 }],
-                },
-              }).addTo(map);
-
-              // Listen for route calculation completion and update marker popup with actual distance
-              window.__leaflet_routing.on('routesfound', function(e) {
-                const routes = e.routes;
-                if (routes && routes.length > 0) {
-                  const distance = (routes[0].summary.totalDistance / 1000).toFixed(1); // Convert meters to km
-                  marker.setPopupContent(
-                    `<strong>${it.name}</strong><div style="font-size:0.9rem">${
-                      it.note
-                    }<div style="margin-top: 5px; font-weight: bold;">📍 ${
-                      distance
-                    } km away (by road)</div></div>`
-                  );
-                  marker.openPopup();
-                }
-              });
-
-              // Fit map to show the route
-              map.fitBounds(
-                L.latLngBounds(
-                  [userCoords.lat, userCoords.lon],
-                  [it.lat, it.lon]
-                )
-              );
-            } catch (e) {
-              console.warn("Failed to show directions", e);
-              alert("Could not load directions. Try again.");
-            }
-          });
+          // Create marker
+          const marker = new mapboxgl.Marker({ color: '#007acc' })
+            .setLngLat([it.lon, it.lat])
+            .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML))
+            .addTo(map);
 
           markers.push(marker);
-        });
-        window.__leaflet_markers = markers;
+          bounds.extend([it.lon, it.lat]);
 
-        // Show summary of restaurants found
-        if (processedItems.length > 0) {
-          console.log(
-            `Found ${processedItems.length} halal restaurants within ${MAX_DISTANCE_KM}km`
-          );
+          // Open first marker popup automatically
+          if (index === 0) {
+            marker.togglePopup();
+          }
+        });
+        
+        window.__mapbox_markers = markers;
+
+        // Fit map to show all markers
+        if (markers.length > 1) {
+          map.fitBounds(bounds, { padding: 50 });
+        } else if (markers.length === 1) {
+          map.flyTo({ center: [processedItems[0].lon, processedItems[0].lat], zoom: 14 });
         }
+
+        console.log(`Successfully rendered ${markers.length} markers on Mapbox map`);
       } catch (e) {
-        console.warn("Leaflet rendering failed", e);
+        console.error("Map rendering failed:", e);
         const list = items
           .map((i) => `- ${i.name}${i.note ? " — " + i.note : ""}`)
           .join("\n");
-        alert("Halal places:\n" + list + "\n\n(Map rendering failed)");
+        alert("Found places:\n" + list + "\n\n(Map rendering failed - check console)");
       }
+    }
+
+    // Keep old Leaflet function for backward compatibility (rename to avoid conflicts)
+    async function renderHalalMarkers(items, center) {
+      // Redirect to new Mapbox function
+      return renderMapboxMarkers(items, center);
     }
 
     // View Details button: show the cached selected package on a detail page
