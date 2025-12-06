@@ -24,6 +24,9 @@ const User = require("./models/user.js");
 const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
 
+// Import data from data.js
+const initData = require("./init/data.js");
+
 // ROUTES
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
@@ -133,9 +136,32 @@ app.get("/api/packages", (req, res) => {
     const country = (req.query.country || "").trim();
     const budget = parseInt(req.query.budget) || 0;
     const durationDays = parseInt(req.query.days) || undefined;
+    
+    // If no filters provided, return actual listings from data.js
+    if (!country && !budget) {
+      const listings = initData.data.map((listing, index) => ({
+        _id: `listing_${index}`,
+        name: listing.title,
+        title: listing.title,
+        description: listing.description,
+        image: listing.image?.url || listing.image,
+        images: listing.image?.url ? [listing.image.url] : (listing.image ? [listing.image] : []),
+        price: listing.price,
+        location: listing.location,
+        country: listing.country,
+        minBudget: listing.price,
+        maxBudget: listing.price * 1.2,
+        typicalDuration: 5,
+        attractions: listing.description.split('.').slice(0, 3).map(s => s.trim()).filter(Boolean)
+      }));
+      return res.json({ items: listings });
+    }
+    
+    // Otherwise use the generatePackages logic
     const packagesList = generatePackages({ country, budget, durationDays });
     return res.json({ items: packagesList });
   } catch (e) {
+    console.error("Error in /api/packages:", e);
     return res.status(500).json({ message: "Server error" });
   }
 });

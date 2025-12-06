@@ -78,7 +78,7 @@
     <button onclick="goToPackages()">View Packages</button>
   </div>
 
-  <h2>🧠 My Selected Package</h2>
+  <h2 id="package-heading">✨ Recommendations for You</h2>
   <div class="grid">
     <div class="card">
       <img
@@ -843,11 +843,13 @@
       try {
         const raw = localStorage.getItem("selectedPackage");
         const card = document.querySelector(".grid .card");
+        const heading = document.getElementById("package-heading");
         if (!card) return;
 
         let pkg = null;
         let usedRecommendation = false;
 
+        // Check if user has selected a package
         if (raw) {
           try {
             pkg = JSON.parse(raw);
@@ -856,7 +858,18 @@
           }
         }
 
-        if (!pkg) {
+        // Update heading based on whether package is selected or recommended
+        if (raw && pkg) {
+          // User has selected a package
+          if (heading) {
+            heading.textContent = "🧠 My Selected Package";
+          }
+        } else {
+          // No package selected - show recommendations
+          if (heading) {
+            heading.textContent = "✨ Recommendations for You";
+          }
+          
           // fetch random destination from server
           try {
             const countryInput =
