@@ -37,12 +37,20 @@ module.exports.showListing = async (req, res) => {
 // }
 
 module.exports.createListing = async (req, res, next) => {
-  let url = req.file.path;
-  let filename = req.file.filename;
-
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
-  newListing.image = { url, filename };
+
+  if (req.file) {
+    const { path: url, filename } = req.file;
+    newListing.image = { url, filename };
+  } else if (!newListing.image || !newListing.image.url) {
+    // Fallback keeps missing uploads from breaking the UI
+    newListing.image = {
+      url: "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?auto=format&fit=crop&w=800&q=60",
+      filename: "listingimage",
+    };
+  }
+
   await newListing.save();
   req.flash("success", "New Listing Created!");
   res.redirect("/listings");
