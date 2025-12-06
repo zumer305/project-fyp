@@ -119,6 +119,89 @@ async function queryOverpassMosques(lat, lon, radiusKm) {
   }));
 }
 
+async function queryOverpassHalalFood(lat, lon, radiusKm) {
+  const radiusMeters = Math.max(1000, Math.min(20000, Math.round(radiusKm * 1000)));
+  const query = `
+    [out:json][timeout:25];
+    (
+      node["amenity"~"restaurant|fast_food"]["diet:halal"~"yes|only",i](around:${radiusMeters},${lat},${lon});
+      node["amenity"~"restaurant|fast_food"]["cuisine"~"halal",i](around:${radiusMeters},${lat},${lon});
+      way["amenity"~"restaurant|fast_food"]["diet:halal"~"yes|only",i](around:${radiusMeters},${lat},${lon});
+      way["amenity"~"restaurant|fast_food"]["cuisine"~"halal",i](around:${radiusMeters},${lat},${lon});
+      relation["amenity"~"restaurant|fast_food"]["diet:halal"~"yes|only",i](around:${radiusMeters},${lat},${lon});
+      relation["amenity"~"restaurant|fast_food"]["cuisine"~"halal",i](around:${radiusMeters},${lat},${lon});
+      node["shop"="butcher"]["cuisine"~"halal",i](around:${radiusMeters},${lat},${lon});
+      way["shop"="butcher"]["cuisine"~"halal",i](around:${radiusMeters},${lat},${lon});
+    );
+    out center 60;
+  `;
+
+  const res = await fetch(OVERPASS_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      ...USER_AGENT_HEADER,
+    },
+    body: new URLSearchParams({ data: query }).toString(),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Overpass query failed with status ${res.status}`);
+  }
+
+  const data = await res.json();
+  if (!data || !Array.isArray(data.elements)) return [];
+
+  const seen = new Set();
+  const items = [];
+  for (const element of data.elements) {
+    const tags = element.tags || {};
+    const name = tags.name || tags["name:en"] || tags.brand;
+    if (!name) continue;
+
+    let latVal = element.lat;
+    let lonVal = element.lon;
+    if (element.type !== "node" && element.center) {
+      latVal = element.center.lat;
+      lonVal = element.center.lon;
+    }
+    if (typeof latVal !== "number" || typeof lonVal !== "number") continue;
+
+    const signature = `${latVal.toFixed(6)},${lonVal.toFixed(6)}`;
+    if (seen.has(signature)) continue;
+    seen.add(signature);
+
+    const addrParts = [];
+    if (tags["addr:street"]) addrParts.push(tags["addr:street"]);
+    if (tags["addr:housenumber"]) addrParts.push(tags["addr:housenumber"]);
+    if (tags["addr:city"]) addrParts.push(tags["addr:city"]);
+    if (tags["addr:postcode"]) addrParts.push(tags["addr:postcode"]);
+
+    const details = [];
+    if (tags.cuisine) details.push(tags.cuisine);
+    if (tags["diet:halal"]) details.push(`diet:${tags["diet:halal"]}`);
+    if (tags.takeaway) details.push(`takeaway:${tags.takeaway}`);
+    if (tags["contact:phone"]) details.push(`☎ ${tags["contact:phone"]}`);
+
+    const address = addrParts.join(", ");
+
+    items.push({
+      name,
+      note: [details.join(" • "), address || tags.description || "Halal-friendly spot"]
+        .filter(Boolean)
+        .join(" | "),
+      lat: latVal,
+      lon: lonVal,
+    });
+    if (items.length >= 25) break;
+  }
+
+  return items.map((item) => ({
+    ...item,
+    distanceKm: haversineDistanceKm(lat, lon, item.lat, item.lon),
+  }));
+}
+
 module.exports.mosques = async (req, res) => {
   const { lat, lon, city, country } = req.query;
   const radiusKm = Number(req.query.radiusKm) || 5;
@@ -226,48 +309,74 @@ module.exports.qiblah = async (req, res) => {
 };
 
 module.exports.halal = async (req, res) => {
+  const { lat, lon, country, city } = req.query;
+  const radiusKm = Number(req.query.radiusKm) || 5;
+
+  let latNum = lat !== undefined ? Number(lat) : NaN;
+  let lonNum = lon !== undefined ? Number(lon) : NaN;
+  let areaLabel = city || country || "Selected Destination";
+
   try {
-    const { lat, lon, country, city } = req.query;
-    if (country || city) {
-      const locName = city || country || "this destination";
-      return res.json({
-        area: locName,
-        items: [
-          {
-            name: `${locName} Halal Bistro`,
-            note: "Popular local spot",
-            distanceKm: null,
-          },
-          {
-            name: `${locName} Kebab House`,
-            note: "Highly rated",
-            distanceKm: null,
-          },
-          {
-            name: `${locName} Market Eatery`,
-            note: "Street food favourites",
-            distanceKm: null,
-          },
-        ],
-      });
+    if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
+      if (city || country) {
+        const geocoded = await geocodeCityCountry(city, country);
+        if (geocoded) {
+          latNum = geocoded.lat;
+          lonNum = geocoded.lon;
+          areaLabel = geocoded.displayName || areaLabel;
+        }
+      }
     }
 
-    const latNum = lat !== undefined ? Number(lat) : NaN;
-    const lonNum = lon !== undefined ? Number(lon) : NaN;
+    if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
+      return res
+        .status(400)
+        .json({ message: "A valid city/country or lat/lon is required" });
+    }
+
+    let items = await queryOverpassHalalFood(latNum, lonNum, radiusKm);
+
+    if (!items.length) {
+      items = [
+        {
+          name: "Halal Grill",
+          note: "Highlighting a popular halal-friendly spot",
+          lat: latNum,
+          lon: lonNum,
+          distanceKm: 0,
+        },
+      ];
+    }
 
     return res.json({
-      coords: {
-        lat: Number.isFinite(latNum) ? latNum : null,
-        lon: Number.isFinite(lonNum) ? lonNum : null,
-      },
-      area: "Current Location",
-      items: [
-        { name: "Halal Grill", note: "Local favourite", distanceKm: 0.9 },
-        { name: "Osh & Kebabs", note: "Takeaway available", distanceKm: 1.7 },
-      ],
+      coords: { lat: latNum, lon: lonNum },
+      area: areaLabel,
+      items,
     });
   } catch (err) {
     console.error("Halal lookup failed", err);
-    return res.status(500).json({ message: "Halal locator failed" });
+
+    const fallbackArea = areaLabel || city || country || "Selected Destination";
+    const hasCoords = Number.isFinite(latNum) && Number.isFinite(lonNum);
+    const fallbackCoords = {
+      lat: hasCoords ? latNum : null,
+      lon: hasCoords ? lonNum : null,
+    };
+
+    return res.json({
+      coords: fallbackCoords,
+      area: fallbackArea,
+      items: [
+        {
+          name: hasCoords ? `${fallbackArea} Halal Eatery` : "Halal Grill",
+          note: "Showing cached results while live lookup is unavailable",
+          lat: fallbackCoords.lat,
+          lon: fallbackCoords.lon,
+          distanceKm: hasCoords ? 0 : null,
+        },
+      ],
+      fallback: true,
+      message: "Live halal food lookup unavailable; displaying fallback data.",
+    });
   }
 };

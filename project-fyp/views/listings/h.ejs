@@ -510,31 +510,43 @@
       .getElementById("btn-find-mosques")
       .addEventListener("click", async () => {
         const pkg = getSelectedPackageCached();
-        if (!pkg) {
-          alert("Please select a travel package first so we know which destination to search.");
-          return;
-        }
-
-        const query = buildFaithQueryParams(pkg);
-        if (!query) {
-          alert("Saved package is missing city/country details. Please pick a different package.");
-          return;
-        }
-
-        const fallbackArea = pkg.city || pkg.country;
+        const fallbackArea = pkg ? pkg.city || pkg.country : null;
         try {
-          const res = await fetch(`/api/faith/mosques${query}`);
+          let res;
+          if (pkg) {
+            const query = buildFaithQueryParams(pkg);
+            if (!query) {
+              alert(
+                "Saved package is missing city/country details. Please pick a different package."
+              );
+              return;
+            }
+            res = await fetch(`/api/faith/mosques${query}`);
+          } else {
+            const coords = await getCoords();
+            if (coords.lat == null || coords.lon == null) {
+              alert(
+                "We couldn't detect your current location. Please enable location services or select a package first."
+              );
+              return;
+            }
+            res = await fetch(
+              `/api/faith/mosques?lat=${coords.lat}&lon=${coords.lon}`
+            );
+          }
           const data = await res.json();
           if (!res.ok) {
             alert("Error: " + (data.message || "Failed"));
             return;
           }
-          const center = buildMapCenter(data, fallbackArea);
+          const center = buildMapCenter(data, fallbackArea || "Current Location");
           await renderHalalMarkers(data.items, center);
           updateMapAreaLabel(center && center.area);
         } catch (e) {
-          console.warn("Failed to load mosques for selected package", e);
-          alert("Could not load mosques for this destination right now. Please try again later.");
+          console.warn("Failed to load mosques", e);
+          alert(
+            "Could not load mosques right now. Please check your connection or try again later."
+          );
         }
       });
 
