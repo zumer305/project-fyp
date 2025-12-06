@@ -52,7 +52,41 @@ async function main() {
   console.log("Connected to MongoDB");
 }
 
-main().catch((err) => console.log(err));
+async function syncListingsFromInitData() {
+  try {
+    const listingsFromFile = Array.isArray(initData.data) ? initData.data : [];
+
+    if (listingsFromFile.length === 0) {
+      console.warn("init/data.js did not provide any listings to seed.");
+      return;
+    }
+
+    const normalizedListings = listingsFromFile.map((listing) => {
+      const image =
+        listing.image && typeof listing.image === "object"
+          ? listing.image
+          : {
+              filename: "listingimage",
+              url: listing.image,
+            };
+
+      return {
+        ...listing,
+        image,
+      };
+    });
+
+    await Listing.deleteMany({});
+    const inserted = await Listing.insertMany(normalizedListings);
+    console.log(`Seeded ${inserted.length} listings from init/data.js`);
+  } catch (err) {
+    console.error("Error seeding listings from init/data.js:", err);
+  }
+}
+
+main()
+  .then(syncListingsFromInitData)
+  .catch((err) => console.log(err));
 
 // ===================
 // EJS MATE + VIEWS
