@@ -1,16 +1,194 @@
-module.exports.mosques = async (req, res) => {
-  try {
-    const { lat, lon } = req.query;
-    // Stubbed nearby mosques; in future integrate a real Places API
-    return res.json({
-      coords: { lat: Number(lat) || null, lon: Number(lon) || null },
-      items: [
-        { name: "Central Mosque", distanceKm: 1.2 },
-        { name: "City Mosque", distanceKm: 2.8 },
-      ],
+const OVERPASS_ENDPOINT = "https://overpass-api.de/api/interpreter";
+const NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/search";
+
+const USER_AGENT_HEADER = {
+  "User-Agent": "project-fyp/1.0 (contact: travel-app@example.com)",
+};
+
+function deg2rad(deg) {
+  return (deg * Math.PI) / 180;
+}
+
+function haversineDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+async function geocodeCityCountry(city, country) {
+  const queryParts = [];
+  if (city) queryParts.push(city);
+  if (country) queryParts.push(country);
+  if (!queryParts.length) return null;
+
+  const params = new URLSearchParams({
+    format: "json",
+    limit: "1",
+    addressdetails: "1",
+    q: queryParts.join(", "),
+  });
+
+  const res = await fetch(`${NOMINATIM_ENDPOINT}?${params.toString()}`, {
+    headers: USER_AGENT_HEADER,
+  });
+  if (!res.ok) {
+    throw new Error(`Nominatim geocode failed with status ${res.status}`);
+  }
+  const data = await res.json();
+  if (!Array.isArray(data) || !data.length) return null;
+  const result = data[0];
+  return {
+    lat: Number(result.lat),
+    lon: Number(result.lon),
+    displayName: result.display_name,
+  };
+}
+
+async function queryOverpassMosques(lat, lon, radiusKm) {
+  const radiusMeters = Math.max(1000, Math.min(20000, Math.round(radiusKm * 1000)));
+  const query = `
+    [out:json][timeout:25];
+    (
+      node["amenity"="place_of_worship"]["religion"="muslim"](around:${radiusMeters},${lat},${lon});
+      way["amenity"="place_of_worship"]["religion"="muslim"](around:${radiusMeters},${lat},${lon});
+      relation["amenity"="place_of_worship"]["religion"="muslim"](around:${radiusMeters},${lat},${lon});
+    );
+    out center 40;
+  `;
+
+  const res = await fetch(OVERPASS_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      ...USER_AGENT_HEADER,
+    },
+    body: new URLSearchParams({ data: query }).toString(),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Overpass query failed with status ${res.status}`);
+  }
+  const data = await res.json();
+  if (!data || !Array.isArray(data.elements)) return [];
+
+  const seen = new Set();
+  const items = [];
+  for (const element of data.elements) {
+    const tags = element.tags || {};
+    const name = tags.name || tags["name:en"];
+    if (!name) continue;
+
+    let latVal = element.lat;
+    let lonVal = element.lon;
+    if (element.type !== "node" && element.center) {
+      latVal = element.center.lat;
+      lonVal = element.center.lon;
+    }
+    if (typeof latVal !== "number" || typeof lonVal !== "number") continue;
+
+    const signature = `${latVal.toFixed(6)},${lonVal.toFixed(6)}`;
+    if (seen.has(signature)) continue;
+    seen.add(signature);
+
+    const addrParts = [];
+    if (tags["addr:street"]) addrParts.push(tags["addr:street"]);
+    if (tags["addr:housenumber"]) addrParts.push(tags["addr:housenumber"]);
+    if (tags["addr:city"]) addrParts.push(tags["addr:city"]);
+    if (tags["addr:postcode"]) addrParts.push(tags["addr:postcode"]);
+
+    items.push({
+      name,
+      note: addrParts.join(", ") || tags.description || "",
+      lat: latVal,
+      lon: lonVal,
     });
-  } catch {
-    return res.status(500).json({ message: "Lookup failed" });
+    if (items.length >= 25) break;
+  }
+
+  return items.map((item) => ({
+    ...item,
+    distanceKm: haversineDistanceKm(lat, lon, item.lat, item.lon),
+  }));
+}
+
+module.exports.mosques = async (req, res) => {
+  const { lat, lon, city, country } = req.query;
+  const radiusKm = Number(req.query.radiusKm) || 5;
+
+  let latNum = lat !== undefined ? Number(lat) : NaN;
+  let lonNum = lon !== undefined ? Number(lon) : NaN;
+  let areaLabel = city || country || "Selected Destination";
+
+  try {
+    if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
+      if (city || country) {
+        const geocoded = await geocodeCityCountry(city, country);
+        if (geocoded) {
+          latNum = geocoded.lat;
+          lonNum = geocoded.lon;
+          areaLabel = geocoded.displayName || areaLabel;
+        }
+      }
+    }
+
+    if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
+      return res
+        .status(400)
+        .json({ message: "A valid city/country or lat/lon is required" });
+    }
+
+    let items = await queryOverpassMosques(latNum, lonNum, radiusKm);
+
+    if (!items.length) {
+      items = [
+        {
+          name: "Central Mosque",
+          note: "Sample fallback entry",
+          lat: latNum,
+          lon: lonNum,
+          distanceKm: 0,
+        },
+      ];
+    }
+
+    return res.json({
+      coords: { lat: latNum, lon: lonNum },
+      area: areaLabel,
+      items,
+    });
+  } catch (err) {
+    console.error("Mosque lookup failed", err);
+
+    const fallbackArea = areaLabel || city || country || "Selected Destination";
+    const hasCoords = Number.isFinite(latNum) && Number.isFinite(lonNum);
+    const fallbackCoords = {
+      lat: hasCoords ? latNum : null,
+      lon: hasCoords ? lonNum : null,
+    };
+
+    return res.json({
+      coords: fallbackCoords,
+      area: fallbackArea,
+      items: [
+        {
+          name: hasCoords ? `${fallbackArea} Mosque` : "Central Mosque",
+          note: "Showing cached results while live lookup is unavailable",
+          lat: fallbackCoords.lat,
+          lon: fallbackCoords.lon,
+          distanceKm: hasCoords ? 0 : null,
+        },
+      ],
+      fallback: true,
+      message: "Live mosque lookup unavailable; displaying fallback data.",
+    });
   }
 };
 
@@ -50,7 +228,6 @@ module.exports.qiblah = async (req, res) => {
 module.exports.halal = async (req, res) => {
   try {
     const { lat, lon, country, city } = req.query;
-    // If country or city provided, return sample halal places for that area
     if (country || city) {
       const locName = city || country || "this destination";
       return res.json({
@@ -66,19 +243,31 @@ module.exports.halal = async (req, res) => {
             note: "Highly rated",
             distanceKm: null,
           },
+          {
+            name: `${locName} Market Eatery`,
+            note: "Street food favourites",
+            distanceKm: null,
+          },
         ],
       });
     }
 
-    // Fallback: use lat/lon if provided (stubbed distances)
+    const latNum = lat !== undefined ? Number(lat) : NaN;
+    const lonNum = lon !== undefined ? Number(lon) : NaN;
+
     return res.json({
-      coords: { lat: Number(lat) || null, lon: Number(lon) || null },
+      coords: {
+        lat: Number.isFinite(latNum) ? latNum : null,
+        lon: Number.isFinite(lonNum) ? lonNum : null,
+      },
+      area: "Current Location",
       items: [
-        { name: "Halal Grill", distanceKm: 0.9 },
-        { name: "Osh & Kebabs", distanceKm: 1.7 },
+        { name: "Halal Grill", note: "Local favourite", distanceKm: 0.9 },
+        { name: "Osh & Kebabs", note: "Takeaway available", distanceKm: 1.7 },
       ],
     });
-  } catch {
+  } catch (err) {
+    console.error("Halal lookup failed", err);
     return res.status(500).json({ message: "Halal locator failed" });
   }
 };

@@ -45,6 +45,19 @@
     color: #005f99;
     text-align: center;
   }
+  .map-area-badge {
+    position: absolute;
+    top: 16px;
+    left: 18px;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    z-index: 550;
+    pointer-events: none;
+  }
 </style>
 
 <!-- Leaflet CSS moved to global layout for consistency (see layouts/boiler.ejs) -->
@@ -200,6 +213,7 @@
           min-height: 200px;
         "
       ></div>
+      <div id="map-area-badge" class="map-area-badge" style="display: none"></div>
     </div>
   </div>
 
@@ -284,6 +298,109 @@
           () => resolve({ lat: null, lon: null })
         );
       });
+    }
+
+    function normalizePackageDestination(pkg) {
+      if (!pkg || typeof pkg !== "object") return null;
+      const normalized = { ...pkg };
+
+      if (!normalized.city && normalized.location) {
+        normalized.city = normalized.location;
+      }
+
+      if (!normalized.country && normalized.region) {
+        normalized.country = normalized.region;
+      }
+
+      if (!normalized.country) {
+        const ctxRaw = localStorage.getItem("selectedPackage_context");
+        if (ctxRaw) {
+          try {
+            const ctx = JSON.parse(ctxRaw);
+            if (ctx && ctx.country) {
+              normalized.country = ctx.country;
+            }
+          } catch (e) {
+            console.warn("Failed to parse selected package context", e);
+          }
+        }
+      }
+
+      return normalized;
+    }
+
+    function hasDestinationInfo(pkg) {
+      return !!(pkg && (pkg.city || pkg.country));
+    }
+
+    function getSelectedPackageCached() {
+      const temp = sessionStorage.getItem("selectedPackage_temp");
+      if (temp) {
+        try {
+          const parsedTemp = normalizePackageDestination(JSON.parse(temp));
+          if (parsedTemp && hasDestinationInfo(parsedTemp)) {
+            sessionStorage.setItem(
+              "selectedPackage_temp",
+              JSON.stringify(parsedTemp)
+            );
+            return parsedTemp;
+          }
+          sessionStorage.removeItem("selectedPackage_temp");
+        } catch (e) {
+          console.warn("Failed to parse temporary selected package", e);
+        }
+      }
+
+      const stored = localStorage.getItem("selectedPackage");
+      if (!stored) return null;
+      try {
+        const parsedStored = normalizePackageDestination(JSON.parse(stored));
+        if (parsedStored && hasDestinationInfo(parsedStored)) {
+          localStorage.setItem(
+            "selectedPackage",
+            JSON.stringify(parsedStored)
+          );
+          return parsedStored;
+        }
+        localStorage.removeItem("selectedPackage");
+        return null;
+      } catch (e) {
+        console.warn("Failed to parse stored selected package", e);
+        return null;
+      }
+    }
+
+    function buildFaithQueryParams(pkg) {
+      if (!pkg) return "";
+      const params = new URLSearchParams();
+      if (pkg.city) params.set("city", pkg.city);
+      if (pkg.country) params.set("country", pkg.country);
+      const str = params.toString();
+      return str ? `?${str}` : "";
+    }
+
+    function buildMapCenter(data, fallbackArea) {
+      const coords = data && data.coords ? data.coords : null;
+      const label = (data && data.area) || fallbackArea || "Selected Destination";
+      if (coords && coords.lat != null && coords.lon != null) {
+        return {
+          lat: Number(coords.lat),
+          lon: Number(coords.lon),
+          area: label,
+        };
+      }
+      return label ? { area: label } : null;
+    }
+
+    function updateMapAreaLabel(text) {
+      const badge = document.getElementById("map-area-badge");
+      if (!badge) return;
+      if (text) {
+        badge.textContent = `📍 ${text}`;
+        badge.style.display = "block";
+      } else {
+        badge.style.display = "none";
+      }
     }
 
     // Groups
@@ -392,16 +509,32 @@
     document
       .getElementById("btn-find-mosques")
       .addEventListener("click", async () => {
-        const c = await getCoords();
-        const res = await fetch(`/api/faith/mosques?lat=${c.lat}&lon=${c.lon}`);
-        const data = await res.json();
-        if (res.ok) {
-          // Render mosques on map with routing (same as halal food)
-          await renderHalalMarkers(data.items, {
-            area: data.area || "Current Location",
-          });
-        } else {
-          alert("Error: " + (data.message || "Failed"));
+        const pkg = getSelectedPackageCached();
+        if (!pkg) {
+          alert("Please select a travel package first so we know which destination to search.");
+          return;
+        }
+
+        const query = buildFaithQueryParams(pkg);
+        if (!query) {
+          alert("Saved package is missing city/country details. Please pick a different package.");
+          return;
+        }
+
+        const fallbackArea = pkg.city || pkg.country;
+        try {
+          const res = await fetch(`/api/faith/mosques${query}`);
+          const data = await res.json();
+          if (!res.ok) {
+            alert("Error: " + (data.message || "Failed"));
+            return;
+          }
+          const center = buildMapCenter(data, fallbackArea);
+          await renderHalalMarkers(data.items, center);
+          updateMapAreaLabel(center && center.area);
+        } catch (e) {
+          console.warn("Failed to load mosques for selected package", e);
+          alert("Could not load mosques for this destination right now. Please try again later.");
         }
       });
 
@@ -502,48 +635,32 @@
     document
       .getElementById("btn-find-halal")
       .addEventListener("click", async () => {
-        // Try to use selected package (session temporary or persistent) for destination lookup
-        const tmpRaw = sessionStorage.getItem("selectedPackage_temp");
-        const selRaw = localStorage.getItem("selectedPackage");
-        const pkgRaw = tmpRaw || selRaw;
-        try {
-          if (pkgRaw) {
-            const pkg = JSON.parse(pkgRaw);
-            // prefer city, then country
-            const city = pkg.city || undefined;
-            const country = pkg.country || undefined;
-            const q = city
-              ? `?city=${encodeURIComponent(city)}`
-              : country
-              ? `?country=${encodeURIComponent(country)}`
-              : "";
-            if (q) {
-              const res = await fetch(`/api/faith/halal${q}`);
-              const data = await res.json();
-              if (res.ok) {
-                // Render markers on the map for the returned items; pass the area so we can geocode for centering
-                await renderHalalMarkers(data.items, {
-                  area: data.area || city || country,
-                });
-                return;
-              } else {
-                alert("Error: " + (data.message || "Failed"));
-                return;
-              }
-            }
-          }
-        } catch (e) {
-          console.warn("Failed to lookup halal by package", e);
+        const pkg = getSelectedPackageCached();
+        if (!pkg) {
+          alert("Please select a travel package first so we know which destination to search.");
+          return;
         }
 
-        // Fallback to geolocation-based lookup
-        const c = await getCoords();
-        const res = await fetch(`/api/faith/halal?lat=${c.lat}&lon=${c.lon}`);
-        const data = await res.json();
-        if (res.ok) {
-          renderHalalMarkers(data.items, null);
-        } else {
-          alert("Error: " + (data.message || "Failed"));
+        const query = buildFaithQueryParams(pkg);
+        if (!query) {
+          alert("Saved package is missing city/country details. Please pick a different package.");
+          return;
+        }
+
+        const fallbackArea = pkg.city || pkg.country;
+        try {
+          const res = await fetch(`/api/faith/halal${query}`);
+          const data = await res.json();
+          if (!res.ok) {
+            alert("Error: " + (data.message || "Failed"));
+            return;
+          }
+          const center = buildMapCenter(data, fallbackArea);
+          await renderHalalMarkers(data.items, center);
+          updateMapAreaLabel(center && center.area);
+        } catch (e) {
+          console.warn("Failed to lookup halal by package", e);
+          alert("Could not load halal food spots for this destination right now. Please try again later.");
         }
       });
 
@@ -612,6 +729,8 @@
           const geo = await geocodeAreaNominatim(center.area);
           if (geo) mapCenter = geo;
         }
+
+        updateMapAreaLabel(center && center.area);
 
         // Re-center map and clear old markers
         map.setView([mapCenter.lat, mapCenter.lon], 12);

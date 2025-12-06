@@ -394,7 +394,7 @@
         <button
           class="btn btn-select"
           data-id="<%= (package._id && package._id.toString) ? package._id.toString() : (package.id || '') %>"
-          data-package="<%= encodeURIComponent(JSON.stringify({ _id: ((package._id && package._id.toString) ? package._id.toString() : (package.id || '')), name: package.name, price: package.price, duration: package.duration, hotel: package.hotel, food: package.food, transport: package.transport, attractions: package.attractions, shopping: package.shopping, muslimFeatures: package.muslimFeatures, weather: package.weather })) %>"
+          data-package="<%= encodeURIComponent(JSON.stringify({ _id: ((package._id && package._id.toString) ? package._id.toString() : (package.id || '')), name: package.name, city: package.city, country: package.country, price: package.price, duration: package.duration, hotel: package.hotel, food: package.food, transport: package.transport, attractions: package.attractions, shopping: package.shopping, muslimFeatures: package.muslimFeatures, weather: package.weather })) %>"
         >
           Select
         </button>
