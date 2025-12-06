@@ -170,7 +170,7 @@ app.get("/api/packages", (req, res) => {
     const country = (req.query.country || "").trim();
     const budget = parseInt(req.query.budget) || 0;
     const durationDays = parseInt(req.query.days) || undefined;
-    
+
     // If no filters provided, return actual listings from data.js
     if (!country && !budget) {
       const listings = initData.data.map((listing, index) => ({
@@ -179,18 +179,26 @@ app.get("/api/packages", (req, res) => {
         title: listing.title,
         description: listing.description,
         image: listing.image?.url || listing.image,
-        images: listing.image?.url ? [listing.image.url] : (listing.image ? [listing.image] : []),
+        images: listing.image?.url
+          ? [listing.image.url]
+          : listing.image
+          ? [listing.image]
+          : [],
         price: listing.price,
         location: listing.location,
         country: listing.country,
         minBudget: listing.price,
         maxBudget: listing.price * 1.2,
         typicalDuration: 5,
-        attractions: listing.description.split('.').slice(0, 3).map(s => s.trim()).filter(Boolean)
+        attractions: listing.description
+          .split(".")
+          .slice(0, 3)
+          .map((s) => s.trim())
+          .filter(Boolean),
       }));
       return res.json({ items: listings });
     }
-    
+
     // Otherwise use the generatePackages logic
     const packagesList = generatePackages({ country, budget, durationDays });
     return res.json({ items: packagesList });
