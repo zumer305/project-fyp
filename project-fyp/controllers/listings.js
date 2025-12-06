@@ -1,9 +1,19 @@
 const Listing=require("../models/listing");
+const initData = require("../init/data.js");
 
 module.exports.index= async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
-
+  try {
+    const dbListings = await Listing.find({});
+    
+    // If database is empty, use hardcoded data
+    const allListings = dbListings.length > 0 ? dbListings : initData.data;
+    
+    res.render("listings/index.ejs", { allListings });
+  } catch (error) {
+    console.error("Error loading listings:", error);
+    // Fallback to hardcoded data on error
+    res.render("listings/index.ejs", { allListings: initData.data });
+  }
 }
 
 module.exports.renderNewForm=(req, res) => {
