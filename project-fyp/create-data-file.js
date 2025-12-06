@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+
+const fileContent = `const fs = require('fs');
+const path = require('path');
 const { parse } = require('csv-parse/sync');
 
 const getRandomImage = () => {
@@ -37,18 +40,18 @@ try {
     const mainAttraction = attractions[0] || record.city;
     
     const title = mainAttraction && mainAttraction !== record.city
-      ? `${mainAttraction} - ${record.city}`
-      : `${record.city}, ${record.country}`;
+      ? \`\${mainAttraction} - \${record.city}\`
+      : \`\${record.city}, \${record.country}\`;
     
     let description = '';
     if (record.response && !record.response.includes('do you')) {
       description = record.response.substring(0, 200);
     } else {
-      description = `Discover ${record.city}, ${record.country}. `;
+      description = \`Discover \${record.city}, \${record.country}. \`;
       if (attractions.length > 0) {
-        description += `Attractions: ${attractions.slice(0, 3).join(', ')}. `;
+        description += \`Attractions: \${attractions.slice(0, 3).join(', ')}. \`;
       }
-      description += `Best time: ${record.best_time}. Duration: ${record.suggested_days} days.`;
+      description += \`Best time: \${record.best_time}. Duration: \${record.suggested_days} days.\`;
     }
     
     return {
@@ -61,7 +64,7 @@ try {
     };
   });
 
-  console.log(`Loaded ${sampleListings.length} Central Asian listings`);
+  console.log(\`Loaded \${sampleListings.length} Central Asian listings\`);
 } catch (error) {
   console.error('CSV Error:', error.message);
   sampleListings = [
@@ -77,3 +80,7 @@ try {
 }
 
 module.exports = { data: sampleListings };
+`;
+
+fs.writeFileSync(path.join(__dirname, 'init', 'data.js'), fileContent, 'utf-8');
+console.log('data.js created successfully!');
