@@ -246,28 +246,6 @@
     font-size: 1rem;
   }
 
-  .book-now-btn {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .book-now-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 20px rgba(30, 64, 175, 0.4);
-    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-  }
-
   .rideshare-info {
     background: #dbeafe;
     border-left: 5px solid #3b82f6;
@@ -387,7 +365,7 @@
   <!-- Header -->
   <div class="fares-header">
     <i class="fas fa-taxi" style="font-size: 3rem; margin-bottom: 15px;"></i>
-    <h1>🚕 Central Asian Taxi Fares</h1>
+    <h1> Central Asian Taxi Fares</h1>
     <p>Affordable & reliable transport options for your journey</p>
   </div>
 
@@ -452,104 +430,20 @@
     <i class="fas fa-car"></i> Available Vehicles
   </h2>
   <div class="vehicles-grid" id="vehiclesGrid">
-    <!-- Vehicles will be populated by JavaScript -->
+    <!-- Loading indicator -->
+    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+      <div style="display: inline-block;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #3b82f6; margin-bottom: 15px;"></i>
+        <h3 style="color: #1e3a8a; margin-bottom: 10px;">Loading Taxi Fares...</h3>
+        <p style="color: #6b7280;">Fetching latest prices from database</p>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-  // Vehicle data with different types - Common Central Asian taxis
-  const vehicles = [
-    {
-      name: "Suzuki Cultus",
-      type: "Standard",
-      capacity: "4 passengers",
-      baseFare: 1.00,
-      perKm: 0.40,
-      imageUrl: "https://suzukipakistan.com/Media/Used-Cars/Product/15814073203.jpg",
-      emoji: "🚗",
-      features: ["Air Conditioning", "Clean & Comfortable", "Local Driver", "Affordable"]
-    },
-    {
-      name: "Suzuki WagonR",
-      type: "Economy",
-      capacity: "4 passengers",
-      baseFare: 1.20,
-      perKm: 0.45,
-      imageUrl: "https://www.autosbangla.com/images/suzuki/suzuki-wagon-r-img1.jpg",
-      emoji: "🚙",
-      features: ["Spacious", "Fuel Efficient", "Local Favorite", "Air Conditioning"]
-    },
-    {
-      name: "Toyota Corolla",
-      type: "Comfort",
-      capacity: "4 passengers",
-      baseFare: 1.50,
-      perKm: 0.60,
-      imageUrl: "https://editorial.pxcrush.net/carsales/general/editorial/corolla-sedan-4.jpg?width=1024&height=682",
-      emoji: "🚘",
-      features: ["Comfortable Ride", "Air Conditioning", "Reliable", "Professional Service"]
-    },
-    {
-      name: "Daewoo Nexia",
-      type: "Budget",
-      capacity: "4 passengers",
-      baseFare: 0.90,
-      perKm: 0.35,
-      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/56/Daewoo_Nexia_2013.JPG",
-      emoji: "🚗",
-      features: ["Budget Friendly", "Popular in Central Asia", "Basic Comfort", "Easy to Find"]
-    },
-    {
-      name: "Chevrolet Spark",
-      type: "Mini",
-      capacity: "3 passengers",
-      baseFare: 0.80,
-      perKm: 0.30,
-      imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2022-chevrolet-spark-mmp-1-1638552174.jpg?crop=0.997xw:0.751xh;0,0.138xh&resize=1200:*",
-      emoji: "🚕",
-      features: ["Very Affordable", "Perfect for Solo/Couple", "Compact", "City Travel"]
-    },
-    {
-      name: "Hyundai Accent",
-      type: "Standard",
-      capacity: "4 passengers",
-      baseFare: 1.30,
-      perKm: 0.50,
-      imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2022-hyundai-accent-mmp-1-1634756931.jpg",
-      emoji: "🚘",
-      features: ["Good Comfort", "Air Conditioning", "Smooth Ride", "Popular Choice"]
-    },
-    {
-      name: "Lada (Local)",
-      type: "Budget",
-      capacity: "4 passengers",
-      baseFare: 0.70,
-      perKm: 0.30,
-      imageUrl: "https://www.shutterstock.com/image-photo/tyumen-city-russia-june-11-260nw-1779162413.jpg",
-      emoji: "🚙",
-      features: ["Cheapest Option", "Traditional", "Basic Transport", "Widely Available"]
-    },
-    {
-      name: "Nissan Tiida",
-      type: "Comfort",
-      capacity: "4 passengers",
-      baseFare: 1.40,
-      perKm: 0.55,
-      imageUrl: "https://perfectcars.ae/wp-content/uploads/2024/04/2994afe2-b6f3-4cbd-b29f-6104c2ebd2ca.jpg",
-      emoji: "🚗",
-      features: ["Comfortable Interior", "Air Conditioning", "Good for Long Trips", "Reliable"]
-    },
-    {
-      name: "Shared Marshrutka",
-      type: "Shared",
-      capacity: "12-15 passengers",
-      baseFare: 0.30,
-      perKm: 0.10,
-      imageUrl: "https://katieaune.com/wp-content/uploads/2013/05/SAM_1790.jpg",
-      emoji: "🚐",
-      features: ["Most Affordable", "Share with Others", "Local Experience", "Fixed Routes"]
-    }
-  ];
+  // Vehicle data - will be fetched from API
+  let vehicles = [];
 
   // Get destination from localStorage or URL
   let selectedDestination = localStorage.getItem('selectedDestination') || 'Your Selected Destination';
@@ -557,6 +451,38 @@
 
   // Update destination name
   document.getElementById('destinationName').textContent = selectedDestination;
+
+  // Fetch taxi fares from API
+  async function fetchTaxiFares() {
+    try {
+      const response = await fetch('/api/taxi-fares');
+      const result = await response.json();
+      
+      if (result.success) {
+        vehicles = result.data;
+        console.log(`✅ Loaded ${vehicles.length} taxi fares from FREE APIs (${result.source})`);
+        renderVehicles();
+      } else {
+        console.error('❌ Failed to fetch taxi fares:', result.message);
+        showErrorMessage('Unable to load taxi fares. Please refresh the page.');
+      }
+    } catch (error) {
+      console.error('❌ Error fetching taxi fares:', error);
+      showErrorMessage('Network error. Please check your connection and refresh.');
+    }
+  }
+
+  // Show error message
+  function showErrorMessage(message) {
+    const vehiclesGrid = document.getElementById('vehiclesGrid');
+    vehiclesGrid.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: #fee; border-radius: 12px; color: #c00;">
+        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
+        <h3 style="margin-bottom: 10px;">Error Loading Fares</h3>
+        <p>${message}</p>
+      </div>
+    `;
+  }
 
   // Shuffle array function
   function shuffleArray(array) {
@@ -623,10 +549,6 @@
                 </div>
               `).join('')}
             </div>
-
-            <button class="book-now-btn" onclick="bookVehicle('${vehicle.name}', ${totalFare.toFixed(2)})">
-              <i class="fas fa-phone"></i> Book Now
-            </button>
           </div>
         </div>
       `;
@@ -655,220 +577,10 @@
     renderVehicles();
   }
 
-  // Book vehicle function
-  function bookVehicle(vehicleName, fare) {
-    // Create a custom modal for booking
-    const modal = document.createElement('div');
-    modal.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    `;
-    
-    const modalContent = document.createElement('div');
-    modalContent.style.cssText = `
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    `;
-    
-    modalContent.innerHTML = `
-      <h2 style="color: #1e3a8a; margin-bottom: 20px; font-size: 1.8rem;">
-        <i class="fas fa-taxi" style="color: #3b82f6;"></i> Book Your Ride
-      </h2>
-      
-      <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span style="font-weight: 600; color: #1e40af;">Vehicle:</span>
-          <span style="font-size: 1.2rem; color: #1e3a8a; font-weight: 700;">${vehicleName}</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span style="font-weight: 600; color: #1e40af;">Destination:</span>
-          <span style="color: #1e3a8a;">${selectedDestination}</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span style="font-weight: 600; color: #1e40af;">Distance:</span>
-          <span style="color: #1e3a8a;">${estimatedDistance} km</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #3b82f6; padding-top: 10px; margin-top: 10px;">
-          <span style="font-weight: 700; color: #1e40af; font-size: 1.1rem;">Estimated Fare:</span>
-          <span style="font-size: 1.5rem; color: #1e3a8a; font-weight: 700;">$${fare}</span>
-        </div>
-      </div>
-      
-      <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #3b82f6;">
-        <h4 style="color: #1e40af; margin-bottom: 10px; font-size: 1rem;">
-          <i class="fas fa-phone"></i> Contact Information
-        </h4>
-        <input type="text" id="customerName" placeholder="Your Name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 2px solid #bfdbfe; border-radius: 6px; font-size: 1rem;">
-        <input type="tel" id="customerPhone" placeholder="Your Phone Number" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 2px solid #bfdbfe; border-radius: 6px; font-size: 1rem;">
-        <input type="text" id="pickupLocation" placeholder="Pickup Location" style="width: 100%; padding: 10px; border: 2px solid #bfdbfe; border-radius: 6px; font-size: 1rem;">
-      </div>
-      
-      <div style="background: #fef3c7; padding: 12px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #f59e0b;">
-        <p style="margin: 0; color: #92400e; font-size: 0.9rem;">
-          <i class="fas fa-info-circle"></i> <strong>Note:</strong> This is a booking request. A taxi service representative will contact you shortly to confirm your booking.
-        </p>
-      </div>
-      
-      <div style="display: flex; gap: 10px;">
-        <button onclick="confirmBooking('${vehicleName}', ${fare})" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
-          <i class="fas fa-check-circle"></i> Confirm Booking
-        </button>
-        <button onclick="closeBookingModal()" style="flex: 1; padding: 12px; background: #6b7280; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
-          <i class="fas fa-times"></i> Cancel
-        </button>
-      </div>
-    `;
-    
-    modal.appendChild(modalContent);
-    document.body.appendChild(modal);
-    
-    // Store modal reference
-    window.currentBookingModal = modal;
-    
-    // Click outside to close
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeBookingModal();
-      }
-    });
-  }
-  
-  // Close booking modal
-  function closeBookingModal() {
-    if (window.currentBookingModal) {
-      window.currentBookingModal.remove();
-      window.currentBookingModal = null;
-    }
-  }
-  
-  // Confirm booking
-  async function confirmBooking(vehicleName, fare) {
-    const name = document.getElementById('customerName').value.trim();
-    const phone = document.getElementById('customerPhone').value.trim();
-    const pickup = document.getElementById('pickupLocation').value.trim();
-    
-    if (!name || !phone || !pickup) {
-      alert('Please fill in all fields');
-      return;
-    }
-    
-    // Create booking object
-    const booking = {
-      vehicle: vehicleName,
-      fare: fare,
-      destination: selectedDestination,
-      distance: estimatedDistance,
-      customerName: name,
-      customerPhone: phone,
-      pickupLocation: pickup,
-      status: 'Pending'
-    };
-    
-    try {
-      // Send booking to backend
-      const response = await fetch('/api/taxi-bookings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(booking)
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        // Also save to localStorage as backup
-        let bookings = JSON.parse(localStorage.getItem('taxiBookings') || '[]');
-        bookings.push(data.booking);
-        localStorage.setItem('taxiBookings', JSON.stringify(bookings));
-        
-        // Close modal
-        closeBookingModal();
-        
-        // Show success message
-        showSuccessModal(vehicleName, fare, name, phone, pickup);
-      } else {
-        alert('Failed to create booking. Please try again.');
-      }
-    } catch (error) {
-      console.error('Booking error:', error);
-      alert('Network error. Please check your connection and try again.');
-    }
-  }
-  
-  // Show success modal
-  function showSuccessModal(vehicleName, fare, name, phone, pickup) {
-    const successModal = document.createElement('div');
-    successModal.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    `;
-    
-    const successContent = document.createElement('div');
-    successContent.style.cssText = `
-      background: white;
-      padding: 40px;
-      border-radius: 15px;
-      max-width: 450px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    `;
-    
-    successContent.innerHTML = `
-      <div style="font-size: 4rem; color: #10b981; margin-bottom: 20px;">
-        <i class="fas fa-check-circle"></i>
-      </div>
-      <h2 style="color: #1e3a8a; margin-bottom: 15px;">Booking Successful!</h2>
-      <p style="color: #4b5563; margin-bottom: 20px;">
-        Your booking for <strong>${vehicleName}</strong> has been confirmed.
-      </p>
-      <div style="background: #dbeafe; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
-        <p style="margin: 5px 0; color: #1e40af;"><strong>Name:</strong> ${name}</p>
-        <p style="margin: 5px 0; color: #1e40af;"><strong>Phone:</strong> ${phone}</p>
-        <p style="margin: 5px 0; color: #1e40af;"><strong>Pickup:</strong> ${pickup}</p>
-        <p style="margin: 5px 0; color: #1e40af;"><strong>Estimated Fare:</strong> $${fare}</p>
-      </div>
-      <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 20px;">
-        A taxi driver will contact you at <strong>${phone}</strong> shortly.
-      </p>
-      <button onclick="this.parentElement.parentElement.remove()" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
-        <i class="fas fa-check"></i> OK
-      </button>
-    `;
-    
-    successModal.appendChild(successContent);
-    document.body.appendChild(successModal);
-    
-    // Auto close after 5 seconds
-    setTimeout(() => {
-      successModal.remove();
-    }, 5000);
-  }
-
   // Initialize on page load
   document.addEventListener('DOMContentLoaded', function() {
-    renderVehicles();
+    // Fetch fares from API first
+    fetchTaxiFares();
     
     // Add enter key support for distance input
     document.getElementById('distanceInput').addEventListener('keypress', function(e) {
