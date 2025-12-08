@@ -4,8 +4,10 @@ const OVERPASS_ENDPOINTS = [
   "https://overpass.openstreetmap.ru/cgi/interpreter",
 ];
 const NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/search";
-const MAPBOX_TOKEN = "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
-const MAPBOX_GEOCODE_ENDPOINT = "https://api.mapbox.com/geocoding/v5/mapbox.places";
+const MAPBOX_TOKEN =
+  "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
+const MAPBOX_GEOCODE_ENDPOINT =
+  "https://api.mapbox.com/geocoding/v5/mapbox.places";
 
 const USER_AGENT_HEADER = {
   "User-Agent": "project-fyp/1.0 (contact: travel-app@example.com)",
@@ -57,7 +59,7 @@ async function runOverpassQuery(query) {
       // Add timeout to prevent hanging requests - 45 seconds for larger queries
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 45000);
-      
+
       const res = await fetch(endpoint, {
         method: "POST",
         headers: {
@@ -71,7 +73,9 @@ async function runOverpassQuery(query) {
       clearTimeout(timeoutId);
 
       if (!res.ok) {
-        lastError = new Error(`Overpass query failed ${res.status} at ${endpoint}`);
+        lastError = new Error(
+          `Overpass query failed ${res.status} at ${endpoint}`
+        );
         console.warn(`Overpass endpoint ${endpoint} returned ${res.status}`);
         continue;
       }
@@ -80,7 +84,7 @@ async function runOverpassQuery(query) {
       return data;
     } catch (err) {
       lastError = err;
-      if (err.name === 'AbortError') {
+      if (err.name === "AbortError") {
         console.warn(`Overpass endpoint ${endpoint} timed out after 45s`);
       } else {
         console.warn(`Overpass endpoint ${endpoint} failed:`, err.message);
@@ -101,28 +105,130 @@ async function geocodeCityCountry(city, country) {
 
   // Hardcoded fallback coordinates for common Central Asian destinations
   const fallbackCoords = {
-    'bishkek': { lat: 42.8746, lon: 74.5698, displayName: 'Bishkek, Kyrgyzstan', countryCode: 'KG', isCity: true },
-    'almaty': { lat: 43.2220, lon: 76.8512, displayName: 'Almaty, Kazakhstan', countryCode: 'KZ', isCity: true },
-    'tashkent': { lat: 41.2995, lon: 69.2401, displayName: 'Tashkent, Uzbekistan', countryCode: 'UZ', isCity: true },
-    'dushanbe': { lat: 38.5598, lon: 68.7738, displayName: 'Dushanbe, Tajikistan', countryCode: 'TJ', isCity: true },
-    'ashgabat': { lat: 37.9601, lon: 58.3261, displayName: 'Ashgabat, Turkmenistan', countryCode: 'TM', isCity: true },
-    'baku': { lat: 40.4093, lon: 49.8671, displayName: 'Baku, Azerbaijan', countryCode: 'AZ', isCity: true },
-    'nursultan': { lat: 51.1694, lon: 71.4491, displayName: 'Nur-Sultan, Kazakhstan', countryCode: 'KZ', isCity: true },
-    'astana': { lat: 51.1694, lon: 71.4491, displayName: 'Astana, Kazakhstan', countryCode: 'KZ', isCity: true },
-    'osh': { lat: 40.5283, lon: 72.7985, displayName: 'Osh, Kyrgyzstan', countryCode: 'KG', isCity: true },
-    'samarkand': { lat: 39.6542, lon: 66.9597, displayName: 'Samarkand, Uzbekistan', countryCode: 'UZ', isCity: true },
-    'bukhara': { lat: 39.7747, lon: 64.4286, displayName: 'Bukhara, Uzbekistan', countryCode: 'UZ', isCity: true },
+    bishkek: {
+      lat: 42.8746,
+      lon: 74.5698,
+      displayName: "Bishkek, Kyrgyzstan",
+      countryCode: "KG",
+      isCity: true,
+    },
+    almaty: {
+      lat: 43.222,
+      lon: 76.8512,
+      displayName: "Almaty, Kazakhstan",
+      countryCode: "KZ",
+      isCity: true,
+    },
+    tashkent: {
+      lat: 41.2995,
+      lon: 69.2401,
+      displayName: "Tashkent, Uzbekistan",
+      countryCode: "UZ",
+      isCity: true,
+    },
+    dushanbe: {
+      lat: 38.5598,
+      lon: 68.7738,
+      displayName: "Dushanbe, Tajikistan",
+      countryCode: "TJ",
+      isCity: true,
+    },
+    ashgabat: {
+      lat: 37.9601,
+      lon: 58.3261,
+      displayName: "Ashgabat, Turkmenistan",
+      countryCode: "TM",
+      isCity: true,
+    },
+    baku: {
+      lat: 40.4093,
+      lon: 49.8671,
+      displayName: "Baku, Azerbaijan",
+      countryCode: "AZ",
+      isCity: true,
+    },
+    nursultan: {
+      lat: 51.1694,
+      lon: 71.4491,
+      displayName: "Nur-Sultan, Kazakhstan",
+      countryCode: "KZ",
+      isCity: true,
+    },
+    astana: {
+      lat: 51.1694,
+      lon: 71.4491,
+      displayName: "Astana, Kazakhstan",
+      countryCode: "KZ",
+      isCity: true,
+    },
+    osh: {
+      lat: 40.5283,
+      lon: 72.7985,
+      displayName: "Osh, Kyrgyzstan",
+      countryCode: "KG",
+      isCity: true,
+    },
+    samarkand: {
+      lat: 39.6542,
+      lon: 66.9597,
+      displayName: "Samarkand, Uzbekistan",
+      countryCode: "UZ",
+      isCity: true,
+    },
+    bukhara: {
+      lat: 39.7747,
+      lon: 64.4286,
+      displayName: "Bukhara, Uzbekistan",
+      countryCode: "UZ",
+      isCity: true,
+    },
     // For countries, use capital city coordinates for better results
-    'kyrgyzstan': { lat: 42.8746, lon: 74.5698, displayName: 'Bishkek, Kyrgyzstan', countryCode: 'KG', isCity: false },
-    'kazakhstan': { lat: 43.2220, lon: 76.8512, displayName: 'Almaty, Kazakhstan', countryCode: 'KZ', isCity: false },
-    'uzbekistan': { lat: 41.2995, lon: 69.2401, displayName: 'Tashkent, Uzbekistan', countryCode: 'UZ', isCity: false },
-    'tajikistan': { lat: 38.5598, lon: 68.7738, displayName: 'Dushanbe, Tajikistan', countryCode: 'TJ', isCity: false },
-    'turkmenistan': { lat: 37.9601, lon: 58.3261, displayName: 'Ashgabat, Turkmenistan', countryCode: 'TM', isCity: false },
-    'azerbaijan': { lat: 40.4093, lon: 49.8671, displayName: 'Baku, Azerbaijan', countryCode: 'AZ', isCity: false },
+    kyrgyzstan: {
+      lat: 42.8746,
+      lon: 74.5698,
+      displayName: "Bishkek, Kyrgyzstan",
+      countryCode: "KG",
+      isCity: false,
+    },
+    kazakhstan: {
+      lat: 43.222,
+      lon: 76.8512,
+      displayName: "Almaty, Kazakhstan",
+      countryCode: "KZ",
+      isCity: false,
+    },
+    uzbekistan: {
+      lat: 41.2995,
+      lon: 69.2401,
+      displayName: "Tashkent, Uzbekistan",
+      countryCode: "UZ",
+      isCity: false,
+    },
+    tajikistan: {
+      lat: 38.5598,
+      lon: 68.7738,
+      displayName: "Dushanbe, Tajikistan",
+      countryCode: "TJ",
+      isCity: false,
+    },
+    turkmenistan: {
+      lat: 37.9601,
+      lon: 58.3261,
+      displayName: "Ashgabat, Turkmenistan",
+      countryCode: "TM",
+      isCity: false,
+    },
+    azerbaijan: {
+      lat: 40.4093,
+      lon: 49.8671,
+      displayName: "Baku, Azerbaijan",
+      countryCode: "AZ",
+      isCity: false,
+    },
   };
 
   // Check hardcoded fallback first
-  const searchKey = (city || country || '').toLowerCase().trim();
+  const searchKey = (city || country || "").toLowerCase().trim();
   if (fallbackCoords[searchKey]) {
     console.log(`Using hardcoded coordinates for: ${searchKey}`);
     const coords = fallbackCoords[searchKey];
@@ -139,24 +245,28 @@ async function geocodeCityCountry(city, country) {
   // Try Mapbox Geocoding first (better than Nominatim, no rate limits with your token)
   try {
     const query = queryParts.join(", ");
-    const url = `${MAPBOX_GEOCODE_ENDPOINT}/${encodeURIComponent(query)}.json?access_token=${MAPBOX_TOKEN}&limit=1`;
-    
+    const url = `${MAPBOX_GEOCODE_ENDPOINT}/${encodeURIComponent(
+      query
+    )}.json?access_token=${MAPBOX_TOKEN}&limit=1`;
+
     const res = await fetch(url);
     if (res.ok) {
       const data = await res.json();
       if (data.features && data.features.length > 0) {
         const feature = data.features[0];
         const [lon, lat] = feature.center;
-        
+
         // Extract country code from context
         let countryCode = null;
         if (feature.context) {
-          const countryContext = feature.context.find(c => c.id.startsWith('country.'));
+          const countryContext = feature.context.find((c) =>
+            c.id.startsWith("country.")
+          );
           if (countryContext && countryContext.short_code) {
             countryCode = countryContext.short_code.toUpperCase();
           }
         }
-        
+
         // Extract bounding box if available
         let boundingBox = null;
         if (feature.bbox && feature.bbox.length === 4) {
@@ -167,7 +277,7 @@ async function geocodeCityCountry(city, country) {
             north: feature.bbox[3],
           });
         }
-        
+
         console.log(`Mapbox geocoded: ${feature.place_name}`);
         return {
           lat,
@@ -179,7 +289,7 @@ async function geocodeCityCountry(city, country) {
       }
     }
   } catch (err) {
-    console.warn('Mapbox geocoding failed:', err.message);
+    console.warn("Mapbox geocoding failed:", err.message);
   }
 
   // Fallback to Nominatim if Mapbox fails
@@ -194,35 +304,37 @@ async function geocodeCityCountry(city, country) {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       if (attempt > 0) {
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise((resolve) => setTimeout(resolve, 1500));
       }
 
       const res = await fetch(`${NOMINATIM_ENDPOINT}?${params.toString()}`, {
         headers: USER_AGENT_HEADER,
       });
-      
+
       if (!res.ok) {
         lastError = new Error(`Nominatim returned ${res.status}`);
         continue;
       }
-      
+
       const data = await res.json();
       if (!Array.isArray(data) || !data.length) return null;
-      
+
       const result = data[0];
       const latNum = Number(result.lat);
       const lonNum = Number(result.lon);
-      const boundingBox = Array.isArray(result.boundingbox) && result.boundingbox.length === 4
-        ? sanitizeBoundingBox({
-            south: Number(result.boundingbox[0]),
-            north: Number(result.boundingbox[1]),
-            west: Number(result.boundingbox[2]),
-            east: Number(result.boundingbox[3]),
-          })
-        : null;
-      const countryCode = result.address && typeof result.address.country_code === "string"
-        ? result.address.country_code.toUpperCase()
-        : null;
+      const boundingBox =
+        Array.isArray(result.boundingbox) && result.boundingbox.length === 4
+          ? sanitizeBoundingBox({
+              south: Number(result.boundingbox[0]),
+              north: Number(result.boundingbox[1]),
+              west: Number(result.boundingbox[2]),
+              east: Number(result.boundingbox[3]),
+            })
+          : null;
+      const countryCode =
+        result.address && typeof result.address.country_code === "string"
+          ? result.address.country_code.toUpperCase()
+          : null;
 
       console.log(`Nominatim geocoded: ${result.display_name}`);
       return {
@@ -237,7 +349,10 @@ async function geocodeCityCountry(city, country) {
     }
   }
 
-  console.warn("All geocoding methods failed:", lastError?.message || "Unknown error");
+  console.warn(
+    "All geocoding methods failed:",
+    lastError?.message || "Unknown error"
+  );
   return null;
 }
 
@@ -265,17 +380,19 @@ async function geocodeCityCountryOLD_BACKUP(city, country) {
   const result = data[0];
   const latNum = Number(result.lat);
   const lonNum = Number(result.lon);
-  const boundingBox = Array.isArray(result.boundingbox) && result.boundingbox.length === 4
-    ? sanitizeBoundingBox({
-        south: Number(result.boundingbox[0]),
-        north: Number(result.boundingbox[1]),
-        west: Number(result.boundingbox[2]),
-        east: Number(result.boundingbox[3]),
-      })
-    : null;
-  const countryCode = result.address && typeof result.address.country_code === "string"
-    ? result.address.country_code.toUpperCase()
-    : null;
+  const boundingBox =
+    Array.isArray(result.boundingbox) && result.boundingbox.length === 4
+      ? sanitizeBoundingBox({
+          south: Number(result.boundingbox[0]),
+          north: Number(result.boundingbox[1]),
+          west: Number(result.boundingbox[2]),
+          east: Number(result.boundingbox[3]),
+        })
+      : null;
+  const countryCode =
+    result.address && typeof result.address.country_code === "string"
+      ? result.address.country_code.toUpperCase()
+      : null;
 
   return {
     lat: latNum,
@@ -321,7 +438,10 @@ ${buildSelectors(`(${bbox})`)}
       out center 60;
     `;
   } else {
-    const radiusMeters = Math.max(1000, Math.min(150000, Math.round((radiusKm || 5) * 1000)));
+    const radiusMeters = Math.max(
+      1000,
+      Math.min(150000, Math.round((radiusKm || 5) * 1000))
+    );
     query = `
       [out:json][timeout:15];
       (
@@ -412,7 +532,10 @@ ${buildSelectors(`(${bbox})`)}
       out center 60;
     `;
   } else {
-    const radiusMeters = Math.max(1000, Math.min(150000, Math.round((radiusKm || 5) * 1000)));
+    const radiusMeters = Math.max(
+      1000,
+      Math.min(150000, Math.round((radiusKm || 5) * 1000))
+    );
     query = `
       [out:json][timeout:15];
       (
@@ -460,7 +583,10 @@ ${buildSelectors(`(around:${radiusMeters},${lat},${lon})`)}
 
     items.push({
       name,
-      note: [details.join(" • "), address || tags.description || "Halal-friendly spot"]
+      note: [
+        details.join(" • "),
+        address || tags.description || "Halal-friendly spot",
+      ]
         .filter(Boolean)
         .join(" | "),
       lat: latVal,
@@ -481,7 +607,10 @@ function buildFallbackItems(type, label, lat, lon) {
   const displayName = label || `Selected ${type}`;
   return [
     {
-      name: type === "mosque" ? `${displayName} Mosque` : `${displayName} Halal Eatery`,
+      name:
+        type === "mosque"
+          ? `${displayName} Mosque`
+          : `${displayName} Halal Eatery`,
       note: "Showing cached results while live lookup is unavailable",
       lat,
       lon,
@@ -492,17 +621,7 @@ function buildFallbackItems(type, label, lat, lon) {
 
 function buildRadiusSweep(baseKm) {
   const base = Math.max(1, Number(baseKm) || 5);
-  const candidates = [
-    base,
-    base * 1.8,
-    base * 3,
-    20,
-    35,
-    50,
-    75,
-    110,
-    150,
-  ];
+  const candidates = [base, base * 1.8, base * 3, 20, 35, 50, 75, 110, 150];
 
   const unique = [];
   for (const value of candidates) {
@@ -515,7 +634,13 @@ function buildRadiusSweep(baseKm) {
   return unique;
 }
 
-async function queryOverpassWithExpansion(fetcher, lat, lon, baseRadiusKm, options = {}) {
+async function queryOverpassWithExpansion(
+  fetcher,
+  lat,
+  lon,
+  baseRadiusKm,
+  options = {}
+) {
   const radii = buildRadiusSweep(baseRadiusKm);
   const { boundingBox, countryCode } = options || {};
   let lastError = null;
@@ -538,7 +663,7 @@ async function queryOverpassWithExpansion(fetcher, lat, lon, baseRadiusKm, optio
   // Try bounding box search if available
   if (boundingBox) {
     try {
-      console.log('Trying bounding box search');
+      console.log("Trying bounding box search");
       const bboxItems = await fetcher(lat, lon, {
         boundingBox,
         countryCode,
@@ -550,14 +675,14 @@ async function queryOverpassWithExpansion(fetcher, lat, lon, baseRadiusKm, optio
       }
     } catch (err) {
       lastError = err;
-      console.warn('Bbox search failed:', err.message);
+      console.warn("Bbox search failed:", err.message);
     }
   }
 
   // Try country-wide search as last resort (for country searches)
   if (countryCode) {
     try {
-      console.log('Trying country-wide search');
+      console.log("Trying country-wide search");
       const countryItems = await fetcher(lat, lon, {
         countryCode,
         mode: "country",
@@ -568,38 +693,55 @@ async function queryOverpassWithExpansion(fetcher, lat, lon, baseRadiusKm, optio
       }
     } catch (err) {
       lastError = err;
-      console.warn('Country search failed:', err.message);
+      console.warn("Country search failed:", err.message);
     }
   }
-  
+
   if (lastError) throw lastError;
   return [];
 }
 
 async function queryOverpassMosques(lat, lon, radiusKm, options) {
-  return queryOverpassWithExpansion(fetchOverpassMosques, lat, lon, radiusKm, options);
+  return queryOverpassWithExpansion(
+    fetchOverpassMosques,
+    lat,
+    lon,
+    radiusKm,
+    options
+  );
 }
 
 async function queryOverpassHalalFood(lat, lon, radiusKm, options) {
-  return queryOverpassWithExpansion(fetchOverpassHalalFood, lat, lon, radiusKm, options);
+  return queryOverpassWithExpansion(
+    fetchOverpassHalalFood,
+    lat,
+    lon,
+    radiusKm,
+    options
+  );
 }
 
 module.exports.mosques = async (req, res) => {
   const { lat, lon, city, country } = req.query;
   const radiusKm = Number(req.query.radiusKm) || 5;
 
-  console.log('Mosque request:', { city, country, lat, lon });
+  console.log("Mosque request:", { city, country, lat, lon });
 
   let latNum = lat !== undefined ? Number(lat) : NaN;
   let lonNum = lon !== undefined ? Number(lon) : NaN;
   let areaLabel = city || country || "Selected Destination";
   let boundingBox = null;
   let countryCode =
-    typeof req.query.countryCode === "string" && req.query.countryCode.trim().length === 2
+    typeof req.query.countryCode === "string" &&
+    req.query.countryCode.trim().length === 2
       ? req.query.countryCode.trim().toUpperCase()
       : null;
 
-  if (!countryCode && typeof country === "string" && country.trim().length === 2) {
+  if (
+    !countryCode &&
+    typeof country === "string" &&
+    country.trim().length === 2
+  ) {
     countryCode = country.trim().toUpperCase();
   }
 
@@ -607,7 +749,7 @@ module.exports.mosques = async (req, res) => {
     let geocoded = null;
     if (city || country) {
       geocoded = await geocodeCityCountry(city, country);
-      console.log('Geocoded result:', geocoded);
+      console.log("Geocoded result:", geocoded);
     }
 
     if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
@@ -631,20 +773,26 @@ module.exports.mosques = async (req, res) => {
     }
 
     if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
-      console.warn('No valid coordinates found for mosque search');
+      console.warn("No valid coordinates found for mosque search");
       return res
         .status(400)
         .json({ message: "A valid city/country or lat/lon is required" });
     }
 
-    console.log('Searching mosques at:', { lat: latNum, lon: lonNum, countryCode });
+    console.log("Searching mosques at:", {
+      lat: latNum,
+      lon: lonNum,
+      countryCode,
+    });
 
     // Use larger radius for country searches (search entire major city)
     let searchRadius = radiusKm;
     if (geocoded && !geocoded.isCity) {
       // It's a country search - use 20km radius around capital for faster results
       searchRadius = 20;
-      console.log('Country search detected - using 20km radius around capital city');
+      console.log(
+        "Country search detected - using 20km radius around capital city"
+      );
     }
 
     let items = await queryOverpassMosques(latNum, lonNum, searchRadius, {
@@ -652,7 +800,7 @@ module.exports.mosques = async (req, res) => {
       countryCode,
     });
 
-    console.log('Found mosques:', items.length);
+    console.log("Found mosques:", items.length);
 
     if (!items.length) {
       items = buildFallbackItems("mosque", areaLabel, latNum, lonNum);
@@ -686,7 +834,12 @@ module.exports.mosques = async (req, res) => {
     const payload = {
       coords: fallbackCoords,
       area: fallbackArea,
-      items: buildFallbackItems("mosque", fallbackArea, fallbackCoords.lat, fallbackCoords.lon),
+      items: buildFallbackItems(
+        "mosque",
+        fallbackArea,
+        fallbackCoords.lat,
+        fallbackCoords.lon
+      ),
       fallback: true,
       message: "Live mosque lookup unavailable; displaying fallback data.",
     };
@@ -718,7 +871,8 @@ module.exports.qiblah = async (req, res) => {
     const dLon = (meccaLon - userLon) * (Math.PI / 180);
     const y = Math.sin(dLon) * Math.cos((meccaLat * Math.PI) / 180);
     const x =
-      Math.cos((userLat * Math.PI) / 180) * Math.sin((meccaLat * Math.PI) / 180) -
+      Math.cos((userLat * Math.PI) / 180) *
+        Math.sin((meccaLat * Math.PI) / 180) -
       Math.sin((userLat * Math.PI) / 180) *
         Math.cos((meccaLat * Math.PI) / 180) *
         Math.cos(dLon);
@@ -745,11 +899,16 @@ module.exports.halal = async (req, res) => {
   let areaLabel = city || country || "Selected Destination";
   let boundingBox = null;
   let countryCode =
-    typeof req.query.countryCode === "string" && req.query.countryCode.trim().length === 2
+    typeof req.query.countryCode === "string" &&
+    req.query.countryCode.trim().length === 2
       ? req.query.countryCode.trim().toUpperCase()
       : null;
 
-  if (!countryCode && typeof country === "string" && country.trim().length === 2) {
+  if (
+    !countryCode &&
+    typeof country === "string" &&
+    country.trim().length === 2
+  ) {
     countryCode = country.trim().toUpperCase();
   }
 
@@ -790,7 +949,9 @@ module.exports.halal = async (req, res) => {
     if (geocoded && !geocoded.isCity) {
       // It's a country search - use 20km radius around capital for faster results
       searchRadius = 20;
-      console.log('Country search detected - using 20km radius around capital city');
+      console.log(
+        "Country search detected - using 20km radius around capital city"
+      );
     }
 
     let items = await queryOverpassHalalFood(latNum, lonNum, searchRadius, {
@@ -830,7 +991,12 @@ module.exports.halal = async (req, res) => {
     const payload = {
       coords: fallbackCoords,
       area: fallbackArea,
-      items: buildFallbackItems("halal", fallbackArea, fallbackCoords.lat, fallbackCoords.lon),
+      items: buildFallbackItems(
+        "halal",
+        fallbackArea,
+        fallbackCoords.lat,
+        fallbackCoords.lon
+      ),
       fallback: true,
       message: "Live halal food lookup unavailable; displaying fallback data.",
     };

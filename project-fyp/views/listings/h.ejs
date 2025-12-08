@@ -213,7 +213,11 @@
           min-height: 200px;
         "
       ></div>
-      <div id="map-area-badge" class="map-area-badge" style="display: none"></div>
+      <div
+        id="map-area-badge"
+        class="map-area-badge"
+        style="display: none"
+      ></div>
     </div>
   </div>
 
@@ -297,7 +301,11 @@
         }
         navigator.geolocation.getCurrentPosition(
           (pos) => {
-            console.log("Got user location:", pos.coords.latitude, pos.coords.longitude);
+            console.log(
+              "Got user location:",
+              pos.coords.latitude,
+              pos.coords.longitude
+            );
             resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude });
           },
           (err) => {
@@ -365,10 +373,7 @@
       try {
         const parsedStored = normalizePackageDestination(JSON.parse(stored));
         if (parsedStored && hasDestinationInfo(parsedStored)) {
-          localStorage.setItem(
-            "selectedPackage",
-            JSON.stringify(parsedStored)
-          );
+          localStorage.setItem("selectedPackage", JSON.stringify(parsedStored));
           return parsedStored;
         }
         localStorage.removeItem("selectedPackage");
@@ -390,7 +395,8 @@
 
     function buildMapCenter(data, fallbackArea) {
       const coords = data && data.coords ? data.coords : null;
-      const label = (data && data.area) || fallbackArea || "Selected Destination";
+      const label =
+        (data && data.area) || fallbackArea || "Selected Destination";
       if (coords && coords.lat != null && coords.lon != null) {
         return {
           lat: Number(coords.lat),
@@ -413,206 +419,217 @@
     }
 
     // Wait for DOM to be ready before attaching event listeners
-    document.addEventListener('DOMContentLoaded', function() {
-      
-    // Groups
-    document
-      .getElementById("btn-create-group")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const name = prompt("Enter group name:", "My Trip Group");
-        if (!name) return;
-        const res = await fetch("/api/groups", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name }),
-        });
-        const data = await res.json();
-        if (res.ok) {
-          alert("Group created: " + data.group._id);
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    document
-      .getElementById("btn-join-group")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const id = prompt("Enter group ID to join:");
-        if (!id) return;
-        const res = await fetch(`/api/groups/${id}/join`, { method: "POST" });
-        const data = await res.json();
-        alert(
-          res.ok ? "Joined group!" : "Error: " + (data.message || "Failed")
-        );
-      });
-
-    document
-      .getElementById("btn-open-chat")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const id = prompt("Enter group ID to view messages:");
-        if (!id) return;
-        const res = await fetch(`/api/groups/${id}/messages`);
-        const data = await res.json();
-        if (res.ok) {
-          alert(`Messages loaded: ${data.messages.length}`);
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    document
-      .getElementById("btn-view-plan")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const id = prompt("Enter group ID to view plan:");
-        if (!id) return;
-        const res = await fetch(`/api/groups/${id}/plan`);
-        const data = await res.json();
-        if (res.ok) {
-          const lines = data.itinerary
-            .map((i) => `Day ${i.day}: ${i.title}`)
-            .join("\n");
-          alert(`Itinerary Loaded:\n${lines}`);
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    document
-      .getElementById("btn-expense-summary")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const id = prompt("Enter group ID to view expenses:");
-        if (!id) return;
-        const res = await fetch(`/api/groups/${id}/expenses`);
-        const data = await res.json();
-        if (res.ok) {
-          alert(
-            `Total: $${data.summary.total} | Per Member: $${data.summary.perMember}`
-          );
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    // Map/Location
-    document
-      .getElementById("btn-share-location")
-      .addEventListener("click", async () => {
-        const coords = await getCoords();
-        const res = await fetch(
-          `/api/map/nearby?lat=${coords.lat}&lon=${coords.lon}&type=hotel`
-        );
-        const data = await res.json();
-        if (res.ok) {
-          // Render hotels on map with routing
-          await renderHalalMarkers(data.hotels, {
-            area: "Nearby Hotels",
+    document.addEventListener("DOMContentLoaded", function () {
+      // Groups
+      document
+        .getElementById("btn-create-group")
+        .addEventListener("click", async () => {
+          if (!isLoggedIn) return (window.location.href = "/login");
+          const name = prompt("Enter group name:", "My Trip Group");
+          if (!name) return;
+          const res = await fetch("/api/groups", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name }),
           });
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    // Faith tools
-    document
-      .getElementById("btn-find-mosques")
-      .addEventListener("click", async () => {
-        let destination = null;
-        let destinationType = 'city'; // or 'country'
-        const pkg = getSelectedPackageCached();
-        
-        // First priority: Use cached package destination
-        if (pkg && (pkg.city || pkg.country)) {
-          if (pkg.city) {
-            destination = pkg.city;
-            destinationType = 'city';
-          } else {
-            destination = pkg.country;
-            destinationType = 'country';
-          }
-          console.log(`Using cached destination: ${destination} (${destinationType})`);
-        } else {
-          // Fallback: Prompt user
-          destination = prompt("Enter destination (city or country name):", "Bishkek");
-          if (!destination || !destination.trim()) {
-            alert("Please enter a destination to search for mosques.");
-            return;
-          }
-          destinationType = 'city'; // assume city by default
-        }
-        
-        const fallbackArea = destination;
-        try {
-          // Build query with both city and country if available
-          let queryParams = new URLSearchParams();
-          if (destinationType === 'city') {
-            queryParams.set('city', destination);
-            if (pkg && pkg.country) {
-              queryParams.set('country', pkg.country);
-            }
-          } else {
-            queryParams.set('country', destination);
-          }
-          
-          console.log(`Fetching mosques for: ${queryParams.toString()}`);
-          const res = await fetch(`/api/faith/mosques?${queryParams.toString()}`);
           const data = await res.json();
-          
-          console.log("Mosque API response:", data);
-          
-          if (!res.ok) {
-            alert("Error: " + (data.message || "Failed to find mosques"));
+          if (res.ok) {
+            alert("Group created: " + data.group._id);
+          } else {
+            alert("Error: " + (data.message || "Failed"));
+          }
+        });
+
+      document
+        .getElementById("btn-join-group")
+        .addEventListener("click", async () => {
+          if (!isLoggedIn) return (window.location.href = "/login");
+          const id = prompt("Enter group ID to join:");
+          if (!id) return;
+          const res = await fetch(`/api/groups/${id}/join`, { method: "POST" });
+          const data = await res.json();
+          alert(
+            res.ok ? "Joined group!" : "Error: " + (data.message || "Failed")
+          );
+        });
+
+      document
+        .getElementById("btn-open-chat")
+        .addEventListener("click", async () => {
+          if (!isLoggedIn) return (window.location.href = "/login");
+          const id = prompt("Enter group ID to view messages:");
+          if (!id) return;
+          const res = await fetch(`/api/groups/${id}/messages`);
+          const data = await res.json();
+          if (res.ok) {
+            alert(`Messages loaded: ${data.messages.length}`);
+          } else {
+            alert("Error: " + (data.message || "Failed"));
+          }
+        });
+
+      document
+        .getElementById("btn-view-plan")
+        .addEventListener("click", async () => {
+          if (!isLoggedIn) return (window.location.href = "/login");
+          const id = prompt("Enter group ID to view plan:");
+          if (!id) return;
+          const res = await fetch(`/api/groups/${id}/plan`);
+          const data = await res.json();
+          if (res.ok) {
+            const lines = data.itinerary
+              .map((i) => `Day ${i.day}: ${i.title}`)
+              .join("\n");
+            alert(`Itinerary Loaded:\n${lines}`);
+          } else {
+            alert("Error: " + (data.message || "Failed"));
+          }
+        });
+
+      document
+        .getElementById("btn-expense-summary")
+        .addEventListener("click", async () => {
+          if (!isLoggedIn) return (window.location.href = "/login");
+          const id = prompt("Enter group ID to view expenses:");
+          if (!id) return;
+          const res = await fetch(`/api/groups/${id}/expenses`);
+          const data = await res.json();
+          if (res.ok) {
+            alert(
+              `Total: $${data.summary.total} | Per Member: $${data.summary.perMember}`
+            );
+          } else {
+            alert("Error: " + (data.message || "Failed"));
+          }
+        });
+
+      // Map/Location
+      document
+        .getElementById("btn-share-location")
+        .addEventListener("click", async () => {
+          const coords = await getCoords();
+          const res = await fetch(
+            `/api/map/nearby?lat=${coords.lat}&lon=${coords.lon}&type=hotel`
+          );
+          const data = await res.json();
+          if (res.ok) {
+            // Render hotels on map with routing
+            await renderHalalMarkers(data.hotels, {
+              area: "Nearby Hotels",
+            });
+          } else {
+            alert("Error: " + (data.message || "Failed"));
+          }
+        });
+
+      // Faith tools
+      document
+        .getElementById("btn-find-mosques")
+        .addEventListener("click", async () => {
+          let destination = null;
+          let destinationType = "city"; // or 'country'
+          const pkg = getSelectedPackageCached();
+
+          // First priority: Use cached package destination
+          if (pkg && (pkg.city || pkg.country)) {
+            if (pkg.city) {
+              destination = pkg.city;
+              destinationType = "city";
+            } else {
+              destination = pkg.country;
+              destinationType = "country";
+            }
+            console.log(
+              `Using cached destination: ${destination} (${destinationType})`
+            );
+          } else {
+            // Fallback: Prompt user
+            destination = prompt(
+              "Enter destination (city or country name):",
+              "Bishkek"
+            );
+            if (!destination || !destination.trim()) {
+              alert("Please enter a destination to search for mosques.");
+              return;
+            }
+            destinationType = "city"; // assume city by default
+          }
+
+          const fallbackArea = destination;
+          try {
+            // Build query with both city and country if available
+            let queryParams = new URLSearchParams();
+            if (destinationType === "city") {
+              queryParams.set("city", destination);
+              if (pkg && pkg.country) {
+                queryParams.set("country", pkg.country);
+              }
+            } else {
+              queryParams.set("country", destination);
+            }
+
+            console.log(`Fetching mosques for: ${queryParams.toString()}`);
+            const res = await fetch(
+              `/api/faith/mosques?${queryParams.toString()}`
+            );
+            const data = await res.json();
+
+            console.log("Mosque API response:", data);
+
+            if (!res.ok) {
+              alert("Error: " + (data.message || "Failed to find mosques"));
+              return;
+            }
+            if (data.fallback) {
+              console.warn("Using fallback data:", data.message);
+              alert(
+                data.message ||
+                  "Using fallback mosque results. Live lookup unavailable."
+              );
+            }
+            const center = buildMapCenter(data, fallbackArea || destination);
+            await renderMapboxMarkers(data.items, center);
+            updateMapAreaLabel(center && center.area);
+          } catch (e) {
+            console.error("Failed to load mosques", e);
+            alert(
+              "Could not load mosques right now. Please check your connection or try again later."
+            );
+          }
+        });
+
+      document
+        .getElementById("btn-show-qiblah")
+        .addEventListener("click", async () => {
+          const c = await getCoords();
+          if (!c.lat || !c.lon) {
+            alert("Please enable location access to view Qiblah direction");
             return;
           }
-          if (data.fallback) {
-            console.warn("Using fallback data:", data.message);
-            alert(data.message || "Using fallback mosque results. Live lookup unavailable.");
-          }
-          const center = buildMapCenter(data, fallbackArea || destination);
-          await renderMapboxMarkers(data.items, center);
-          updateMapAreaLabel(center && center.area);
-        } catch (e) {
-          console.error("Failed to load mosques", e);
-          alert(
-            "Could not load mosques right now. Please check your connection or try again later."
+
+          const res = await fetch(
+            `/api/faith/qiblah?lat=${c.lat}&lon=${c.lon}`
           );
-        }
-      });
+          const data = await res.json();
+          if (res.ok) {
+            // Initialize Mapbox map at user location
+            initMapboxMap();
+            const map = window.__mapbox_map;
 
-    document
-      .getElementById("btn-show-qiblah")
-      .addEventListener("click", async () => {
-        const c = await getCoords();
-        if (!c.lat || !c.lon) {
-          alert("Please enable location access to view Qiblah direction");
-          return;
-        }
+            // Center map at user location
+            map.flyTo({ center: [c.lon, c.lat], zoom: 15 });
 
-        const res = await fetch(`/api/faith/qiblah?lat=${c.lat}&lon=${c.lon}`);
-        const data = await res.json();
-        if (res.ok) {
-          // Initialize Mapbox map at user location
-          initMapboxMap();
-          const map = window.__mapbox_map;
+            // Remove existing Qiblah marker if any
+            if (window.__qiblah_marker) {
+              window.__qiblah_marker.remove();
+            }
 
-          // Center map at user location
-          map.flyTo({ center: [c.lon, c.lat], zoom: 15 });
+            // Create a custom Qiblah indicator (arrow pointing to Mecca)
+            const qiblahAngle = data.angle; // degrees from north
 
-          // Remove existing Qiblah marker if any
-          if (window.__qiblah_marker) {
-            window.__qiblah_marker.remove();
-          }
-
-          // Create a custom Qiblah indicator (arrow pointing to Mecca)
-          const qiblahAngle = data.angle; // degrees from north
-
-          // Create a rotated arrow using HTML/CSS as a DOM element
-          const qiblahElement = document.createElement('div');
-          qiblahElement.innerHTML = `
+            // Create a rotated arrow using HTML/CSS as a DOM element
+            const qiblahElement = document.createElement("div");
+            qiblahElement.innerHTML = `
             <div style="
               width: 50px;
               height: 50px;
@@ -632,146 +649,158 @@
             </div>
           `;
 
-          // Create popup content
-          const popupHTML = `
+            // Create popup content
+            const popupHTML = `
             <strong>Qiblah Direction</strong><br/>
             Angle: ${qiblahAngle.toFixed(1)}° from North<br/>
             <small style="color: green;">Your location (green arrow points to Mecca)</small>
           `;
 
-          // Create Mapbox marker with custom element
-          const qiblahMarker = new mapboxgl.Marker({ element: qiblahElement })
-            .setLngLat([c.lon, c.lat])
-            .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML))
-            .addTo(map);
+            // Create Mapbox marker with custom element
+            const qiblahMarker = new mapboxgl.Marker({ element: qiblahElement })
+              .setLngLat([c.lon, c.lat])
+              .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML))
+              .addTo(map);
 
-          qiblahMarker.togglePopup();
+            qiblahMarker.togglePopup();
 
-          // Draw a line from user to Mecca direction (visual aid)
-          const angleRad = (qiblahAngle * Math.PI) / 180;
-          const endLat = c.lat + Math.cos(angleRad) * 0.1;
-          const endLon = c.lon + Math.sin(angleRad) * 0.1;
+            // Draw a line from user to Mecca direction (visual aid)
+            const angleRad = (qiblahAngle * Math.PI) / 180;
+            const endLat = c.lat + Math.cos(angleRad) * 0.1;
+            const endLon = c.lon + Math.sin(angleRad) * 0.1;
 
-          // Remove old line if exists
-          if (map.getSource('qiblah-line')) {
-            map.removeLayer('qiblah-line-layer');
-            map.removeSource('qiblah-line');
+            // Remove old line if exists
+            if (map.getSource("qiblah-line")) {
+              map.removeLayer("qiblah-line-layer");
+              map.removeSource("qiblah-line");
+            }
+
+            // Add line to map
+            map.addSource("qiblah-line", {
+              type: "geojson",
+              data: {
+                type: "Feature",
+                geometry: {
+                  type: "LineString",
+                  coordinates: [
+                    [c.lon, c.lat],
+                    [endLon, endLat],
+                  ],
+                },
+              },
+            });
+
+            map.addLayer({
+              id: "qiblah-line-layer",
+              type: "line",
+              source: "qiblah-line",
+              paint: {
+                "line-color": "#32CD32",
+                "line-width": 3,
+                "line-opacity": 0.8,
+                "line-dasharray": [2, 2],
+              },
+            });
+
+            window.__qiblah_marker = qiblahMarker;
+          } else {
+            alert("Error: " + (data.message || "Failed"));
+          }
+        });
+
+      document
+        .getElementById("btn-find-halal")
+        .addEventListener("click", async () => {
+          let destination = null;
+          let destinationType = "city";
+          const pkg = getSelectedPackageCached();
+
+          // First priority: Use cached package destination
+          if (pkg && (pkg.city || pkg.country)) {
+            if (pkg.city) {
+              destination = pkg.city;
+              destinationType = "city";
+            } else {
+              destination = pkg.country;
+              destinationType = "country";
+            }
+            console.log(
+              `Using cached destination: ${destination} (${destinationType})`
+            );
+          } else {
+            // Fallback: Prompt user
+            destination = prompt(
+              "Enter destination (city or country name):",
+              "Bishkek"
+            );
+            if (!destination || !destination.trim()) {
+              alert("Please enter a destination to search for halal food.");
+              return;
+            }
+            destinationType = "city";
           }
 
-          // Add line to map
-          map.addSource('qiblah-line', {
-            type: 'geojson',
-            data: {
-              type: 'Feature',
-              geometry: {
-                type: 'LineString',
-                coordinates: [
-                  [c.lon, c.lat],
-                  [endLon, endLat]
-                ]
+          const fallbackArea = destination;
+          try {
+            // Build query with both city and country if available
+            let queryParams = new URLSearchParams();
+            if (destinationType === "city") {
+              queryParams.set("city", destination);
+              if (pkg && pkg.country) {
+                queryParams.set("country", pkg.country);
               }
+            } else {
+              queryParams.set("country", destination);
             }
-          });
 
-          map.addLayer({
-            id: 'qiblah-line-layer',
-            type: 'line',
-            source: 'qiblah-line',
-            paint: {
-              'line-color': '#32CD32',
-              'line-width': 3,
-              'line-opacity': 0.8,
-              'line-dasharray': [2, 2]
+            console.log(`Fetching halal places for: ${queryParams.toString()}`);
+            const res = await fetch(
+              `/api/faith/halal?${queryParams.toString()}`
+            );
+            const data = await res.json();
+
+            console.log("Halal API response:", data);
+
+            if (!res.ok) {
+              alert("Error: " + (data.message || "Failed to find halal food"));
+              return;
             }
-          });
-
-          window.__qiblah_marker = qiblahMarker;
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    document
-      .getElementById("btn-find-halal")
-      .addEventListener("click", async () => {
-        let destination = null;
-        let destinationType = 'city';
-        const pkg = getSelectedPackageCached();
-        
-        // First priority: Use cached package destination
-        if (pkg && (pkg.city || pkg.country)) {
-          if (pkg.city) {
-            destination = pkg.city;
-            destinationType = 'city';
-          } else {
-            destination = pkg.country;
-            destinationType = 'country';
-          }
-          console.log(`Using cached destination: ${destination} (${destinationType})`);
-        } else {
-          // Fallback: Prompt user
-          destination = prompt("Enter destination (city or country name):", "Bishkek");
-          if (!destination || !destination.trim()) {
-            alert("Please enter a destination to search for halal food.");
-            return;
-          }
-          destinationType = 'city';
-        }
-
-        const fallbackArea = destination;
-        try {
-          // Build query with both city and country if available
-          let queryParams = new URLSearchParams();
-          if (destinationType === 'city') {
-            queryParams.set('city', destination);
-            if (pkg && pkg.country) {
-              queryParams.set('country', pkg.country);
+            if (data.fallback) {
+              console.warn("Using fallback data:", data.message);
+              alert(
+                data.message ||
+                  "Using fallback halal listings. Live lookup unavailable."
+              );
             }
-          } else {
-            queryParams.set('country', destination);
+            const center = buildMapCenter(data, fallbackArea);
+            await renderMapboxMarkers(data.items, center);
+            updateMapAreaLabel(center && center.area);
+          } catch (e) {
+            console.error("Failed to lookup halal food", e);
+            alert(
+              "Could not load halal food spots for this destination right now. Please try again later."
+            );
           }
-          
-          console.log(`Fetching halal places for: ${queryParams.toString()}`);
-          const res = await fetch(`/api/faith/halal?${queryParams.toString()}`);
-          const data = await res.json();
-          
-          console.log("Halal API response:", data);
-          
-          if (!res.ok) {
-            alert("Error: " + (data.message || "Failed to find halal food"));
-            return;
-          }
-          if (data.fallback) {
-            console.warn("Using fallback data:", data.message);
-            alert(data.message || "Using fallback halal listings. Live lookup unavailable.");
-          }
-          const center = buildMapCenter(data, fallbackArea);
-          await renderMapboxMarkers(data.items, center);
-          updateMapAreaLabel(center && center.area);
-        } catch (e) {
-          console.error("Failed to lookup halal food", e);
-          alert("Could not load halal food spots for this destination right now. Please try again later.");
-        }
-      });
-
+        });
     }); // End of DOMContentLoaded
 
     // --- Mapbox GL Map (using your Mapbox token) ---
     function initMapboxMap() {
       if (window.__mapbox_map) return; // already initialized
-      
-      mapboxgl.accessToken = 'pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w';
-      
+
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
+
       const map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v12', // Mapbox Streets style
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v12", // Mapbox Streets style
         center: [74.5698, 42.8746], // [lng, lat] for Bishkek
-        zoom: 11
+        zoom: 11,
       });
-      
+
       // Add navigation controls (zoom buttons)
       map.addControl(new mapboxgl.NavigationControl());
-      
+
       window.__mapbox_map = map;
       window.__mapbox_markers = [];
     }
@@ -790,82 +819,87 @@
         const position = await new Promise((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject);
         });
-        
+
         const userLon = position.coords.longitude;
         const userLat = position.coords.latitude;
-        
+
         const map = window.__mapbox_map;
-        
+
         // Mapbox Directions API
-        const accessToken = 'pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w';
+        const accessToken =
+          "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
         const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${userLon},${userLat};${destLon},${destLat}?geometries=geojson&access_token=${accessToken}`;
-        
+
         const response = await fetch(url);
         const data = await response.json();
-        
+
         if (data.routes && data.routes.length > 0) {
           const route = data.routes[0];
           const distance = (route.distance / 1000).toFixed(2); // Convert to km
           const duration = Math.round(route.duration / 60); // Convert to minutes
-          
+
           // Remove existing route if any
-          if (map.getSource('route')) {
-            map.removeLayer('route');
-            map.removeSource('route');
+          if (map.getSource("route")) {
+            map.removeLayer("route");
+            map.removeSource("route");
           }
-          
+
           // Add route line to map
-          map.addSource('route', {
-            type: 'geojson',
+          map.addSource("route", {
+            type: "geojson",
             data: {
-              type: 'Feature',
+              type: "Feature",
               properties: {},
-              geometry: route.geometry
-            }
+              geometry: route.geometry,
+            },
           });
-          
+
           map.addLayer({
-            id: 'route',
-            type: 'line',
-            source: 'route',
+            id: "route",
+            type: "line",
+            source: "route",
             layout: {
-              'line-join': 'round',
-              'line-cap': 'round'
+              "line-join": "round",
+              "line-cap": "round",
             },
             paint: {
-              'line-color': '#007acc',
-              'line-width': 5,
-              'line-opacity': 0.75
-            }
+              "line-color": "#007acc",
+              "line-width": 5,
+              "line-opacity": 0.75,
+            },
           });
-          
+
           // Add user location marker
           if (window.__user_marker) {
             window.__user_marker.remove();
           }
-          window.__user_marker = new mapboxgl.Marker({ color: '#22c55e' })
+          window.__user_marker = new mapboxgl.Marker({ color: "#22c55e" })
             .setLngLat([userLon, userLat])
-            .setPopup(new mapboxgl.Popup().setHTML('<strong>Your Location</strong>'))
+            .setPopup(
+              new mapboxgl.Popup().setHTML("<strong>Your Location</strong>")
+            )
             .addTo(map);
-          
+
           // Fit map to show entire route
           const coordinates = route.geometry.coordinates;
           const bounds = coordinates.reduce((bounds, coord) => {
             return bounds.extend(coord);
           }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
-          
+
           map.fitBounds(bounds, { padding: 50 });
-          
-          alert(`Route to ${destName}\n\nDistance: ${distance} km\nEstimated time: ${duration} minutes`);
+
+          alert(
+            `Route to ${destName}\n\nDistance: ${distance} km\nEstimated time: ${duration} minutes`
+          );
         } else {
-          alert('Could not find a route to this location');
+          alert("Could not find a route to this location");
         }
       } catch (error) {
-        console.error('Directions error:', error);
+        console.error("Directions error:", error);
         if (error.code === 1) {
-          alert('Please enable location access to get directions');
+          alert("Please enable location access to get directions");
         } else {
-          alert('Failed to get directions. Please try again.');
+          alert("Failed to get directions. Please try again.");
         }
       }
     }
@@ -903,13 +937,15 @@
 
     async function renderMapboxMarkers(items, center) {
       if (!items || !items.length) {
-        alert("No places found for this destination. Try a different city or country.");
+        alert(
+          "No places found for this destination. Try a different city or country."
+        );
         return;
       }
-      
+
       try {
         console.log("Rendering", items.length, "items on Mapbox map");
-        
+
         // Ensure map is initialized
         initMapboxMap();
         const map = window.__mapbox_map;
@@ -930,35 +966,46 @@
         window.__mapbox_markers = [];
 
         // Process all items
-        const processedItems = items.map((it) => {
-          let lat, lon;
+        const processedItems = items
+          .map((it) => {
+            let lat, lon;
 
-          if (it.lat != null && it.lon != null) {
-            lat = Number(it.lat);
-            lon = Number(it.lon);
-          } else {
-            console.warn("Item missing coordinates:", it.name);
-            return null;
-          }
+            if (it.lat != null && it.lon != null) {
+              lat = Number(it.lat);
+              lon = Number(it.lon);
+            } else {
+              console.warn("Item missing coordinates:", it.name);
+              return null;
+            }
 
-          const distance = calculateDistance(mapCenter.lat, mapCenter.lon, lat, lon);
+            const distance = calculateDistance(
+              mapCenter.lat,
+              mapCenter.lon,
+              lat,
+              lon
+            );
 
-          return {
-            name: it.name,
-            note: it.note || "",
-            lat,
-            lon,
-            distance: distance.toFixed(1),
-          };
-        }).filter(Boolean);
+            return {
+              name: it.name,
+              note: it.note || "",
+              lat,
+              lon,
+              distance: distance.toFixed(1),
+            };
+          })
+          .filter(Boolean);
 
         if (processedItems.length === 0) {
-          alert("No valid location data found. The destination may not have mapped mosques/restaurants.");
+          alert(
+            "No valid location data found. The destination may not have mapped mosques/restaurants."
+          );
           return;
         }
 
         // Sort items by distance
-        processedItems.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+        processedItems.sort(
+          (a, b) => parseFloat(a.distance) - parseFloat(b.distance)
+        );
 
         console.log("Processed items:", processedItems.length);
 
@@ -972,8 +1019,12 @@
             <div style="font-family: Arial, sans-serif;">
               <strong style="font-size: 14px;">${it.name}</strong>
               <div style="font-size: 12px; margin-top: 4px;">${it.note}</div>
-              <div style="margin-top: 6px; font-weight: bold; font-size: 12px;">📍 ${it.distance} km from center</div>
-              <button onclick="getDirectionsTo(${it.lat}, ${it.lon}, '${it.name.replace(/'/g, "\\'")}')" 
+              <div style="margin-top: 6px; font-weight: bold; font-size: 12px;">📍 ${
+                it.distance
+              } km from center</div>
+              <button onclick="getDirectionsTo(${it.lat}, ${
+            it.lon
+          }, '${it.name.replace(/'/g, "\\'")}')" 
                       style="margin-top: 8px; padding: 6px 12px; background: #007acc; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 12px;">
                 🚗 Get Directions
               </button>
@@ -981,7 +1032,7 @@
           `;
 
           // Create marker
-          const marker = new mapboxgl.Marker({ color: '#007acc' })
+          const marker = new mapboxgl.Marker({ color: "#007acc" })
             .setLngLat([it.lon, it.lat])
             .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML))
             .addTo(map);
@@ -994,23 +1045,32 @@
             marker.togglePopup();
           }
         });
-        
+
         window.__mapbox_markers = markers;
 
         // Fit map to show all markers
         if (markers.length > 1) {
           map.fitBounds(bounds, { padding: 50 });
         } else if (markers.length === 1) {
-          map.flyTo({ center: [processedItems[0].lon, processedItems[0].lat], zoom: 14 });
+          map.flyTo({
+            center: [processedItems[0].lon, processedItems[0].lat],
+            zoom: 14,
+          });
         }
 
-        console.log(`Successfully rendered ${markers.length} markers on Mapbox map`);
+        console.log(
+          `Successfully rendered ${markers.length} markers on Mapbox map`
+        );
       } catch (e) {
         console.error("Map rendering failed:", e);
         const list = items
           .map((i) => `- ${i.name}${i.note ? " — " + i.note : ""}`)
           .join("\n");
-        alert("Found places:\n" + list + "\n\n(Map rendering failed - check console)");
+        alert(
+          "Found places:\n" +
+            list +
+            "\n\n(Map rendering failed - check console)"
+        );
       }
     }
 
@@ -1076,7 +1136,7 @@
           if (heading) {
             heading.textContent = "✨ Recommendations for You";
           }
-          
+
           // fetch random destination from server
           try {
             const countryInput =
