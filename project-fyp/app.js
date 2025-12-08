@@ -218,6 +218,14 @@ app.get("/fares", (req, res) => {
   res.render("listings/fares");
 });
 
+// Driver dashboard page
+app.get("/driver-dashboard", (req, res) => {
+  res.render("listings/driverDashboard");
+});
+
+// Make io accessible to routes
+app.set('io', io);
+
 // Mount routers
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
@@ -229,6 +237,7 @@ app.use("/api/weather", apiWeatherRouter);
 app.use("/api/map", apiMapRouter);
 app.use("/api/groups", apiGroupsRouter);
 app.use("/api/faith", apiFaithRouter);
+app.use("/api/taxi-bookings", require("./routes/api/taxiBookings.js"));
 
 // ===================
 // 404 HANDLER

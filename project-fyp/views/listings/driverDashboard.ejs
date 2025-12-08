@@ -1,0 +1,539 @@
+<% layout("/layouts/boiler")%>
+
+<style>
+  .driver-dashboard {
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .dashboard-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+  }
+
+  .dashboard-header h1 {
+    margin: 0 0 10px 0;
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border-left: 4px solid #3b82f6;
+  }
+
+  .stat-card .number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3a8a;
+  }
+
+  .stat-card .label {
+    color: #6b7280;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  .bookings-section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .section-header h2 {
+    color: #1e3a8a;
+    margin: 0;
+  }
+
+  .filter-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .filter-btn {
+    padding: 8px 16px;
+    border: 2px solid #3b82f6;
+    background: white;
+    color: #3b82f6;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .filter-btn.active {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .bookings-list {
+    display: grid;
+    gap: 15px;
+  }
+
+  .booking-card {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #3b82f6;
+    transition: all 0.3s ease;
+  }
+
+  .booking-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(30, 64, 175, 0.2);
+  }
+
+  .booking-card.pending {
+    border-left-color: #f59e0b;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  }
+
+  .booking-card.accepted {
+    border-left-color: #10b981;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  }
+
+  .booking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .vehicle-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1e3a8a;
+  }
+
+  .booking-status {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .status-pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .status-accepted {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .status-completed {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .booking-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #4b5563;
+  }
+
+  .detail-item i {
+    color: #3b82f6;
+  }
+
+  .detail-item strong {
+    color: #1e40af;
+  }
+
+  .booking-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .action-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .accept-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+  }
+
+  .accept-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+  }
+
+  .complete-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+  }
+
+  .complete-btn:hover {
+    transform: scale(1.05);
+  }
+
+  .call-btn {
+    background: #1e40af;
+    color: white;
+  }
+
+  .call-btn:hover {
+    background: #1e3a8a;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6b7280;
+  }
+
+  .empty-state i {
+    font-size: 4rem;
+    color: #bfdbfe;
+    margin-bottom: 20px;
+  }
+
+  .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 10000;
+    border-left: 4px solid #f59e0b;
+    min-width: 300px;
+  }
+
+  .notification.show {
+    display: block;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+</style>
+
+<div class="driver-dashboard">
+  <div class="dashboard-header">
+    <h1><i class="fas fa-car"></i> Taxi Driver Dashboard</h1>
+    <p>Manage your ride requests and bookings in real-time</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="number" id="totalBookings">0</div>
+      <div class="label">Total Requests</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="pendingBookings">0</div>
+      <div class="label">Pending</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="acceptedBookings">0</div>
+      <div class="label">Accepted</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="completedBookings">0</div>
+      <div class="label">Completed</div>
+    </div>
+  </div>
+
+  <div class="bookings-section">
+    <div class="section-header">
+      <h2><i class="fas fa-list"></i> Ride Requests</h2>
+      <div class="filter-buttons">
+        <button class="filter-btn active" onclick="filterBookings('all')">All</button>
+        <button class="filter-btn" onclick="filterBookings('Pending')">Pending</button>
+        <button class="filter-btn" onclick="filterBookings('Accepted')">Accepted</button>
+        <button class="filter-btn" onclick="filterBookings('Completed')">Completed</button>
+      </div>
+    </div>
+    <div class="bookings-list" id="bookingsList">
+      <div class="empty-state">
+        <i class="fas fa-inbox"></i>
+        <h3>No bookings yet</h3>
+        <p>Waiting for ride requests...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="notification" id="notification">
+  <h4 style="color: #1e3a8a; margin: 0 0 10px 0;">
+    <i class="fas fa-bell"></i> New Ride Request!
+  </h4>
+  <p id="notificationText" style="margin: 0; color: #4b5563;"></p>
+</div>
+
+<audio id="notificationSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZUQ0PVqzn77BdGAg+ltryxnMoBSd9zPLaizsIGGS56+ibUgwOUKXh8bllHAU2jdXzzn0pBCp7ye/glEIKE1y05+ytWRYKQ5zd8sFuJAUuhM/z1YU1Bhxqvez" preload="auto"></audio>
+
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+  const socket = io();
+  let allBookings = [];
+  let currentFilter = 'all';
+
+  // Connect to Socket.IO
+  socket.on('connect', () => {
+    console.log('Connected to server');
+  });
+
+  // Listen for new bookings
+  socket.on('new-taxi-booking', (booking) => {
+    console.log('New booking received:', booking);
+    showNotification(booking);
+    playNotificationSound();
+    loadBookings();
+  });
+
+  // Listen for booking updates
+  socket.on('booking-accepted', (booking) => {
+    console.log('Booking accepted:', booking);
+    loadBookings();
+  });
+
+  // Load all bookings
+  async function loadBookings() {
+    try {
+      const response = await fetch('/api/taxi-bookings');
+      const data = await response.json();
+      
+      if (data.success) {
+        allBookings = data.bookings;
+        updateStats();
+        renderBookings();
+      }
+    } catch (error) {
+      console.error('Error loading bookings:', error);
+    }
+  }
+
+  // Update statistics
+  function updateStats() {
+    document.getElementById('totalBookings').textContent = allBookings.length;
+    document.getElementById('pendingBookings').textContent = 
+      allBookings.filter(b => b.status === 'Pending').length;
+    document.getElementById('acceptedBookings').textContent = 
+      allBookings.filter(b => b.status === 'Accepted').length;
+    document.getElementById('completedBookings').textContent = 
+      allBookings.filter(b => b.status === 'Completed').length;
+  }
+
+  // Filter bookings
+  function filterBookings(status) {
+    currentFilter = status;
+    
+    // Update button states
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    renderBookings();
+  }
+
+  // Render bookings
+  function renderBookings() {
+    const bookingsList = document.getElementById('bookingsList');
+    
+    let filteredBookings = currentFilter === 'all' 
+      ? allBookings 
+      : allBookings.filter(b => b.status === currentFilter);
+    
+    if (filteredBookings.length === 0) {
+      bookingsList.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <h3>No bookings found</h3>
+          <p>No ${currentFilter.toLowerCase()} bookings at the moment.</p>
+        </div>
+      `;
+      return;
+    }
+    
+    bookingsList.innerHTML = filteredBookings.map(booking => `
+      <div class="booking-card ${booking.status.toLowerCase()}">
+        <div class="booking-header">
+          <div class="vehicle-name">
+            <i class="fas fa-taxi"></i> ${booking.vehicle}
+          </div>
+          <span class="booking-status status-${booking.status.toLowerCase()}">
+            ${booking.status}
+          </span>
+        </div>
+        
+        <div class="booking-details">
+          <div class="detail-item">
+            <i class="fas fa-user"></i>
+            <span><strong>Customer:</strong> ${booking.customerName}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-phone"></i>
+            <span><strong>Phone:</strong> ${booking.customerPhone}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span><strong>Pickup:</strong> ${booking.pickupLocation}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-flag-checkered"></i>
+            <span><strong>Destination:</strong> ${booking.destination}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-road"></i>
+            <span><strong>Distance:</strong> ${booking.distance} km</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-dollar-sign"></i>
+            <span><strong>Fare:</strong> $${booking.fare.toFixed(2)}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <span><strong>Time:</strong> ${new Date(booking.createdAt).toLocaleString()}</span>
+          </div>
+        </div>
+        
+        <div class="booking-actions">
+          ${booking.status === 'Pending' ? `
+            <button class="action-btn accept-btn" onclick="acceptBooking('${booking._id}')">
+              <i class="fas fa-check"></i> Accept Ride
+            </button>
+          ` : ''}
+          ${booking.status === 'Accepted' ? `
+            <button class="action-btn complete-btn" onclick="completeBooking('${booking._id}')">
+              <i class="fas fa-flag-checkered"></i> Complete Ride
+            </button>
+          ` : ''}
+          <button class="action-btn call-btn" onclick="callCustomer('${booking.customerPhone}')">
+            <i class="fas fa-phone"></i> Call Customer
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Accept booking
+  async function acceptBooking(bookingId) {
+    if (!confirm('Accept this ride request?')) return;
+    
+    try {
+      const response = await fetch(`/api/taxi-bookings/${bookingId}/accept`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ driverId: null })
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        alert('Ride accepted! Please contact the customer.');
+        loadBookings();
+      }
+    } catch (error) {
+      console.error('Error accepting booking:', error);
+      alert('Failed to accept booking');
+    }
+  }
+
+  // Complete booking
+  async function completeBooking(bookingId) {
+    if (!confirm('Mark this ride as completed?')) return;
+    
+    try {
+      const response = await fetch(`/api/taxi-bookings/${bookingId}/complete`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        alert('Ride completed successfully!');
+        loadBookings();
+      }
+    } catch (error) {
+      console.error('Error completing booking:', error);
+      alert('Failed to complete booking');
+    }
+  }
+
+  // Call customer
+  function callCustomer(phone) {
+    alert(`Please call the customer at: ${phone}`);
+    window.location.href = `tel:${phone}`;
+  }
+
+  // Show notification
+  function showNotification(booking) {
+    const notification = document.getElementById('notification');
+    const text = document.getElementById('notificationText');
+    
+    text.textContent = `New ride request from ${booking.customerName} - ${booking.vehicle} to ${booking.destination}`;
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 5000);
+  }
+
+  // Play notification sound
+  function playNotificationSound() {
+    const audio = document.getElementById('notificationSound');
+    audio.play().catch(e => console.log('Could not play sound'));
+  }
+
+  // Load bookings on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    loadBookings();
+    // Refresh every 30 seconds
+    setInterval(loadBookings, 30000);
+  });
+</script>
