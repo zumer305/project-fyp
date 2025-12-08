@@ -213,6 +213,11 @@ app.get("/package-detail", (req, res) => {
   res.render("listings/packageDetail");
 });
 
+// Taxi fares page
+app.get("/fares", (req, res) => {
+  res.render("listings/fares");
+});
+
 // Mount routers
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);

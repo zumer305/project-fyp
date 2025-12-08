@@ -1,0 +1,674 @@
+<% layout("/layouts/boiler")%>
+
+<style>
+  .fares-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f8f9fa;
+  }
+
+  .fares-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+  }
+
+  .fares-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .fares-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+
+  .destination-info {
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+    padding: 20px 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    color: white;
+    box-shadow: 0 5px 20px rgba(30, 64, 175, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .destination-info i {
+    font-size: 2rem;
+    margin-right: 15px;
+    color: #93c5fd;
+  }
+
+  .destination-info h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  .base-fare-info {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #1e40af;
+  }
+
+  .base-fare-info h4 {
+    color: #1e3a8a;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .base-fare-info .fare-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+
+  .fare-detail-item {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid #93c5fd;
+    transition: all 0.3s ease;
+  }
+
+  .fare-detail-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(30, 64, 175, 0.2);
+    border-color: #1e40af;
+    background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+  }
+
+  .fare-detail-item .label {
+    font-size: 0.9rem;
+    color: #1e40af;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .fare-detail-item .value {
+    font-size: 1.5rem;
+    color: #1e3a8a;
+    font-weight: 700;
+  }
+
+  .vehicles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+  }
+
+  .vehicle-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(30, 58, 138, 0.15);
+    transition: all 0.3s ease;
+    border: 2px solid #e0e7ff;
+  }
+
+  .vehicle-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(30, 58, 138, 0.3);
+    border-color: #3b82f6;
+  }
+
+  .vehicle-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    position: relative;
+  }
+
+  .vehicle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .vehicle-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  }
+
+  .vehicle-type-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #1e40af;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid #3b82f6;
+  }
+
+  .vehicle-info {
+    padding: 20px;
+  }
+
+  .vehicle-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 10px;
+  }
+
+  .vehicle-capacity {
+    color: #6c757d;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .vehicle-capacity i {
+    color: #3b82f6;
+  }
+
+  .fare-info {
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+  }
+
+  .fare-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin-bottom: 10px;
+  }
+
+  .fare-row:last-child {
+    margin-bottom: 0;
+    padding-top: 10px;
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .fare-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .fare-amount {
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .total-fare {
+    font-size: 1.5rem !important;
+  }
+
+  .features-list {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #495057;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .feature-item i {
+    color: #3b82f6;
+    font-size: 1rem;
+  }
+
+  .book-now-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .book-now-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(30, 64, 175, 0.4);
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  }
+
+  .rideshare-info {
+    background: #dbeafe;
+    border-left: 5px solid #3b82f6;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+
+  .rideshare-info h5 {
+    color: #1e3a8a;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .rideshare-info p {
+    color: #1e40af;
+    margin: 0;
+  }
+
+  .distance-calculator {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(30, 58, 138, 0.1);
+    border: 2px solid #dbeafe;
+  }
+
+  .distance-calculator h4 {
+    color: #1e3a8a;
+    margin-bottom: 15px;
+  }
+
+  .calculator-input {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .calculator-input input {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px;
+    border: 2px solid #bfdbfe;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .calculator-input input:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+
+  .calculator-input button {
+    padding: 12px 30px;
+    background: #1e40af;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .calculator-input button:hover {
+    background: #1e3a8a;
+    transform: scale(1.05);
+  }
+
+  .calculated-result {
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    border-radius: 8px;
+    color: white;
+    display: none;
+  }
+
+  .calculated-result.show {
+    display: block;
+  }
+
+  .calculated-result h5 {
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .fares-header h1 {
+      font-size: 2rem;
+    }
+
+    .vehicles-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .destination-info {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .calculator-input {
+      flex-direction: column;
+    }
+
+    .calculator-input input,
+    .calculator-input button {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="fares-container">
+  <!-- Header -->
+  <div class="fares-header">
+    <i class="fas fa-taxi" style="font-size: 3rem; margin-bottom: 15px;"></i>
+    <h1>🚕 Central Asian Taxi Fares</h1>
+    <p>Affordable & reliable transport options for your journey</p>
+  </div>
+
+  <!-- Destination Info -->
+  <div class="destination-info">
+    <div style="display: flex; align-items: center;">
+      <i class="fas fa-map-marker-alt"></i>
+      <div>
+        <h3 id="destinationName">Loading destination...</h3>
+      </div>
+    </div>
+    <div style="font-size: 1.2rem;">
+      <i class="fas fa-route"></i>
+    </div>
+  </div>
+
+  <!-- Base Fare Information -->
+  <div class="base-fare-info">
+    <h4><i class="fas fa-info-circle"></i> Standard Fare Structure</h4>
+    <div class="fare-details">
+      <div class="fare-detail-item">
+        <div class="label">Base Fare</div>
+        <div class="value">$0.80 - $1.50</div>
+      </div>
+      <div class="fare-detail-item">
+        <div class="label">Per Kilometer</div>
+        <div class="value">$0.30 - $0.60</div>
+      </div>
+      <div class="fare-detail-item">
+        <div class="label">Waiting Time</div>
+        <div class="value">$0.15/min</div>
+      </div>
+      <div class="fare-detail-item">
+        <div class="label">Night Charge</div>
+        <div class="value">+20%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rideshare Info -->
+  <div class="rideshare-info">
+    <h5><i class="fas fa-info-circle"></i> Popular in Central Asia</h5>
+    <p>Most common vehicles: Suzuki Cultus, WagonR, Toyota Corolla, Daewoo Nexia. Also try Yandex Taxi, inDriver, and local marshrutkas for shared rides!</p>
+  </div>
+
+  <!-- Distance Calculator -->
+  <div class="distance-calculator">
+    <h4><i class="fas fa-calculator"></i> Calculate Your Fare</h4>
+    <div class="calculator-input">
+      <input type="number" id="distanceInput" placeholder="Enter distance in kilometers" min="1" step="0.1" />
+      <button onclick="calculateFare()"><i class="fas fa-calculator"></i> Calculate</button>
+    </div>
+    <div class="calculated-result" id="calculatedResult">
+      <h5>Estimated Fare:</h5>
+      <div style="font-size: 2rem; font-weight: 700;" id="calculatedAmount">$0.00</div>
+      <p style="margin-top: 10px; opacity: 0.9;">*Fare may vary based on traffic and time of day</p>
+    </div>
+  </div>
+
+  <!-- Vehicles Grid -->
+  <h2 style="margin-bottom: 20px; color: #333;">
+    <i class="fas fa-car"></i> Available Vehicles
+  </h2>
+  <div class="vehicles-grid" id="vehiclesGrid">
+    <!-- Vehicles will be populated by JavaScript -->
+  </div>
+</div>
+
+<script>
+  // Vehicle data with different types - Common Central Asian taxis
+  const vehicles = [
+    {
+      name: "Suzuki Cultus",
+      type: "Standard",
+      capacity: "4 passengers",
+      baseFare: 1.00,
+      perKm: 0.40,
+      imageUrl: "https://suzukipakistan.com/Media/Used-Cars/Product/15814073203.jpg",
+      emoji: "🚗",
+      features: ["Air Conditioning", "Clean & Comfortable", "Local Driver", "Affordable"]
+    },
+    {
+      name: "Suzuki WagonR",
+      type: "Economy",
+      capacity: "4 passengers",
+      baseFare: 1.20,
+      perKm: 0.45,
+      imageUrl: "https://www.autosbangla.com/images/suzuki/suzuki-wagon-r-img1.jpg",
+      emoji: "🚙",
+      features: ["Spacious", "Fuel Efficient", "Local Favorite", "Air Conditioning"]
+    },
+    {
+      name: "Toyota Corolla",
+      type: "Comfort",
+      capacity: "4 passengers",
+      baseFare: 1.50,
+      perKm: 0.60,
+      imageUrl: "https://editorial.pxcrush.net/carsales/general/editorial/corolla-sedan-4.jpg?width=1024&height=682",
+      emoji: "🚘",
+      features: ["Comfortable Ride", "Air Conditioning", "Reliable", "Professional Service"]
+    },
+    {
+      name: "Daewoo Nexia",
+      type: "Budget",
+      capacity: "4 passengers",
+      baseFare: 0.90,
+      perKm: 0.35,
+      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/56/Daewoo_Nexia_2013.JPG",
+      emoji: "🚗",
+      features: ["Budget Friendly", "Popular in Central Asia", "Basic Comfort", "Easy to Find"]
+    },
+    {
+      name: "Chevrolet Spark",
+      type: "Mini",
+      capacity: "3 passengers",
+      baseFare: 0.80,
+      perKm: 0.30,
+      imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2022-chevrolet-spark-mmp-1-1638552174.jpg?crop=0.997xw:0.751xh;0,0.138xh&resize=1200:*",
+      emoji: "🚕",
+      features: ["Very Affordable", "Perfect for Solo/Couple", "Compact", "City Travel"]
+    },
+    {
+      name: "Hyundai Accent",
+      type: "Standard",
+      capacity: "4 passengers",
+      baseFare: 1.30,
+      perKm: 0.50,
+      imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2022-hyundai-accent-mmp-1-1634756931.jpg",
+      emoji: "🚘",
+      features: ["Good Comfort", "Air Conditioning", "Smooth Ride", "Popular Choice"]
+    },
+    {
+      name: "Lada (Local)",
+      type: "Budget",
+      capacity: "4 passengers",
+      baseFare: 0.70,
+      perKm: 0.30,
+      imageUrl: "https://www.shutterstock.com/image-photo/tyumen-city-russia-june-11-260nw-1779162413.jpg",
+      emoji: "🚙",
+      features: ["Cheapest Option", "Traditional", "Basic Transport", "Widely Available"]
+    },
+    {
+      name: "Nissan Tiida",
+      type: "Comfort",
+      capacity: "4 passengers",
+      baseFare: 1.40,
+      perKm: 0.55,
+      imageUrl: "https://perfectcars.ae/wp-content/uploads/2024/04/2994afe2-b6f3-4cbd-b29f-6104c2ebd2ca.jpg",
+      emoji: "🚗",
+      features: ["Comfortable Interior", "Air Conditioning", "Good for Long Trips", "Reliable"]
+    },
+    {
+      name: "Shared Marshrutka",
+      type: "Shared",
+      capacity: "12-15 passengers",
+      baseFare: 0.30,
+      perKm: 0.10,
+      imageUrl: "https://katieaune.com/wp-content/uploads/2013/05/SAM_1790.jpg",
+      emoji: "🚐",
+      features: ["Most Affordable", "Share with Others", "Local Experience", "Fixed Routes"]
+    }
+  ];
+
+  // Get destination from localStorage or URL
+  let selectedDestination = localStorage.getItem('selectedDestination') || 'Your Selected Destination';
+  let estimatedDistance = parseFloat(localStorage.getItem('estimatedDistance')) || 10;
+
+  // Update destination name
+  document.getElementById('destinationName').textContent = selectedDestination;
+
+  // Shuffle array function
+  function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  // Calculate fare for a specific distance
+  function calculateVehicleFare(vehicle, distance) {
+    return vehicle.baseFare + (vehicle.perKm * distance);
+  }
+
+  // Render vehicles
+  function renderVehicles() {
+    const shuffledVehicles = shuffleArray(vehicles);
+    const vehiclesGrid = document.getElementById('vehiclesGrid');
+    
+    vehiclesGrid.innerHTML = shuffledVehicles.map(vehicle => {
+      const totalFare = calculateVehicleFare(vehicle, estimatedDistance);
+      
+      // Determine if we should show image or emoji
+      const imageContent = vehicle.imageUrl 
+        ? `<img src="${vehicle.imageUrl}" alt="${vehicle.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+           <div class="vehicle-image-placeholder" style="display:none;">${vehicle.emoji}</div>`
+        : `<div class="vehicle-image-placeholder">${vehicle.emoji}</div>`;
+      
+      return `
+        <div class="vehicle-card">
+          <div class="vehicle-image">
+            ${imageContent}
+            <div class="vehicle-type-badge">${vehicle.type}</div>
+          </div>
+          <div class="vehicle-info">
+            <div class="vehicle-name">${vehicle.name}</div>
+            <div class="vehicle-capacity">
+              <i class="fas fa-users"></i>
+              ${vehicle.capacity}
+            </div>
+            
+            <div class="fare-info">
+              <div class="fare-row">
+                <span class="fare-label">Base Fare:</span>
+                <span class="fare-amount">$${vehicle.baseFare.toFixed(2)}</span>
+              </div>
+              <div class="fare-row">
+                <span class="fare-label">Distance (${estimatedDistance} km):</span>
+                <span class="fare-amount">$${(vehicle.perKm * estimatedDistance).toFixed(2)}</span>
+              </div>
+              <div class="fare-row">
+                <span class="fare-label">Total Fare:</span>
+                <span class="fare-amount total-fare">$${totalFare.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <div class="features-list">
+              ${vehicle.features.map(feature => `
+                <div class="feature-item">
+                  <i class="fas fa-check-circle"></i>
+                  <span>${feature}</span>
+                </div>
+              `).join('')}
+            </div>
+
+            <button class="book-now-btn" onclick="bookVehicle('${vehicle.name}', ${totalFare.toFixed(2)})">
+              <i class="fas fa-phone"></i> Book Now
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Calculate fare from input
+  function calculateFare() {
+    const distance = parseFloat(document.getElementById('distanceInput').value);
+    
+    if (!distance || distance <= 0) {
+      alert('Please enter a valid distance');
+      return;
+    }
+
+    const baseFare = 1.20;
+    const perKm = 0.50;
+    const totalFare = baseFare + (perKm * distance);
+
+    document.getElementById('calculatedAmount').textContent = `$${totalFare.toFixed(2)}`;
+    document.getElementById('calculatedResult').classList.add('show');
+
+    // Update estimated distance and re-render vehicles
+    estimatedDistance = distance;
+    localStorage.setItem('estimatedDistance', distance);
+    renderVehicles();
+  }
+
+  // Book vehicle function
+  function bookVehicle(vehicleName, fare) {
+    alert(`Booking ${vehicleName}\nEstimated Fare: $${fare}\n\nPlease call your local taxi service or use a rideshare app to complete your booking.`);
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    renderVehicles();
+    
+    // Add enter key support for distance input
+    document.getElementById('distanceInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        calculateFare();
+      }
+    });
+  });
+</script>
