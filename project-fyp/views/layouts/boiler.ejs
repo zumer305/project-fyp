@@ -33,6 +33,7 @@
       rel="stylesheet"
     />
     <link href="/css/rating.css" rel="stylesheet" />
+    <link href="/css/currency.css" rel="stylesheet" />
   </head>
   <body>
     <%-include("../includes/navbar.ejs")%>
@@ -43,6 +44,37 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+    <script src="/js/currencyConverter.js"></script>
+    <script>
+      // Initialize navbar currency selector and convert all prices
+      document.addEventListener('DOMContentLoaded', async function() {
+        const currencySelect = document.getElementById('navbar-currency-select');
+        
+        if (currencySelect && typeof CurrencyConverter !== 'undefined') {
+          // Set initial value from localStorage
+          const savedCurrency = CurrencyConverter.getUserCurrency();
+          currencySelect.value = savedCurrency;
+          
+          // Convert all prices on initial load
+          await CurrencyConverter.convertAllPrices();
+          
+          // Handle currency change
+          currencySelect.addEventListener('change', async function(e) {
+            const newCurrency = e.target.value;
+            CurrencyConverter.setUserCurrency(newCurrency);
+            
+            // Convert all prices immediately
+            await CurrencyConverter.convertAllPrices();
+            
+            // Dispatch event for other scripts to listen to
+            const event = new CustomEvent('currencyChanged', {
+              detail: { currency: newCurrency }
+            });
+            document.dispatchEvent(event);
+          });
+        }
+      });
+    </script>
     <script src="/js/script.js"></script>
   </body>
 </html>

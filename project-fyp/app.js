@@ -40,6 +40,7 @@ const apiGroupsRouter = require("./routes/api/groups.js");
 const apiFaithRouter = require("./routes/api/faith.js");
 const apiTaxiFaresRouter = require("./routes/api/taxiFares.js");
 const apiEventsRouter = require("./routes/api/events.js");
+const apiCurrencyRouter = require("./routes/api/currency.js");
 
 // ERROR HANDLER
 const ExpressError = require("./utils/ExpressError.js");
@@ -238,6 +239,7 @@ app.use("/api/groups", apiGroupsRouter);
 app.use("/api/faith", apiFaithRouter);
 app.use("/api/taxi-fares", apiTaxiFaresRouter);
 app.use("/api/events", apiEventsRouter);
+app.use("/api/currency", apiCurrencyRouter);
 
 // ===================
 // 404 HANDLER

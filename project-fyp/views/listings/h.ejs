@@ -77,7 +77,9 @@
       <option value="Uzbekistan">Uzbekistan</option>
     </select>
 
-    <label for="budget">Enter Budget (USD):</label>
+    <label for="budget">
+      Enter Budget (<span id="budget-currency" class="currency-label"></span>):
+    </label>
     <input
       type="number"
       id="budget"
@@ -99,7 +101,7 @@
         alt="Issyk-Kul Lake"
       />
       <h3>Issyk-Kul Lake, Kyrgyzstan</h3>
-      <p>💰 $620 / trip</p>
+      <p><span class="price-display" data-price="620" data-currency="USD"></span> / trip</p>
       <p>⭐ 4.6 (185 reviews)</p>
       <div class="tags">
         <span>#Cool</span><span>#Mountain</span><span>#CentralAsia</span>
@@ -227,7 +229,7 @@
     <div class="cards">
       <div class="card">
         <h3>💸 Local Taxi Fares</h3>
-        <p>Base fare starts at $1.2 with $0.5/km. Rideshare apps available.</p>
+        <p class="taxi-fare-text">Base fare starts at <span data-price="1.2" data-currency="USD" class="inline-price"></span> with <span data-price="0.5" data-currency="USD" class="inline-price"></span>/km. Rideshare apps available.</p>
         <a class="view-more" href="/fares" onclick="saveFaresContext()"
           >View More</a
         >
@@ -252,9 +254,8 @@
       </div>
       <div class="card">
         <h3>💡 Budgeted Tour Suggestions</h3>
-        <p>
-          3-Day Trip: City Tour → Ala Archa Park → Osh Bazaar. Budget under
-          $100.
+        <p class="budget-text">
+          3-Day Trip: City Tour → Ala Archa Park → Osh Bazaar. Budget under <span data-price="100" data-currency="USD" class="inline-price"></span>.
         </p>
         <a class="view-more" href="#">View More</a>
         <div class="updated-note">Updated automatically</div>
@@ -266,23 +267,38 @@
 
   <script>
     const isLoggedIn = document.body.dataset.loggedIn === "true";
-    function showBudget() {
+    
+    async function showBudget() {
       const budget = document.getElementById("budget").value;
       const result = document.getElementById("result");
+      const currentCurrency = CurrencyConverter.getUserCurrency();
+      const currencySymbol = CurrencyConverter.getSymbol(currentCurrency);
 
       if (budget) {
-        if (budget < 5000) {
-          result.innerHTML = `<span style="color: #dc3545;">💰 Budget: $${budget} - Consider increasing for better packages</span>`;
-        } else if (budget >= 5000 && budget < 10000) {
-          result.innerHTML = `<span style="color: #ffc107;">💰 Budget: $${budget} - Good for basic packages</span>`;
-        } else if (budget >= 10000 && budget < 15000) {
-          result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Excellent for premium packages!</span>`;
+        // Convert thresholds to current currency
+        const threshold1 = await convertIfNeeded(5000, currentCurrency);
+        const threshold2 = await convertIfNeeded(10000, currentCurrency);
+        const threshold3 = await convertIfNeeded(15000, currentCurrency);
+        const budgetNum = parseFloat(budget);
+        
+        if (budgetNum < threshold1) {
+          result.innerHTML = `<span style="color: #dc3545;">💰 Budget: ${currencySymbol}${budgetNum.toLocaleString()} - Consider increasing for better packages</span>`;
+        } else if (budgetNum >= threshold1 && budgetNum < threshold2) {
+          result.innerHTML = `<span style="color: #ffc107;">💰 Budget: ${currencySymbol}${budgetNum.toLocaleString()} - Good for basic packages</span>`;
+        } else if (budgetNum >= threshold2 && budgetNum < threshold3) {
+          result.innerHTML = `<span style="color: #28a745;">💰 Budget: ${currencySymbol}${budgetNum.toLocaleString()} - Excellent for premium packages!</span>`;
         } else {
-          result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Luxury packages available!</span>`;
+          result.innerHTML = `<span style="color: #28a745;">💰 Budget: ${currencySymbol}${budgetNum.toLocaleString()} - Luxury packages available!</span>`;
         }
       } else {
         result.innerHTML = "";
       }
+    }
+
+    async function convertIfNeeded(usdAmount, toCurrency) {
+      if (toCurrency === 'USD') return usdAmount;
+      const result = await CurrencyConverter.convert(usdAmount, 'USD', toCurrency);
+      return result.success ? result.result : usdAmount;
     }
 
     function goToPackages() {
@@ -294,6 +310,23 @@
       } else {
         alert("Please select a country and enter your budget first!");
       }
+    }
+    
+    // Update currency label when currency changes
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCurrencyLabels();
+    });
+    
+    document.addEventListener('currencyChanged', function() {
+      updateCurrencyLabels();
+    });
+    
+    function updateCurrencyLabels() {
+      const currentCurrency = CurrencyConverter.getUserCurrency();
+      const labels = document.querySelectorAll('.currency-label');
+      labels.forEach(label => {
+        label.textContent = currentCurrency;
+      });
     }
 
     function saveFaresContext() {
@@ -1346,5 +1379,46 @@
         }
       });
     })();
+
+    // Update budget label with selected currency
+    const updateBudgetLabel = () => {
+      const selectedCurrency = CurrencyConverter.getUserCurrency();
+      const budgetLabel = document.getElementById('budget-currency');
+      if (budgetLabel) {
+        budgetLabel.textContent = selectedCurrency;
+      }
+    };
+
+    // Update on page load
+    updateBudgetLabel();
+
+    // Handle currency changes for package prices
+    document.addEventListener('currencyChanged', async (e) => {
+      const newCurrency = e.detail.currency;
+      updateBudgetLabel(); // Update the budget label
+      await updatePackagePrices(newCurrency);
+    });
+
+    // Function to update package prices
+    async function updatePackagePrices(currency) {
+      const priceElements = document.querySelectorAll('[data-price]');
+      
+      for (const element of priceElements) {
+        const originalPrice = parseFloat(element.getAttribute('data-price'));
+        const fromCurrency = element.getAttribute('data-currency') || 'USD';
+        
+        if (!isNaN(originalPrice)) {
+          if (currency === fromCurrency) {
+            // Reset to original
+            element.textContent = `$${originalPrice.toLocaleString()}`;
+          } else {
+            const result = await CurrencyConverter.convert(originalPrice, fromCurrency, currency);
+            if (result.success) {
+              element.textContent = CurrencyConverter.formatCurrency(result.result, currency);
+            }
+          }
+        }
+      }
+    }
   </script>
 </body>

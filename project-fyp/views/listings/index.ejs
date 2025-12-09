@@ -18,7 +18,7 @@
     <div class="card-body">
       <p class="card-text">
       <b> <%=listing.title%> </b><br>
-  PKR <%=listing.price.toLocaleString("en-PK")%> /night
+  <span class="price-display" data-price="<%= listing.price %>" data-currency="PKR"></span> /night
       </p>
     </div>
   </div>
@@ -26,6 +26,41 @@
   
 
     </div>
- 
+
+  <script>
+    // Initialize prices on page load
+    document.addEventListener('DOMContentLoaded', async function() {
+      await updateAllPrices();
+    });
+
+    // Handle currency changes
+    document.addEventListener('currencyChanged', async (e) => {
+      await updateAllPrices();
+    });
+
+    async function updateAllPrices() {
+      const currentCurrency = CurrencyConverter.getUserCurrency();
+      const priceElements = document.querySelectorAll('[data-price]');
+      
+      for (const element of priceElements) {
+        const originalPrice = parseFloat(element.getAttribute('data-price'));
+        const fromCurrency = element.getAttribute('data-currency') || 'USD';
+        
+        if (!isNaN(originalPrice)) {
+          if (currentCurrency === fromCurrency) {
+            // Same currency - show original
+            const currencySymbol = CurrencyConverter.getSymbol(fromCurrency);
+            element.textContent = `${fromCurrency} ${originalPrice.toLocaleString()}`;
+          } else {
+            // Convert to selected currency
+            const result = await CurrencyConverter.convert(originalPrice, fromCurrency, currentCurrency);
+            if (result.success) {
+              element.textContent = CurrencyConverter.formatCurrency(result.result, currentCurrency);
+            }
+          }
+        }
+      }
+    }
+  </script>
  
 </body>

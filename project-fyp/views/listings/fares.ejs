@@ -364,20 +364,20 @@
 <div class="fares-container">
   <!-- Header -->
   <div class="fares-header">
-    <i class="fas fa-taxi" style="font-size: 3rem; margin-bottom: 15px;"></i>
-    <h1> Central Asian Taxi Fares</h1>
+    <i class="fas fa-taxi" style="font-size: 3rem; margin-bottom: 15px"></i>
+    <h1>Central Asian Taxi Fares</h1>
     <p>Affordable & reliable transport options for your journey</p>
   </div>
 
   <!-- Destination Info -->
   <div class="destination-info">
-    <div style="display: flex; align-items: center;">
+    <div style="display: flex; align-items: center">
       <i class="fas fa-map-marker-alt"></i>
       <div>
         <h3 id="destinationName">Loading destination...</h3>
       </div>
     </div>
-    <div style="font-size: 1.2rem;">
+    <div style="font-size: 1.2rem">
       <i class="fas fa-route"></i>
     </div>
   </div>
@@ -408,34 +408,54 @@
   <!-- Rideshare Info -->
   <div class="rideshare-info">
     <h5><i class="fas fa-info-circle"></i> Popular in Central Asia</h5>
-    <p>Most common vehicles: Suzuki Cultus, WagonR, Toyota Corolla, Daewoo Nexia. Also try Yandex Taxi, inDriver, and local marshrutkas for shared rides!</p>
+    <p>
+      Most common vehicles: Suzuki Cultus, WagonR, Toyota Corolla, Daewoo Nexia.
+      Also try Yandex Taxi, inDriver, and local marshrutkas for shared rides!
+    </p>
   </div>
 
   <!-- Distance Calculator -->
   <div class="distance-calculator">
     <h4><i class="fas fa-calculator"></i> Calculate Your Fare</h4>
     <div class="calculator-input">
-      <input type="number" id="distanceInput" placeholder="Enter distance in kilometers" min="1" step="0.1" />
-      <button onclick="calculateFare()"><i class="fas fa-calculator"></i> Calculate</button>
+      <input
+        type="number"
+        id="distanceInput"
+        placeholder="Enter distance in kilometers"
+        min="1"
+        step="0.1"
+      />
+      <button onclick="calculateFare()">
+        <i class="fas fa-calculator"></i> Calculate
+      </button>
     </div>
     <div class="calculated-result" id="calculatedResult">
       <h5>Estimated Fare:</h5>
-      <div style="font-size: 2rem; font-weight: 700;" id="calculatedAmount">$0.00</div>
-      <p style="margin-top: 10px; opacity: 0.9;">*Fare may vary based on traffic and time of day</p>
+      <div style="font-size: 2rem; font-weight: 700" id="calculatedAmount">
+        $0.00
+      </div>
+      <p style="margin-top: 10px; opacity: 0.9">
+        *Fare may vary based on traffic and time of day
+      </p>
     </div>
   </div>
 
   <!-- Vehicles Grid -->
-  <h2 style="margin-bottom: 20px; color: #333;">
+  <h2 style="margin-bottom: 20px; color: #333">
     <i class="fas fa-car"></i> Available Vehicles
   </h2>
   <div class="vehicles-grid" id="vehiclesGrid">
     <!-- Loading indicator -->
-    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
-      <div style="display: inline-block;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #3b82f6; margin-bottom: 15px;"></i>
-        <h3 style="color: #1e3a8a; margin-bottom: 10px;">Loading Taxi Fares...</h3>
-        <p style="color: #6b7280;">Fetching latest prices from database</p>
+    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px">
+      <div style="display: inline-block">
+        <i
+          class="fas fa-spinner fa-spin"
+          style="font-size: 3rem; color: #3b82f6; margin-bottom: 15px"
+        ></i>
+        <h3 style="color: #1e3a8a; margin-bottom: 10px">
+          Loading Taxi Fares...
+        </h3>
+        <p style="color: #6b7280">Fetching latest prices from database</p>
       </div>
     </div>
   </div>
@@ -446,35 +466,41 @@
   let vehicles = [];
 
   // Get destination from localStorage or URL
-  let selectedDestination = localStorage.getItem('selectedDestination') || 'Your Selected Destination';
-  let estimatedDistance = parseFloat(localStorage.getItem('estimatedDistance')) || 10;
+  let selectedDestination =
+    localStorage.getItem("selectedDestination") || "Your Selected Destination";
+  let estimatedDistance =
+    parseFloat(localStorage.getItem("estimatedDistance")) || 10;
 
   // Update destination name
-  document.getElementById('destinationName').textContent = selectedDestination;
+  document.getElementById("destinationName").textContent = selectedDestination;
 
   // Fetch taxi fares from API
   async function fetchTaxiFares() {
     try {
-      const response = await fetch('/api/taxi-fares');
+      const response = await fetch("/api/taxi-fares");
       const result = await response.json();
-      
+
       if (result.success) {
         vehicles = result.data;
-        console.log(`✅ Loaded ${vehicles.length} taxi fares from FREE APIs (${result.source})`);
+        console.log(
+          `✅ Loaded ${vehicles.length} taxi fares from FREE APIs (${result.source})`
+        );
         renderVehicles();
       } else {
-        console.error('❌ Failed to fetch taxi fares:', result.message);
-        showErrorMessage('Unable to load taxi fares. Please refresh the page.');
+        console.error("❌ Failed to fetch taxi fares:", result.message);
+        showErrorMessage("Unable to load taxi fares. Please refresh the page.");
       }
     } catch (error) {
-      console.error('❌ Error fetching taxi fares:', error);
-      showErrorMessage('Network error. Please check your connection and refresh.');
+      console.error("❌ Error fetching taxi fares:", error);
+      showErrorMessage(
+        "Network error. Please check your connection and refresh."
+      );
     }
   }
 
   // Show error message
   function showErrorMessage(message) {
-    const vehiclesGrid = document.getElementById('vehiclesGrid');
+    const vehiclesGrid = document.getElementById("vehiclesGrid");
     vehiclesGrid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: #fee; border-radius: 12px; color: #c00;">
         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
@@ -496,24 +522,25 @@
 
   // Calculate fare for a specific distance
   function calculateVehicleFare(vehicle, distance) {
-    return vehicle.baseFare + (vehicle.perKm * distance);
+    return vehicle.baseFare + vehicle.perKm * distance;
   }
 
   // Render vehicles
   function renderVehicles() {
     const shuffledVehicles = shuffleArray(vehicles);
-    const vehiclesGrid = document.getElementById('vehiclesGrid');
-    
-    vehiclesGrid.innerHTML = shuffledVehicles.map(vehicle => {
-      const totalFare = calculateVehicleFare(vehicle, estimatedDistance);
-      
-      // Determine if we should show image or emoji
-      const imageContent = vehicle.imageUrl 
-        ? `<img src="${vehicle.imageUrl}" alt="${vehicle.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+    const vehiclesGrid = document.getElementById("vehiclesGrid");
+
+    vehiclesGrid.innerHTML = shuffledVehicles
+      .map((vehicle) => {
+        const totalFare = calculateVehicleFare(vehicle, estimatedDistance);
+
+        // Determine if we should show image or emoji
+        const imageContent = vehicle.imageUrl
+          ? `<img src="${vehicle.imageUrl}" alt="${vehicle.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
            <div class="vehicle-image-placeholder" style="display:none;">${vehicle.emoji}</div>`
-        : `<div class="vehicle-image-placeholder">${vehicle.emoji}</div>`;
-      
-      return `
+          : `<div class="vehicle-image-placeholder">${vehicle.emoji}</div>`;
+
+        return `
         <div class="vehicle-card">
           <div class="vehicle-image">
             ${imageContent}
@@ -533,60 +560,113 @@
               </div>
               <div class="fare-row">
                 <span class="fare-label">Distance (${estimatedDistance} km):</span>
-                <span class="fare-amount">$${(vehicle.perKm * estimatedDistance).toFixed(2)}</span>
+                <span class="fare-amount">$${(
+                  vehicle.perKm * estimatedDistance
+                ).toFixed(2)}</span>
               </div>
               <div class="fare-row">
                 <span class="fare-label">Total Fare:</span>
-                <span class="fare-amount total-fare">$${totalFare.toFixed(2)}</span>
+                <span class="fare-amount total-fare">$${totalFare.toFixed(
+                  2
+                )}</span>
               </div>
             </div>
 
             <div class="features-list">
-              ${vehicle.features.map(feature => `
+              ${vehicle.features
+                .map(
+                  (feature) => `
                 <div class="feature-item">
                   <i class="fas fa-check-circle"></i>
                   <span>${feature}</span>
                 </div>
-              `).join('')}
+              `
+                )
+                .join("")}
             </div>
           </div>
         </div>
       `;
-    }).join('');
+      })
+      .join("");
   }
 
   // Calculate fare from input
   function calculateFare() {
-    const distance = parseFloat(document.getElementById('distanceInput').value);
-    
+    const distance = parseFloat(document.getElementById("distanceInput").value);
+
     if (!distance || distance <= 0) {
-      alert('Please enter a valid distance');
+      alert("Please enter a valid distance");
       return;
     }
 
-    const baseFare = 1.20;
-    const perKm = 0.50;
-    const totalFare = baseFare + (perKm * distance);
+    const baseFare = 1.2;
+    const perKm = 0.5;
+    const totalFare = baseFare + perKm * distance;
 
-    document.getElementById('calculatedAmount').textContent = `$${totalFare.toFixed(2)}`;
-    document.getElementById('calculatedResult').classList.add('show');
+    document.getElementById(
+      "calculatedAmount"
+    ).textContent = `$${totalFare.toFixed(2)}`;
+    document.getElementById("calculatedResult").classList.add("show");
 
     // Update estimated distance and re-render vehicles
     estimatedDistance = distance;
-    localStorage.setItem('estimatedDistance', distance);
+    localStorage.setItem("estimatedDistance", distance);
     renderVehicles();
   }
 
   // Initialize on page load
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener("DOMContentLoaded", function () {
     // Fetch fares from API first
     fetchTaxiFares();
-    
+
     // Add enter key support for distance input
-    document.getElementById('distanceInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        calculateFare();
-      }
+    document
+      .getElementById("distanceInput")
+      .addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          calculateFare();
+        }
+      });
+
+    // Listen for currency changes and update fares
+    document.addEventListener('currencyChanged', async (e) => {
+      const newCurrency = e.detail.currency;
+      await updateFaresWithCurrency(newCurrency);
     });
   });
+
+  // Update all fares when currency changes
+  async function updateFaresWithCurrency(currency) {
+    if (currency === 'USD') {
+      renderVehicles();
+      return;
+    }
+
+    const vehiclesGrid = document.getElementById("vehiclesGrid");
+    const priceElements = vehiclesGrid.querySelectorAll('.fare-amount');
+    
+    for (const element of priceElements) {
+      const usdAmount = parseFloat(element.textContent.replace('$', ''));
+      if (!isNaN(usdAmount)) {
+        const result = await CurrencyConverter.convert(usdAmount, 'USD', currency);
+        if (result.success) {
+          element.textContent = CurrencyConverter.formatCurrency(result.result, currency);
+        }
+      }
+    }
+
+    // Update calculated result if visible
+    const calculatedResult = document.getElementById('calculatedResult');
+    if (calculatedResult.classList.contains('show')) {
+      const calculatedAmount = document.getElementById('calculatedAmount');
+      const usdAmount = parseFloat(calculatedAmount.textContent.replace('$', ''));
+      if (!isNaN(usdAmount)) {
+        const result = await CurrencyConverter.convert(usdAmount, 'USD', currency);
+        if (result.success) {
+          calculatedAmount.textContent = CurrencyConverter.formatCurrency(result.result, currency);
+        }
+      }
+    }
+  }
 </script>

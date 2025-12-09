@@ -105,7 +105,7 @@
 </div>
 
 <script>
-  (function () {
+  (async function () {
     // Prefer sessionStorage temporary selection (from recommendation) else use persistent localStorage selection
     const tmp = sessionStorage.getItem("selectedPackage_temp");
     const raw = tmp || localStorage.getItem("selectedPackage");
@@ -146,9 +146,26 @@
     document.getElementById("pkg-weather").textContent = pkg.weather
       ? `${pkg.weather.current || ""} — ${pkg.weather.forecast || ""}`
       : "N/A";
-    document.getElementById("pkg-price").textContent = `$${(
-      pkg.price || 0
-    ).toLocaleString()}`;
+    
+    const priceAmount = pkg.price || 0;
+    const priceEl = document.getElementById("pkg-price");
+    priceEl.setAttribute('data-price', priceAmount);
+    priceEl.setAttribute('data-currency', 'USD');
+    priceEl.classList.add('price-display');
+    
+    // Initialize price with current currency
+    const currentCurrency = CurrencyConverter.getUserCurrency();
+    if (currentCurrency === 'USD') {
+      priceEl.textContent = `$${priceAmount.toLocaleString()}`;
+    } else {
+      const result = await CurrencyConverter.convert(priceAmount, 'USD', currentCurrency);
+      if (result.success) {
+        priceEl.textContent = CurrencyConverter.formatCurrency(result.result, currentCurrency);
+      } else {
+        priceEl.textContent = `$${priceAmount.toLocaleString()}`;
+      }
+    }
+    
     document.getElementById("pkg-duration").textContent = pkg.duration || "N/A";
     document.getElementById("pkg-hotel").textContent = pkg.hotel || "N/A";
     document.getElementById("pkg-food").textContent = pkg.food || "N/A";
@@ -163,6 +180,23 @@
       }
       // allow navigation to /book
     });
+    
+    // Handle currency changes
+    document.addEventListener('currencyChanged', async (e) => {
+      const newCurrency = e.detail.currency;
+      const priceEl = document.getElementById('pkg-price');
+      const originalPrice = parseFloat(priceEl.getAttribute('data-price'));
+      
+      if (newCurrency === 'USD') {
+        priceEl.textContent = `$${originalPrice.toLocaleString()}`;
+      } else {
+        const result = await CurrencyConverter.convert(originalPrice, 'USD', newCurrency);
+        if (result.success) {
+          priceEl.textContent = CurrencyConverter.formatCurrency(result.result, newCurrency);
+        }
+      }
+    });
+    
     // clear temporary selection after rendering so it doesn't persist
     if (sessionStorage.getItem("selectedPackage_temp"))
       sessionStorage.removeItem("selectedPackage_temp");
