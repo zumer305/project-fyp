@@ -228,7 +228,9 @@
       <div class="card">
         <h3>💸 Local Taxi Fares</h3>
         <p>Base fare starts at $1.2 with $0.5/km. Rideshare apps available.</p>
-        <a class="view-more" href="/fares" onclick="saveFaresContext()">View More</a>
+        <a class="view-more" href="/fares" onclick="saveFaresContext()"
+          >View More</a
+        >
         <div class="updated-note">Updated automatically</div>
       </div>
       <div class="card">
@@ -237,7 +239,9 @@
           Don't miss the "Nowruz Spring Festival" in March with local music and
           food.
         </p>
-        <a class="view-more" href="#">View More</a>
+        <a class="view-more" href="/events" onclick="saveEventsContext()"
+          >View More</a
+        >
         <div class="updated-note">Updated automatically</div>
       </div>
       <div class="card">
@@ -294,19 +298,46 @@
 
     function saveFaresContext() {
       // Save destination information to localStorage for the fares page
-      const country = document.getElementById("country").value || 'Selected Destination';
+      const country =
+        document.getElementById("country").value || "Selected Destination";
       const pkg = getSelectedPackageCached();
-      
+
       if (pkg && pkg.name) {
-        localStorage.setItem('selectedDestination', pkg.name);
+        localStorage.setItem("selectedDestination", pkg.name);
       } else if (country) {
-        localStorage.setItem('selectedDestination', country);
+        localStorage.setItem("selectedDestination", country);
       } else {
-        localStorage.setItem('selectedDestination', 'Your Selected Destination');
+        localStorage.setItem(
+          "selectedDestination",
+          "Your Selected Destination"
+        );
       }
-      
+
       // Set a default estimated distance (can be updated on the fares page)
-      localStorage.setItem('estimatedDistance', '10');
+      localStorage.setItem("estimatedDistance", "10");
+    }
+
+    function saveEventsContext() {
+      // Save destination and package information to localStorage for the events page
+      const country =
+        document.getElementById("country").value || "Selected Destination";
+      const pkg = getSelectedPackageCached();
+
+      if (pkg && pkg.name) {
+        localStorage.setItem("selectedDestination", pkg.name);
+      } else if (country) {
+        localStorage.setItem("selectedDestination", country);
+      } else {
+        localStorage.setItem(
+          "selectedDestination",
+          "Your Selected Destination"
+        );
+      }
+
+      // Save the entire package data for events page to access
+      if (pkg) {
+        localStorage.setItem("selectedPackage", JSON.stringify(pkg));
+      }
     }
 
     // Helpers

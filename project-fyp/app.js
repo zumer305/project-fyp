@@ -39,6 +39,7 @@ const apiMapRouter = require("./routes/api/map.js");
 const apiGroupsRouter = require("./routes/api/groups.js");
 const apiFaithRouter = require("./routes/api/faith.js");
 const apiTaxiFaresRouter = require("./routes/api/taxiFares.js");
+const apiEventsRouter = require("./routes/api/events.js");
 
 // ERROR HANDLER
 const ExpressError = require("./utils/ExpressError.js");
@@ -219,6 +220,11 @@ app.get("/fares", (req, res) => {
   res.render("listings/fares");
 });
 
+// Events and festivals page
+app.get("/events", (req, res) => {
+  res.render("listings/events");
+});
+
 // Mount routers
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
@@ -231,6 +237,7 @@ app.use("/api/map", apiMapRouter);
 app.use("/api/groups", apiGroupsRouter);
 app.use("/api/faith", apiFaithRouter);
 app.use("/api/taxi-fares", apiTaxiFaresRouter);
+app.use("/api/events", apiEventsRouter);
 
 // ===================
 // 404 HANDLER
