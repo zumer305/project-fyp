@@ -309,14 +309,11 @@
   <div class="header-section">
     <h1>
       <span class="emoji">🎉</span>
-      Discover Events on Eventbrite
+      Live Local Events
       <span class="emoji">🎊</span>
     </h1>
     <p style="color: #666; font-size: 1.1rem; margin-top: 10px">
-      Browse events and experiences worldwide
-    </p>
-    <p style="color: #ff6b6b; font-size: 0.9rem; margin-top: 5px">
-      💡 <strong>Tip:</strong> Currently showing your Eventbrite events. For full public event search, upgrade your API token permissions.
+      Discover LIVE events happening in cities worldwide - powered by real-time APIs
     </p>
   </div>
 
@@ -329,7 +326,7 @@
           id="location"
           name="location"
           placeholder="City or Address"
-          value="Tashkent, Uzbekistan"
+          value=""
         />
       </div>
 
@@ -354,6 +351,9 @@
       </div>
 
       <button type="submit" class="search-btn">🔍 Search Events</button>
+      <button type="button" class="search-btn" style="background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);" onclick="clearLocationCache()">
+        🗑️ Clear Cache
+      </button>
     </form>
   </div>
 
@@ -447,9 +447,24 @@
 
   // Create event card HTML
   function createEventCard(event) {
-    const startDate = formatDate(event.start.local);
-    const isFree = event.isFree;
-    const isOnline = event.onlineEvent;
+    // Handle different date formats from different APIs
+    let startDate = "Date TBA";
+    if (event.start) {
+      if (event.start.local) {
+        startDate = formatDate(event.start.local);
+      } else if (event.start.utc) {
+        startDate = formatDate(event.start.utc);
+      } else if (typeof event.start === 'string') {
+        startDate = formatDate(event.start);
+      }
+    } else if (event.date) {
+      startDate = formatDate(event.date);
+    } else if (event.startDate) {
+      startDate = formatDate(event.startDate);
+    }
+
+    const isFree = event.isFree || event.is_free || event.free || false;
+    const isOnline = event.onlineEvent || event.online_event || event.isOnline || false;
 
     let imageHtml = "";
     if (event.logo || event.images) {
@@ -463,7 +478,7 @@
       : "";
 
     return `
-      <div class="event-card" onclick="window.open('${event.url}', '_blank')">
+      <div class="event-card">
         <div class="event-image">
           ${imageHtml}
         </div>
@@ -476,6 +491,11 @@
           ${
             event.category
               ? `<span class="event-badge badge-category">${event.category.name}</span>`
+              : ""
+          }
+          ${
+            event.apiSource
+              ? `<span class="event-badge" style="background: #3498db; color: white;">${event.apiSource}</span>`
               : ""
           }
           <h3 class="event-title">${event.name}</h3>
@@ -494,9 +514,9 @@
           }
           <div class="event-footer">
             <div class="event-price ${isFree ? "free" : ""}">
-              ${isFree ? "FREE" : "Paid Event"}
+              ${isFree ? "FREE" : (event.price || "Paid Event")}
             </div>
-            <a href="${event.url}" target="_blank" class="event-btn" onclick="event.stopPropagation()">
+            <a href="${event.url || '#'}" target="_blank" class="event-btn">
               View Details →
             </a>
           </div>
@@ -505,13 +525,15 @@
     `;
   }
 
-  // Search events
+  // Search events - Uses FREE public APIs that work for ANY city
   async function searchEvents(location, radius, sort) {
     const loadingEl = document.getElementById("loadingMessage");
     const errorEl = document.getElementById("errorMessage");
     const gridEl = document.getElementById("eventsGrid");
     const noEventsEl = document.getElementById("noEvents");
     const mapSectionEl = document.getElementById("mapSection");
+
+    console.log(`🔍 Searching for events in: ${location}`);
 
     // Show loading
     loadingEl.style.display = "block";
@@ -521,37 +543,100 @@
     mapSectionEl.style.display = "none";
 
     try {
-      const params = new URLSearchParams({
-        location: location,
-        radius: radius,
-        sort: sort,
-      });
+      // First, try to get coordinates for the location using geocoding
+      let lat = null;
+      let lng = null;
+      
+      // Use a free geocoding service to convert city name to coordinates
+      try {
+        console.log(`📍 Geocoding: ${location}...`);
+        const geocodeResponse = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`,
+          {
+            headers: {
+              'User-Agent': 'TravelEventsApp/1.0'
+            }
+          }
+        );
+        const geocodeData = await geocodeResponse.json();
+        if (geocodeData && geocodeData.length > 0) {
+          lat = geocodeData[0].lat;
+          lng = geocodeData[0].lon;
+          console.log(`✅ Found coordinates for ${location}: ${lat}, ${lng}`);
+        } else {
+          console.warn(`⚠️  No coordinates found for ${location}`);
+        }
+      } catch (geocodeError) {
+        console.error("❌ Geocoding failed:", geocodeError);
+      }
 
-      const response = await fetch(`/api/eventbrite/search?${params}`);
+      // Use your FREE events API (works for ANY city, no special token needed!)
+      const params = new URLSearchParams({
+        destination: location,
+      });
+      
+      if (lat && lng) {
+        params.append('lat', lat);
+        params.append('lng', lng);
+        console.log(`🌐 Fetching events with coordinates: ${lat}, ${lng}`);
+      } else {
+        console.log(`🌐 Fetching events by name: ${location}`);
+      }
+
+      console.log(`📡 API Call: /api/events?${params.toString()}`);
+      const response = await fetch(`/api/events?${params}`);
       const data = await response.json();
+
+      console.log(`📊 API Response:`, data);
 
       loadingEl.style.display = "none";
 
       if (!data.success) {
-        throw new Error(data.error || "Failed to fetch events");
+        throw new Error(data.error || data.message || "Failed to fetch events");
       }
 
       if (data.data && data.data.length > 0) {
+        console.log(`✅ Found ${data.data.length} events!`);
+        
         // Display events
         gridEl.innerHTML = data.data.map((event) => createEventCard(event)).join("");
 
-        // Show map with markers
-        mapSectionEl.style.display = "block";
-        initMap();
-        addEventMarkers(data.data);
+        // Show map with markers if events have coordinates
+        const eventsWithCoords = data.data.filter(e => e.venue?.latitude && e.venue?.longitude);
+        if (eventsWithCoords.length > 0) {
+          mapSectionEl.style.display = "block";
+          initMap();
+          addEventMarkers(eventsWithCoords);
+        } else if (lat && lng) {
+          // Show map centered on searched location even if no event coords
+          mapSectionEl.style.display = "block";
+          initMap();
+          map.setView([lat, lng], 12);
+          L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup(`<b>${location}</b><br>Showing events in this area`);
+        }
       } else {
+        console.warn(`⚠️  No events found for ${location}`);
+        console.log('API message:', data.message);
+        
+        // Show the API message if available
+        if (data.message) {
+          noEventsEl.innerHTML = `
+            <h3>😕 No events found</h3>
+            <p>${data.message}</p>
+            <p style="margin-top: 15px;">💡 Try searching for major cities like:</p>
+            <p><strong>London, New York, Paris, Tokyo, Sydney, Toronto, Berlin</strong></p>
+          `;
+        }
+        
         noEventsEl.style.display = "block";
       }
     } catch (error) {
       loadingEl.style.display = "none";
+      console.error("❌ Error fetching events:", error);
       errorEl.textContent = `Error: ${error.message}`;
       errorEl.style.display = "block";
-      console.error("Error fetching events:", error);
     }
   }
 
@@ -565,15 +650,71 @@
       const radius = document.getElementById("radius").value;
       const sort = document.getElementById("sort").value;
 
+      // Save location to localStorage (browser cache)
+      if (location) {
+        localStorage.setItem("lastSearchedLocation", location);
+        localStorage.setItem("lastSearchedRadius", radius);
+        localStorage.setItem("lastSearchedSort", sort);
+      }
+
       searchEvents(location, radius, sort);
     });
 
-  // Load events on page load
+  // Load events on page load with cached location
   window.addEventListener("DOMContentLoaded", function () {
-    const location = document.getElementById("location").value;
-    const radius = document.getElementById("radius").value;
-    const sort = document.getElementById("sort").value;
+    // Try to get saved location from localStorage (browser cache)
+    const savedLocation = localStorage.getItem("lastSearchedLocation");
+    const savedRadius = localStorage.getItem("lastSearchedRadius");
+    const savedSort = localStorage.getItem("lastSearchedSort");
 
-    searchEvents(location, radius, sort);
+    // Set the form values from cache
+    const locationInput = document.getElementById("location");
+    const radiusSelect = document.getElementById("radius");
+    const sortSelect = document.getElementById("sort");
+
+    if (savedLocation) {
+      locationInput.value = savedLocation;
+      console.log(`✅ Loaded saved location from cache: ${savedLocation}`);
+    } else {
+      // Default location if nothing in cache - use a city with more events
+      locationInput.value = "New York, USA";
+      console.log(`📍 Using default location: New York, USA`);
+    }
+
+    if (savedRadius) {
+      radiusSelect.value = savedRadius;
+    }
+
+    if (savedSort) {
+      sortSelect.value = savedSort;
+    }
+
+    const location = locationInput.value;
+    const radius = radiusSelect.value;
+    const sort = sortSelect.value;
+
+    console.log(`🚀 Page loaded - searching for events in: ${location}`);
+    
+    // Small delay to ensure everything is ready
+    setTimeout(() => {
+      searchEvents(location, radius, sort);
+    }, 100);
   });
+
+  // Clear location cache
+  function clearLocationCache() {
+    localStorage.removeItem("lastSearchedLocation");
+    localStorage.removeItem("lastSearchedRadius");
+    localStorage.removeItem("lastSearchedSort");
+    
+    // Reset to defaults
+    document.getElementById("location").value = "New York, USA";
+    document.getElementById("radius").value = "50";
+    document.getElementById("sort").value = "date";
+    
+    alert("✅ Location cache cleared! Default location restored.");
+    
+    // Reload events with default location
+    searchEvents("New York, USA", "50", "date");
+  }
 </script>

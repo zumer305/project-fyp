@@ -10,16 +10,12 @@ router.get(
     try {
       const { destination, lat, lng, countryCode } = req.query;
 
-      console.log('\n========== EVENTS API REQUEST ==========');
-      console.log('📥 Request Query:', req.query);
       console.log(`🌍 Fetching LIVE events for: ${destination || 'location'}`);
 
       // Use coordinates or geocode the destination
       let latitude = parseFloat(lat);
       let longitude = parseFloat(lng);
       let country = countryCode;
-      
-      console.log(`📊 Initial coords: lat=${latitude}, lng=${longitude}`);
 
       // If no coordinates provided, geocode the destination
       if ((!latitude || !longitude) && destination) {
@@ -33,17 +29,14 @@ router.get(
       }
 
       // Fetch REAL events from live APIs only
-      console.log(`🚀 Calling fetchLiveEventsOnly with lat=${latitude}, lng=${longitude}, dest=${destination}`);
       const eventsData = await fetchLiveEventsOnly(
         latitude,
         longitude,
         destination,
         country
       );
-      console.log(`✅ Received ${eventsData.length} events from APIs`);
 
       if (eventsData.length === 0) {
-        console.log('⚠️  No events found, sending empty response');
         return res.json({
           success: true,
           count: 0,
@@ -113,18 +106,14 @@ async function geocodeLocation(locationName) {
 
 // Fetch LIVE events from real APIs ONLY
 async function fetchLiveEventsOnly(lat, lng, destination, countryCode) {
-  console.log('\n========== FETCHING LIVE EVENTS ==========');
-  console.log(`📍 Coordinates: ${lat}, ${lng}`);
-  console.log(`📌 Destination: ${destination}`);
   const allEvents = [];
 
   if (!lat || !lng) {
-    console.log('❌ No coordinates available, cannot fetch events');
+    console.log('⚠️  No coordinates available, cannot fetch events');
     return allEvents;
   }
 
   // Try multiple real event APIs in parallel
-  console.log('🔄 Calling SeatGeek and OSM APIs...');
   const apiPromises = [
     fetchFromSeatGeek(lat, lng),
     fetchFromOSM(lat, lng, destination),
@@ -135,25 +124,18 @@ async function fetchLiveEventsOnly(lat, lng, destination, countryCode) {
 
   try {
     const results = await Promise.allSettled(apiPromises);
-    console.log(`📦 Received ${results.length} API responses`);
     
     results.forEach((result, index) => {
-      const apiName = index === 0 ? 'SeatGeek' : 'OSM';
       if (result.status === 'fulfilled' && result.value && result.value.length > 0) {
         allEvents.push(...result.value);
-        console.log(`✅ ${apiName}: Added ${result.value.length} events`);
-      } else if (result.status === 'fulfilled') {
-        console.log(`⚠️  ${apiName}: No events returned`);
-      } else {
-        console.log(`❌ ${apiName}: Failed - ${result.reason}`);
+        console.log(`✅ API ${index + 1}: Added ${result.value.length} events`);
       }
     });
   } catch (error) {
-    console.error('❌ Error fetching from APIs:', error.message);
+    console.error('Error fetching from APIs:', error.message);
   }
 
   console.log(`📊 Total LIVE events found: ${allEvents.length}`);
-  console.log('==========================================\n');
   return allEvents;
 }
 
@@ -233,7 +215,7 @@ async function fetchFromTicketmaster(lat, lng, countryCode) {
 // Fetch from SeatGeek (FREE - no API key required)
 async function fetchFromSeatGeek(lat, lng) {
   try {
-    console.log(`🎟️  Calling SeatGeek API with lat=${lat}, lng=${lng}, range=50km`);
+    console.log('🎟️  Trying SeatGeek API...');
     
     const response = await axios.get('https://api.seatgeek.com/2/events', {
       params: {
@@ -245,9 +227,6 @@ async function fetchFromSeatGeek(lat, lng) {
       },
       timeout: 10000,
     });
-
-    console.log(`📡 SeatGeek response status: ${response.status}`);
-    console.log(`📦 SeatGeek events count: ${response.data?.events?.length || 0}`);
 
     if (response.data && response.data.events && response.data.events.length > 0) {
       const events = response.data.events.map(event => ({
