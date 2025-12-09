@@ -6,54 +6,45 @@ const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 // const{validateListing}=require("../middleware.js");
 const express = require("express");
 const router = express.Router();
-const multer=require("multer");
-const {storage}=require("../cloudConfig.js");
-const upload=multer({storage});
+const multer = require("multer");
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
 
-const listingController=require("../controllers/listings.js");
+const listingController = require("../controllers/listings.js");
 
-router.route("/")
-.get( wrapAsync(listingController.index))
-.post(
-
+router.route("/").get(wrapAsync(listingController.index)).post(
   isLoggedIn,
-  
+
   upload.single("listing[image]"),
   validateListing,
   wrapAsync(listingController.createListing)
 );
 
-
 //new route
-router.get("/new", isLoggedIn,listingController.renderNewForm);
+router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 // World time test page
 router.get("/worldtime", (req, res) => {
   res.render("listings/worldtime");
 });
 
-router.route("/:id")
-.get(
+// Eventbrite events page
+router.get("/eventbrite", (req, res) => {
+  res.render("listings/eventbrite");
+});
 
-  wrapAsync(listingController.showListing)
-)
-.put(
+router
+  .route("/:id")
+  .get(wrapAsync(listingController.showListing))
+  .put(
+    isLoggedIn,
+    isOwner,
 
-  isLoggedIn,
-  isOwner,
-    
-  upload.single("listing[image]"),
-  validateListing,
-  wrapAsync(listingController.updateListing)
-)
-.delete(
-  
-  isLoggedIn,
-  isOwner,
-  wrapAsync(listingController.destroyListing)
-);
-
-
+    upload.single("listing[image]"),
+    validateListing,
+    wrapAsync(listingController.updateListing)
+  )
+  .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing));
 
 // //index route
 // router.get("/", wrapAsync(listingController.index));

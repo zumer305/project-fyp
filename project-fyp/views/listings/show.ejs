@@ -32,8 +32,10 @@
               listing.country %>
             </p>
             <p class="mb-0 text-muted">
-              <i class="bi bi-clock"></i> Local Time: 
-              <span id="local-time-display" class="fw-semibold text-primary">Loading...</span>
+              <i class="bi bi-clock"></i> Local Time:
+              <span id="local-time-display" class="fw-semibold text-primary"
+                >Loading...</span
+              >
             </p>
 
             <% if (currUser && owner && owner._id &&
@@ -275,20 +277,28 @@
 
   <script>
     // Display local time for the listing's location
-    document.addEventListener('DOMContentLoaded', async function() {
-      const location = '<%= listing.location %>' || '<%= listing.country %>';
-      
-      if (location && typeof WorldTime !== 'undefined') {
-        await WorldTime.displayTimeInElement('local-time-display', location, false);
-        
+    document.addEventListener("DOMContentLoaded", async function () {
+      const location = "<%= listing.location %>" || "<%= listing.country %>";
+
+      if (location && typeof WorldTime !== "undefined") {
+        await WorldTime.displayTimeInElement(
+          "local-time-display",
+          location,
+          false
+        );
+
         // Update time every minute
         setInterval(async () => {
-          await WorldTime.displayTimeInElement('local-time-display', location, false);
+          await WorldTime.displayTimeInElement(
+            "local-time-display",
+            location,
+            false
+          );
         }, 60000);
       } else {
-        const timeElement = document.getElementById('local-time-display');
+        const timeElement = document.getElementById("local-time-display");
         if (timeElement) {
-          timeElement.textContent = 'N/A';
+          timeElement.textContent = "N/A";
         }
       }
     });

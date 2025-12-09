@@ -11,11 +11,16 @@ const WorldTime = {
         return { success: false, error: "Location is required" };
       }
 
-      const response = await fetch(`/api/worldtime?city=${encodeURIComponent(location)}`);
+      const response = await fetch(
+        `/api/worldtime?city=${encodeURIComponent(location)}`
+      );
       const data = await response.json();
 
       if (!response.ok) {
-        return { success: false, error: data.message || "Failed to fetch time" };
+        return {
+          success: false,
+          error: data.message || "Failed to fetch time",
+        };
       }
 
       return { success: true, data };
@@ -32,9 +37,9 @@ const WorldTime = {
    * @returns {string} Formatted time string
    */
   formatTime12Hour(hour, minute) {
-    const period = hour >= 12 ? 'PM' : 'AM';
+    const period = hour >= 12 ? "PM" : "AM";
     const displayHour = hour % 12 || 12;
-    const displayMinute = String(minute).padStart(2, '0');
+    const displayMinute = String(minute).padStart(2, "0");
     return `${displayHour}:${displayMinute} ${period}`;
   },
 
@@ -45,8 +50,8 @@ const WorldTime = {
    * @returns {string} Formatted time string
    */
   formatTime24Hour(hour, minute) {
-    const displayHour = String(hour).padStart(2, '0');
-    const displayMinute = String(minute).padStart(2, '0');
+    const displayHour = String(hour).padStart(2, "0");
+    const displayMinute = String(minute).padStart(2, "0");
     return `${displayHour}:${displayMinute}`;
   },
 
@@ -56,8 +61,16 @@ const WorldTime = {
    * @returns {string} Day name
    */
   getDayName(dayNumber) {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return days[dayNumber] || 'Unknown';
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    return days[dayNumber] || "Unknown";
   },
 
   /**
@@ -73,18 +86,18 @@ const WorldTime = {
       return;
     }
 
-    element.textContent = 'Loading time...';
+    element.textContent = "Loading time...";
 
     const result = await this.getLocalTime(location);
 
     if (!result.success) {
-      element.textContent = 'Time unavailable';
+      element.textContent = "Time unavailable";
       element.title = result.error;
       return;
     }
 
     const { hour, minute, timezone, day_of_week } = result.data;
-    const formattedTime = use24Hour 
+    const formattedTime = use24Hour
       ? this.formatTime24Hour(hour, minute)
       : this.formatTime12Hour(hour, minute);
 
@@ -102,13 +115,13 @@ const WorldTime = {
    */
   formatFullTimeString(timeData, use24Hour = false) {
     const { hour, minute, second, timezone, day_of_week, date } = timeData;
-    const time = use24Hour 
+    const time = use24Hour
       ? this.formatTime24Hour(hour, minute)
       : this.formatTime12Hour(hour, minute);
-    
+
     const dayName = this.getDayName(day_of_week);
-    
-    return `${dayName}, ${date} - ${time}${timezone ? ` (${timezone})` : ''}`;
+
+    return `${dayName}, ${date} - ${time}${timezone ? ` (${timezone})` : ""}`;
   },
 
   /**
@@ -123,38 +136,38 @@ const WorldTime = {
       elements.forEach(({ selector }) => {
         const el = document.querySelector(selector);
         if (el) {
-          el.textContent = 'Time unavailable';
+          el.textContent = "Time unavailable";
           el.title = result.error;
         }
       });
       return;
     }
 
-    elements.forEach(({ selector, use24Hour = false, format = 'time' }) => {
+    elements.forEach(({ selector, use24Hour = false, format = "time" }) => {
       const el = document.querySelector(selector);
       if (!el) return;
 
       const { hour, minute, timezone, day_of_week } = result.data;
-      
-      if (format === 'time') {
-        const formattedTime = use24Hour 
+
+      if (format === "time") {
+        const formattedTime = use24Hour
           ? this.formatTime24Hour(hour, minute)
           : this.formatTime12Hour(hour, minute);
         el.textContent = formattedTime;
-      } else if (format === 'full') {
+      } else if (format === "full") {
         el.textContent = this.formatFullTimeString(result.data, use24Hour);
-      } else if (format === 'timezone') {
-        el.textContent = timezone || 'Unknown timezone';
+      } else if (format === "timezone") {
+        el.textContent = timezone || "Unknown timezone";
       }
 
       if (timezone) {
         el.title = `${timezone} - ${this.getDayName(day_of_week)}`;
       }
     });
-  }
+  },
 };
 
 // Make it available globally
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   window.WorldTime = WorldTime;
 }
