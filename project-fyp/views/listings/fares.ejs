@@ -630,7 +630,7 @@
       });
 
     // Listen for currency changes and update fares
-    document.addEventListener('currencyChanged', async (e) => {
+    document.addEventListener("currencyChanged", async (e) => {
       const newCurrency = e.detail.currency;
       await updateFaresWithCurrency(newCurrency);
     });
@@ -638,33 +638,49 @@
 
   // Update all fares when currency changes
   async function updateFaresWithCurrency(currency) {
-    if (currency === 'USD') {
+    if (currency === "USD") {
       renderVehicles();
       return;
     }
 
     const vehiclesGrid = document.getElementById("vehiclesGrid");
-    const priceElements = vehiclesGrid.querySelectorAll('.fare-amount');
-    
+    const priceElements = vehiclesGrid.querySelectorAll(".fare-amount");
+
     for (const element of priceElements) {
-      const usdAmount = parseFloat(element.textContent.replace('$', ''));
+      const usdAmount = parseFloat(element.textContent.replace("$", ""));
       if (!isNaN(usdAmount)) {
-        const result = await CurrencyConverter.convert(usdAmount, 'USD', currency);
+        const result = await CurrencyConverter.convert(
+          usdAmount,
+          "USD",
+          currency
+        );
         if (result.success) {
-          element.textContent = CurrencyConverter.formatCurrency(result.result, currency);
+          element.textContent = CurrencyConverter.formatCurrency(
+            result.result,
+            currency
+          );
         }
       }
     }
 
     // Update calculated result if visible
-    const calculatedResult = document.getElementById('calculatedResult');
-    if (calculatedResult.classList.contains('show')) {
-      const calculatedAmount = document.getElementById('calculatedAmount');
-      const usdAmount = parseFloat(calculatedAmount.textContent.replace('$', ''));
+    const calculatedResult = document.getElementById("calculatedResult");
+    if (calculatedResult.classList.contains("show")) {
+      const calculatedAmount = document.getElementById("calculatedAmount");
+      const usdAmount = parseFloat(
+        calculatedAmount.textContent.replace("$", "")
+      );
       if (!isNaN(usdAmount)) {
-        const result = await CurrencyConverter.convert(usdAmount, 'USD', currency);
+        const result = await CurrencyConverter.convert(
+          usdAmount,
+          "USD",
+          currency
+        );
         if (result.success) {
-          calculatedAmount.textContent = CurrencyConverter.formatCurrency(result.result, currency);
+          calculatedAmount.textContent = CurrencyConverter.formatCurrency(
+            result.result,
+            currency
+          );
         }
       }
     }

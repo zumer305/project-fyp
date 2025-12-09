@@ -1,0 +1,188 @@
+<% layout("/layouts/boiler") %>
+
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-4">
+          <div class="card-header bg-primary text-white text-center rounded-top-4">
+            <h2 class="mb-0"><i class="bi bi-globe"></i> World Time Clock</h2>
+          </div>
+          <div class="card-body p-4">
+            <div class="mb-4">
+              <label for="city-input" class="form-label fw-bold">Enter City or Country:</label>
+              <div class="input-group">
+                <input 
+                  type="text" 
+                  id="city-input" 
+                  class="form-control" 
+                  placeholder="e.g., London, Paris, Tokyo, Kazakhstan"
+                  value="London"
+                />
+                <button class="btn btn-primary" id="fetch-time-btn">
+                  <i class="bi bi-search"></i> Get Time
+                </button>
+              </div>
+            </div>
+
+            <div id="time-result" class="mt-4" style="display: none;">
+              <div class="card bg-light">
+                <div class="card-body">
+                  <h4 class="text-center mb-3">
+                    <i class="bi bi-clock-fill"></i> Current Local Time
+                  </h4>
+                  <div class="text-center">
+                    <h1 class="display-4 fw-bold text-primary" id="display-time">--:--</h1>
+                    <p class="text-muted mb-2" id="display-date">-- --- ----</p>
+                    <p class="text-muted" id="display-timezone">---</p>
+                  </div>
+                  
+                  <hr>
+                  
+                  <div class="row text-center">
+                    <div class="col-4">
+                      <div class="p-2">
+                        <i class="bi bi-calendar3 fs-3 text-primary"></i>
+                        <p class="mb-0 mt-2 small text-muted">Day of Week</p>
+                        <p class="fw-bold mb-0" id="display-day">---</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="p-2">
+                        <i class="bi bi-hourglass-split fs-3 text-primary"></i>
+                        <p class="mb-0 mt-2 small text-muted">Hour</p>
+                        <p class="fw-bold mb-0" id="display-hour">--</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="p-2">
+                        <i class="bi bi-stopwatch fs-3 text-primary"></i>
+                        <p class="mb-0 mt-2 small text-muted">Minute</p>
+                        <p class="fw-bold mb-0" id="display-minute">--</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="error-message" class="alert alert-danger mt-4" style="display: none;">
+              <i class="bi bi-exclamation-triangle"></i> <span id="error-text"></span>
+            </div>
+
+            <div class="mt-4">
+              <h5 class="mb-3">Popular Locations:</h5>
+              <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-outline-primary btn-sm quick-city" data-city="London">London</button>
+                <button class="btn btn-outline-primary btn-sm quick-city" data-city="New York">New York</button>
+                <button class="btn btn-outline-primary btn-sm quick-city" data-city="Tokyo">Tokyo</button>
+                <button class="btn btn-outline-primary btn-sm quick-city" data-city="Paris">Paris</button>
+                <button class="btn btn-outline-primary btn-sm quick-city" data-city="Dubai">Dubai</button>
+                <button class="btn btn-outline-primary btn-sm quick-city" data-city="Sydney">Sydney</button>
+                <button class="btn btn-outline-primary btn-sm quick-city" data-city="Kazakhstan">Kazakhstan</button>
+                <button class="btn btn-outline-primary btn-sm quick-city" data-city="Bishkek">Bishkek</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cityInput = document.getElementById('city-input');
+      const fetchBtn = document.getElementById('fetch-time-btn');
+      const timeResult = document.getElementById('time-result');
+      const errorMessage = document.getElementById('error-message');
+      const quickCityButtons = document.querySelectorAll('.quick-city');
+
+      async function fetchAndDisplayTime(location) {
+        if (!location) {
+          showError('Please enter a city or country name');
+          return;
+        }
+
+        // Hide previous results
+        timeResult.style.display = 'none';
+        errorMessage.style.display = 'none';
+
+        // Show loading state
+        fetchBtn.disabled = true;
+        fetchBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Loading...';
+
+        try {
+          const result = await WorldTime.getLocalTime(location);
+
+          if (result.success) {
+            const data = result.data;
+            
+            // Display time
+            document.getElementById('display-time').textContent = 
+              WorldTime.formatTime12Hour(data.hour, data.minute);
+            
+            // Display date
+            document.getElementById('display-date').textContent = data.date;
+            
+            // Display timezone
+            document.getElementById('display-timezone').textContent = 
+              data.timezone || 'Timezone information not available';
+            
+            // Display day
+            document.getElementById('display-day').textContent = 
+              WorldTime.getDayName(data.day_of_week);
+            
+            // Display hour and minute separately
+            document.getElementById('display-hour').textContent = data.hour;
+            document.getElementById('display-minute').textContent = 
+              String(data.minute).padStart(2, '0');
+
+            // Show result
+            timeResult.style.display = 'block';
+          } else {
+            showError(result.error || 'Failed to fetch time');
+          }
+        } catch (error) {
+          showError('An unexpected error occurred');
+          console.error(error);
+        } finally {
+          // Reset button
+          fetchBtn.disabled = false;
+          fetchBtn.innerHTML = '<i class="bi bi-search"></i> Get Time';
+        }
+      }
+
+      function showError(message) {
+        document.getElementById('error-text').textContent = message;
+        errorMessage.style.display = 'block';
+        timeResult.style.display = 'none';
+      }
+
+      // Fetch time button click
+      fetchBtn.addEventListener('click', function() {
+        const location = cityInput.value.trim();
+        fetchAndDisplayTime(location);
+      });
+
+      // Enter key in input
+      cityInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          const location = cityInput.value.trim();
+          fetchAndDisplayTime(location);
+        }
+      });
+
+      // Quick city buttons
+      quickCityButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const city = this.getAttribute('data-city');
+          cityInput.value = city;
+          fetchAndDisplayTime(city);
+        });
+      });
+
+      // Load default city on page load
+      fetchAndDisplayTime('London');
+    });
+  </script>
+</body>

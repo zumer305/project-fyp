@@ -539,7 +539,7 @@
   // Initialize currency converter and handle currency changes
   document.addEventListener("DOMContentLoaded", function () {
     // Handle currency changes for event prices
-    document.addEventListener('currencyChanged', async (e) => {
+    document.addEventListener("currencyChanged", async (e) => {
       const newCurrency = e.detail.currency;
       await updateEventPrices(newCurrency);
     });
@@ -547,38 +547,53 @@
 
   // Update event prices when currency changes
   async function updateEventPrices(currency) {
-    const priceElements = document.querySelectorAll('.detail-value');
-    
+    const priceElements = document.querySelectorAll(".detail-value");
+
     for (const element of priceElements) {
       const priceText = element.textContent;
-      
+
       // Check if this is a price element (contains PKR or Free)
-      if (priceText.includes('PKR') || priceText.includes('Free')) {
-        if (priceText === 'Free' || priceText.includes('Free')) {
+      if (priceText.includes("PKR") || priceText.includes("Free")) {
+        if (priceText === "Free" || priceText.includes("Free")) {
           continue; // Don't convert free events
         }
-        
+
         // Extract numeric values from PKR prices (e.g., "PKR 500-2000")
         const match = priceText.match(/PKR\s+([\d,]+)(?:-([\d,]+))?/);
         if (match) {
-          const minPrice = parseFloat(match[1].replace(/,/g, ''));
-          const maxPrice = match[2] ? parseFloat(match[2].replace(/,/g, '')) : null;
-          
-          if (currency === 'USD' || currency === 'PKR') {
+          const minPrice = parseFloat(match[1].replace(/,/g, ""));
+          const maxPrice = match[2]
+            ? parseFloat(match[2].replace(/,/g, ""))
+            : null;
+
+          if (currency === "USD" || currency === "PKR") {
             // Keep original format if USD or PKR
             continue;
           }
-          
+
           // Convert to selected currency
-          const minResult = await CurrencyConverter.convert(minPrice, 'PKR', currency);
-          
+          const minResult = await CurrencyConverter.convert(
+            minPrice,
+            "PKR",
+            currency
+          );
+
           if (minResult.success) {
             if (maxPrice) {
-              const maxResult = await CurrencyConverter.convert(maxPrice, 'PKR', currency);
+              const maxResult = await CurrencyConverter.convert(
+                maxPrice,
+                "PKR",
+                currency
+              );
               const symbol = CurrencyConverter.getSymbol(currency);
-              element.textContent = `${symbol} ${minResult.result.toFixed(0)}-${maxResult.result.toFixed(0)}`;
+              element.textContent = `${symbol} ${minResult.result.toFixed(
+                0
+              )}-${maxResult.result.toFixed(0)}`;
             } else {
-              element.textContent = CurrencyConverter.formatCurrency(minResult.result, currency);
+              element.textContent = CurrencyConverter.formatCurrency(
+                minResult.result,
+                currency
+              );
             }
           }
         }

@@ -27,6 +27,11 @@ router.route("/")
 //new route
 router.get("/new", isLoggedIn,listingController.renderNewForm);
 
+// World time test page
+router.get("/worldtime", (req, res) => {
+  res.render("listings/worldtime");
+});
+
 router.route("/:id")
 .get(
 

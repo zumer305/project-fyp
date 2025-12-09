@@ -281,12 +281,19 @@
   </div>
 
   <div class="budget-info">
-    <h3>💰 Your Budget: <span class="price-display" data-price="<%= budget %>" data-currency="USD"></span></h3>
+    <h3>
+      💰 Your Budget:
+      <span
+        class="price-display"
+        data-price="<%= budget %>"
+        data-currency="USD"
+      ></span>
+    </h3>
     <p>
       Budget Category:
       <strong class="budget-range-text"
-        ><%= budgetCategory === 'budget20k' ? 'Premium Range' :
-        'Economy Range' %></strong
+        ><%= budgetCategory === 'budget20k' ? 'Premium Range' : 'Economy Range'
+        %></strong
       >
     </p>
   </div>
@@ -302,7 +309,11 @@
         <span class="duration-badge"><%= package.duration %></span>
       </div>
       <div class="package-price">
-        <span class="price-display" data-price="<%= package.price %>" data-currency="USD"></span>
+        <span
+          class="price-display"
+          data-price="<%= package.price %>"
+          data-currency="USD"
+        ></span>
       </div>
     </div>
 
@@ -500,52 +511,65 @@
     });
 
     // Initialize prices on page load
-    document.addEventListener('DOMContentLoaded', async function() {
+    document.addEventListener("DOMContentLoaded", async function () {
       await updateAllPrices();
     });
 
     // Handle currency changes
-    document.addEventListener('currencyChanged', async (e) => {
+    document.addEventListener("currencyChanged", async (e) => {
       await updateAllPrices();
     });
 
     async function updateAllPrices() {
       const currentCurrency = CurrencyConverter.getUserCurrency();
-      const priceElements = document.querySelectorAll('[data-price]');
-      
+      const priceElements = document.querySelectorAll("[data-price]");
+
       if (priceElements.length === 0) return;
-      
+
       // Group by currency
       const currencyGroups = {};
-      priceElements.forEach(element => {
-        const fromCurrency = element.getAttribute('data-currency') || 'USD';
+      priceElements.forEach((element) => {
+        const fromCurrency = element.getAttribute("data-currency") || "USD";
         if (!currencyGroups[fromCurrency]) {
           currencyGroups[fromCurrency] = [];
         }
         currencyGroups[fromCurrency].push(element);
       });
-      
+
       // ONE API call per currency pair
       for (const fromCurrency in currencyGroups) {
         const elements = currencyGroups[fromCurrency];
-        
+
         if (currentCurrency === fromCurrency) {
           const currencySymbol = CurrencyConverter.getSymbol(fromCurrency);
-          elements.forEach(element => {
-            const originalPrice = parseFloat(element.getAttribute('data-price'));
+          elements.forEach((element) => {
+            const originalPrice = parseFloat(
+              element.getAttribute("data-price")
+            );
             if (!isNaN(originalPrice)) {
               element.textContent = `${currencySymbol}${originalPrice.toLocaleString()}`;
             }
           });
         } else {
-          const rateResult = await CurrencyConverter.getExchangeRate(fromCurrency, currentCurrency);
-          
+          const rateResult = await CurrencyConverter.getExchangeRate(
+            fromCurrency,
+            currentCurrency
+          );
+
           if (rateResult.success) {
-            elements.forEach(element => {
-              const originalPrice = parseFloat(element.getAttribute('data-price'));
+            elements.forEach((element) => {
+              const originalPrice = parseFloat(
+                element.getAttribute("data-price")
+              );
               if (!isNaN(originalPrice)) {
-                const convertedAmount = CurrencyConverter.convertWithRate(originalPrice, rateResult.rate);
-                element.textContent = CurrencyConverter.formatCurrency(convertedAmount, currentCurrency);
+                const convertedAmount = CurrencyConverter.convertWithRate(
+                  originalPrice,
+                  rateResult.rate
+                );
+                element.textContent = CurrencyConverter.formatCurrency(
+                  convertedAmount,
+                  currentCurrency
+                );
               }
             });
           }

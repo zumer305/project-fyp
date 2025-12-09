@@ -685,4 +685,28 @@ h2 {
 
 
 
+/* World Time Styles */
+.local-time {
+  font-weight: 500;
+  color: #0066cc;
+  cursor: help;
+}
+
+#local-time-display {
+  font-weight: 600;
+  color: #0066cc;
+  transition: color 0.3s ease;
+}
+
+#local-time-display:hover {
+  color: #004080;
+}
+
+.bi-clock {
+  margin-right: 4px;
+}
+
+
     
+ 
+ 

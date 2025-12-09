@@ -3,6 +3,69 @@ const axios = require("axios");
 const API_KEY = "f89564ac56157b052d3e78a6976e155e";
 const BASE_URL = "https://api.exchangerate.host";
 
+// Cache for exchange rates (in-memory cache)
+const rateCache = new Map();
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+
+// Fallback rates (approximate, updated periodically)
+const FALLBACK_RATES = {
+  USD_PKR: 278.5,
+  USD_EUR: 0.92,
+  USD_GBP: 0.79,
+  USD_INR: 83.12,
+  USD_AED: 3.67,
+  USD_SAR: 3.75,
+  USD_KZT: 453.2,
+  USD_UZS: 12456.0,
+  USD_TJS: 10.95,
+  USD_KGS: 89.3,
+  USD_CNY: 7.24,
+  USD_JPY: 149.85,
+  USD_RUB: 92.5,
+  USD_TRY: 28.95,
+  USD_AUD: 1.52,
+  USD_CAD: 1.36,
+  USD_CHF: 0.88,
+  USD_SEK: 10.35,
+  USD_NOK: 10.82,
+  USD_DKK: 6.87,
+};
+
+// Get cached rate or fallback
+function getCachedOrFallbackRate(from, to) {
+  const cacheKey = `${from}_${to}`;
+  const cached = rateCache.get(cacheKey);
+
+  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    return { rate: cached.rate, source: "cache" };
+  }
+
+  // Try direct fallback
+  if (FALLBACK_RATES[cacheKey]) {
+    return { rate: FALLBACK_RATES[cacheKey], source: "fallback" };
+  }
+
+  // Try reverse calculation
+  const reverseCacheKey = `${to}_${from}`;
+  if (FALLBACK_RATES[reverseCacheKey]) {
+    return {
+      rate: 1 / FALLBACK_RATES[reverseCacheKey],
+      source: "fallback_reverse",
+    };
+  }
+
+  // Try through USD
+  if (from !== "USD" && to !== "USD") {
+    const fromToUsd =
+      FALLBACK_RATES[`${from}_USD`] || 1 / (FALLBACK_RATES[`USD_${from}`] || 1);
+    const usdToTo =
+      FALLBACK_RATES[`USD_${to}`] || 1 / (FALLBACK_RATES[`${to}_USD`] || 1);
+    return { rate: fromToUsd * usdToTo, source: "fallback_calculated" };
+  }
+
+  return { rate: 1, source: "default" };
+}
+
 /**
  * Get supported currencies
  */
@@ -68,7 +131,10 @@ const getLatestRates = async (req, res) => {
           rates[targetCurrency.toUpperCase()] = response.data.result;
         }
       } catch (err) {
-        console.error(`Error fetching rate for ${targetCurrency}:`, err.message);
+        console.error(
+          `Error fetching rate for ${targetCurrency}:`,
+          err.message
+        );
       }
     }
 
@@ -89,45 +155,106 @@ const getLatestRates = async (req, res) => {
 };
 
 /**
- * Convert currency
+ * Convert currency with cache and fallback
  */
 const convertCurrency = async (req, res) => {
   try {
     const { from = "USD", to = "PKR", amount = 1 } = req.query;
+    const fromCurrency = from.toUpperCase();
+    const toCurrency = to.toUpperCase();
+    const amountNum = parseFloat(amount);
 
-    const response = await axios.get(`${BASE_URL}/convert`, {
-      params: {
-        access_key: API_KEY,
+    // Same currency - no conversion needed
+    if (fromCurrency === toCurrency) {
+      return res.json({
+        success: true,
+        query: { from: fromCurrency, to: toCurrency, amount: amountNum },
+        info: { rate: 1, source: "same_currency" },
+        result: amountNum,
+        date: new Date().toISOString().split("T")[0],
+      });
+    }
+
+    const cacheKey = `${fromCurrency}_${toCurrency}`;
+
+    // Check cache first
+    const cached = rateCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      return res.json({
+        success: true,
+        query: { from: fromCurrency, to: toCurrency, amount: amountNum },
+        info: { rate: cached.rate, source: "cache" },
+        result: amountNum * cached.rate,
+        date: new Date().toISOString().split("T")[0],
+      });
+    }
+
+    // Try API call
+    try {
+      const response = await axios.get(`${BASE_URL}/convert`, {
+        params: {
+          access_key: API_KEY,
+          from: fromCurrency,
+          to: toCurrency,
+          amount: 1, // Get rate for 1 unit
+        },
+        timeout: 3000, // Short timeout
+      });
+
+      if (response.data && response.data.result) {
+        const rate = response.data.result;
+
+        // Cache the rate
+        rateCache.set(cacheKey, {
+          rate: rate,
+          timestamp: Date.now(),
+        });
+
+        return res.json({
+          success: true,
+          query: { from: fromCurrency, to: toCurrency, amount: amountNum },
+          info: { rate: rate, source: "api" },
+          result: amountNum * rate,
+          date: new Date().toISOString().split("T")[0],
+        });
+      }
+    } catch (apiError) {
+      console.warn(
+        `API call failed for ${cacheKey}, using fallback:`,
+        apiError.message
+      );
+    }
+
+    // Use fallback rates
+    const fallback = getCachedOrFallbackRate(fromCurrency, toCurrency);
+
+    return res.json({
+      success: true,
+      query: { from: fromCurrency, to: toCurrency, amount: amountNum },
+      info: { rate: fallback.rate, source: fallback.source },
+      result: amountNum * fallback.rate,
+      date: new Date().toISOString().split("T")[0],
+    });
+  } catch (error) {
+    console.error("Error converting currency:", error.message);
+
+    // Even on error, try to return fallback
+    const { from = "USD", to = "PKR", amount = 1 } = req.query;
+    const fallback = getCachedOrFallbackRate(
+      from.toUpperCase(),
+      to.toUpperCase()
+    );
+
+    return res.json({
+      success: true,
+      query: {
         from: from.toUpperCase(),
         to: to.toUpperCase(),
         amount: parseFloat(amount),
       },
-      timeout: 5000,
-    });
-
-    if (response.data && response.data.result) {
-      res.json({
-        success: true,
-        query: {
-          from: from.toUpperCase(),
-          to: to.toUpperCase(),
-          amount: parseFloat(amount),
-        },
-        info: {
-          rate: response.data.result / parseFloat(amount),
-        },
-        result: response.data.result,
-        date: new Date().toISOString().split("T")[0],
-      });
-    } else {
-      throw new Error("Failed to convert currency");
-    }
-  } catch (error) {
-    console.error("Error converting currency:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Error converting currency",
-      error: error.message,
+      info: { rate: fallback.rate, source: "fallback_error" },
+      result: parseFloat(amount) * fallback.rate,
+      date: new Date().toISOString().split("T")[0],
     });
   }
 };
@@ -170,7 +297,10 @@ const getHistoricalRates = async (req, res) => {
           rates[targetCurrency.toUpperCase()] = response.data.result;
         }
       } catch (err) {
-        console.error(`Error fetching historical rate for ${targetCurrency}:`, err.message);
+        console.error(
+          `Error fetching historical rate for ${targetCurrency}:`,
+          err.message
+        );
       }
     }
 

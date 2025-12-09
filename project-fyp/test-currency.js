@@ -10,7 +10,7 @@ const BASE_URL = "https://api.exchangerate.host";
 
 async function testCurrencyAPI() {
   console.log("🧪 Testing Currency Conversion API\n");
-  console.log("=" .repeat(50));
+  console.log("=".repeat(50));
 
   // Test 1: Get supported currencies
   console.log("\n📋 Test 1: Get Supported Currencies");
@@ -76,7 +76,9 @@ async function testCurrencyAPI() {
 
     if (response.data && response.data.success) {
       console.log("✅ Success!");
-      console.log(`   ${response.data.query.amount} ${response.data.query.from}`);
+      console.log(
+        `   ${response.data.query.amount} ${response.data.query.from}`
+      );
       console.log(`   = ${response.data.result} ${response.data.query.to}`);
       console.log(`   Rate: ${response.data.info.rate}`);
       console.log(`   Date: ${response.data.date}`);

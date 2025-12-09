@@ -100,9 +100,7 @@ const CurrencyConverter = {
   // Fetch latest exchange rates
   async fetchRates(baseCurrency = "USD") {
     try {
-      const response = await fetch(
-        `/api/currency/latest?base=${baseCurrency}`
-      );
+      const response = await fetch(`/api/currency/latest?base=${baseCurrency}`);
       const data = await response.json();
 
       if (data.success) {
@@ -177,16 +175,16 @@ const CurrencyConverter = {
 
       if (data.success && data.info && data.info.rate) {
         const rate = data.info.rate;
-        
+
         // Cache the rate
         this.cache[cacheKey] = {
           rate: rate,
           timestamp: Date.now(),
         };
-        
+
         return { success: true, rate: rate };
       }
-      
+
       throw new Error("Failed to get exchange rate");
     } catch (error) {
       console.error("Error fetching exchange rate:", error);
@@ -285,11 +283,11 @@ const CurrencyConverter = {
   // Convert all text mentions of prices in the entire document
   async convertTextPrices(toCurrency) {
     const currencySymbol = this.getSymbol(toCurrency);
-    
+
     // Store original text if not already stored
-    if (!document.body.hasAttribute('data-original-stored')) {
+    if (!document.body.hasAttribute("data-original-stored")) {
       this.storeOriginalText(document.body);
-      document.body.setAttribute('data-original-stored', 'true');
+      document.body.setAttribute("data-original-stored", "true");
     }
 
     // Find all text nodes and convert currency mentions
@@ -297,11 +295,11 @@ const CurrencyConverter = {
       document.body,
       NodeFilter.SHOW_TEXT,
       {
-        acceptNode: function(node) {
+        acceptNode: function (node) {
           // Skip script, style, and already processed nodes
           const parent = node.parentElement;
           if (!parent) return NodeFilter.FILTER_REJECT;
-          if (parent.tagName === 'SCRIPT' || parent.tagName === 'STYLE') {
+          if (parent.tagName === "SCRIPT" || parent.tagName === "STYLE") {
             return NodeFilter.FILTER_REJECT;
           }
           // Only process text nodes with currency symbols or amounts
@@ -309,7 +307,7 @@ const CurrencyConverter = {
             return NodeFilter.FILTER_ACCEPT;
           }
           return NodeFilter.FILTER_REJECT;
-        }
+        },
       }
     );
 
@@ -319,7 +317,9 @@ const CurrencyConverter = {
     }
 
     for (const node of nodesToConvert) {
-      const originalText = node.parentElement.getAttribute('data-original-text') || node.textContent;
+      const originalText =
+        node.parentElement.getAttribute("data-original-text") ||
+        node.textContent;
       let newText = originalText;
 
       // Convert patterns like "$100", "USD 100", "100 USD", etc.
@@ -333,18 +333,14 @@ const CurrencyConverter = {
 
   // Store original text content
   storeOriginalText(element) {
-    const walker = document.createTreeWalker(
-      element,
-      NodeFilter.SHOW_ELEMENT,
-      {
-        acceptNode: function(node) {
-          if (node.tagName === 'SCRIPT' || node.tagName === 'STYLE') {
-            return NodeFilter.FILTER_REJECT;
-          }
-          return NodeFilter.FILTER_ACCEPT;
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_ELEMENT, {
+      acceptNode: function (node) {
+        if (node.tagName === "SCRIPT" || node.tagName === "STYLE") {
+          return NodeFilter.FILTER_REJECT;
         }
-      }
-    );
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
 
     const elements = [element];
     while (walker.nextNode()) {
@@ -352,11 +348,11 @@ const CurrencyConverter = {
     }
 
     for (const el of elements) {
-      if (!el.hasAttribute('data-original-text') && el.childNodes.length > 0) {
+      if (!el.hasAttribute("data-original-text") && el.childNodes.length > 0) {
         // Store original text for text nodes
         for (const child of el.childNodes) {
           if (child.nodeType === Node.TEXT_NODE && child.textContent.trim()) {
-            el.setAttribute('data-original-text', child.textContent);
+            el.setAttribute("data-original-text", child.textContent);
             break;
           }
         }
@@ -372,11 +368,11 @@ const CurrencyConverter = {
     // Pattern: $123, $1,234, $1234.56
     const dollarPattern = /\$\s*([\d,]+\.?\d*)/g;
     const matches = [...text.matchAll(dollarPattern)];
-    
+
     for (const match of matches) {
-      const amount = parseFloat(match[1].replace(/,/g, ''));
+      const amount = parseFloat(match[1].replace(/,/g, ""));
       if (!isNaN(amount)) {
-        const converted = await this.convert(amount, 'USD', toCurrency);
+        const converted = await this.convert(amount, "USD", toCurrency);
         if (converted.success) {
           const formatted = this.formatCurrency(converted.result, toCurrency);
           result = result.replace(match[0], formatted);
@@ -391,11 +387,11 @@ const CurrencyConverter = {
     // Pattern: "Budget under $100" - convert embedded amounts
     const budgetPattern = /under\s+\$\s*([\d,]+\.?\d*)/gi;
     const budgetMatches = [...text.matchAll(budgetPattern)];
-    
+
     for (const match of budgetMatches) {
-      const amount = parseFloat(match[1].replace(/,/g, ''));
+      const amount = parseFloat(match[1].replace(/,/g, ""));
       if (!isNaN(amount)) {
-        const converted = await this.convert(amount, 'USD', toCurrency);
+        const converted = await this.convert(amount, "USD", toCurrency);
         if (converted.success) {
           const formatted = this.formatCurrency(converted.result, toCurrency);
           result = result.replace(match[0], `under ${formatted}`);
@@ -408,9 +404,9 @@ const CurrencyConverter = {
 
   // Reset all text to USD
   resetToUSD() {
-    const elements = document.querySelectorAll('[data-original-text]');
-    elements.forEach(el => {
-      const originalText = el.getAttribute('data-original-text');
+    const elements = document.querySelectorAll("[data-original-text]");
+    elements.forEach((el) => {
+      const originalText = el.getAttribute("data-original-text");
       if (originalText) {
         // Find text node and restore
         for (const child of el.childNodes) {
@@ -423,12 +419,12 @@ const CurrencyConverter = {
     });
 
     // Reset data-price elements
-    const priceElements = document.querySelectorAll('[data-price]');
-    priceElements.forEach(el => {
-      const originalPrice = parseFloat(el.getAttribute('data-price'));
+    const priceElements = document.querySelectorAll("[data-price]");
+    priceElements.forEach((el) => {
+      const originalPrice = parseFloat(el.getAttribute("data-price"));
       if (!isNaN(originalPrice)) {
-        el.innerHTML = this.formatCurrency(originalPrice, 'USD');
-        el.removeAttribute('title');
+        el.innerHTML = this.formatCurrency(originalPrice, "USD");
+        el.removeAttribute("title");
       }
     });
   },

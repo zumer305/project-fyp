@@ -23,7 +23,18 @@
       <div class="navbar-nav ms-auto">
         <!-- Currency Selector -->
         <div class="nav-item dropdown me-3">
-          <select id="navbar-currency-select" class="form-select form-select-sm" style="min-width: 180px; border: 2px solid #667eea; border-radius: 8px; padding: 6px 12px; font-weight: 600; background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);">
+          <select
+            id="navbar-currency-select"
+            class="form-select form-select-sm"
+            style="
+              min-width: 180px;
+              border: 2px solid #667eea;
+              border-radius: 8px;
+              padding: 6px 12px;
+              font-weight: 600;
+              background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+            "
+          >
             <option value="USD">💵 USD - US Dollar</option>
             <option value="EUR">💶 EUR - Euro</option>
             <option value="GBP">💷 GBP - British Pound</option>
@@ -91,7 +102,7 @@
             <option value="ZAR">�🇦 ZAR - South African Rand</option>
           </select>
         </div>
-        
+
         <%if(!currUser){%>
         <a class="nav-link" href="/signup">Signup</a>
         <a class="nav-link" href="/login">Login</a>

@@ -101,7 +101,10 @@
         alt="Issyk-Kul Lake"
       />
       <h3>Issyk-Kul Lake, Kyrgyzstan</h3>
-      <p><span class="price-display" data-price="620" data-currency="USD"></span> / trip</p>
+      <p>
+        <span class="price-display" data-price="620" data-currency="USD"></span>
+        / trip
+      </p>
       <p>⭐ 4.6 (185 reviews)</p>
       <div class="tags">
         <span>#Cool</span><span>#Mountain</span><span>#CentralAsia</span>
@@ -229,7 +232,17 @@
     <div class="cards">
       <div class="card">
         <h3>💸 Local Taxi Fares</h3>
-        <p class="taxi-fare-text">Base fare starts at <span data-price="1.2" data-currency="USD" class="inline-price"></span> with <span data-price="0.5" data-currency="USD" class="inline-price"></span>/km. Rideshare apps available.</p>
+        <p class="taxi-fare-text">
+          Base fare starts at
+          <span
+            data-price="1.2"
+            data-currency="USD"
+            class="inline-price"
+          ></span>
+          with
+          <span data-price="0.5" data-currency="USD" class="inline-price"></span
+          >/km. Rideshare apps available.
+        </p>
         <a class="view-more" href="/fares" onclick="saveFaresContext()"
           >View More</a
         >
@@ -255,7 +268,9 @@
       <div class="card">
         <h3>💡 Budgeted Tour Suggestions</h3>
         <p class="budget-text">
-          3-Day Trip: City Tour → Ala Archa Park → Osh Bazaar. Budget under <span data-price="100" data-currency="USD" class="inline-price"></span>.
+          3-Day Trip: City Tour → Ala Archa Park → Osh Bazaar. Budget under
+          <span data-price="100" data-currency="USD" class="inline-price"></span
+          >.
         </p>
         <a class="view-more" href="#">View More</a>
         <div class="updated-note">Updated automatically</div>
@@ -269,7 +284,7 @@
     const isLoggedIn = document.body.dataset.loggedIn === "true";
     let cachedRate = null; // Cache the rate globally for this page
     let cachedCurrency = null;
-    
+
     async function showBudget() {
       const budget = document.getElementById("budget").value;
       const result = document.getElementById("result");
@@ -279,7 +294,10 @@
       if (budget) {
         // Get rate once if currency changed
         if (cachedCurrency !== currentCurrency || !cachedRate) {
-          const rateResult = await CurrencyConverter.getExchangeRate('USD', currentCurrency);
+          const rateResult = await CurrencyConverter.getExchangeRate(
+            "USD",
+            currentCurrency
+          );
           if (rateResult.success) {
             cachedRate = rateResult.rate;
             cachedCurrency = currentCurrency;
@@ -287,13 +305,13 @@
             cachedRate = 1;
           }
         }
-        
+
         // Convert thresholds using cached rate (NO API calls)
         const threshold1 = CurrencyConverter.convertWithRate(5000, cachedRate);
         const threshold2 = CurrencyConverter.convertWithRate(10000, cachedRate);
         const threshold3 = CurrencyConverter.convertWithRate(15000, cachedRate);
         const budgetNum = parseFloat(budget);
-        
+
         if (budgetNum < threshold1) {
           result.innerHTML = `<span style="color: #dc3545;">💰 Budget: ${currencySymbol}${budgetNum.toLocaleString()} - Consider increasing for better packages</span>`;
         } else if (budgetNum >= threshold1 && budgetNum < threshold2) {
@@ -318,81 +336,94 @@
         alert("Please select a country and enter your budget first!");
       }
     }
-    
+
     // Update currency label and reset cache when currency changes
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener("DOMContentLoaded", function () {
       updateCurrencyLabels();
     });
-    
-    document.addEventListener('currencyChanged', function() {
+
+    document.addEventListener("currencyChanged", function () {
       cachedRate = null; // Reset cache on currency change
       cachedCurrency = null;
       updateCurrencyLabels();
       updateAllPricesOnPage(); // Update all price displays
     });
-    
+
     function updateCurrencyLabels() {
       const currentCurrency = CurrencyConverter.getUserCurrency();
-      const labels = document.querySelectorAll('.currency-label');
-      labels.forEach(label => {
+      const labels = document.querySelectorAll(".currency-label");
+      labels.forEach((label) => {
         label.textContent = currentCurrency;
       });
     }
-    
+
     // Update all price elements on the page
     async function updateAllPricesOnPage() {
       const currentCurrency = CurrencyConverter.getUserCurrency();
-      const priceElements = document.querySelectorAll('[data-price]');
-      
+      const priceElements = document.querySelectorAll("[data-price]");
+
       if (priceElements.length === 0) return;
-      
+
       // Group by currency
       const currencyGroups = {};
-      priceElements.forEach(element => {
-        const fromCurrency = element.getAttribute('data-currency') || 'USD';
+      priceElements.forEach((element) => {
+        const fromCurrency = element.getAttribute("data-currency") || "USD";
         if (!currencyGroups[fromCurrency]) {
           currencyGroups[fromCurrency] = [];
         }
         currencyGroups[fromCurrency].push(element);
       });
-      
+
       // ONE API call per currency pair
       for (const fromCurrency in currencyGroups) {
         const elements = currencyGroups[fromCurrency];
-        
+
         if (currentCurrency === fromCurrency) {
-          elements.forEach(element => {
-            const originalPrice = parseFloat(element.getAttribute('data-price'));
+          elements.forEach((element) => {
+            const originalPrice = parseFloat(
+              element.getAttribute("data-price")
+            );
             if (!isNaN(originalPrice)) {
               const symbol = CurrencyConverter.getSymbol(fromCurrency);
               element.textContent = `${symbol}${originalPrice.toLocaleString()}`;
             }
           });
         } else {
-          const rateResult = await CurrencyConverter.getExchangeRate(fromCurrency, currentCurrency);
-          
+          const rateResult = await CurrencyConverter.getExchangeRate(
+            fromCurrency,
+            currentCurrency
+          );
+
           if (rateResult.success) {
-            elements.forEach(element => {
-              const originalPrice = parseFloat(element.getAttribute('data-price'));
+            elements.forEach((element) => {
+              const originalPrice = parseFloat(
+                element.getAttribute("data-price")
+              );
               if (!isNaN(originalPrice)) {
-                const convertedAmount = CurrencyConverter.convertWithRate(originalPrice, rateResult.rate);
-                element.textContent = CurrencyConverter.formatCurrency(convertedAmount, currentCurrency);
+                const convertedAmount = CurrencyConverter.convertWithRate(
+                  originalPrice,
+                  rateResult.rate
+                );
+                element.textContent = CurrencyConverter.formatCurrency(
+                  convertedAmount,
+                  currentCurrency
+                );
               }
             });
           }
         }
       }
     }
-    
+
     // Initialize on page load
-    document.addEventListener('DOMContentLoaded', async function() {
+    document.addEventListener("DOMContentLoaded", async function () {
       await updateAllPricesOnPage();
     });
-    
+
     function updateCurrencyLabels() {
       const currentCurrency = CurrencyConverter.getUserCurrency();
-      const labels = document.querySelectorAll('.currency-label');
-      labels.forEach(label => {
+      const labels = document.querySelectorAll(".currency-label");
+      labels.forEach((label) => {
         label.textContent = currentCurrency;
       });
     }
@@ -1451,7 +1482,7 @@
     // Update budget label with selected currency
     const updateBudgetLabel = () => {
       const selectedCurrency = CurrencyConverter.getUserCurrency();
-      const budgetLabel = document.getElementById('budget-currency');
+      const budgetLabel = document.getElementById("budget-currency");
       if (budgetLabel) {
         budgetLabel.textContent = selectedCurrency;
       }
@@ -1461,7 +1492,7 @@
     updateBudgetLabel();
 
     // Handle currency changes for package prices
-    document.addEventListener('currencyChanged', async (e) => {
+    document.addEventListener("currencyChanged", async (e) => {
       const newCurrency = e.detail.currency;
       updateBudgetLabel(); // Update the budget label
       await updatePackagePrices(newCurrency);
@@ -1469,20 +1500,27 @@
 
     // Function to update package prices
     async function updatePackagePrices(currency) {
-      const priceElements = document.querySelectorAll('[data-price]');
-      
+      const priceElements = document.querySelectorAll("[data-price]");
+
       for (const element of priceElements) {
-        const originalPrice = parseFloat(element.getAttribute('data-price'));
-        const fromCurrency = element.getAttribute('data-currency') || 'USD';
-        
+        const originalPrice = parseFloat(element.getAttribute("data-price"));
+        const fromCurrency = element.getAttribute("data-currency") || "USD";
+
         if (!isNaN(originalPrice)) {
           if (currency === fromCurrency) {
             // Reset to original
             element.textContent = `$${originalPrice.toLocaleString()}`;
           } else {
-            const result = await CurrencyConverter.convert(originalPrice, fromCurrency, currency);
+            const result = await CurrencyConverter.convert(
+              originalPrice,
+              fromCurrency,
+              currency
+            );
             if (result.success) {
-              element.textContent = CurrencyConverter.formatCurrency(result.result, currency);
+              element.textContent = CurrencyConverter.formatCurrency(
+                result.result,
+                currency
+              );
             }
           }
         }

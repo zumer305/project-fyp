@@ -3,6 +3,7 @@
 ## Widget Appearance
 
 ### Desktop View
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  💰 Currency:  [USD - US Dollar            ▼]               │
@@ -15,6 +16,7 @@
 **Position**: Top of page, below header/navbar
 
 ### Dropdown Options
+
 ```
 ┌────────────────────────────────────────┐
 │ $ USD - United States Dollar          │
@@ -36,6 +38,7 @@
 ### Example 1: Package Price
 
 **Before (Default USD):**
+
 ```
 ┌──────────────────────────┐
 │  Uzbekistan Tour         │
@@ -47,6 +50,7 @@
 ```
 
 **After (User selects PKR):**
+
 ```
 ┌──────────────────────────┐
 │  Uzbekistan Tour         │
@@ -60,6 +64,7 @@
 ### Example 2: Taxi Fare
 
 **Before (USD):**
+
 ```
 ┌────────────────────────────────────┐
 │  🚕 Standard Taxi                  │
@@ -72,6 +77,7 @@
 ```
 
 **After (User selects EUR):**
+
 ```
 ┌────────────────────────────────────┐
 │  🚕 Standard Taxi                  │
@@ -86,6 +92,7 @@
 ### Example 3: Event Price
 
 **Before (PKR):**
+
 ```
 ┌──────────────────────────────────────┐
 │  🎭 Lahore Literary Festival         │
@@ -97,6 +104,7 @@
 ```
 
 **After (User selects USD):**
+
 ```
 ┌──────────────────────────────────────┐
 │  🎭 Lahore Literary Festival         │
@@ -110,22 +118,26 @@
 ## Widget States
 
 ### Normal State
+
 - Background: Purple gradient
 - Text: White
 - Border: None
 - Shadow: Soft purple glow
 
 ### Hover State
+
 - Dropdown border: Lighter purple
 - Background: Slightly lighter
 - Cursor: Pointer
 
 ### Active/Open State
+
 - Dropdown expanded
 - Border: Gold color (#ffd700)
 - Shadow: Gold glow
 
 ### Loading State
+
 - Opacity: 60%
 - Spinning icon appears
 - Pointer events disabled
@@ -133,22 +145,26 @@
 ## Responsive Behavior
 
 ### Desktop (> 768px)
+
 ```
 ┌────────────────────────────────────────────────────┐
 │  💰 Currency:  [Dropdown - 350px wide]             │
 └────────────────────────────────────────────────────┘
 ```
+
 - Widget centered or left-aligned
 - Dropdown max-width: 350px
 - Label and dropdown side-by-side
 
 ### Mobile (≤ 768px)
+
 ```
 ┌──────────────────────────┐
 │  💰 Currency:            │
 │  [Dropdown - Full Width] │
 └──────────────────────────┘
 ```
+
 - Widget full width
 - Label above dropdown
 - Larger touch targets
@@ -156,12 +172,14 @@
 ## Color Scheme
 
 ### Widget Colors
+
 - **Background**: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`
 - **Text**: `white`
 - **Icon**: `#ffd700` (gold)
 - **Border**: `rgba(255, 255, 255, 0.3)`
 
 ### Dropdown Colors
+
 - **Background**: `rgba(255, 255, 255, 0.95)`
 - **Text**: `#333`
 - **Border**: `2px solid rgba(255, 255, 255, 0.3)`
@@ -169,6 +187,7 @@
 - **Focus Border**: `#ffd700` with glow
 
 ### Price Display Colors
+
 - **Default Price**: `#2563eb` (blue)
 - **Hover**: `#1e40af` (darker blue)
 - **Converted**: Same blue with scale effect
@@ -176,6 +195,7 @@
 ## Animation Effects
 
 ### Currency Change
+
 1. User selects new currency
 2. Prices fade slightly (0.3s)
 3. Values update
@@ -183,6 +203,7 @@
 5. Small scale effect (1.0 → 1.05 → 1.0)
 
 ### Widget Interaction
+
 - Dropdown open: Smooth slide down
 - Currency change: Fade transition
 - Hover: Smooth color shift
@@ -190,11 +211,13 @@
 ## Typography
 
 ### Widget
+
 - **Label**: 1rem, font-weight: 600
 - **Icon**: 1.2rem
 - **Dropdown**: 0.95rem, font-weight: 500
 
 ### Prices
+
 - **Amount**: Font-weight: 600
 - **Symbol**: Matches currency (₨, €, £, etc.)
 - **Decimals**: 2 decimal places
@@ -203,6 +226,7 @@
 ## Accessibility
 
 ### Features
+
 - ✅ Keyboard navigable
 - ✅ Screen reader friendly
 - ✅ High contrast colors
@@ -210,17 +234,19 @@
 - ✅ Descriptive labels
 
 ### ARIA Labels
+
 ```html
-<select 
-  id="currency-select" 
+<select
+  id="currency-select"
   aria-label="Select currency for price display"
   aria-describedby="currency-help"
->
+></select>
 ```
 
 ## Browser Support
 
 ### Tested & Working
+
 - ✅ Chrome 90+
 - ✅ Firefox 88+
 - ✅ Safari 14+
@@ -228,6 +254,7 @@
 - ✅ Mobile browsers (iOS Safari, Chrome Mobile)
 
 ### Required Features
+
 - LocalStorage support
 - Fetch API
 - CSS Grid
@@ -237,12 +264,14 @@
 ## Performance
 
 ### Metrics
+
 - **Initial Load**: < 100ms
 - **Currency Change**: < 500ms (cached)
 - **Currency Change**: < 2s (API call)
 - **Widget Render**: < 50ms
 
 ### Optimization
+
 - 1-hour cache reduces API calls
 - Lazy initialization
 - Debounced updates
@@ -279,6 +308,7 @@ Still shows PKR!
 ## Integration Examples
 
 ### HTML Markup
+
 ```html
 <!-- In your EJS template -->
 <div class="currency-converter-container"></div>
@@ -288,22 +318,24 @@ Still shows PKR!
 ```
 
 ### JavaScript Initialization
+
 ```javascript
 // Initialize on page load
 CurrencyConverter.init({
-  containerSelector: '.currency-converter-container',
+  containerSelector: ".currency-converter-container",
   showWidget: true,
-  autoConvert: false
+  autoConvert: false,
 });
 
 // Listen for changes
-document.addEventListener('currencyChanged', async (e) => {
+document.addEventListener("currencyChanged", async (e) => {
   const newCurrency = e.detail.currency;
   await updateAllPrices(newCurrency);
 });
 ```
 
 ### CSS Customization
+
 ```css
 /* Override widget styles */
 .currency-widget {
@@ -316,22 +348,26 @@ document.addEventListener('currencyChanged', async (e) => {
 ## Common Scenarios
 
 ### Scenario 1: New User
+
 1. Arrives → Sees USD
 2. Widget shows clearly at top
 3. Can immediately change currency
 
 ### Scenario 2: Returning User
+
 1. Arrives → Sees last selected currency
 2. No action needed
 3. Seamless experience
 
 ### Scenario 3: Currency Shopping
+
 1. User compares prices
 2. Switches between currencies
 3. Updates happen instantly
 4. Easy comparison
 
 ### Scenario 4: Mobile User
+
 1. Widget adapts to screen
 2. Touch-friendly dropdown
 3. Full-width on small screens
@@ -348,16 +384,19 @@ document.addEventListener('currencyChanged', async (e) => {
 ## Troubleshooting Visual Issues
 
 ### Widget not visible?
+
 - Check container exists: `.currency-converter-container`
 - Verify CSS is loaded: `currency.css`
 - Check z-index conflicts
 
 ### Dropdown looks broken?
+
 - Ensure Bootstrap isn't overriding styles
 - Check select element styling
 - Verify font-awesome for icons
 
 ### Prices not updating visually?
+
 - Check `data-price` attribute exists
 - Verify JavaScript console for errors
 - Test with browser devtools
