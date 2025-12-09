@@ -513,19 +513,41 @@
       const currentCurrency = CurrencyConverter.getUserCurrency();
       const priceElements = document.querySelectorAll('[data-price]');
       
-      for (const element of priceElements) {
-        const originalPrice = parseFloat(element.getAttribute('data-price'));
+      if (priceElements.length === 0) return;
+      
+      // Group by currency
+      const currencyGroups = {};
+      priceElements.forEach(element => {
         const fromCurrency = element.getAttribute('data-currency') || 'USD';
+        if (!currencyGroups[fromCurrency]) {
+          currencyGroups[fromCurrency] = [];
+        }
+        currencyGroups[fromCurrency].push(element);
+      });
+      
+      // ONE API call per currency pair
+      for (const fromCurrency in currencyGroups) {
+        const elements = currencyGroups[fromCurrency];
         
-        if (!isNaN(originalPrice)) {
-          if (currentCurrency === fromCurrency) {
-            const currencySymbol = CurrencyConverter.getSymbol(fromCurrency);
-            element.textContent = `${currencySymbol}${originalPrice.toLocaleString()}`;
-          } else {
-            const result = await CurrencyConverter.convert(originalPrice, fromCurrency, currentCurrency);
-            if (result.success) {
-              element.textContent = CurrencyConverter.formatCurrency(result.result, currentCurrency);
+        if (currentCurrency === fromCurrency) {
+          const currencySymbol = CurrencyConverter.getSymbol(fromCurrency);
+          elements.forEach(element => {
+            const originalPrice = parseFloat(element.getAttribute('data-price'));
+            if (!isNaN(originalPrice)) {
+              element.textContent = `${currencySymbol}${originalPrice.toLocaleString()}`;
             }
+          });
+        } else {
+          const rateResult = await CurrencyConverter.getExchangeRate(fromCurrency, currentCurrency);
+          
+          if (rateResult.success) {
+            elements.forEach(element => {
+              const originalPrice = parseFloat(element.getAttribute('data-price'));
+              if (!isNaN(originalPrice)) {
+                const convertedAmount = CurrencyConverter.convertWithRate(originalPrice, rateResult.rate);
+                element.textContent = CurrencyConverter.formatCurrency(convertedAmount, currentCurrency);
+              }
+            });
           }
         }
       }

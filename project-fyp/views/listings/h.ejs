@@ -267,6 +267,8 @@
 
   <script>
     const isLoggedIn = document.body.dataset.loggedIn === "true";
+    let cachedRate = null; // Cache the rate globally for this page
+    let cachedCurrency = null;
     
     async function showBudget() {
       const budget = document.getElementById("budget").value;
@@ -275,10 +277,21 @@
       const currencySymbol = CurrencyConverter.getSymbol(currentCurrency);
 
       if (budget) {
-        // Convert thresholds to current currency
-        const threshold1 = await convertIfNeeded(5000, currentCurrency);
-        const threshold2 = await convertIfNeeded(10000, currentCurrency);
-        const threshold3 = await convertIfNeeded(15000, currentCurrency);
+        // Get rate once if currency changed
+        if (cachedCurrency !== currentCurrency || !cachedRate) {
+          const rateResult = await CurrencyConverter.getExchangeRate('USD', currentCurrency);
+          if (rateResult.success) {
+            cachedRate = rateResult.rate;
+            cachedCurrency = currentCurrency;
+          } else {
+            cachedRate = 1;
+          }
+        }
+        
+        // Convert thresholds using cached rate (NO API calls)
+        const threshold1 = CurrencyConverter.convertWithRate(5000, cachedRate);
+        const threshold2 = CurrencyConverter.convertWithRate(10000, cachedRate);
+        const threshold3 = CurrencyConverter.convertWithRate(15000, cachedRate);
         const budgetNum = parseFloat(budget);
         
         if (budgetNum < threshold1) {
@@ -295,12 +308,6 @@
       }
     }
 
-    async function convertIfNeeded(usdAmount, toCurrency) {
-      if (toCurrency === 'USD') return usdAmount;
-      const result = await CurrencyConverter.convert(usdAmount, 'USD', toCurrency);
-      return result.success ? result.result : usdAmount;
-    }
-
     function goToPackages() {
       const country = document.getElementById("country").value;
       const budget = document.getElementById("budget").value;
@@ -312,13 +319,74 @@
       }
     }
     
-    // Update currency label when currency changes
+    // Update currency label and reset cache when currency changes
     document.addEventListener('DOMContentLoaded', function() {
       updateCurrencyLabels();
     });
     
     document.addEventListener('currencyChanged', function() {
+      cachedRate = null; // Reset cache on currency change
+      cachedCurrency = null;
       updateCurrencyLabels();
+      updateAllPricesOnPage(); // Update all price displays
+    });
+    
+    function updateCurrencyLabels() {
+      const currentCurrency = CurrencyConverter.getUserCurrency();
+      const labels = document.querySelectorAll('.currency-label');
+      labels.forEach(label => {
+        label.textContent = currentCurrency;
+      });
+    }
+    
+    // Update all price elements on the page
+    async function updateAllPricesOnPage() {
+      const currentCurrency = CurrencyConverter.getUserCurrency();
+      const priceElements = document.querySelectorAll('[data-price]');
+      
+      if (priceElements.length === 0) return;
+      
+      // Group by currency
+      const currencyGroups = {};
+      priceElements.forEach(element => {
+        const fromCurrency = element.getAttribute('data-currency') || 'USD';
+        if (!currencyGroups[fromCurrency]) {
+          currencyGroups[fromCurrency] = [];
+        }
+        currencyGroups[fromCurrency].push(element);
+      });
+      
+      // ONE API call per currency pair
+      for (const fromCurrency in currencyGroups) {
+        const elements = currencyGroups[fromCurrency];
+        
+        if (currentCurrency === fromCurrency) {
+          elements.forEach(element => {
+            const originalPrice = parseFloat(element.getAttribute('data-price'));
+            if (!isNaN(originalPrice)) {
+              const symbol = CurrencyConverter.getSymbol(fromCurrency);
+              element.textContent = `${symbol}${originalPrice.toLocaleString()}`;
+            }
+          });
+        } else {
+          const rateResult = await CurrencyConverter.getExchangeRate(fromCurrency, currentCurrency);
+          
+          if (rateResult.success) {
+            elements.forEach(element => {
+              const originalPrice = parseFloat(element.getAttribute('data-price'));
+              if (!isNaN(originalPrice)) {
+                const convertedAmount = CurrencyConverter.convertWithRate(originalPrice, rateResult.rate);
+                element.textContent = CurrencyConverter.formatCurrency(convertedAmount, currentCurrency);
+              }
+            });
+          }
+        }
+      }
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', async function() {
+      await updateAllPricesOnPage();
     });
     
     function updateCurrencyLabels() {

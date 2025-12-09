@@ -150,11 +150,53 @@ const CurrencyConverter = {
       throw new Error("Conversion failed");
     } catch (error) {
       console.error("Error converting currency:", error);
-      return {
-        success: false,
-        result: amount,
-      };
+      return { success: false, error: error.message };
     }
+  },
+
+  // Get ONLY the exchange rate (cached for 1 hour)
+  async getExchangeRate(fromCurrency = "USD", toCurrency = "USD") {
+    if (fromCurrency === toCurrency) {
+      return { success: true, rate: 1 };
+    }
+
+    const cacheKey = `rate_${fromCurrency}_${toCurrency}`;
+    const cached = this.cache[cacheKey];
+
+    // Check if we have a valid cached rate
+    if (cached && Date.now() - cached.timestamp < this.cacheExpiry) {
+      return { success: true, rate: cached.rate };
+    }
+
+    try {
+      // Fetch rate by converting 1 unit
+      const response = await fetch(
+        `/api/currency/convert?from=${fromCurrency}&to=${toCurrency}&amount=1`
+      );
+      const data = await response.json();
+
+      if (data.success && data.info && data.info.rate) {
+        const rate = data.info.rate;
+        
+        // Cache the rate
+        this.cache[cacheKey] = {
+          rate: rate,
+          timestamp: Date.now(),
+        };
+        
+        return { success: true, rate: rate };
+      }
+      
+      throw new Error("Failed to get exchange rate");
+    } catch (error) {
+      console.error("Error fetching exchange rate:", error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Convert amount using a pre-fetched rate (NO API CALL)
+  convertWithRate(amount, rate) {
+    return amount * rate;
   },
 
   // Format currency with proper symbol

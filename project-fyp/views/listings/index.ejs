@@ -42,21 +42,46 @@
       const currentCurrency = CurrencyConverter.getUserCurrency();
       const priceElements = document.querySelectorAll('[data-price]');
       
-      for (const element of priceElements) {
-        const originalPrice = parseFloat(element.getAttribute('data-price'));
+      if (priceElements.length === 0) return;
+      
+      // Group elements by their source currency
+      const currencyGroups = {};
+      priceElements.forEach(element => {
         const fromCurrency = element.getAttribute('data-currency') || 'USD';
+        if (!currencyGroups[fromCurrency]) {
+          currencyGroups[fromCurrency] = [];
+        }
+        currencyGroups[fromCurrency].push(element);
+      });
+      
+      // Fetch exchange rate ONCE per currency pair
+      for (const fromCurrency in currencyGroups) {
+        const elements = currencyGroups[fromCurrency];
         
-        if (!isNaN(originalPrice)) {
-          if (currentCurrency === fromCurrency) {
-            // Same currency - show original
-            const currencySymbol = CurrencyConverter.getSymbol(fromCurrency);
-            element.textContent = `${fromCurrency} ${originalPrice.toLocaleString()}`;
-          } else {
-            // Convert to selected currency
-            const result = await CurrencyConverter.convert(originalPrice, fromCurrency, currentCurrency);
-            if (result.success) {
-              element.textContent = CurrencyConverter.formatCurrency(result.result, currentCurrency);
+        if (currentCurrency === fromCurrency) {
+          // Same currency - no conversion needed
+          const currencySymbol = CurrencyConverter.getSymbol(fromCurrency);
+          elements.forEach(element => {
+            const originalPrice = parseFloat(element.getAttribute('data-price'));
+            if (!isNaN(originalPrice)) {
+              element.textContent = `${fromCurrency} ${originalPrice.toLocaleString()}`;
             }
+          });
+        } else {
+          // Get rate ONCE for this currency pair
+          const rateResult = await CurrencyConverter.getExchangeRate(fromCurrency, currentCurrency);
+          
+          if (rateResult.success) {
+            const rate = rateResult.rate;
+            
+            // Apply rate to ALL elements with this currency
+            elements.forEach(element => {
+              const originalPrice = parseFloat(element.getAttribute('data-price'));
+              if (!isNaN(originalPrice)) {
+                const convertedAmount = CurrencyConverter.convertWithRate(originalPrice, rate);
+                element.textContent = CurrencyConverter.formatCurrency(convertedAmount, currentCurrency);
+              }
+            });
           }
         }
       }
