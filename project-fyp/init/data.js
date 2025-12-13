@@ -298,7 +298,7 @@ const sampleListings = [
     },
     price: 10000,
     location: "Jalal-Abad",
-    country: "Central Asian",
+    country: "Kyrgyzstan",
   },
   {
     title: "Kazakhstan",
@@ -384,7 +384,7 @@ const sampleListings = [
     location: "Turkmenbashi",
     country: "Central Asian",
   },
-    {
+  {
     title: "Tajikistan",
     description:
       "Stay in the heart of the city in this stylish loft apartment. Perfect for urban explorers!",
@@ -457,7 +457,7 @@ const sampleListings = [
     location: "Jalal-Abad",
     country: "Central Asian",
   },
-  
+
   // ... (same pattern continues for all other listings)
 ];
 
