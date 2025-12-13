@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Vehicle Selection - Central Asia Taxi Fares</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 25px;
+            border-radius: 12px;
+            color: white;
+            box-shadow: 0 5px 20px rgba(30, 58, 138, 0.3);
+        }
+
+        .feature-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card i {
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .demo-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .demo-section h2 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .test-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .test-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
+        }
+
+        .step-list {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #3b82f6;
+        }
+
+        .step-list h3 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+        }
+
+        .step-list ol {
+            padding-left: 25px;
+        }
+
+        .step-list li {
+            color: #334155;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .step-list strong {
+            color: #1e3a8a;
+        }
+
+        .screenshot-placeholder {
+            background: #e2e8f0;
+            padding: 60px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+            border: 3px dashed #94a3b8;
+        }
+
+        .screenshot-placeholder i {
+            font-size: 4rem;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        .screenshot-placeholder p {
+            color: #475569;
+            font-size: 1.1rem;
+        }
+
+        .info-box {
+            background: #dbeafe;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #3b82f6;
+            margin-top: 20px;
+        }
+
+        .info-box h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box ul {
+            margin-top: 10px;
+            padding-left: 25px;
+        }
+
+        .info-box li {
+            color: #1e3a8a;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-shopping-cart"></i> Vehicle Selection Feature</h1>
+        <p class="subtitle">Interactive cart with country-specific pricing for Central Asian taxi fares</p>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3><i class="fas fa-check-circle"></i> Select Button</h3>
+                <p>Each vehicle card now has a "Select Vehicle" button. Click it to add the vehicle to your cart with all fare details.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3><i class="fas fa-shopping-cart"></i> Smart Cart</h3>
+                <p>A floating cart appears showing your selected vehicle with complete fare breakdown including base fare, distance cost, waiting time, and night charges.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3><i class="fas fa-globe"></i> Country-Specific</h3>
+                <p>The cart displays prices in the correct currency for each country (₼, ₸, soʻm, с, ЅМ, m) with accurate conversion rates.</p>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2><i class="fas fa-rocket"></i> How to Test the Feature</h2>
+
+            <div class="step-list">
+                <h3>📋 Testing Steps:</h3>
+                <ol>
+                    <li><strong>Set a destination:</strong> Click one of the buttons below to set a destination for a specific country</li>
+                    <li><strong>Navigate to fares page:</strong> Go to <code>/listings/fares</code> in your application</li>
+                    <li><strong>Browse vehicles:</strong> Scroll through the 6 different vehicle types available</li>
+                    <li><strong>Click "Select Vehicle":</strong> Choose any vehicle to add it to your cart</li>
+                    <li><strong>View cart details:</strong> The cart will automatically open showing:
+                        <ul style="margin-top: 10px;">
+                            <li>Vehicle name, type, and emoji icon</li>
+                            <li>Country and currency information</li>
+                            <li>Complete fare breakdown</li>
+                            <li>Total calculated price</li>
+                        </ul>
+                    </li>
+                    <li><strong>Clear selection:</strong> Click "Clear Selection" to remove the vehicle from cart</li>
+                    <li><strong>Toggle cart:</strong> Use the floating cart button (bottom-right) to show/hide the cart</li>
+                </ol>
+            </div>
+
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testCountry('Baku, Azerbaijan')">
+                    <span>🇦🇿</span> Test Azerbaijan
+                </button>
+                <button class="test-btn" onclick="testCountry('Almaty, Kazakhstan')">
+                    <span>🇰🇿</span> Test Kazakhstan
+                </button>
+                <button class="test-btn" onclick="testCountry('Tashkent, Uzbekistan')">
+                    <span>🇺🇿</span> Test Uzbekistan
+                </button>
+                <button class="test-btn" onclick="testCountry('Bishkek, Kyrgyzstan')">
+                    <span>🇰🇬</span> Test Kyrgyzstan
+                </button>
+                <button class="test-btn" onclick="testCountry('Dushanbe, Tajikistan')">
+                    <span>🇹🇯</span> Test Tajikistan
+                </button>
+                <button class="test-btn" onclick="testCountry('Ashgabat, Turkmenistan')">
+                    <span>🇹🇲</span> Test Turkmenistan
+                </button>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-star"></i> Key Features Implemented</h3>
+                <ul>
+                    <li><strong>Select Button:</strong> Green button on each vehicle card to select that vehicle</li>
+                    <li><strong>Floating Cart:</strong> Fixed position cart (top-right on desktop, full-screen on mobile)</li>
+                    <li><strong>Cart Toggle Button:</strong> Floating button (bottom-right) to show/hide cart</li>
+                    <li><strong>Badge Counter:</strong> Shows "1" when a vehicle is selected</li>
+                    <li><strong>Fare Breakdown:</strong> Displays base fare, per km cost, distance cost, waiting time, night charge (if applicable), and total</li>
+                    <li><strong>Country Info:</strong> Shows selected country flag and currency</li>
+                    <li><strong>Clear Function:</strong> Red button to clear the selection and reset the cart</li>
+                    <li><strong>Notifications:</strong> Success/info messages appear when selecting or clearing vehicles</li>
+                    <li><strong>Responsive Design:</strong> Works perfectly on mobile, tablet, and desktop devices</li>
+                    <li><strong>Night Charge Indicator:</strong> Special yellow badge for night charges (10 PM - 6 AM)</li>
+                </ul>
+            </div>
+
+            <div class="screenshot-placeholder">
+                <i class="fas fa-image"></i>
+                <p><strong>Visual Preview:</strong></p>
+                <p style="margin-top: 10px; font-size: 0.95rem;">The cart will show the selected vehicle with complete pricing breakdown, matching the interface shown in your reference image with country-specific currency symbols and accurate fare calculations.</p>
+            </div>
+
+            <div class="info-box" style="background: #fef3c7; border-color: #f59e0b;">
+                <h3 style="color: #92400e;"><i class="fas fa-lightbulb"></i> Example Cart Display</h3>
+                <p style="color: #78350f; margin-bottom: 10px;"><strong>For Azerbaijan (Baku, 10km trip):</strong></p>
+                <ul style="color: #78350f;">
+                    <li>🚕 <strong>Standard Taxi</strong></li>
+                    <li>Base Fare: ₼222.80</li>
+                    <li>Per Kilometer: ₼83.55</li>
+                    <li>Distance (10 km): ₼835.50</li>
+                    <li>Waiting Time: ₼41.78/min</li>
+                    <li>🌙 Night Charge (if applicable): +₼211.66</li>
+                    <li><strong>TOTAL FARE: ₼1,269.96</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testCountry(destination) {
+            localStorage.setItem('selectedDestination', destination);
+            localStorage.setItem('estimatedDistance', '10');
+            
+            alert(`✅ Destination set to: ${destination}\n\n` +
+                  `📍 Distance: 10 km\n\n` +
+                  `Now navigate to /listings/fares to see:\n` +
+                  `• Country-specific pricing\n` +
+                  `• 6 vehicle options\n` +
+                  `• Select buttons on each card\n` +
+                  `• Interactive cart with fare breakdown`);
+            
+            console.log('Test destination set:', destination);
+        }
+    </script>
+</body>
+</html>
