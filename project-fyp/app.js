@@ -44,6 +44,7 @@ const apiEventDetailsRouter = require("./routes/api/eventDetails.js");
 const apiEventbriteRouter = require("./routes/api/eventbrite.js");
 const apiCurrencyRouter = require("./routes/api/currency.js");
 const apiWorldTimeRouter = require("./routes/api/worldTime.js");
+const apiEmergencyRouter = require("./routes/api/emergency.js");
 
 // ERROR HANDLER
 const ExpressError = require("./utils/ExpressError.js");
@@ -246,6 +247,7 @@ app.use("/api/event-details", apiEventDetailsRouter);
 app.use("/api/eventbrite", apiEventbriteRouter);
 app.use("/api/currency", apiCurrencyRouter);
 app.use("/api/worldtime", apiWorldTimeRouter);
+app.use("/api/emergency", apiEmergencyRouter);
 
 // ===================
 // 404 HANDLER
