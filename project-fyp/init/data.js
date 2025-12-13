@@ -264,103 +264,120 @@
 
 // module.exports = { data: sampleListings };
 const sampleListings = [
-  {
-    title: "Uzbekistan",
+
+    {
+    title: "Azerbaijan",
     description:
-      "Escape to this charming beachfront cottage for a relaxing getaway. Enjoy stunning ocean views and easy access to the beach.",
+      "Baku, the capital of Azerbaijan, is a significant economic and administrative center located on the western shore of the Caspian Sea.",
     image: {
       filename: "listingimage",
-      url: "https://media.istockphoto.com/id/1572635966/photo/aerial-panorama-view-of-the-chorsu-market-in-tashkent-uzbekistan.jpg?s=612x612&w=0&k=20&c=g0ojUlC401tAiGXjt4rv-ZukP1XqZtpuCNW_aVuAqM4=",
+      url: "https://www.mywanderlust.pl/wp-content/uploads/2019/12/visit-baku-azerbaijan-pictures-35.jpg",
     },
-    price: 15000,
-    location: "Tashkent",
-    country: "Central Asian",
+    price: 400000,
+    location: "Baku",
+    country: "Azerbaijan",
   },
-  {
-    title: "Tajikistan",
+    {
+    title: "Azerbaijan",
     description:
-      "Stay in the heart of the city in this stylish loft apartment. Perfect for urban explorers!",
+      "The people of Red Village are known for their rich cultural heritage and their dedication to preserving their traditions. ",
     image: {
       filename: "listingimage",
-      url: "https://media.tacdn.com/media/attractions-splice-spp-674x446/0f/dd/17/4b.jpg",
+      url: "https://mir-s3-cdn-cf.behance.net/project_modules/source/1b482345490087.5832f91ce172c.jpg",
     },
-    price: 12000,
-    location: "Dushanbe",
-    country: "Central Asian",
+    price: 500000,
+    location: "Red Village",
+    country: "Azerbaijan",
   },
-  {
-    title: "Kyrgyzstan",
+     {
+    title: "Azerbaijan",
     description:
-      "Unplug and unwind in this peaceful mountain cabin. Surrounded by nature, it's a perfect place to recharge.",
+      "The name Sabran is of Hebrew origin, meaning patient or enduring. It is derived from the Hebrew word savlanut which translates to patience.",
     image: {
       filename: "listingimage",
-      url: "https://eurasia.travel/wp-content/uploads/2024/09/Jalal-Abad-Kyrgyzstan-4.jpg",
+      url: "https://www.beyond.fr/picsvill2/sabran0002b.jpg",
     },
-    price: 10000,
-    location: "Jalal-Abad",
-    country: "Kyrgyzstan",
+    price: 600000,
+    location: "Sabran",
+    country: "Azerbaijan",
   },
+
+
+
+
+
   {
     title: "Kazakhstan",
     description:
-      "Experience the charm of Tuscany in this beautifully restored villa. Explore the rolling hills and vineyards.",
+      "Aktau is one of the most fascinating and unusual cities in Kazakhstan. Its name is translated from Kazakh as the white mountain.",
     image: {
       filename: "listingimage",
       url: "https://stantrips.com/assets/img/sights-kz/aktau/aktau.jpg",
     },
-    price: 25000,
+    price: 700000,
     location: "Aktau",
-    country: "Central Asian",
+    country: "Kazakhstan",
   },
-  {
-    title: "Uzbekistan",
-    description:
-      "Live among the treetops in this unique treehouse retreat. A true nature lover's paradise.",
-    image: {
-      filename: "listingimage",
-      url: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-    },
-    price: 8000,
-    location: "Tashkent",
-    country: "Central Asian",
-  },
-  {
-    title: "Turkmenistan",
-    description:
-      "Step out of your door onto the sandy beach. This beachfront condo offers the ultimate relaxation.",
-    image: {
-      filename: "listingimage",
-      url: "https://trvlland.com/wp-content/uploads/2022/09/uzbekistan_tashkent-3-1024x663.jpg",
-    },
-    price: 20000,
-    location: "Turkmenbashi",
-    country: "Central Asian",
-  },
-  {
+    {
     title: "Kazakhstan",
     description:
-      "Spend your days fishing and kayaking on the serene lake. This cozy cabin is perfect for outdoor enthusiasts.",
+      "The Almaty region in western Kyrgyzstan is famous for its long and rich history, wild walnut forests, green expanses, and pristine nature.",
     image: {
       filename: "listingimage",
       url: "https://www.remotelands.com/storage/media/1569/conversions/b140723034-banner-size.jpg",
     },
-    price: 9000,
+    price: 900000,
+    location: "Almaty",
+    country: "Kazakhstan",
+  },
+   {
+    title: "Kazakhstan",
+    description:
+      "Atyrau is famous for its oil and gas industries.",
+    image: {
+      filename: "listingimage",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtJU19ojHavkQd_JlxdYiO-PwvJrAxonCbpA&s",
+    },
+    price: 500000,
+    location: "Atyrau",
+    country: "Kazakhstan",
+  },
+
+
+
+
+   {
+    title: "Kyrgyzstan",
+    description:
+      "The Almaty region in western Kyrgyzstan is famous for its long and rich history, wild walnut forests, green expanses, and pristine nature.",
+    image: {
+      filename: "listingimage",
+      url: "https://eurasia.travel/wp-content/uploads/2024/09/Jalal-Abad-Kyrgyzstan-4.jpg",
+    },
+    price: 100000,
     location: "Jalal-Abad",
-    country: "Central Asian",
+    country: "Kyrgyzstan",
   },
   {
     title: "Kyrgyzstan",
     description:
-      "Indulge in luxury living with panoramic city views from this stunning penthouse apartment.",
+      "Bishkek, formerly known as Pishpek (until 1926), and then Frunze (1926–1991), is the capital and largest urban city of Kyrgyzstan. ",
     image: {
       filename: "listingimage",
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Bishkek_City%27s_business_center.jpg/1200px-Bishkek_City%27s_business_center.jpg",
     },
-    price: 35000,
+    price: 500000,
     location: "Bishkek",
-    country: "Central Asian",
+    country: "Kyrgyzstan",
   },
-  {
+
+
+
+
+
+
+
+    {
     title: "Tajikistan",
     description:
       "Hit the slopes right from your doorstep in this ski-in/ski-out chalet in the Swiss Alps.",
@@ -368,95 +385,92 @@ const sampleListings = [
       filename: "listingimage",
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Rudaki_Tomb_in_Panjkent-after_restored.jpg/250px-Rudaki_Tomb_in_Panjkent-after_restored.jpg",
     },
-    price: 30000,
+    price: 600000,
     location: "Panjakent",
-    country: "Central Asian",
+    country: "Tajikistan",
   },
-  {
-    title: "Turkmenistan",
-    description:
-      "Experience the thrill of the wild in a comfortable safari lodge. Witness the Great Migration up close.",
-    image: {
-      filename: "listingimage",
-      url: "https://upload.wikimedia.org/wikipedia/en/2/21/Entrance_to_city_%283891734657%29.jpg",
-    },
-    price: 40000,
-    location: "Turkmenbashi",
-    country: "Central Asian",
-  },
-  {
+    {
     title: "Tajikistan",
     description:
-      "Stay in the heart of the city in this stylish loft apartment. Perfect for urban explorers!",
+      "Dushanbe is a clean, European-style city. The city is located in Gisar valley at 2,700 ft above sea level, and has wide tree-lined streets with plenty of cafés to enjoy coffee or tea with local sweets. ",
     image: {
       filename: "listingimage",
       url: "https://media.tacdn.com/media/attractions-splice-spp-674x446/0f/dd/17/4b.jpg",
     },
-    price: 12000,
+    price: 500000,
     location: "Dushanbe",
-    country: "Central Asian",
+    country: "Tajikistan",
   },
-  {
-    title: "Kyrgyzstan",
+    {
+    title: "Tajikistan",
     description:
-      "Unplug and unwind in this peaceful mountain cabin. Surrounded by nature, it's a perfect place to recharge.",
+      "Khujand is one of the oldest cities in Central Asia, dating back about 2,500 years to the Persian Empire.",
     image: {
       filename: "listingimage",
-      url: "https://eurasia.travel/wp-content/uploads/2024/09/Jalal-Abad-Kyrgyzstan-4.jpg",
+      url: "https://media.istockphoto.com/id/1483621207/photo/the-medieval-khujand-fortress.jpg?s=612x612&w=0&k=20&c=u1MS_m8JgQjKsJcELxPnfYfOIRiRDuqTm3TZx9LizgQ=",
     },
-    price: 10000,
-    location: "Jalal-Abad",
-    country: "Central Asian",
+    price: 700000,
+    location: "Khujand",
+    country: "Tajikistan",
   },
-  {
-    title: "Kazakhstan",
-    description:
-      "Experience the charm of Tuscany in this beautifully restored villa. Explore the rolling hills and vineyards.",
-    image: {
-      filename: "listingimage",
-      url: "https://stantrips.com/assets/img/sights-kz/aktau/aktau.jpg",
-    },
-    price: 25000,
-    location: "Aktau",
-    country: "Central Asian",
-  },
+
+
+
+
+
+
+
+
+
+
+
 
   {
     title: "Uzbekistan",
     description:
-      "Escape to this charming beachfront cottage for a relaxing getaway. Enjoy stunning ocean views and easy access to the beach.",
+      "Toshkent or Tashkent city lies in eastern Uzbekistan and is the capital of the country. ",
     image: {
       filename: "listingimage",
       url: "https://media.istockphoto.com/id/1572635966/photo/aerial-panorama-view-of-the-chorsu-market-in-tashkent-uzbekistan.jpg?s=612x612&w=0&k=20&c=g0ojUlC401tAiGXjt4rv-ZukP1XqZtpuCNW_aVuAqM4=",
     },
-    price: 15000,
+    price: 600000,
     location: "Tashkent",
-    country: "Central Asian",
+    country: "Uzbekistan",
   },
+
+ 
+ 
+
   {
-    title: "Tajikistan",
+    title: "Turkmenistan",
     description:
-      "Stay in the heart of the city in this stylish loft apartment. Perfect for urban explorers!",
+      "The port-city of Turkmenbashi (formerly Krasnovodsk) is the only major port in the entire Central Asia.",
     image: {
       filename: "listingimage",
-      url: "https://media.tacdn.com/media/attractions-splice-spp-674x446/0f/dd/17/4b.jpg",
+      url: "https://trvlland.com/wp-content/uploads/2022/09/uzbekistan_tashkent-3-1024x663.jpg",
     },
-    price: 12000,
-    location: "Dushanbe",
-    country: "Central Asian",
+    price: 700000,
+    location: "Turkmenbashi",
+    country: "Turkmenistan",
   },
   {
-    title: "Kyrgyzstan",
+    title: "Turkmenistan",
     description:
-      "Unplug and unwind in this peaceful mountain cabin. Surrounded by nature, it's a perfect place to recharge.",
+      "Ashgabat – white marbled capital of the independent and neutral Turkmenistan, as well as the recognized pearl of the Central Asia.",
     image: {
       filename: "listingimage",
-      url: "https://eurasia.travel/wp-content/uploads/2024/09/Jalal-Abad-Kyrgyzstan-4.jpg",
+      url: "https://thumbs.dreamstime.com/b/monument-independence-ashgabat-statues-around-capital-city-turkmenistan-48560121.jpg",
     },
-    price: 10000,
-    location: "Jalal-Abad",
-    country: "Central Asian",
+    price: 40000,
+    location: "Ashgabat",
+    country: "Turkmenistan",
   },
+
+ 
+ 
+
+ 
+
 
   // ... (same pattern continues for all other listings)
 ];
