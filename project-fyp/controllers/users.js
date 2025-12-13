@@ -35,8 +35,8 @@ module.exports.login=async (req, res) => {
     if (err) {
       return next(err);
     }
-    req.flash("success", "You are logout");
-    res.redirect("/listings");
+    req.flash("success", "You are logged out successfully!");
+    res.redirect("/login");
   });
 }
 
