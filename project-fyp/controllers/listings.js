@@ -2,32 +2,36 @@ const Listing = require("../models/listing");
 
 module.exports.index = async (req, res) => {
   const allListings = await Listing.find({});
-  
+
   // Define the 6 Central Asian countries
   const countries = [
-    'Azerbaijan',
-    'Kazakhstan', 
-    'Kyrgyzstan',
-    'Tajikistan',
-    'Turkmenistan',
-    'Uzbekistan'
+    "Azerbaijan",
+    "Kazakhstan",
+    "Kyrgyzstan",
+    "Tajikistan",
+    "Turkmenistan",
+    "Uzbekistan",
   ];
-  
+
   // Group listings by country
   const listingsByCountry = {};
-  countries.forEach(country => {
+  countries.forEach((country) => {
     listingsByCountry[country] = [];
   });
-  
+
   // Organize listings into their respective country folders
-  allListings.forEach(listing => {
+  allListings.forEach((listing) => {
     const country = listing.country;
     if (listingsByCountry[country]) {
       listingsByCountry[country].push(listing);
     }
   });
-  
-  res.render("listings/index.ejs", { listingsByCountry, countries, allListings });
+
+  res.render("listings/index.ejs", {
+    listingsByCountry,
+    countries,
+    allListings,
+  });
 };
 
 module.exports.renderNewForm = (req, res) => {

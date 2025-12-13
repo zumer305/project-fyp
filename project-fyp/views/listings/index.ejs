@@ -1,5 +1,4 @@
-<% layout("/layouts/boiler")%>
-<%=success%>
+<% layout("/layouts/boiler")%> <%=success%>
 <body>
   <style>
     /* File Explorer Styles */
@@ -8,9 +7,9 @@
       border: 1px solid #ddd;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-    
+
     .explorer-header {
       background: linear-gradient(to right, #2c3e50, #3498db);
       color: white;
@@ -19,17 +18,17 @@
       align-items: center;
       gap: 1rem;
     }
-    
+
     .explorer-header h3 {
       margin: 0;
       font-size: 1.3rem;
     }
-    
+
     .explorer-body {
       background: white;
       padding: 1rem;
     }
-    
+
     .folder-item {
       margin-bottom: 0.5rem;
       border: 1px solid #e0e0e0;
@@ -37,11 +36,11 @@
       background: white;
       transition: all 0.2s;
     }
-    
+
     .folder-item:hover {
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-    
+
     .folder-header {
       display: flex;
       align-items: center;
@@ -52,35 +51,35 @@
       border-bottom: 1px solid #e0e0e0;
       transition: background 0.2s;
     }
-    
+
     .folder-header:hover {
       background: #f0f0f0;
     }
-    
+
     .folder-header.active {
       background: #e3f2fd;
       border-bottom: 2px solid #2196f3;
     }
-    
+
     .folder-icon {
       font-size: 1.5rem;
       margin-right: 1rem;
       color: #ffa726;
       transition: transform 0.3s;
     }
-    
+
     .folder-header.active .folder-icon {
       color: #ff9800;
       transform: rotate(15deg);
     }
-    
+
     .folder-name {
       flex-grow: 1;
       font-weight: 600;
       font-size: 1.1rem;
       color: #333;
     }
-    
+
     .file-count {
       background: #e0e0e0;
       padding: 0.2rem 0.8rem;
@@ -89,39 +88,39 @@
       color: #666;
       margin-right: 0.5rem;
     }
-    
+
     .folder-header.active .file-count {
       background: #2196f3;
       color: white;
     }
-    
+
     .expand-icon {
       font-size: 1rem;
       color: #999;
       transition: transform 0.3s;
     }
-    
+
     .folder-header.active .expand-icon {
       transform: rotate(180deg);
       color: #2196f3;
     }
-    
+
     .folder-content {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease-out;
       background: #fafafa;
     }
-    
+
     .folder-content.active {
       max-height: 3000px;
       transition: max-height 0.6s ease-in;
     }
-    
+
     .file-list {
       padding: 1rem;
     }
-    
+
     .file-item {
       display: flex;
       align-items: center;
@@ -134,13 +133,13 @@
       text-decoration: none;
       color: inherit;
     }
-    
+
     .file-item:hover {
       transform: translateX(8px);
-      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
       border-color: #2196f3;
     }
-    
+
     .file-icon {
       width: 100px;
       height: 80px;
@@ -149,18 +148,18 @@
       object-fit: cover;
       border: 2px solid #e0e0e0;
     }
-    
+
     .file-details {
       flex-grow: 1;
     }
-    
+
     .file-name {
       font-weight: 600;
       font-size: 1.1rem;
       margin-bottom: 0.3rem;
       color: #333;
     }
-    
+
     .file-meta {
       display: flex;
       gap: 1.5rem;
@@ -168,30 +167,30 @@
       color: #666;
       flex-wrap: wrap;
     }
-    
+
     .file-meta-item {
       display: flex;
       align-items: center;
       gap: 0.3rem;
     }
-    
+
     .file-meta-item i {
       font-size: 1rem;
     }
-    
+
     .file-price {
       font-weight: 700;
       color: #4caf50;
       font-size: 1.1rem;
     }
-    
+
     .empty-folder {
       text-align: center;
       padding: 2rem;
       color: #999;
       font-style: italic;
     }
-    
+
     .empty-folder i {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
@@ -205,47 +204,55 @@
         <i class="bi bi-folder2-open"></i>
         <h3>Travel Listings - Central Asia</h3>
       </div>
-      
+
       <div class="explorer-body">
         <% for(let country of countries) { %>
-          <div class="folder-item">
-            <div class="folder-header" onclick="toggleFolder(this)">
-              <i class="bi bi-folder-fill folder-icon"></i>
-              <span class="folder-name"><%= country %></span>
-              <span class="file-count"><%= listingsByCountry[country].length %> file(s)</span>
-              <i class="bi bi-chevron-down expand-icon"></i>
-            </div>
-            
-            <div class="folder-content">
-              <div class="file-list">
-                <% if(listingsByCountry[country].length > 0) { %>
-                  <% for(let listing of listingsByCountry[country]) { %>
-                    <a href="/listings/<%= listing._id %>" class="file-item">
-                      <img src="<%= listing.image.url %>" class="file-icon" alt="<%= listing.title %>">
-                      <div class="file-details">
-                        <div class="file-name">
-                          <i class="bi bi-file-earmark-image text-primary"></i>
-                          <%= listing.location %> - <%= listing.country %>
-                        </div>
-                        <div class="file-meta">
-                          <span class="file-meta-item">
-                            <i class="bi bi-geo-alt-fill text-danger"></i>
-                            <%= listing.location %>
-                          </span>
-                        </div>
-                      </div>
-                      <i class="bi bi-arrow-right-circle" style="font-size: 1.5rem; color: #999;"></i>
-                    </a>
-                  <% } %>
-                <% } else { %>
-                  <div class="empty-folder">
-                    <i class="bi bi-inbox"></i>
-                    <p>No listings in this folder</p>
+        <div class="folder-item">
+          <div class="folder-header" onclick="toggleFolder(this)">
+            <i class="bi bi-folder-fill folder-icon"></i>
+            <span class="folder-name"><%= country %></span>
+            <span class="file-count"
+              ><%= listingsByCountry[country].length %> file(s)</span
+            >
+            <i class="bi bi-chevron-down expand-icon"></i>
+          </div>
+
+          <div class="folder-content">
+            <div class="file-list">
+              <% if(listingsByCountry[country].length > 0) { %> <% for(let
+              listing of listingsByCountry[country]) { %>
+              <a href="/listings/<%= listing._id %>" class="file-item">
+                <img
+                  src="<%= listing.image.url %>"
+                  class="file-icon"
+                  alt="<%= listing.title %>"
+                />
+                <div class="file-details">
+                  <div class="file-name">
+                    <i class="bi bi-file-earmark-image text-primary"></i>
+                    <%= listing.location %> - <%= listing.country %>
                   </div>
-                <% } %>
+                  <div class="file-meta">
+                    <span class="file-meta-item">
+                      <i class="bi bi-geo-alt-fill text-danger"></i>
+                      <%= listing.location %>
+                    </span>
+                  </div>
+                </div>
+                <i
+                  class="bi bi-arrow-right-circle"
+                  style="font-size: 1.5rem; color: #999"
+                ></i>
+              </a>
+              <% } %> <% } else { %>
+              <div class="empty-folder">
+                <i class="bi bi-inbox"></i>
+                <p>No listings in this folder</p>
               </div>
+              <% } %>
             </div>
           </div>
+        </div>
         <% } %>
       </div>
     </div>
@@ -254,25 +261,25 @@
   <script>
     function toggleFolder(header) {
       const content = header.nextElementSibling;
-      const isActive = header.classList.contains('active');
-      
+      const isActive = header.classList.contains("active");
+
       if (isActive) {
-        header.classList.remove('active');
-        content.classList.remove('active');
+        header.classList.remove("active");
+        content.classList.remove("active");
       } else {
-        header.classList.add('active');
-        content.classList.add('active');
+        header.classList.add("active");
+        content.classList.add("active");
       }
     }
-    
+
     // Auto-open folders with files
-    document.addEventListener('DOMContentLoaded', function() {
-      const folders = document.querySelectorAll('.folder-item');
-      folders.forEach(folder => {
-        const countText = folder.querySelector('.file-count').textContent;
+    document.addEventListener("DOMContentLoaded", function () {
+      const folders = document.querySelectorAll(".folder-item");
+      folders.forEach((folder) => {
+        const countText = folder.querySelector(".file-count").textContent;
         const count = parseInt(countText);
         if (count > 0) {
-          const header = folder.querySelector('.folder-header');
+          const header = folder.querySelector(".folder-header");
           toggleFolder(header);
         }
       });
@@ -281,57 +288,70 @@
 
   <script>
     // Initialize prices on page load
-    document.addEventListener('DOMContentLoaded', async function() {
+    document.addEventListener("DOMContentLoaded", async function () {
       await updateAllPrices();
     });
 
     // Handle currency changes
-    document.addEventListener('currencyChanged', async (e) => {
+    document.addEventListener("currencyChanged", async (e) => {
       await updateAllPrices();
     });
 
     async function updateAllPrices() {
       const currentCurrency = CurrencyConverter.getUserCurrency();
-      const priceElements = document.querySelectorAll('[data-price]');
-      
+      const priceElements = document.querySelectorAll("[data-price]");
+
       if (priceElements.length === 0) return;
-      
+
       // Group elements by their source currency
       const currencyGroups = {};
-      priceElements.forEach(element => {
-        const fromCurrency = element.getAttribute('data-currency') || 'USD';
+      priceElements.forEach((element) => {
+        const fromCurrency = element.getAttribute("data-currency") || "USD";
         if (!currencyGroups[fromCurrency]) {
           currencyGroups[fromCurrency] = [];
         }
         currencyGroups[fromCurrency].push(element);
       });
-      
+
       // Fetch exchange rate ONCE per currency pair
       for (const fromCurrency in currencyGroups) {
         const elements = currencyGroups[fromCurrency];
-        
+
         if (currentCurrency === fromCurrency) {
           // Same currency - no conversion needed
           const currencySymbol = CurrencyConverter.getSymbol(fromCurrency);
-          elements.forEach(element => {
-            const originalPrice = parseFloat(element.getAttribute('data-price'));
+          elements.forEach((element) => {
+            const originalPrice = parseFloat(
+              element.getAttribute("data-price")
+            );
             if (!isNaN(originalPrice)) {
               element.textContent = `${fromCurrency} ${originalPrice.toLocaleString()}`;
             }
           });
         } else {
           // Get rate ONCE for this currency pair
-          const rateResult = await CurrencyConverter.getExchangeRate(fromCurrency, currentCurrency);
-          
+          const rateResult = await CurrencyConverter.getExchangeRate(
+            fromCurrency,
+            currentCurrency
+          );
+
           if (rateResult.success) {
             const rate = rateResult.rate;
-            
+
             // Apply rate to ALL elements with this currency
-            elements.forEach(element => {
-              const originalPrice = parseFloat(element.getAttribute('data-price'));
+            elements.forEach((element) => {
+              const originalPrice = parseFloat(
+                element.getAttribute("data-price")
+              );
               if (!isNaN(originalPrice)) {
-                const convertedAmount = CurrencyConverter.convertWithRate(originalPrice, rate);
-                element.textContent = CurrencyConverter.formatCurrency(convertedAmount, currentCurrency);
+                const convertedAmount = CurrencyConverter.convertWithRate(
+                  originalPrice,
+                  rate
+                );
+                element.textContent = CurrencyConverter.formatCurrency(
+                  convertedAmount,
+                  currentCurrency
+                );
               }
             });
           }
@@ -339,5 +359,4 @@
       }
     }
   </script>
- 
 </body>

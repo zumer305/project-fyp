@@ -264,8 +264,7 @@
 
 // module.exports = { data: sampleListings };
 const sampleListings = [
-
-    {
+  {
     title: "Azerbaijan",
     description:
       "Baku, the capital of Azerbaijan, is a significant economic and administrative center located on the western shore of the Caspian Sea.",
@@ -277,7 +276,7 @@ const sampleListings = [
     location: "Baku",
     country: "Azerbaijan",
   },
-    {
+  {
     title: "Azerbaijan",
     description:
       "The people of Red Village are known for their rich cultural heritage and their dedication to preserving their traditions. ",
@@ -289,7 +288,7 @@ const sampleListings = [
     location: "Red Village",
     country: "Azerbaijan",
   },
-     {
+  {
     title: "Azerbaijan",
     description:
       "The name Sabran is of Hebrew origin, meaning patient or enduring. It is derived from the Hebrew word savlanut which translates to patience.",
@@ -301,10 +300,6 @@ const sampleListings = [
     location: "Sabran",
     country: "Azerbaijan",
   },
-
-
-
-
 
   {
     title: "Kazakhstan",
@@ -318,7 +313,7 @@ const sampleListings = [
     location: "Aktau",
     country: "Kazakhstan",
   },
-    {
+  {
     title: "Kazakhstan",
     description:
       "The Almaty region in western Kyrgyzstan is famous for its long and rich history, wild walnut forests, green expanses, and pristine nature.",
@@ -330,10 +325,9 @@ const sampleListings = [
     location: "Almaty",
     country: "Kazakhstan",
   },
-   {
+  {
     title: "Kazakhstan",
-    description:
-      "Atyrau is famous for its oil and gas industries.",
+    description: "Atyrau is famous for its oil and gas industries.",
     image: {
       filename: "listingimage",
       url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtJU19ojHavkQd_JlxdYiO-PwvJrAxonCbpA&s",
@@ -343,10 +337,7 @@ const sampleListings = [
     country: "Kazakhstan",
   },
 
-
-
-
-   {
+  {
     title: "Kyrgyzstan",
     description:
       "The Almaty region in western Kyrgyzstan is famous for its long and rich history, wild walnut forests, green expanses, and pristine nature.",
@@ -371,13 +362,7 @@ const sampleListings = [
     country: "Kyrgyzstan",
   },
 
-
-
-
-
-
-
-    {
+  {
     title: "Tajikistan",
     description:
       "Hit the slopes right from your doorstep in this ski-in/ski-out chalet in the Swiss Alps.",
@@ -389,7 +374,7 @@ const sampleListings = [
     location: "Panjakent",
     country: "Tajikistan",
   },
-    {
+  {
     title: "Tajikistan",
     description:
       "Dushanbe is a clean, European-style city. The city is located in Gisar valley at 2,700 ft above sea level, and has wide tree-lined streets with plenty of cafés to enjoy coffee or tea with local sweets. ",
@@ -401,7 +386,7 @@ const sampleListings = [
     location: "Dushanbe",
     country: "Tajikistan",
   },
-    {
+  {
     title: "Tajikistan",
     description:
       "Khujand is one of the oldest cities in Central Asia, dating back about 2,500 years to the Persian Empire.",
@@ -413,17 +398,6 @@ const sampleListings = [
     location: "Khujand",
     country: "Tajikistan",
   },
-
-
-
-
-
-
-
-
-
-
-
 
   {
     title: "Uzbekistan",
@@ -437,9 +411,6 @@ const sampleListings = [
     location: "Tashkent",
     country: "Uzbekistan",
   },
-
- 
- 
 
   {
     title: "Turkmenistan",
@@ -465,12 +436,6 @@ const sampleListings = [
     location: "Ashgabat",
     country: "Turkmenistan",
   },
-
- 
- 
-
- 
-
 
   // ... (same pattern continues for all other listings)
 ];
