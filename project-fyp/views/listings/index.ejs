@@ -232,14 +232,6 @@
                             <i class="bi bi-geo-alt-fill text-danger"></i>
                             <%= listing.location %>
                           </span>
-                          <span class="file-meta-item file-price">
-                            <i class="bi bi-currency-dollar"></i>
-                            <span class="price-display" data-price="<%= listing.price %>" data-currency="PKR"></span>/night
-                          </span>
-                          <span class="file-meta-item">
-                            <i class="bi bi-clock-fill text-info"></i>
-                            <span class="local-time" data-location="<%= listing.location || listing.country %>">Loading...</span>
-                          </span>
                         </div>
                       </div>
                       <i class="bi bi-arrow-right-circle" style="font-size: 1.5rem; color: #999;"></i>
@@ -346,50 +338,6 @@
         }
       }
     }
-  </script>
-
-  <script>
-    // Load local times for all listings
-    document.addEventListener('DOMContentLoaded', async function() {
-      if (typeof WorldTime === 'undefined') return;
-
-      const timeElements = document.querySelectorAll('.local-time');
-      
-      // Keep track of locations we've already fetched to avoid duplicate API calls
-      const locationCache = new Map();
-
-      for (const element of timeElements) {
-        const location = element.getAttribute('data-location');
-        if (!location) continue;
-
-        // Check if we already fetched this location
-        if (locationCache.has(location)) {
-          const cachedData = locationCache.get(location);
-          element.textContent = cachedData.time;
-          element.title = cachedData.title;
-          continue;
-        }
-
-        // Fetch time for this location
-        const result = await WorldTime.getLocalTime(location);
-        
-        if (result.success) {
-          const { hour, minute, timezone } = result.data;
-          const formattedTime = WorldTime.formatTime12Hour(hour, minute);
-          const title = timezone ? `${timezone}` : 'Local time';
-          
-          // Cache it
-          locationCache.set(location, { time: formattedTime, title: title });
-          
-          // Update element
-          element.textContent = formattedTime;
-          element.title = title;
-        } else {
-          element.textContent = 'N/A';
-          element.title = 'Time not available';
-        }
-      }
-    });
   </script>
  
 </body>
