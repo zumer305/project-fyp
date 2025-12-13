@@ -313,7 +313,8 @@
       <span class="emoji">🎊</span>
     </h1>
     <p style="color: #666; font-size: 1.1rem; margin-top: 10px">
-      Discover LIVE events happening in cities worldwide - powered by real-time APIs
+      Discover LIVE events happening in cities worldwide - powered by real-time
+      APIs
     </p>
   </div>
 
@@ -351,7 +352,12 @@
       </div>
 
       <button type="submit" class="search-btn">🔍 Search Events</button>
-      <button type="button" class="search-btn" style="background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);" onclick="clearLocationCache()">
+      <button
+        type="button"
+        class="search-btn"
+        style="background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%)"
+        onclick="clearLocationCache()"
+      >
         🗑️ Clear Cache
       </button>
     </form>
@@ -454,7 +460,7 @@
         startDate = formatDate(event.start.local);
       } else if (event.start.utc) {
         startDate = formatDate(event.start.utc);
-      } else if (typeof event.start === 'string') {
+      } else if (typeof event.start === "string") {
         startDate = formatDate(event.start);
       }
     } else if (event.date) {
@@ -464,7 +470,8 @@
     }
 
     const isFree = event.isFree || event.is_free || event.free || false;
-    const isOnline = event.onlineEvent || event.online_event || event.isOnline || false;
+    const isOnline =
+      event.onlineEvent || event.online_event || event.isOnline || false;
 
     let imageHtml = "";
     if (event.logo || event.images) {
@@ -509,14 +516,17 @@
           </div>
           ${
             event.description
-              ? `<p class="event-description">${event.description.substring(0, 150)}...</p>`
+              ? `<p class="event-description">${event.description.substring(
+                  0,
+                  150
+                )}...</p>`
               : ""
           }
           <div class="event-footer">
             <div class="event-price ${isFree ? "free" : ""}">
-              ${isFree ? "FREE" : (event.price || "Paid Event")}
+              ${isFree ? "FREE" : event.price || "Paid Event"}
             </div>
-            <a href="${event.url || '#'}" target="_blank" class="event-btn">
+            <a href="${event.url || "#"}" target="_blank" class="event-btn">
               View Details →
             </a>
           </div>
@@ -546,16 +556,18 @@
       // First, try to get coordinates for the location using geocoding
       let lat = null;
       let lng = null;
-      
+
       // Use a free geocoding service to convert city name to coordinates
       try {
         console.log(`📍 Geocoding: ${location}...`);
         const geocodeResponse = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`,
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+            location
+          )}`,
           {
             headers: {
-              'User-Agent': 'TravelEventsApp/1.0'
-            }
+              "User-Agent": "TravelEventsApp/1.0",
+            },
           }
         );
         const geocodeData = await geocodeResponse.json();
@@ -574,10 +586,10 @@
       const params = new URLSearchParams({
         destination: location,
       });
-      
+
       if (lat && lng) {
-        params.append('lat', lat);
-        params.append('lng', lng);
+        params.append("lat", lat);
+        params.append("lng", lng);
         console.log(`🌐 Fetching events with coordinates: ${lat}, ${lng}`);
       } else {
         console.log(`🌐 Fetching events by name: ${location}`);
@@ -597,12 +609,16 @@
 
       if (data.data && data.data.length > 0) {
         console.log(`✅ Found ${data.data.length} events!`);
-        
+
         // Display events
-        gridEl.innerHTML = data.data.map((event) => createEventCard(event)).join("");
+        gridEl.innerHTML = data.data
+          .map((event) => createEventCard(event))
+          .join("");
 
         // Show map with markers if events have coordinates
-        const eventsWithCoords = data.data.filter(e => e.venue?.latitude && e.venue?.longitude);
+        const eventsWithCoords = data.data.filter(
+          (e) => e.venue?.latitude && e.venue?.longitude
+        );
         if (eventsWithCoords.length > 0) {
           mapSectionEl.style.display = "block";
           initMap();
@@ -618,8 +634,8 @@
         }
       } else {
         console.warn(`⚠️  No events found for ${location}`);
-        console.log('API message:', data.message);
-        
+        console.log("API message:", data.message);
+
         // Show the API message if available
         if (data.message) {
           noEventsEl.innerHTML = `
@@ -629,7 +645,7 @@
             <p><strong>London, New York, Paris, Tokyo, Sydney, Toronto, Berlin</strong></p>
           `;
         }
-        
+
         noEventsEl.style.display = "block";
       }
     } catch (error) {
@@ -694,7 +710,7 @@
     const sort = sortSelect.value;
 
     console.log(`🚀 Page loaded - searching for events in: ${location}`);
-    
+
     // Small delay to ensure everything is ready
     setTimeout(() => {
       searchEvents(location, radius, sort);
@@ -706,14 +722,14 @@
     localStorage.removeItem("lastSearchedLocation");
     localStorage.removeItem("lastSearchedRadius");
     localStorage.removeItem("lastSearchedSort");
-    
+
     // Reset to defaults
     document.getElementById("location").value = "New York, USA";
     document.getElementById("radius").value = "50";
     document.getElementById("sort").value = "date";
-    
+
     alert("✅ Location cache cleared! Default location restored.");
-    
+
     // Reload events with default location
     searchEvents("New York, USA", "50", "date");
   }
