@@ -28,6 +28,11 @@ router.get("/worldtime", (req, res) => {
   res.render("listings/worldtime");
 });
 
+// Eventbrite events page
+router.get("/eventbrite", (req, res) => {
+  res.render("listings/eventbrite");
+});
+
 router
   .route("/:id")
   .get(wrapAsync(listingController.showListing))

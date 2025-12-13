@@ -40,6 +40,8 @@ const apiGroupsRouter = require("./routes/api/groups.js");
 const apiFaithRouter = require("./routes/api/faith.js");
 const apiTaxiFaresRouter = require("./routes/api/taxiFares.js");
 const apiEventsRouter = require("./routes/api/events.js");
+const apiEventDetailsRouter = require("./routes/api/eventDetails.js");
+const apiEventbriteRouter = require("./routes/api/eventbrite.js");
 const apiCurrencyRouter = require("./routes/api/currency.js");
 const apiWorldTimeRouter = require("./routes/api/worldTime.js");
 
@@ -240,6 +242,8 @@ app.use("/api/groups", apiGroupsRouter);
 app.use("/api/faith", apiFaithRouter);
 app.use("/api/taxi-fares", apiTaxiFaresRouter);
 app.use("/api/events", apiEventsRouter);
+app.use("/api/event-details", apiEventDetailsRouter);
+app.use("/api/eventbrite", apiEventbriteRouter);
 app.use("/api/currency", apiCurrencyRouter);
 app.use("/api/worldtime", apiWorldTimeRouter);
 
