@@ -3,7 +3,7 @@ npm i express(express)
 npm i ejs(ejs)
 npm i mongoose(mongodb)
 touch app.js(main file)
-nodemon app.js(run the file)
+nodemon app.js(run the file).....
 
 
 CMD me likho:(for mongodb)
