@@ -11,7 +11,22 @@ const taxiFareSchema = new Schema(
     type: {
       type: String,
       required: true,
-      enum: ["Standard", "Economy", "Comfort", "Budget", "Mini", "Shared"],
+      enum: [
+        "Standard",
+        "Economy",
+        "Comfort",
+        "Comfort+",
+        "Budget",
+        "Mini",
+        "Shared",
+        "Business",
+        "Premier",
+        "Standard Night",
+        "Student",
+        "SUV/MPV",
+        "Van",
+        "Standard Metered",
+      ],
     },
     capacity: {
       type: String,
@@ -46,6 +61,43 @@ const taxiFareSchema = new Schema(
     region: {
       type: String,
       default: "Central Asia",
+    },
+    country: {
+      type: String,
+      default: "Central Asia",
+    },
+    city: {
+      type: String,
+      default: "",
+    },
+    currency: {
+      type: String,
+      default: "USD",
+    },
+    waitingCharge: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    originalBaseFare: {
+      type: Number,
+      min: 0,
+    },
+    originalPerKm: {
+      type: Number,
+      min: 0,
+    },
+    originalWaiting: {
+      type: Number,
+      min: 0,
+    },
+    minimumTrip: {
+      type: Number,
+      min: 0,
+    },
+    perKmRange: {
+      type: String,
+      default: "",
     },
   },
   {

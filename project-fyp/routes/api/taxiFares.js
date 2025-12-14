@@ -2,6 +2,44 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const wrapAsync = require("../../utils/wrapAsync");
+const TaxiFare = require("../../models/TaxiFare");
+
+// GET all taxi fares from database (grouped by country)
+router.get(
+  "/all",
+  wrapAsync(async (req, res) => {
+    try {
+      // Fetch all taxi fares from database
+      const allFares = await TaxiFare.find({}).sort({ country: 1 });
+
+      // Group by country
+      const faresByCountry = allFares.reduce((acc, fare) => {
+        const country = fare.country || "Other";
+        if (!acc[country]) {
+          acc[country] = [];
+        }
+        acc[country].push(fare);
+        return acc;
+      }, {});
+
+      res.json({
+        success: true,
+        count: allFares.length,
+        countries: Object.keys(faresByCountry).length,
+        data: faresByCountry,
+        allFares: allFares,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error("Error fetching all fares:", error.message);
+      res.status(500).json({
+        success: false,
+        message: "Error fetching taxi fares from database",
+        error: error.message,
+      });
+    }
+  })
+);
 
 // GET real-time taxi fares from 100% FREE public APIs (NO API KEYS NEEDED)
 router.get(
