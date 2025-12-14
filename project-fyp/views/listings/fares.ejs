@@ -396,37 +396,6 @@
     </p>
   </div>
 
-  <!-- Distance Calculator -->
-  <div class="distance-calculator">
-    <h4><i class="fas fa-calculator"></i> Calculate Your Fare</h4>
-    <div class="calculator-input">
-      <input
-        type="number"
-        id="distanceInput"
-        placeholder="Enter distance in kilometers"
-        min="1"
-        step="0.1"
-      />
-      <button onclick="calculateFare()">
-        <i class="fas fa-calculator"></i> Calculate
-      </button>
-    </div>
-    <div class="calculated-result" id="calculatedResult">
-      <h5>Estimated Fare:</h5>
-      <div style="font-size: 2rem; font-weight: 700" id="calculatedAmount">
-        $0.00
-      </div>
-      <p style="margin-top: 10px; opacity: 0.9">
-        *Fare may vary based on traffic and time of day
-      </p>
-    </div>
-  </div>
-
-  <!-- Vehicles Grid -->
-  <div class="vehicles-grid" id="vehiclesGrid">
-    <!-- Vehicle cards will be populated dynamically -->
-  </div>
-
   <script>
     // Vehicle data - will be fetched from API
     let vehicles = [];
@@ -457,7 +426,6 @@
           );
 
           renderFaresByCountry(faresByCountry);
-          renderVehicles();
         } else {
           console.error("❌ Failed to fetch taxi fares:", result.message);
           showErrorMessage(
@@ -607,29 +575,14 @@
 
     // Show error message
     function showErrorMessage(message) {
-      const vehiclesGrid = document.getElementById("vehiclesGrid");
-      vehiclesGrid.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: #fee; border-radius: 12px; color: #c00;">
+      const container = document.getElementById("faresByCountry");
+      container.innerHTML = `
+      <div style="text-align: center; padding: 40px; background: #fee; border-radius: 12px; color: #c00;">
         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
         <h3 style="margin-bottom: 10px;">Error Loading Fares</h3>
         <p>${message}</p>
       </div>
     `;
-    }
-
-    // Shuffle array function
-    function shuffleArray(array) {
-      const shuffled = [...array];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      return shuffled;
-    }
-
-    // Calculate fare for a specific distance
-    function calculateVehicleFare(vehicle, distance) {
-      return vehicle.baseFare + vehicle.perKm * distance;
     }
 
     // Calculate fare for specific country
@@ -691,101 +644,10 @@
       resultDiv.style.display = 'block';
     }
 
-    // Calculate fare from input (global calculator)
-    function calculateFare() {
-      const distance = parseFloat(
-        document.getElementById("distanceInput").value
-      );
-
-      if (!distance || distance <= 0) {
-        alert("Please enter a valid distance");
-        return;
-      }
-
-      const baseFare = 1.2;
-      const perKm = 0.5;
-      const totalFare = baseFare + perKm * distance;
-
-      document.getElementById(
-        "calculatedAmount"
-      ).textContent = `$${totalFare.toFixed(2)}`;
-      document.getElementById("calculatedResult").classList.add("show");
-
-      // Update estimated distance and re-render vehicles
-      estimatedDistance = distance;
-      localStorage.setItem("estimatedDistance", distance);
-      renderVehicles();
-    }
-
     // Initialize on page load
     document.addEventListener("DOMContentLoaded", function () {
       // Fetch fares from API first
       fetchTaxiFares();
-
-      // Add enter key support for distance input
-      document
-        .getElementById("distanceInput")
-        .addEventListener("keypress", function (e) {
-          if (e.key === "Enter") {
-            calculateFare();
-          }
-        });
-
-      // Listen for currency changes and update fares
-      document.addEventListener("currencyChanged", async (e) => {
-        const newCurrency = e.detail.currency;
-        await updateFaresWithCurrency(newCurrency);
-      });
     });
-
-    // Update all fares when currency changes
-    async function updateFaresWithCurrency(currency) {
-      if (currency === "USD") {
-        renderVehicles();
-        return;
-      }
-
-      const vehiclesGrid = document.getElementById("vehiclesGrid");
-      const priceElements = vehiclesGrid.querySelectorAll(".fare-amount");
-
-      for (const element of priceElements) {
-        const usdAmount = parseFloat(element.textContent.replace("$", ""));
-        if (!isNaN(usdAmount)) {
-          const result = await CurrencyConverter.convert(
-            usdAmount,
-            "USD",
-            currency
-          );
-          if (result.success) {
-            element.textContent = CurrencyConverter.formatCurrency(
-              result.result,
-              currency
-            );
-          }
-        }
-      }
-
-      // Update calculated result if visible
-      const calculatedResult = document.getElementById("calculatedResult");
-      if (calculatedResult.classList.contains("show")) {
-        const calculatedAmount = document.getElementById("calculatedAmount");
-        const usdAmount = parseFloat(
-          calculatedAmount.textContent.replace("$", "")
-        );
-        if (!isNaN(usdAmount)) {
-          const result = await CurrencyConverter.convert(
-            usdAmount,
-            "USD",
-            currency
-          );
-          if (result.success) {
-            calculatedAmount.textContent = CurrencyConverter.formatCurrency(
-              result.result,
-              currency
-            );
-          }
-        }
-      }
-    }
   </script>
 </div>
