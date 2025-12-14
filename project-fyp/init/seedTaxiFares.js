@@ -148,7 +148,7 @@ const taxiFaresData = [
     type: "Premier",
     capacity: "4 passengers",
     baseFare: 1.21, // 15,500 sum ≈ $1.21 USD
-    perKm: 0.30, // 3,900 sum/km ≈ $0.30 USD
+    perKm: 0.3, // 3,900 sum/km ≈ $0.30 USD
     waitingCharge: 0.06, // 800 sum/min ≈ $0.06 USD
     imageUrl:
       "https://www.luxurycarrental.ae/storage/vehicles/April2024/oyNr3oQBRzxRD8FfRXmu.png",
@@ -173,7 +173,7 @@ const taxiFaresData = [
     type: "Economy",
     capacity: "4 passengers",
     baseFare: 0.55, // 48 som ≈ $0.55 USD
-    perKm: 0.10, // 8.5 som/km ≈ $0.10 USD
+    perKm: 0.1, // 8.5 som/km ≈ $0.10 USD
     waitingCharge: 0.06, // 5 som/min ≈ $0.06 USD
     imageUrl:
       "https://hips.hearstapps.com/hmg-prod/images/2022-chevrolet-spark-mmp-1-1638552174.jpg?crop=0.997xw:0.751xh;0,0.138xh&resize=1200:*",
@@ -201,12 +201,7 @@ const taxiFaresData = [
     imageUrl:
       "https://suzukipakistan.com/Media/Used-Cars/Product/15814073203.jpg",
     emoji: "🚗",
-    features: [
-      "Sedan",
-      "3 min free wait",
-      "Comfortable",
-      "Popular Choice",
-    ],
+    features: ["Sedan", "3 min free wait", "Comfortable", "Popular Choice"],
     country: "Kyrgyzstan",
     city: "Bishkek",
     currency: "KGS",
@@ -224,12 +219,7 @@ const taxiFaresData = [
     imageUrl:
       "https://hips.hearstapps.com/hmg-prod/images/2022-hyundai-accent-mmp-1-1634756931.jpg",
     emoji: "🚘",
-    features: [
-      "Larger Sedan",
-      "3 min free wait",
-      "Extra Space",
-      "Good Value",
-    ],
+    features: ["Larger Sedan", "3 min free wait", "Extra Space", "Good Value"],
     country: "Kyrgyzstan",
     city: "Bishkek",
     currency: "KGS",
@@ -295,12 +285,7 @@ const taxiFaresData = [
     imageUrl:
       "https://hips.hearstapps.com/hmg-prod/images/2022-hyundai-accent-mmp-1-1634756931.jpg",
     emoji: "🚘",
-    features: [
-      "Sedan",
-      "5 min free wait",
-      "Includes 3.0 km",
-      "More Comfort",
-    ],
+    features: ["Sedan", "5 min free wait", "Includes 3.0 km", "More Comfort"],
     country: "Tajikistan",
     city: "Dushanbe",
     currency: "TJS",
@@ -314,7 +299,7 @@ const taxiFaresData = [
     name: "Standard Day (06:00-14:00)",
     type: "Standard",
     capacity: "4 passengers",
-    baseFare: 1.20, // 7 TMT ≈ $1.20 USD (minimum trip 20 TMT = $3.43)
+    baseFare: 1.2, // 7 TMT ≈ $1.20 USD (minimum trip 20 TMT = $3.43)
     perKm: 0.21, // 1.20 TMT/km ≈ $0.21 USD
     waitingCharge: 0.12, // 0.70 TMT/min ≈ $0.12 USD
     imageUrl:
@@ -362,7 +347,7 @@ const taxiFaresData = [
     name: "Student Tariff",
     type: "Student",
     capacity: "4 passengers",
-    baseFare: 1.20, // 7 TMT ≈ $1.20 USD (minimum trip 20 TMT = $3.43)
+    baseFare: 1.2, // 7 TMT ≈ $1.20 USD (minimum trip 20 TMT = $3.43)
     perKm: 0.34, // 2.00 TMT/km ≈ $0.34 USD
     waitingCharge: 0.15, // 0.90 TMT/min ≈ $0.15 USD
     imageUrl:
@@ -442,12 +427,7 @@ const taxiFaresData = [
     imageUrl:
       "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/images/car-reviews/first-drives/legacy/hyundai-tucson-2021-uk-fd-hero-front.jpg",
     emoji: "🚙",
-    features: [
-      "SUV/MPV",
-      "5 min free wait",
-      "Includes 1.07 km",
-      "Extra Space",
-    ],
+    features: ["SUV/MPV", "5 min free wait", "Includes 1.07 km", "Extra Space"],
     country: "Azerbaijan",
     city: "Baku",
     currency: "AZN",
@@ -486,7 +466,7 @@ const taxiFaresData = [
     name: "Street Taxi (Metered)",
     type: "Standard Metered",
     capacity: "4 passengers",
-    baseFare: 1.00, // ~1.5-1.8 AZN average ≈ $1.00 USD
+    baseFare: 1.0, // ~1.5-1.8 AZN average ≈ $1.00 USD
     perKm: 0.59, // 1.0 AZN/km ≈ $0.59 USD
     waitingCharge: 0.06, // ~0.10 AZN/min ≈ $0.06 USD
     imageUrl:

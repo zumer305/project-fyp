@@ -384,26 +384,32 @@
   </div>
 </div>
 
-<!-- Leaflet CSS for Map -->
+<!-- Mapbox GL JS CSS & JS (same as home page) -->
 <link
+  href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css"
   rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 />
-
-<!-- Leaflet JS for Map -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
 
 <script>
   let map = null;
   let markers = [];
 
-  // Initialize map
+  // Initialize Mapbox map (same as home page)
   function initMap() {
     if (!map) {
-      map = L.map("map").setView([41.3111, 69.2797], 11);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
+
+      map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/zumer/cmj3y5j60003c01qt3urcac07", // Same custom style as home page
+        center: [69.2797, 41.3111], // [lng, lat] default center
+        zoom: 11,
+      });
+
+      // Add navigation controls
+      map.addControl(new mapboxgl.NavigationControl());
     }
   }
 
@@ -413,83 +419,169 @@
     markers.forEach((marker) => marker.remove());
     markers = [];
 
-    const bounds = [];
+    const bounds = new mapboxgl.LngLatBounds();
+    let hasValidCoords = false;
 
     events.forEach((event) => {
       if (event.venue && event.venue.latitude && event.venue.longitude) {
         const lat = parseFloat(event.venue.latitude);
         const lng = parseFloat(event.venue.longitude);
 
-        const marker = L.marker([lat, lng])
-          .addTo(map)
-          .bindPopup(
-            `<strong>${event.name}</strong><br>${event.venue.name}<br><a href="${event.url}" target="_blank">View Event</a>`
-          );
+        if (!isNaN(lat) && !isNaN(lng)) {
+          // Create popup content
+          const popupContent = `
+            <div style="padding: 10px; max-width: 200px;">
+              <strong style="font-size: 14px;">${event.name}</strong><br>
+              <span style="color: #666; font-size: 12px;">${event.venue.name}</span><br>
+              <a href="${event.url}" target="_blank" style="color: #667eea; font-size: 12px;">View Event</a>
+            </div>
+          `;
 
-        markers.push(marker);
-        bounds.push([lat, lng]);
+          // Create marker
+          const marker = new mapboxgl.Marker({ color: "#667eea" })
+            .setLngLat([lng, lat])
+            .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent))
+            .addTo(map);
+
+          markers.push(marker);
+          bounds.extend([lng, lat]);
+          hasValidCoords = true;
+        }
       }
     });
 
     // Fit map to show all markers
-    if (bounds.length > 0) {
-      map.fitBounds(bounds, { padding: [50, 50] });
+    if (hasValidCoords) {
+      map.fitBounds(bounds, { padding: 50, maxZoom: 14 });
     }
   }
 
-  // Format date
+  // Format date - handles various date formats from different APIs
   function formatDate(dateString) {
-    const date = new Date(dateString);
-    const options = {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-    return date.toLocaleDateString("en-US", options);
+    if (
+      !dateString ||
+      dateString === "TBA" ||
+      dateString.includes("Check venue")
+    ) {
+      return dateString || "Date TBA";
+    }
+
+    try {
+      // Handle date-only strings (YYYY-MM-DD)
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        const date = new Date(dateString + "T12:00:00");
+        return date.toLocaleDateString("en-US", {
+          weekday: "short",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      // Handle full datetime strings
+      const date = new Date(dateString);
+
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        return dateString; // Return original if invalid
+      }
+
+      const options = {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return date.toLocaleDateString("en-US", options);
+    } catch (error) {
+      console.error("Date parsing error:", error);
+      return dateString || "Date TBA";
+    }
   }
 
   // Create event card HTML
   function createEventCard(event) {
+    // Check if this is a venue (not an actual event with a date)
+    const isVenue =
+      event.isVenue || (!event.start && !event.date && !event.startDate);
+
     // Handle different date formats from different APIs
-    let startDate = "Date TBA";
-    if (event.start) {
-      if (event.start.local) {
-        startDate = formatDate(event.start.local);
-      } else if (event.start.utc) {
-        startDate = formatDate(event.start.utc);
-      } else if (typeof event.start === "string") {
-        startDate = formatDate(event.start);
+    let startDate = "Event Schedule TBA";
+    if (!isVenue) {
+      if (event.start) {
+        if (event.start.local) {
+          startDate = formatDate(event.start.local);
+        } else if (event.start.utc) {
+          startDate = formatDate(event.start.utc);
+        } else if (typeof event.start === "string") {
+          startDate = formatDate(event.start);
+        }
+      } else if (event.date) {
+        startDate = formatDate(event.date);
+      } else if (event.startDate) {
+        startDate = formatDate(event.startDate);
       }
-    } else if (event.date) {
-      startDate = formatDate(event.date);
-    } else if (event.startDate) {
-      startDate = formatDate(event.startDate);
     }
 
     const isFree = event.isFree || event.is_free || event.free || false;
     const isOnline =
       event.onlineEvent || event.online_event || event.isOnline || false;
 
+    // Handle images - check multiple possible fields
     let imageHtml = "";
-    if (event.logo || event.images) {
-      const imgSrc = event.logo || event.images;
-      imageHtml = `<img src="${imgSrc}" alt="${event.name}" />`;
+    const imgSrc = event.logo || event.images || event.image || event.img;
+    if (imgSrc) {
+      // Ensure image URL is valid
+      const imageUrl =
+        typeof imgSrc === "string"
+          ? imgSrc
+          : imgSrc.url || imgSrc.original?.url;
+      if (
+        imageUrl &&
+        (imageUrl.startsWith("http://") || imageUrl.startsWith("https://"))
+      ) {
+        imageHtml = `<img src="${imageUrl}" alt="${
+          event.name || "Event"
+        }" onerror="this.parentElement.innerHTML='🎭';" />`;
+      }
+    }
+
+    // Select appropriate emoji based on venue/event type
+    let fallbackEmoji = "🎉";
+    if (isVenue) {
+      const type = (event.type || "").toLowerCase();
+      if (type.includes("theatre")) fallbackEmoji = "🎭";
+      else if (type.includes("cinema")) fallbackEmoji = "🎬";
+      else if (type.includes("music")) fallbackEmoji = "🎵";
+      else if (type.includes("museum")) fallbackEmoji = "🏛️";
+      else if (type.includes("stadium")) fallbackEmoji = "🏟️";
+      else if (type.includes("gallery")) fallbackEmoji = "🖼️";
+      else fallbackEmoji = "📍";
     }
 
     const venueName = event.venue ? event.venue.name : "Online Event";
-    const venueAddress = event.venue
-      ? event.venue.address?.localized_address_display || ""
-      : "";
+
+    // Create safe event name
+    const eventName = event.name || event.title || "Event";
+    const eventDesc = event.description || event.desc || "";
 
     return `
       <div class="event-card">
-        <div class="event-image">
-          ${imageHtml}
+        <div class="event-image" ${
+          !imageHtml
+            ? 'style="display: flex; align-items: center; justify-content: center; font-size: 3rem;"'
+            : ""
+        }>
+          ${imageHtml || fallbackEmoji}
         </div>
         <div class="event-content">
+          ${
+            isVenue
+              ? '<span class="event-badge" style="background: #9b59b6; color: white;">📍 Venue</span>'
+              : ""
+          }
           ${
             isOnline
               ? '<span class="event-badge badge-online">🌐 Online Event</span>'
@@ -505,21 +597,31 @@
               ? `<span class="event-badge" style="background: #3498db; color: white;">${event.apiSource}</span>`
               : ""
           }
-          <h3 class="event-title">${event.name}</h3>
+          <h3 class="event-title">${eventName}</h3>
+          ${
+            !isVenue
+              ? `
           <div class="event-date">
             <span>📅</span>
             <span>${startDate}</span>
           </div>
+          `
+              : `
+          <div class="event-date" style="color: #95a5a6;">
+            <span>📅</span>
+            <span>Check venue for upcoming events</span>
+          </div>
+          `
+          }
           <div class="event-location">
             <span>📍</span>
             <span>${venueName}</span>
           </div>
           ${
-            event.description
-              ? `<p class="event-description">${event.description.substring(
-                  0,
-                  150
-                )}...</p>`
+            eventDesc
+              ? `<p class="event-description">${eventDesc
+                  .substring(0, 150)
+                  .replace(/<[^>]*>/g, "")}...</p>`
               : ""
           }
           <div class="event-footer">
@@ -527,7 +629,7 @@
               ${isFree ? "FREE" : event.price || "Paid Event"}
             </div>
             <a href="${event.url || "#"}" target="_blank" class="event-btn">
-              View Details →
+              ${isVenue ? "Visit Website →" : "View Details →"}
             </a>
           </div>
         </div>
@@ -627,10 +729,16 @@
           // Show map centered on searched location even if no event coords
           mapSectionEl.style.display = "block";
           initMap();
-          map.setView([lat, lng], 12);
-          L.marker([lat, lng])
-            .addTo(map)
-            .bindPopup(`<b>${location}</b><br>Showing events in this area`);
+          map.setCenter([lng, lat]); // Mapbox uses [lng, lat] order
+          map.setZoom(12);
+          new mapboxgl.Marker({ color: "#667eea" })
+            .setLngLat([lng, lat])
+            .setPopup(
+              new mapboxgl.Popup().setHTML(
+                `<b>${location}</b><br>Showing events in this area`
+              )
+            )
+            .addTo(map);
         }
       } else {
         console.warn(`⚠️  No events found for ${location}`);

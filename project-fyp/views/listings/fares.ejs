@@ -396,9 +396,20 @@
     </p>
   </div>
 
+  <!-- Include Currency Converter -->
+  <script src="/js/currencyConverter.js"></script>
+
   <script>
     // Vehicle data - will be fetched from API
     let vehicles = [];
+
+    // Store fares by country globally for calculator
+    let faresByCountryData = {};
+
+    // Currency management
+    let currentCurrency = "USD";
+    let exchangeRate = 1;
+    let currencySymbol = "$";
 
     // Get destination from localStorage or URL
     let selectedDestination =
@@ -410,6 +421,25 @@
     // Update destination name
     document.getElementById("destinationName").textContent =
       selectedDestination;
+
+    // Currency symbol mapping
+    const currencySymbols = {
+      USD: "$",
+      EUR: "€",
+      GBP: "£",
+      KZT: "₸",
+      UZS: "so'm",
+      KGS: "с",
+      TJS: "ЅМ",
+      AZN: "₼",
+      RUB: "₽",
+      CNY: "¥",
+      INR: "₹",
+      PKR: "₨",
+      TRY: "₺",
+      AED: "د.إ",
+      SAR: "﷼",
+    };
 
     // Fetch taxi fares from API
     async function fetchTaxiFares() {
@@ -452,6 +482,9 @@
         Azerbaijan: "🇦🇿",
       };
 
+      // Store fares data globally
+      faresByCountryData = faresByCountry;
+
       let html = "";
 
       for (const [country, fares] of Object.entries(faresByCountry)) {
@@ -473,15 +506,19 @@
 
         // Display EACH vehicle category separately with its actual values
         fares.forEach((fare, index) => {
-          const currency = fare.currency || 'USD';
+          const currency = fare.currency || "USD";
           const hasWaiting = fare.waitingCharge && fare.waitingCharge > 0;
           const hasOriginalValues = fare.originalBaseFare && fare.originalPerKm;
-          
+
           html += `
-            <div class="base-fare-info" style="margin-bottom: 20px; border-left: 5px solid ${index % 2 === 0 ? '#3b82f6' : '#1e40af'};">
+            <div class="base-fare-info" style="margin-bottom: 20px; border-left: 5px solid ${
+              index % 2 === 0 ? "#3b82f6" : "#1e40af"
+            };">
               <h4 style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
                 <span>
-                  <span style="font-size: 1.5rem; margin-right: 10px;">${fare.emoji || '🚗'}</span>
+                  <span style="font-size: 1.5rem; margin-right: 10px;">${
+                    fare.emoji || "🚗"
+                  }</span>
                   ${fare.name}
                 </span>
                 <span style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; color: #1e40af; border: 2px solid #93c5fd;">
@@ -496,41 +533,87 @@
               <div class="fare-details" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
                 <div class="fare-detail-item">
                   <div class="label"><i class="fas fa-flag-checkered"></i> Base Fare</div>
-                  <div class="value">$${fare.baseFare.toFixed(2)}</div>
-                  ${hasOriginalValues ? `<div style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">(${fare.originalBaseFare >= 100 ? fare.originalBaseFare.toFixed(0) : fare.originalBaseFare.toFixed(2)} ${currency})</div>` : ''}
+                  <div class="value">${formatPrice(fare.baseFare)}</div>
+                  ${
+                    hasOriginalValues && currentCurrency !== currency
+                      ? `<div style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">(${
+                          fare.originalBaseFare >= 100
+                            ? fare.originalBaseFare.toFixed(0)
+                            : fare.originalBaseFare.toFixed(2)
+                        } ${currency} original)</div>`
+                      : ""
+                  }
                 </div>
                 
                 <div class="fare-detail-item">
                   <div class="label"><i class="fas fa-road"></i> Per Kilometer</div>
-                  <div class="value">$${fare.perKm.toFixed(2)}/km</div>
-                  ${hasOriginalValues ? `<div style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">(${fare.originalPerKm.toFixed(2)} ${currency}/km)</div>` : ''}
-                  ${fare.perKmRange ? `<div style="font-size: 0.7rem; color: #f59e0b; margin-top: 3px; font-weight: 600;">Varies: ${fare.perKmRange} ${currency}/km</div>` : ''}
+                  <div class="value">${formatPrice(fare.perKm)}/km</div>
+                  ${
+                    hasOriginalValues && currentCurrency !== currency
+                      ? `<div style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">(${fare.originalPerKm.toFixed(
+                          2
+                        )} ${currency}/km original)</div>`
+                      : ""
+                  }
+                  ${
+                    fare.perKmRange
+                      ? `<div style="font-size: 0.7rem; color: #f59e0b; margin-top: 3px; font-weight: 600;">Local range: ${fare.perKmRange} ${currency}/km</div>`
+                      : ""
+                  }
                 </div>
                 
                 <div class="fare-detail-item">
                   <div class="label"><i class="fas fa-clock"></i> Waiting Time</div>
-                  <div class="value">${hasWaiting ? `$${fare.waitingCharge.toFixed(2)}/min` : 'Varies'}</div>
-                  ${hasWaiting && fare.originalWaiting ? `<div style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">(${fare.originalWaiting.toFixed(2)} ${currency}/min)</div>` : ''}
+                  <div class="value">${
+                    hasWaiting
+                      ? `${formatPrice(fare.waitingCharge)}/min`
+                      : "Varies"
+                  }</div>
+                  ${
+                    hasWaiting &&
+                    fare.originalWaiting &&
+                    currentCurrency !== currency
+                      ? `<div style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">(${fare.originalWaiting.toFixed(
+                          2
+                        )} ${currency}/min original)</div>`
+                      : ""
+                  }
                 </div>
                 
-                ${fare.minimumTrip ? `
+                ${
+                  fare.minimumTrip
+                    ? `
                 <div class="fare-detail-item">
                   <div class="label"><i class="fas fa-exclamation-triangle"></i> Min. Trip</div>
-                  <div class="value">$${(fare.minimumTrip * (fare.baseFare / fare.originalBaseFare)).toFixed(2)}</div>
-                  <div style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">(${fare.minimumTrip} ${currency})</div>
+                  <div class="value">${formatPrice(
+                    fare.minimumTrip * (fare.baseFare / fare.originalBaseFare)
+                  )}</div>
+                  <div style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">(${
+                    fare.minimumTrip
+                  } ${currency} original)</div>
                 </div>
-                ` : ''}
+                `
+                    : ""
+                }
               </div>
 
-              ${fare.features && fare.features.length > 0 ? `
+              ${
+                fare.features && fare.features.length > 0
+                  ? `
                 <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e7eb; display: flex; flex-wrap: wrap; gap: 8px;">
-                  ${fare.features.map(feature => `
+                  ${fare.features
+                    .map(
+                      (feature) => `
                     <span style="background: #f3f4f6; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; color: #374151;">
                       <i class="fas fa-check" style="color: #10b981; margin-right: 5px;"></i>${feature}
                     </span>
-                  `).join('')}
+                  `
+                    )
+                    .join("")}
                 </div>
-              ` : ''}
+              `
+                  : ""
+              }
             </div>
           `;
         });
@@ -540,26 +623,46 @@
           <div class="distance-calculator" style="margin-top: 20px; margin-bottom: 30px;">
             <h4><i class="fas fa-calculator"></i> Calculate Your Fare for ${country}</h4>
             <div class="calculator-input">
-              <select id="vehicle-select-${country.replace(/\s+/g, '-')}" style="flex: 1; min-width: 200px; padding: 12px; border: 2px solid #bfdbfe; border-radius: 8px; font-size: 1rem;">
+              <select id="vehicle-select-${country.replace(
+                /\s+/g,
+                "-"
+              )}" style="flex: 1; min-width: 200px; padding: 12px; border: 2px solid #bfdbfe; border-radius: 8px; font-size: 1rem;">
                 <option value="">Select Vehicle Type</option>
-                ${fares.map((fare, idx) => `<option value="${idx}">${fare.name} (${fare.type})</option>`).join('')}
+                ${fares
+                  .map(
+                    (fare, idx) =>
+                      `<option value="${idx}">${fare.name} (${fare.type})</option>`
+                  )
+                  .join("")}
               </select>
               <input
                 type="number"
-                id="distance-input-${country.replace(/\s+/g, '-')}"
+                id="distance-input-${country.replace(/\s+/g, "-")}"
                 placeholder="Distance (km)"
                 min="1"
                 step="0.1"
                 style="flex: 1; min-width: 150px; padding: 12px; border: 2px solid #bfdbfe; border-radius: 8px; font-size: 1rem;"
               />
-              <button onclick="calculateCountryFare('${country.replace(/'/g, "\\'")}', ${JSON.stringify(fares).replace(/'/g, "\\'")})">
+              <button onclick="calculateCountryFare('${country.replace(
+                /'/g,
+                "\\'"
+              )}')">
                 <i class="fas fa-calculator"></i> Calculate
               </button>
             </div>
-            <div class="calculated-result" id="result-${country.replace(/\s+/g, '-')}" style="display: none;">
+            <div class="calculated-result" id="result-${country.replace(
+              /\s+/g,
+              "-"
+            )}" style="display: none;">
               <h5>Estimated Fare:</h5>
-              <div style="font-size: 2rem; font-weight: 700" id="amount-${country.replace(/\s+/g, '-')}">$0.00</div>
-              <div style="margin-top: 10px; opacity: 0.9; font-size: 0.9rem;" id="details-${country.replace(/\s+/g, '-')}"></div>
+              <div style="font-size: 2rem; font-weight: 700" id="amount-${country.replace(
+                /\s+/g,
+                "-"
+              )}">$0.00</div>
+              <div style="margin-top: 10px; opacity: 0.9; font-size: 0.9rem;" id="details-${country.replace(
+                /\s+/g,
+                "-"
+              )}"></div>
               <p style="margin-top: 10px; opacity: 0.8; font-size: 0.85rem;">
                 *Fare may vary based on traffic, time of day, and actual route
               </p>
@@ -586,10 +689,17 @@
     }
 
     // Calculate fare for specific country
-    function calculateCountryFare(country, faresData) {
-      const countryId = country.replace(/\s+/g, '-');
-      const vehicleSelect = document.getElementById(`vehicle-select-${countryId}`);
-      const distanceInput = document.getElementById(`distance-input-${countryId}`);
+    function calculateCountryFare(country) {
+      console.log("calculateCountryFare called for:", country);
+      console.log("Available countries:", Object.keys(faresByCountryData));
+
+      const countryId = country.replace(/\s+/g, "-");
+      const vehicleSelect = document.getElementById(
+        `vehicle-select-${countryId}`
+      );
+      const distanceInput = document.getElementById(
+        `distance-input-${countryId}`
+      );
       const resultDiv = document.getElementById(`result-${countryId}`);
       const amountDiv = document.getElementById(`amount-${countryId}`);
       const detailsDiv = document.getElementById(`details-${countryId}`);
@@ -597,57 +707,222 @@
       const vehicleIndex = parseInt(vehicleSelect.value);
       const distance = parseFloat(distanceInput.value);
 
-      if (vehicleSelect.value === '' || !vehicleIndex && vehicleIndex !== 0) {
-        alert('Please select a vehicle type');
+      console.log("vehicleIndex:", vehicleIndex);
+      console.log("distance:", distance);
+
+      if (vehicleSelect.value === "" || (!vehicleIndex && vehicleIndex !== 0)) {
+        alert("Please select a vehicle type");
         return;
       }
 
       if (!distance || distance <= 0) {
-        alert('Please enter a valid distance');
+        alert("Please enter a valid distance");
         return;
       }
 
-      const selectedFare = faresData[vehicleIndex];
+      // Get fares for this country
+      const fares = faresByCountryData[country];
+      console.log("Fares for", country, ":", fares);
+
+      if (!fares || !fares.length) {
+        alert("Error: Could not find fare data for " + country);
+        console.error("No fares found for country:", country);
+        return;
+      }
+
+      const selectedFare = fares[vehicleIndex];
+      console.log("Selected fare:", selectedFare);
+      if (!selectedFare) {
+        alert("Error: Could not find fare information for selected vehicle");
+        console.error(
+          "selectedFare is undefined. vehicleIndex:",
+          vehicleIndex,
+          "fares:",
+          fares
+        );
+        return;
+      }
+
       const baseFare = selectedFare.baseFare;
       const perKm = selectedFare.perKm;
-      const totalFareUSD = baseFare + (perKm * distance);
-      
-      // Calculate in original currency
-      const currency = selectedFare.currency || 'USD';
+      const totalFareUSD = baseFare + perKm * distance;
+
+      // Calculate in selected currency
+      const totalFareConverted = convertPrice(totalFareUSD);
+      const baseFareConverted = convertPrice(baseFare);
+      const perKmConverted = convertPrice(perKm);
+
+      console.log("Calculation:", {
+        baseFare,
+        perKm,
+        distance,
+        totalFareUSD,
+        currentCurrency,
+        totalFareConverted,
+      });
+
+      // Calculate in original local currency
+      const localCurrency = selectedFare.currency || "USD";
       const originalBase = selectedFare.originalBaseFare || baseFare;
       const originalPerKm = selectedFare.originalPerKm || perKm;
-      const totalFareOriginal = originalBase + (originalPerKm * distance);
+      const totalFareOriginal = originalBase + originalPerKm * distance;
 
       // Show waiting charge if available
-      const waitingInfo = selectedFare.waitingCharge 
-        ? `<br>Waiting: $${selectedFare.waitingCharge.toFixed(2)}/min (${selectedFare.originalWaiting?.toFixed(2) || ''} ${currency}/min)` 
-        : '';
+      const waitingInfo = selectedFare.waitingCharge
+        ? `<br>Waiting: ${formatPrice(selectedFare.waitingCharge)}/min${
+            selectedFare.originalWaiting && currentCurrency !== localCurrency
+              ? ` (${selectedFare.originalWaiting.toFixed(
+                  2
+                )} ${localCurrency}/min original)`
+              : ""
+          }`
+        : "";
 
       // Show minimum trip warning if applicable
-      const minTripWarning = selectedFare.minimumTrip && totalFareOriginal < selectedFare.minimumTrip
-        ? `<br><span style="color: #f59e0b; font-weight: 600;"><i class="fas fa-exclamation-triangle"></i> Minimum trip charge applies: ${selectedFare.minimumTrip} ${currency}</span>`
-        : '';
+      const minTripWarning =
+        selectedFare.minimumTrip && totalFareOriginal < selectedFare.minimumTrip
+          ? `<br><span style="color: #f59e0b; font-weight: 600;"><i class="fas fa-exclamation-triangle"></i> Minimum trip charge applies: ${selectedFare.minimumTrip} ${localCurrency} (local currency)</span>`
+          : "";
+
+      const convertedFormatted =
+        totalFareConverted >= 100
+          ? totalFareConverted.toFixed(0)
+          : totalFareConverted.toFixed(2);
 
       amountDiv.innerHTML = `
-        <div>$${totalFareUSD.toFixed(2)} USD</div>
-        <div style="font-size: 1.2rem; opacity: 0.9; margin-top: 5px;">${totalFareOriginal >= 100 ? totalFareOriginal.toFixed(0) : totalFareOriginal.toFixed(2)} ${currency}</div>
+        <div>${currencySymbol}${convertedFormatted} ${currentCurrency}</div>
+        ${
+          currentCurrency !== "USD"
+            ? `<div style="font-size: 1rem; opacity: 0.8; margin-top: 5px;">($${totalFareUSD.toFixed(
+                2
+              )} USD)</div>`
+            : ""
+        }
+        ${
+          currentCurrency !== localCurrency
+            ? `<div style="font-size: 0.9rem; opacity: 0.7; margin-top: 5px;">${
+                totalFareOriginal >= 100
+                  ? totalFareOriginal.toFixed(0)
+                  : totalFareOriginal.toFixed(2)
+              } ${localCurrency} (local)</div>`
+            : ""
+        }
       `;
 
       detailsDiv.innerHTML = `
         <strong>${selectedFare.name}</strong> (${selectedFare.type})<br>
-        Base: $${baseFare.toFixed(2)} (${originalBase >= 100 ? originalBase.toFixed(0) : originalBase.toFixed(2)} ${currency}) + 
-        Distance: ${distance} km × $${perKm.toFixed(2)}/km (${originalPerKm.toFixed(2)} ${currency}/km)
+        Base: ${formatPrice(baseFare)} + 
+        Distance: ${distance} km × ${formatPrice(perKm)}/km
         ${waitingInfo}
         ${minTripWarning}
+        ${
+          currentCurrency !== "USD"
+            ? `<br><small style="opacity: 0.8;">Reference: $${baseFare.toFixed(
+                2
+              )} + ${distance} km × $${perKm.toFixed(2)}/km USD</small>`
+            : ""
+        }
       `;
 
-      resultDiv.style.display = 'block';
+      console.log("Showing result div:", resultDiv);
+      console.log("Result HTML set. Total fare:", totalFareUSD.toFixed(2));
+
+      resultDiv.style.display = "block";
+    }
+
+    // Get exchange rate and update currency
+    async function changeCurrency(newCurrency) {
+      try {
+        currentCurrency = newCurrency;
+        currencySymbol = currencySymbols[newCurrency] || newCurrency;
+
+        // Get exchange rate from USD to selected currency
+        const rateData = await CurrencyConverter.getExchangeRate(
+          "USD",
+          newCurrency
+        );
+
+        if (rateData.success) {
+          exchangeRate = rateData.rate;
+          console.log(`Exchange rate USD to ${newCurrency}: ${exchangeRate}`);
+
+          // Re-render all fares with new currency
+          if (Object.keys(faresByCountryData).length > 0) {
+            renderFaresByCountry(faresByCountryData);
+          }
+        } else {
+          alert("Failed to fetch exchange rate. Using USD.");
+          document.getElementById("currency-selector").value = "USD";
+        }
+      } catch (error) {
+        console.error("Error changing currency:", error);
+        alert("Error changing currency. Please try again.");
+      }
+    }
+
+    // Convert USD to current currency
+    function convertPrice(usdAmount) {
+      return usdAmount * exchangeRate;
+    }
+
+    // Format price with currency symbol
+    function formatPrice(usdAmount, showOriginal = false) {
+      const converted = convertPrice(usdAmount);
+      const formatted =
+        converted >= 100 ? converted.toFixed(0) : converted.toFixed(2);
+
+      if (currentCurrency === "USD") {
+        return `${currencySymbol}${formatted}`;
+      }
+
+      if (showOriginal) {
+        return `${currencySymbol}${formatted} <span style="font-size: 0.8em; opacity: 0.7;">(${currencySymbol}${usdAmount.toFixed(
+          2
+        )} USD)</span>`;
+      }
+
+      return `${currencySymbol}${formatted}`;
+    }
+
+    // Listen to navbar currency changes
+    function handleNavbarCurrencyChange() {
+      const navbarCurrencySelector = document.getElementById(
+        "navbar-currency-select"
+      );
+      if (navbarCurrencySelector) {
+        // Get current selected currency from navbar
+        const selectedCurrency = navbarCurrencySelector.value;
+        if (selectedCurrency && selectedCurrency !== currentCurrency) {
+          changeCurrency(selectedCurrency);
+        }
+
+        // Listen for changes
+        navbarCurrencySelector.addEventListener("change", async function (e) {
+          const newCurrency = e.target.value;
+          await changeCurrency(newCurrency);
+        });
+      }
     }
 
     // Initialize on page load
     document.addEventListener("DOMContentLoaded", function () {
-      // Fetch fares from API first
-      fetchTaxiFares();
+      // Load saved currency preference
+      const savedCurrency = CurrencyConverter.getUserCurrency();
+      if (savedCurrency) {
+        currentCurrency = savedCurrency;
+        currencySymbol = currencySymbols[savedCurrency] || savedCurrency;
+      }
+
+      // Set up navbar currency listener
+      handleNavbarCurrencyChange();
+
+      // Initialize exchange rate and fetch fares
+      (async () => {
+        if (currentCurrency !== "USD") {
+          await changeCurrency(currentCurrency);
+        }
+        fetchTaxiFares();
+      })();
     });
   </script>
 </div>

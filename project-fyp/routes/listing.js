@@ -33,6 +33,11 @@ router.get("/eventbrite", (req, res) => {
   res.render("listings/eventbrite");
 });
 
+// Weather comparison page
+router.get("/weather-comparison", (req, res) => {
+  res.render("listings/weather-comparison");
+});
+
 router
   .route("/:id")
   .get(wrapAsync(listingController.showListing))
