@@ -332,9 +332,10 @@
     function goToPackages() {
       const country = document.getElementById("country").value;
       const budget = document.getElementById("budget").value;
+      const currency = CurrencyConverter.getUserCurrency();
 
       if (country && budget) {
-        window.location.href = `/packages?country=${country}&budget=${budget}`;
+        window.location.href = `/packages?country=${encodeURIComponent(country)}&budget=${budget}&currency=${currency}`;
       } else {
         alert("Please select a country and enter your budget first!");
       }
@@ -349,78 +350,7 @@
       cachedRate = null; // Reset cache on currency change
       cachedCurrency = null;
       updateCurrencyLabels();
-      updateAllPricesOnPage(); // Update all price displays
-    });
-
-    function updateCurrencyLabels() {
-      const currentCurrency = CurrencyConverter.getUserCurrency();
-      const labels = document.querySelectorAll(".currency-label");
-      labels.forEach((label) => {
-        label.textContent = currentCurrency;
-      });
-    }
-
-    // Update all price elements on the page
-    async function updateAllPricesOnPage() {
-      const currentCurrency = CurrencyConverter.getUserCurrency();
-      const priceElements = document.querySelectorAll("[data-price]");
-
-      if (priceElements.length === 0) return;
-
-      // Group by currency
-      const currencyGroups = {};
-      priceElements.forEach((element) => {
-        const fromCurrency = element.getAttribute("data-currency") || "USD";
-        if (!currencyGroups[fromCurrency]) {
-          currencyGroups[fromCurrency] = [];
-        }
-        currencyGroups[fromCurrency].push(element);
-      });
-
-      // ONE API call per currency pair
-      for (const fromCurrency in currencyGroups) {
-        const elements = currencyGroups[fromCurrency];
-
-        if (currentCurrency === fromCurrency) {
-          elements.forEach((element) => {
-            const originalPrice = parseFloat(
-              element.getAttribute("data-price")
-            );
-            if (!isNaN(originalPrice)) {
-              const symbol = CurrencyConverter.getSymbol(fromCurrency);
-              element.textContent = `${symbol}${originalPrice.toLocaleString()}`;
-            }
-          });
-        } else {
-          const rateResult = await CurrencyConverter.getExchangeRate(
-            fromCurrency,
-            currentCurrency
-          );
-
-          if (rateResult.success) {
-            elements.forEach((element) => {
-              const originalPrice = parseFloat(
-                element.getAttribute("data-price")
-              );
-              if (!isNaN(originalPrice)) {
-                const convertedAmount = CurrencyConverter.convertWithRate(
-                  originalPrice,
-                  rateResult.rate
-                );
-                element.textContent = CurrencyConverter.formatCurrency(
-                  convertedAmount,
-                  currentCurrency
-                );
-              }
-            });
-          }
-        }
-      }
-    }
-
-    // Initialize on page load
-    document.addEventListener("DOMContentLoaded", async function () {
-      await updateAllPricesOnPage();
+      // Note: Price conversion is handled by global layout (boiler.ejs)
     });
 
     function updateCurrencyLabels() {

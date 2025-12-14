@@ -38,11 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const country = countryInput.value.trim();
       const budget = parseInt(pkgBudget.value) || 0;
       const days = parseInt(daysSelect.value) || 5;
+      const currency = (typeof CurrencyConverter !== 'undefined') ? CurrencyConverter.getUserCurrency() : 'USD';
       if (!country) {
         alert('Please enter a country');
         return;
       }
-      const url = `/packages?country=${encodeURIComponent(country)}&budget=${budget}&days=${days}`;
+      const url = `/packages?country=${encodeURIComponent(country)}&budget=${budget}&currency=${currency}&days=${days}`;
       window.location.href = url;
     });
   }

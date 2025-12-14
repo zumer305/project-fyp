@@ -11,6 +11,9 @@ const CurrencyConverter = {
     baseCurrency: "USD",
   },
 
+  // Cache expiry time: 1 hour in milliseconds
+  cacheExpiry: 60 * 60 * 1000,
+
   // Popular currencies for Central Asia travel and worldwide
   popularCurrencies: [
     { code: "USD", name: "US Dollar", symbol: "$" },

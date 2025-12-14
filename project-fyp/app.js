@@ -27,6 +27,9 @@ const Review = require("./models/review.js");
 // Import data from data.js
 const initData = require("./init/data.js");
 
+// UTILITIES
+const { convertBudgetToUSD } = require("./utils/currencyHelper.js");
+
 // ROUTES
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
@@ -156,26 +159,39 @@ app.get("/", (req, res) => {
 });
 
 // Packages page (dataset-driven)
-app.get("/packages", (req, res) => {
-  const country = (req.query.country || "").trim();
-  const budget = parseInt(req.query.budget) || 0;
-  const durationDays = parseInt(req.query.days) || undefined;
+app.get("/packages", async (req, res) => {
+  try {
+    const country = (req.query.country || "").trim();
+    const budget = parseFloat(req.query.budget) || 0;
+    const currency = (req.query.currency || "USD").toUpperCase();
+    const durationDays = parseInt(req.query.days) || undefined;
 
-  const packagesList = generatePackages({ country, budget, durationDays });
-  const budgetCategory = budget >= 15000 ? "budget20k" : "budget10k";
-  res.render("listings/packages", {
-    country,
-    budget,
-    packagesList,
-    budgetCategory,
-  });
+    // Convert budget to USD for filtering
+    const budgetUSD = await convertBudgetToUSD(budget, currency);
+    console.log(`Packages request: ${budget} ${currency} = ${budgetUSD.toFixed(2)} USD`);
+
+    const packagesList = await generatePackages({ country, budgetUSD, durationDays });
+    
+    res.render("listings/packages", {
+      country,
+      budget,
+      currency,
+      budgetUSD: budgetUSD.toFixed(2),
+      packagesList,
+      budgetCategory: budgetUSD >= 15000 ? "budget20k" : "budget10k",
+    });
+  } catch (error) {
+    console.error("Error in /packages:", error);
+    res.status(500).send("Error loading packages");
+  }
 });
 
 // API: return generated packages as JSON (used by home recommendations)
-app.get("/api/packages", (req, res) => {
+app.get("/api/packages", async (req, res) => {
   try {
     const country = (req.query.country || "").trim();
-    const budget = parseInt(req.query.budget) || 0;
+    const budget = parseFloat(req.query.budget) || 0;
+    const currency = (req.query.currency || "USD").toUpperCase();
     const durationDays = parseInt(req.query.days) || undefined;
 
     // If no filters provided, return actual listings from data.js
@@ -192,6 +208,7 @@ app.get("/api/packages", (req, res) => {
           ? [listing.image]
           : [],
         price: listing.price,
+        priceUSD: listing.price, // Assume listings are in USD
         location: listing.location,
         country: listing.country,
         minBudget: listing.price,
@@ -206,8 +223,12 @@ app.get("/api/packages", (req, res) => {
       return res.json({ items: listings });
     }
 
-    // Otherwise use the generatePackages logic
-    const packagesList = generatePackages({ country, budget, durationDays });
+    // Convert budget to USD for filtering
+    const budgetUSD = await convertBudgetToUSD(budget, currency);
+    console.log(`API packages request: ${budget} ${currency} = ${budgetUSD.toFixed(2)} USD`);
+
+    // Use generatePackages logic with budgetUSD
+    const packagesList = await generatePackages({ country, budgetUSD, durationDays });
     return res.json({ items: packagesList });
   } catch (e) {
     console.error("Error in /api/packages:", e);

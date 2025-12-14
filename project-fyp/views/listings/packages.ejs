@@ -281,28 +281,55 @@
   </div>
 
   <div class="budget-info">
+    <%
+      // Get currency symbol
+      const currencySymbols = {
+        USD: '$', EUR: '€', GBP: '£', JPY: '¥', AUD: 'A$', CAD: 'C$',
+        CNY: '¥', INR: '₹', PKR: '₨', SAR: '﷼', AED: 'د.إ', TRY: '₺',
+        KZT: '₸', UZS: 'soʻm', KGS: 'с', TJS: 'сом', TMT: 'm', AZN: '₼'
+      };
+      const symbol = currencySymbols[currency] || currency + ' ';
+      const formattedBudget = symbol + parseFloat(budget).toLocaleString();
+    %>
     <h3>
-      💰 Your Budget:
-      <span
-        class="price-display"
-        data-price="<%= budget %>"
-        data-currency="USD"
-      ></span>
+      💰 Your Budget: <strong><%= formattedBudget %></strong>
     </h3>
-    <p>
-      Budget Category:
-      <strong class="budget-range-text"
-        ><%= budgetCategory === 'budget20k' ? 'Premium Range' : 'Economy Range'
-        %></strong
-      >
+    <p style="font-size: 0.9rem; color: #6c757d; margin-top: 8px;">
+      Budget in USD: <strong>$<%= parseFloat(budgetUSD).toLocaleString() %></strong> | Your currency: <strong><%= currency || 'USD' %></strong>
+    </p>
+    <p style="font-size: 1.1rem; color: #28a745; font-weight: bold; margin-top: 10px;">
+      ✅ Found <%= packagesList.length %> package<%= packagesList.length !== 1 ? 's' : '' %> within your budget
     </p>
   </div>
 
   <% if (packagesList.length > 0) { %>
-  <h2 class="text-center mb-4">📦 Available Packages</h2>
+  <h2 class="text-center mb-4">📦 Selected Packages for You</h2>
+  <p class="text-center" style="color: #6c757d; margin-bottom: 30px;">
+    Showing packages across different budget categories
+  </p>
 
-  <% packagesList.forEach(package => { %>
-  <div class="package-card">
+  <% 
+  // Group packages by price range for display
+  const budgetPackages = packagesList.filter(p => p.totalEstimateUSD < 500);
+  const midPackages = packagesList.filter(p => p.totalEstimateUSD >= 500 && p.totalEstimateUSD < 1500);
+  const luxuryPackages = packagesList.filter(p => p.totalEstimateUSD >= 1500);
+  
+  const categories = [
+    { name: '💰 Budget-Friendly', packages: budgetPackages, color: '#28a745' },
+    { name: '⭐ Mid-Range', packages: midPackages, color: '#ffc107' },
+    { name: '👑 Luxury', packages: luxuryPackages, color: '#dc3545' }
+  ];
+  
+  categories.forEach(category => {
+    if (category.packages.length > 0) {
+  %>
+  <div style="margin-bottom: 40px;">
+    <h3 style="color: <%= category.color %>; margin-bottom: 20px; padding-left: 15px; border-left: 4px solid <%= category.color %>;">
+      <%= category.name %> (<%= category.packages.length %> package<%= category.packages.length !== 1 ? 's' : '' %>)
+    </h3>
+    
+    <% category.packages.forEach(package => { %>
+    <div class="package-card">
     <div class="package-header">
       <div class="package-title">
         <%= package.name %>
@@ -414,10 +441,22 @@
       </div>
     </div>
   </div>
-  <% }) %> <% } else { %>
+  <% }) %>
+  </div>
+  <% 
+    }
+  });
+  %>
+  <% } else { %>
   <div class="no-packages">
-    <h3>😔 No packages available for your selected criteria</h3>
-    <p>Try adjusting your budget or selecting a different destination</p>
+    <h3>😔 No packages available for <%= country || 'your selected destination' %></h3>
+    <p>We couldn't find any packages matching your criteria.</p>
+    <p style="margin-top: 10px;">Try:</p>
+    <ul style="list-style: none; padding: 0; margin-top: 10px;">
+      <li>✓ Increasing your budget</li>
+      <li>✓ Selecting a different country</li>
+      <li>✓ Adjusting your trip duration</li>
+    </ul>
     <a href="/" class="btn-back">← Back to Home</a>
   </div>
   <% } %>
@@ -510,71 +549,8 @@
       });
     });
 
-    // Initialize prices on page load
-    document.addEventListener("DOMContentLoaded", async function () {
-      await updateAllPrices();
-    });
-
-    // Handle currency changes
-    document.addEventListener("currencyChanged", async (e) => {
-      await updateAllPrices();
-    });
-
-    async function updateAllPrices() {
-      const currentCurrency = CurrencyConverter.getUserCurrency();
-      const priceElements = document.querySelectorAll("[data-price]");
-
-      if (priceElements.length === 0) return;
-
-      // Group by currency
-      const currencyGroups = {};
-      priceElements.forEach((element) => {
-        const fromCurrency = element.getAttribute("data-currency") || "USD";
-        if (!currencyGroups[fromCurrency]) {
-          currencyGroups[fromCurrency] = [];
-        }
-        currencyGroups[fromCurrency].push(element);
-      });
-
-      // ONE API call per currency pair
-      for (const fromCurrency in currencyGroups) {
-        const elements = currencyGroups[fromCurrency];
-
-        if (currentCurrency === fromCurrency) {
-          const currencySymbol = CurrencyConverter.getSymbol(fromCurrency);
-          elements.forEach((element) => {
-            const originalPrice = parseFloat(
-              element.getAttribute("data-price")
-            );
-            if (!isNaN(originalPrice)) {
-              element.textContent = `${currencySymbol}${originalPrice.toLocaleString()}`;
-            }
-          });
-        } else {
-          const rateResult = await CurrencyConverter.getExchangeRate(
-            fromCurrency,
-            currentCurrency
-          );
-
-          if (rateResult.success) {
-            elements.forEach((element) => {
-              const originalPrice = parseFloat(
-                element.getAttribute("data-price")
-              );
-              if (!isNaN(originalPrice)) {
-                const convertedAmount = CurrencyConverter.convertWithRate(
-                  originalPrice,
-                  rateResult.rate
-                );
-                element.textContent = CurrencyConverter.formatCurrency(
-                  convertedAmount,
-                  currentCurrency
-                );
-              }
-            });
-          }
-        }
-      }
-    }
+    // Note: Currency conversion is handled by the global layout (boiler.ejs)
+    // which calls CurrencyConverter.convertAllPrices() on DOMContentLoaded
+    // and when currency changes. No need for duplicate conversion here.
   })();
 </script>
