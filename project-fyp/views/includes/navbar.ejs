@@ -18,6 +18,11 @@
         <a class="nav-link" href="/listings">All Listings</a>
         <a class="nav-link" href="/listings/new">Add New Listings</a>
         <a class="nav-link" href="/packages">Packages</a>
+        <%if(currUser){%>
+        <a class="nav-link" href="/groups">
+          <i class="fas fa-users"></i> Groups
+        </a>
+        <%}%>
       </div>
 
       <div class="navbar-nav ms-auto">

@@ -281,178 +281,181 @@
   </div>
 
   <div class="budget-info">
-    <%
-      // Get currency symbol
-      const currencySymbols = {
-        USD: '$', EUR: '€', GBP: '£', JPY: '¥', AUD: 'A$', CAD: 'C$',
-        CNY: '¥', INR: '₹', PKR: '₨', SAR: '﷼', AED: 'د.إ', TRY: '₺',
-        KZT: '₸', UZS: 'soʻm', KGS: 'с', TJS: 'сом', TMT: 'm', AZN: '₼'
-      };
-      const symbol = currencySymbols[currency] || currency + ' ';
-      const formattedBudget = symbol + parseFloat(budget).toLocaleString();
-    %>
-    <h3>
-      💰 Your Budget: <strong><%= formattedBudget %></strong>
-    </h3>
-    <p style="font-size: 0.9rem; color: #6c757d; margin-top: 8px;">
-      Budget in USD: <strong>$<%= parseFloat(budgetUSD).toLocaleString() %></strong> | Your currency: <strong><%= currency || 'USD' %></strong>
+    <% // Get currency symbol const currencySymbols = { USD: '$', EUR: '€', GBP:
+    '£', JPY: '¥', AUD: 'A$', CAD: 'C$', CNY: '¥', INR: '₹', PKR: '₨', SAR: '﷼',
+    AED: 'د.إ', TRY: '₺', KZT: '₸', UZS: 'soʻm', KGS: 'с', TJS: 'сом', TMT: 'm',
+    AZN: '₼' }; const symbol = currencySymbols[currency] || currency + ' ';
+    const formattedBudget = symbol + parseFloat(budget).toLocaleString(); %>
+    <h3>💰 Your Budget: <strong><%= formattedBudget %></strong></h3>
+    <p style="font-size: 0.9rem; color: #6c757d; margin-top: 8px">
+      Budget in USD:
+      <strong>$<%= parseFloat(budgetUSD).toLocaleString() %></strong> | Your
+      currency: <strong><%= currency || 'USD' %></strong>
     </p>
-    <p style="font-size: 1.1rem; color: #28a745; font-weight: bold; margin-top: 10px;">
-      ✅ Found <%= packagesList.length %> package<%= packagesList.length !== 1 ? 's' : '' %> within your budget
+    <p
+      style="
+        font-size: 1.1rem;
+        color: #28a745;
+        font-weight: bold;
+        margin-top: 10px;
+      "
+    >
+      ✅ Found <%= packagesList.length %> package<%= packagesList.length !== 1 ?
+      's' : '' %> within your budget
     </p>
   </div>
 
   <% if (packagesList.length > 0) { %>
   <h2 class="text-center mb-4">📦 Selected Packages for You</h2>
-  <p class="text-center" style="color: #6c757d; margin-bottom: 30px;">
+  <p class="text-center" style="color: #6c757d; margin-bottom: 30px">
     Showing packages across different budget categories
   </p>
 
-  <% 
-  // Group packages by price range for display
-  const budgetPackages = packagesList.filter(p => p.totalEstimateUSD < 500);
-  const midPackages = packagesList.filter(p => p.totalEstimateUSD >= 500 && p.totalEstimateUSD < 1500);
-  const luxuryPackages = packagesList.filter(p => p.totalEstimateUSD >= 1500);
-  
-  const categories = [
-    { name: '💰 Budget-Friendly', packages: budgetPackages, color: '#28a745' },
-    { name: '⭐ Mid-Range', packages: midPackages, color: '#ffc107' },
-    { name: '👑 Luxury', packages: luxuryPackages, color: '#dc3545' }
-  ];
-  
-  categories.forEach(category => {
-    if (category.packages.length > 0) {
-  %>
-  <div style="margin-bottom: 40px;">
-    <h3 style="color: <%= category.color %>; margin-bottom: 20px; padding-left: 15px; border-left: 4px solid <%= category.color %>;">
-      <%= category.name %> (<%= category.packages.length %> package<%= category.packages.length !== 1 ? 's' : '' %>)
+  <% // Group packages by price range for display const budgetPackages =
+  packagesList.filter(p => p.totalEstimateUSD < 500); const midPackages =
+  packagesList.filter(p => p.totalEstimateUSD >= 500 && p.totalEstimateUSD <
+  1500); const luxuryPackages = packagesList.filter(p => p.totalEstimateUSD >=
+  1500); const categories = [ { name: '💰 Budget-Friendly', packages:
+  budgetPackages, color: '#28a745' }, { name: '⭐ Mid-Range', packages:
+  midPackages, color: '#ffc107' }, { name: '👑 Luxury', packages:
+  luxuryPackages, color: '#dc3545' } ]; categories.forEach(category => { if
+  (category.packages.length > 0) { %>
+  <div style="margin-bottom: 40px">
+    <h3
+      style="
+        color: <%= category.color %>;
+        margin-bottom: 20px;
+        padding-left: 15px;
+        border-left: 4px solid <%= category.color %>;
+      "
+    >
+      <%= category.name %> (<%= category.packages.length %> package<%=
+      category.packages.length !== 1 ? 's' : '' %>)
     </h3>
-    
+
     <% category.packages.forEach(package => { %>
     <div class="package-card">
-    <div class="package-header">
-      <div class="package-title">
-        <%= package.name %>
-        <span class="duration-badge"><%= package.duration %></span>
+      <div class="package-header">
+        <div class="package-title">
+          <%= package.name %>
+          <span class="duration-badge"><%= package.duration %></span>
+        </div>
+        <div class="package-price">
+          <span
+            class="price-display"
+            data-price="<%= package.price %>"
+            data-currency="USD"
+          ></span>
+        </div>
       </div>
-      <div class="package-price">
-        <span
-          class="price-display"
-          data-price="<%= package.price %>"
-          data-currency="USD"
-        ></span>
-      </div>
-    </div>
 
-    <div class="package-body">
-      <% if (package.weather) { %>
-      <div class="weather-info">
-        <strong>🌤️ Current Weather:</strong> <%= package.weather.current %> |
-        <strong>Forecast:</strong> <%= package.weather.forecast %>
-      </div>
-      <% } %>
+      <div class="package-body">
+        <% if (package.weather) { %>
+        <div class="weather-info">
+          <strong>🌤️ Current Weather:</strong> <%= package.weather.current %> |
+          <strong>Forecast:</strong> <%= package.weather.forecast %>
+        </div>
+        <% } %>
 
-      <div class="features-grid">
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🏨</span>
-            Accommodation
+        <div class="features-grid">
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🏨</span>
+              Accommodation
+            </div>
+            <p><%= package.hotel %></p>
           </div>
-          <p><%= package.hotel %></p>
+
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🍽️</span>
+              Food & Dining
+            </div>
+            <p><%= package.food %></p>
+          </div>
+
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🚗</span>
+              Transportation
+            </div>
+            <p><%= package.transport %></p>
+          </div>
+
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🎯</span>
+              Must-Visit Attractions
+            </div>
+            <ul class="feature-list">
+              <% package.attractions.forEach(attraction => { %>
+              <li><%= attraction %></li>
+              <% }) %>
+            </ul>
+          </div>
+
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🛍️</span>
+              Shopping Destinations
+            </div>
+            <ul class="feature-list">
+              <% package.shopping.forEach(shop => { %>
+              <li><%= shop %></li>
+              <% }) %>
+            </ul>
+          </div>
         </div>
 
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🍽️</span>
-            Food & Dining
-          </div>
-          <p><%= package.food %></p>
-        </div>
-
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🚗</span>
-            Transportation
-          </div>
-          <p><%= package.transport %></p>
-        </div>
-
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🎯</span>
-            Must-Visit Attractions
-          </div>
+        <% if (package.muslimFeatures) { %>
+        <div class="muslim-features">
+          <h4>🕌 Muslim-Friendly Features</h4>
           <ul class="feature-list">
-            <% package.attractions.forEach(attraction => { %>
-            <li><%= attraction %></li>
+            <% package.muslimFeatures.forEach(feature => { %>
+            <li><%= feature %></li>
             <% }) %>
           </ul>
         </div>
+        <% } %>
 
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🛍️</span>
-            Shopping Destinations
-          </div>
+        <div class="tech-features">
+          <h4>📱 Advanced Travel Features</h4>
           <ul class="feature-list">
-            <% package.shopping.forEach(shop => { %>
-            <li><%= shop %></li>
-            <% }) %>
+            <li>🔐 Multi-device login synchronization</li>
+            <li>📍 Live location sharing with family & friends</li>
+            <li>🌐 Real-time language translation</li>
+            <li>🕐 Prayer time notifications</li>
+            <li>🧭 Qibla direction finder</li>
+            <li>🕌 Nearby mosque locator</li>
+            <li>🍽️ Halal food finder with reviews</li>
+            <li>🌤️ Weather forecast integration</li>
+            <li>💰 Budget tracking and alerts</li>
+            <li>📱 Mobile app with offline capabilities</li>
           </ul>
         </div>
-      </div>
 
-      <% if (package.muslimFeatures) { %>
-      <div class="muslim-features">
-        <h4>🕌 Muslim-Friendly Features</h4>
-        <ul class="feature-list">
-          <% package.muslimFeatures.forEach(feature => { %>
-          <li><%= feature %></li>
-          <% }) %>
-        </ul>
-      </div>
-      <% } %>
-
-      <div class="tech-features">
-        <h4>📱 Advanced Travel Features</h4>
-        <ul class="feature-list">
-          <li>🔐 Multi-device login synchronization</li>
-          <li>📍 Live location sharing with family & friends</li>
-          <li>🌐 Real-time language translation</li>
-          <li>🕐 Prayer time notifications</li>
-          <li>🧭 Qibla direction finder</li>
-          <li>🕌 Nearby mosque locator</li>
-          <li>🍽️ Halal food finder with reviews</li>
-          <li>🌤️ Weather forecast integration</li>
-          <li>💰 Budget tracking and alerts</li>
-          <li>📱 Mobile app with offline capabilities</li>
-        </ul>
-      </div>
-
-      <!-- Action buttons -->
-      <div class="card-actions">
-        <button
-          class="btn btn-select"
-          data-id="<%= (package._id && package._id.toString) ? package._id.toString() : (package.id || '') %>"
-          data-package="<%= encodeURIComponent(JSON.stringify({ _id: ((package._id && package._id.toString) ? package._id.toString() : (package.id || '')), name: package.name, city: package.city, country: package.country, price: package.price, duration: package.duration, hotel: package.hotel, food: package.food, transport: package.transport, attractions: package.attractions, shopping: package.shopping, muslimFeatures: package.muslimFeatures, weather: package.weather })) %>"
-        >
-          Select
-        </button>
+        <!-- Action buttons -->
+        <div class="card-actions">
+          <button
+            class="btn btn-select"
+            data-id="<%= (package._id && package._id.toString) ? package._id.toString() : (package.id || '') %>"
+            data-package="<%= encodeURIComponent(JSON.stringify({ _id: ((package._id && package._id.toString) ? package._id.toString() : (package.id || '')), name: package.name, city: package.city, country: package.country, price: package.price, duration: package.duration, hotel: package.hotel, food: package.food, transport: package.transport, attractions: package.attractions, shopping: package.shopping, muslimFeatures: package.muslimFeatures, weather: package.weather })) %>"
+          >
+            Select
+          </button>
+        </div>
       </div>
     </div>
+    <% }) %>
   </div>
-  <% }) %>
-  </div>
-  <% 
-    }
-  });
-  %>
-  <% } else { %>
+  <% } }); %> <% } else { %>
   <div class="no-packages">
-    <h3>😔 No packages available for <%= country || 'your selected destination' %></h3>
+    <h3>
+      😔 No packages available for <%= country || 'your selected destination' %>
+    </h3>
     <p>We couldn't find any packages matching your criteria.</p>
-    <p style="margin-top: 10px;">Try:</p>
-    <ul style="list-style: none; padding: 0; margin-top: 10px;">
+    <p style="margin-top: 10px">Try:</p>
+    <ul style="list-style: none; padding: 0; margin-top: 10px">
       <li>✓ Increasing your budget</li>
       <li>✓ Selecting a different country</li>
       <li>✓ Adjusting your trip duration</li>

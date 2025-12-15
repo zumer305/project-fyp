@@ -14,14 +14,14 @@ const rateCache = {
  */
 async function fetchExchangeRates() {
   try {
-    const response = await fetch('https://api.frankfurter.app/latest?from=USD');
+    const response = await fetch("https://api.frankfurter.app/latest?from=USD");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
     return data.rates;
   } catch (error) {
-    console.error('Error fetching exchange rates from Frankfurter:', error);
+    console.error("Error fetching exchange rates from Frankfurter:", error);
     return null;
   }
 }
@@ -37,27 +37,32 @@ async function getExchangeRate(fromCurrency, toCurrency) {
 
   // Check if cache is valid
   const now = Date.now();
-  const cacheValid = rateCache.timestamp && (now - rateCache.timestamp) < rateCache.cacheExpiry;
+  const cacheValid =
+    rateCache.timestamp && now - rateCache.timestamp < rateCache.cacheExpiry;
 
-  if (!cacheValid || !rateCache.rates || Object.keys(rateCache.rates).length === 0) {
-    console.log('Fetching fresh exchange rates from Frankfurter API...');
+  if (
+    !cacheValid ||
+    !rateCache.rates ||
+    Object.keys(rateCache.rates).length === 0
+  ) {
+    console.log("Fetching fresh exchange rates from Frankfurter API...");
     const rates = await fetchExchangeRates();
     if (rates) {
       rateCache.rates = rates;
       rateCache.timestamp = now;
     } else {
-      console.warn('Failed to fetch rates, using fallback rate of 1');
+      console.warn("Failed to fetch rates, using fallback rate of 1");
       return 1;
     }
   }
 
   // Handle USD as base currency
-  if (fromCurrency === 'USD') {
+  if (fromCurrency === "USD") {
     return rateCache.rates[toCurrency] || 1;
   }
 
   // Handle conversion from non-USD to USD
-  if (toCurrency === 'USD') {
+  if (toCurrency === "USD") {
     return 1 / (rateCache.rates[fromCurrency] || 1);
   }
 
@@ -75,7 +80,7 @@ async function convertCurrency(amount, fromCurrency, toCurrency) {
     const rate = await getExchangeRate(fromCurrency, toCurrency);
     return amount * rate;
   } catch (error) {
-    console.error('Error converting currency:', error);
+    console.error("Error converting currency:", error);
     return amount; // Return original amount as fallback
   }
 }
@@ -85,7 +90,7 @@ async function convertCurrency(amount, fromCurrency, toCurrency) {
  * Updated periodically - these are approximate rates
  */
 const FALLBACK_RATES = {
-  PKR: 278.0,  // Pakistani Rupee
+  PKR: 278.0, // Pakistani Rupee
   IRR: 42000.0, // Iranian Rial
   VND: 24000.0, // Vietnamese Dong
   // Add more as needed
@@ -96,40 +101,54 @@ const FALLBACK_RATES = {
  */
 async function convertBudgetToUSD(budget, currency) {
   if (!budget || isNaN(budget)) {
-    console.warn('Invalid budget provided:', budget);
+    console.warn("Invalid budget provided:", budget);
     return 0;
   }
 
-  if (!currency || currency === 'USD') {
+  if (!currency || currency === "USD") {
     return parseFloat(budget);
   }
 
   try {
-    const budgetUSD = await convertCurrency(parseFloat(budget), currency, 'USD');
-    
+    const budgetUSD = await convertCurrency(
+      parseFloat(budget),
+      currency,
+      "USD"
+    );
+
     // Check if conversion failed (returned same amount = 1:1 rate which is wrong)
-    if (budgetUSD === parseFloat(budget) && currency !== 'USD') {
+    if (budgetUSD === parseFloat(budget) && currency !== "USD") {
       // Try fallback rate
       if (FALLBACK_RATES[currency]) {
         const fallbackUSD = parseFloat(budget) / FALLBACK_RATES[currency];
-        console.log(`Using fallback rate: ${budget} ${currency} = ${fallbackUSD.toFixed(2)} USD`);
+        console.log(
+          `Using fallback rate: ${budget} ${currency} = ${fallbackUSD.toFixed(
+            2
+          )} USD`
+        );
         return fallbackUSD;
       }
     }
-    
-    console.log(`Converted ${budget} ${currency} to ${budgetUSD.toFixed(2)} USD`);
+
+    console.log(
+      `Converted ${budget} ${currency} to ${budgetUSD.toFixed(2)} USD`
+    );
     return budgetUSD;
   } catch (error) {
-    console.error('Error converting budget to USD:', error);
-    
+    console.error("Error converting budget to USD:", error);
+
     // Try fallback rate
     if (FALLBACK_RATES[currency]) {
       const fallbackUSD = parseFloat(budget) / FALLBACK_RATES[currency];
-      console.log(`Using fallback rate after error: ${budget} ${currency} = ${fallbackUSD.toFixed(2)} USD`);
+      console.log(
+        `Using fallback rate after error: ${budget} ${currency} = ${fallbackUSD.toFixed(
+          2
+        )} USD`
+      );
       return fallbackUSD;
     }
-    
-    console.warn('Falling back to treating budget as USD');
+
+    console.warn("Falling back to treating budget as USD");
     return parseFloat(budget);
   }
 }

@@ -1,57 +1,60 @@
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (() => {
-  'use strict'
+  "use strict";
 
   // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
+  const forms = document.querySelectorAll(".needs-validation");
 
   // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
+  Array.from(forms).forEach((form) => {
+    form.addEventListener(
+      "submit",
+      (event) => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
 
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
-
+        form.classList.add("was-validated");
+      },
+      false
+    );
+  });
+})();
 
 // Package planner and theme toggle logic
-document.addEventListener('DOMContentLoaded', () => {
-  const pkgBudget = document.getElementById('packageBudget');
-  const pkgBudgetValue = document.getElementById('packageBudgetValue');
+document.addEventListener("DOMContentLoaded", () => {
+  const pkgBudget = document.getElementById("packageBudget");
+  const pkgBudgetValue = document.getElementById("packageBudgetValue");
   if (pkgBudget && pkgBudgetValue) {
-    const updateBudget = () => { pkgBudgetValue.textContent = pkgBudget.value; };
-    pkgBudget.addEventListener('input', updateBudget);
+    const updateBudget = () => {
+      pkgBudgetValue.textContent = pkgBudget.value;
+    };
+    pkgBudget.addEventListener("input", updateBudget);
     updateBudget();
   }
 
-  const genBtn = document.getElementById('generatePackagesBtn');
-  const countryInput = document.getElementById('countryInput');
-  const daysSelect = document.getElementById('daysSelect');
+  const genBtn = document.getElementById("generatePackagesBtn");
+  const countryInput = document.getElementById("countryInput");
+  const daysSelect = document.getElementById("daysSelect");
   if (genBtn && countryInput && pkgBudget && daysSelect) {
-    genBtn.addEventListener('click', (e) => {
+    genBtn.addEventListener("click", (e) => {
       e.preventDefault();
       const country = countryInput.value.trim();
       const budget = parseInt(pkgBudget.value) || 0;
       const days = parseInt(daysSelect.value) || 5;
-      const currency = (typeof CurrencyConverter !== 'undefined') ? CurrencyConverter.getUserCurrency() : 'USD';
+      const currency =
+        typeof CurrencyConverter !== "undefined"
+          ? CurrencyConverter.getUserCurrency()
+          : "USD";
       if (!country) {
-        alert('Please enter a country');
+        alert("Please enter a country");
         return;
       }
-      const url = `/packages?country=${encodeURIComponent(country)}&budget=${budget}&currency=${currency}&days=${days}`;
+      const url = `/packages?country=${encodeURIComponent(
+        country
+      )}&budget=${budget}&currency=${currency}&days=${days}`;
       window.location.href = url;
     });
   }
-
 });
-
-
-
-
-
-

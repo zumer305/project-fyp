@@ -34,6 +34,7 @@ const { convertBudgetToUSD } = require("./utils/currencyHelper.js");
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const groupsRouter = require("./routes/groups.js");
 // API routes
 const apiAuthRouter = require("./routes/api/auth.js");
 const apiDestRouter = require("./routes/api/destinations.js");
@@ -168,10 +169,16 @@ app.get("/packages", async (req, res) => {
 
     // Convert budget to USD for filtering
     const budgetUSD = await convertBudgetToUSD(budget, currency);
-    console.log(`Packages request: ${budget} ${currency} = ${budgetUSD.toFixed(2)} USD`);
+    console.log(
+      `Packages request: ${budget} ${currency} = ${budgetUSD.toFixed(2)} USD`
+    );
 
-    const packagesList = await generatePackages({ country, budgetUSD, durationDays });
-    
+    const packagesList = await generatePackages({
+      country,
+      budgetUSD,
+      durationDays,
+    });
+
     res.render("listings/packages", {
       country,
       budget,
@@ -225,10 +232,18 @@ app.get("/api/packages", async (req, res) => {
 
     // Convert budget to USD for filtering
     const budgetUSD = await convertBudgetToUSD(budget, currency);
-    console.log(`API packages request: ${budget} ${currency} = ${budgetUSD.toFixed(2)} USD`);
+    console.log(
+      `API packages request: ${budget} ${currency} = ${budgetUSD.toFixed(
+        2
+      )} USD`
+    );
 
     // Use generatePackages logic with budgetUSD
-    const packagesList = await generatePackages({ country, budgetUSD, durationDays });
+    const packagesList = await generatePackages({
+      country,
+      budgetUSD,
+      durationDays,
+    });
     return res.json({ items: packagesList });
   } catch (e) {
     console.error("Error in /api/packages:", e);
@@ -254,6 +269,7 @@ app.get("/events", (req, res) => {
 // Mount routers
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/groups", groupsRouter);
 app.use("/", userRouter);
 // Mount API routers
 app.use("/api/auth", apiAuthRouter);
@@ -289,44 +305,86 @@ app.use((err, req, res, next) => {
 // SOCKET.IO EVENTS
 // ===================
 const Message = require("./models/message.js");
+const Group = require("./models/group.js");
+
 io.on("connection", (socket) => {
-  socket.on("join", ({ groupId, userId }) => {
+  console.log("New socket connection:", socket.id);
+
+  socket.on("join", async ({ groupId, userId }) => {
     if (groupId) {
       socket.join(`group:${groupId}`);
-      io.to(`group:${groupId}`).emit("system", { type: "join", userId });
+      console.log(`User ${userId} joined group ${groupId}`);
+      
+      // Notify other members
+      socket.to(`group:${groupId}`).emit("system", { 
+        type: "join", 
+        userId,
+        timestamp: new Date()
+      });
     }
   });
 
-  socket.on("message", async ({ groupId, userId, content }) => {
+  socket.on("message", async ({ groupId, userId, username, content }) => {
     if (!groupId || !content) return;
+    
     try {
+      // Verify user is a member
+      const group = await Group.findById(groupId);
+      if (!group || !group.members.some(m => m.toString() === userId)) {
+        console.log("Unauthorized message attempt");
+        return;
+      }
+
+      // Save message to database
       const msg = await Message.create({
         group: groupId,
         user: userId,
-        content,
+        content: content.trim(),
+        type: "text"
       });
+
+      // Broadcast to all clients in the group (including sender)
       io.to(`group:${groupId}`).emit("message", {
-        id: msg.id,
+        id: msg._id,
         userId,
-        content,
+        username,
+        content: content.trim(),
         createdAt: msg.createdAt,
+        type: "text"
       });
+
+      console.log(`Message sent in group ${groupId} by ${username}`);
     } catch (e) {
-      // swallow
+      console.error("Error handling message:", e);
     }
   });
 
   socket.on("location-update", ({ groupId, userId, coords }) => {
     if (groupId && coords) {
-      io.to(`group:${groupId}`).emit("location-update", { userId, coords });
+      socket.to(`group:${groupId}`).emit("location-update", { 
+        userId, 
+        coords,
+        timestamp: new Date()
+      });
     }
   });
 
   socket.on("leave", ({ groupId, userId }) => {
     if (groupId) {
       socket.leave(`group:${groupId}`);
-      io.to(`group:${groupId}`).emit("system", { type: "leave", userId });
+      console.log(`User ${userId} left group ${groupId}`);
+      
+      // Notify other members
+      socket.to(`group:${groupId}`).emit("system", { 
+        type: "leave", 
+        userId,
+        timestamp: new Date()
+      });
     }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Socket disconnected:", socket.id);
   });
 });
 

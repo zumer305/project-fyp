@@ -1,0 +1,512 @@
+<% layout("/layouts/boiler") -%>
+
+<link rel="stylesheet" href="/css/groups.css?v=2">
+
+<div class="container-fluid h-100" style="max-height: calc(100vh - 100px);">
+  <div class="row h-100">
+    <!-- Group Info Sidebar -->
+    <div class="col-md-3 border-end bg-light p-3" style="max-height: 100%; overflow-y: auto;">
+      <div class="mb-4">
+        <h5 class="mb-3" id="groupName">
+          <i class="fas fa-users"></i> Loading...
+        </h5>
+        <div id="groupInfo" class="small text-muted"></div>
+      </div>
+
+      <!-- Members List -->
+      <div class="mb-4">
+        <h6 class="border-bottom pb-2 mb-3">
+          <i class="fas fa-user-friends"></i> Members
+          <span class="badge bg-primary float-end" id="memberCount">0</span>
+        </h6>
+        <div id="membersList"></div>
+      </div>
+
+      <!-- Invite Code -->
+      <div class="card bg-white shadow-sm">
+        <div class="card-body">
+          <h6 class="card-title">
+            <i class="fas fa-link"></i> Invite Code
+          </h6>
+          <div class="text-center">
+            <div class="invite-code mb-2" id="inviteCodeDisplay">----</div>
+            <button class="btn btn-sm btn-outline-primary" onclick="copyInviteCode()">
+              <i class="fas fa-copy"></i> Copy
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-3">
+        <button class="btn btn-sm btn-outline-danger w-100" onclick="leaveGroup()">
+          <i class="fas fa-sign-out-alt"></i> Leave Group
+        </button>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="col-md-9 d-flex flex-column p-0" style="max-height: 100%;">
+      <!-- Chat Header -->
+      <div class="border-bottom p-3 bg-white">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">
+            <i class="fas fa-comments text-primary"></i> Group Chat
+          </h5>
+          <div>
+            <span class="badge bg-success" id="onlineStatus">
+              <i class="fas fa-circle"></i> Connected
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages Container -->
+      <div id="messagesContainer" class="flex-grow-1 p-3" style="overflow-y: auto; height: 0;">
+        <div class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading messages...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message Input -->
+      <div class="border-top p-3 bg-light">
+        <form id="messageForm" class="d-flex gap-2">
+          <input 
+            type="text" 
+            id="messageInput" 
+            class="form-control" 
+            placeholder="Type your message..." 
+            autocomplete="off"
+            maxlength="2000"
+          >
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Send
+          </button>
+        </form>
+        <div class="form-text mt-1">
+          <i class="fas fa-info-circle"></i> Press Enter to send
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .message {
+    margin-bottom: 15px;
+    animation: fadeIn 0.3s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .message-bubble {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    word-wrap: break-word;
+  }
+
+  .message-own .message-bubble {
+    background: #007bff;
+    color: white;
+    margin-left: auto;
+  }
+
+  .message-other .message-bubble {
+    background: #f1f3f5;
+    color: #212529;
+  }
+
+  .message-system {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-style: italic;
+  }
+
+  .message-time {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-top: 5px;
+  }
+
+  .message-sender {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+  }
+
+  .invite-code {
+    font-family: 'Courier New', monospace;
+    font-size: 1.3rem;
+    letter-spacing: 0.15em;
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+
+  .member-item {
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .member-item:hover {
+    background: rgba(0,123,255,0.1);
+  }
+
+  .member-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  .member-online {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #28a745;
+    border: 2px solid white;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+</style>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const groupId = '<%= groupId %>';
+const currentUserId = '<%= currUser ? currUser._id : "" %>';
+const currentUsername = '<%= currUser ? currUser.username : "" %>';
+
+let socket;
+let currentGroup;
+let messages = [];
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  loadGroupInfo();
+  loadMessages();
+  initializeSocket();
+  setupMessageForm();
+});
+
+// Load group information
+async function loadGroupInfo() {
+  try {
+    const response = await fetch(`/api/groups/${groupId}`, {
+      credentials: 'include'
+    });
+
+    if (!response.ok) throw new Error('Failed to load group');
+
+    const data = await response.json();
+    currentGroup = data.group;
+    displayGroupInfo();
+  } catch (error) {
+    console.error('Error loading group:', error);
+    alert('Error loading group information');
+    window.location.href = '/groups';
+  }
+}
+
+// Display group information
+function displayGroupInfo() {
+  document.getElementById('groupName').innerHTML = `
+    <i class="fas fa-users"></i> ${escapeHtml(currentGroup.name)}
+  `;
+
+  let infoHtml = '';
+  if (currentGroup.description) {
+    infoHtml += `<p class="mb-2">${escapeHtml(currentGroup.description)}</p>`;
+  }
+  if (currentGroup.destination) {
+    infoHtml += `<p class="mb-1"><i class="fas fa-map-marker-alt text-danger"></i> ${escapeHtml(currentGroup.destination)}</p>`;
+  }
+  if (currentGroup.startDate) {
+    infoHtml += `<p class="mb-1"><i class="fas fa-calendar"></i> ${formatDate(currentGroup.startDate)}${currentGroup.endDate ? ' - ' + formatDate(currentGroup.endDate) : ''}</p>`;
+  }
+  document.getElementById('groupInfo').innerHTML = infoHtml;
+
+  // Display members
+  document.getElementById('memberCount').textContent = currentGroup.members.length;
+  const membersHtml = currentGroup.members.map(member => `
+    <div class="member-item">
+      <div class="member-avatar position-relative">
+        ${member.username.charAt(0).toUpperCase()}
+      </div>
+      <div class="flex-grow-1">
+        <div class="fw-bold small">${escapeHtml(member.username)}</div>
+        ${member._id === currentGroup.creator._id ? '<span class="badge bg-primary" style="font-size: 0.7rem;">Creator</span>' : ''}
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('membersList').innerHTML = membersHtml;
+
+  // Display invite code
+  document.getElementById('inviteCodeDisplay').textContent = currentGroup.inviteCode;
+}
+
+// Load messages
+async function loadMessages() {
+  try {
+    const response = await fetch(`/api/groups/${groupId}/messages`, {
+      credentials: 'include'
+    });
+
+    if (!response.ok) throw new Error('Failed to load messages');
+
+    const data = await response.json();
+    messages = data.messages;
+    displayMessages();
+    scrollToBottom();
+  } catch (error) {
+    console.error('Error loading messages:', error);
+    document.getElementById('messagesContainer').innerHTML = `
+      <div class="text-center text-danger">
+        <i class="fas fa-exclamation-triangle"></i> Error loading messages
+      </div>
+    `;
+  }
+}
+
+// Display messages
+function displayMessages() {
+  const container = document.getElementById('messagesContainer');
+  
+  if (messages.length === 0) {
+    container.innerHTML = `
+      <div class="text-center text-muted py-5">
+        <i class="fas fa-comments fa-3x mb-3"></i>
+        <p>No messages yet. Start the conversation!</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = messages.map(msg => {
+    if (msg.type === 'system') {
+      return `
+        <div class="message message-system">
+          ${escapeHtml(msg.content)}
+          <div class="message-time">${formatTime(msg.createdAt)}</div>
+        </div>
+      `;
+    }
+
+    const isOwn = msg.user._id === currentUserId;
+    return `
+      <div class="message ${isOwn ? 'message-own' : 'message-other'} d-flex ${isOwn ? 'justify-content-end' : ''}">
+        <div>
+          ${!isOwn ? `<div class="message-sender">${escapeHtml(msg.user.username)}</div>` : ''}
+          <div class="message-bubble">
+            ${escapeHtml(msg.content)}
+            <div class="message-time">${formatTime(msg.createdAt)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Initialize Socket.IO
+function initializeSocket() {
+  socket = io();
+
+  socket.on('connect', () => {
+    console.log('Connected to socket');
+    document.getElementById('onlineStatus').innerHTML = '<i class="fas fa-circle"></i> Connected';
+    
+    // Join group room
+    socket.emit('join', { groupId, userId: currentUserId });
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from socket');
+    document.getElementById('onlineStatus').innerHTML = '<i class="fas fa-circle"></i> Disconnected';
+    document.getElementById('onlineStatus').classList.remove('bg-success');
+    document.getElementById('onlineStatus').classList.add('bg-danger');
+  });
+
+  socket.on('message', (data) => {
+    console.log('New message received:', data);
+    
+    // Add message to array
+    messages.push({
+      _id: data.id,
+      user: {
+        _id: data.userId,
+        username: data.username || 'User'
+      },
+      content: data.content,
+      createdAt: data.createdAt,
+      type: 'text'
+    });
+
+    // Re-render messages
+    displayMessages();
+    scrollToBottom();
+  });
+
+  socket.on('system', (data) => {
+    console.log('System event:', data);
+    // Reload group info when someone joins/leaves
+    if (data.type === 'join' || data.type === 'leave') {
+      loadGroupInfo();
+    }
+  });
+}
+
+// Setup message form
+function setupMessageForm() {
+  const form = document.getElementById('messageForm');
+  const input = document.getElementById('messageInput');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await sendMessage();
+  });
+}
+
+// Send message
+async function sendMessage() {
+  const input = document.getElementById('messageInput');
+  const content = input.value.trim();
+
+  if (!content) return;
+
+  // Clear input immediately
+  input.value = '';
+
+  // Send via socket
+  if (socket && socket.connected) {
+    socket.emit('message', {
+      groupId,
+      userId: currentUserId,
+      username: currentUsername,
+      content
+    });
+  } else {
+    // Fallback to HTTP if socket not connected
+    try {
+      await fetch(`/api/groups/${groupId}/messages`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ content })
+      });
+      
+      // Reload messages
+      await loadMessages();
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Failed to send message');
+      input.value = content; // Restore message
+    }
+  }
+}
+
+// Leave group
+async function leaveGroup() {
+  if (!confirm('Are you sure you want to leave this group?')) return;
+
+  try {
+    const response = await fetch(`/api/groups/${groupId}/leave`, {
+      method: 'POST',
+      credentials: 'include'
+    });
+
+    if (!response.ok) throw new Error('Failed to leave group');
+
+    alert('You have left the group');
+    window.location.href = '/groups';
+  } catch (error) {
+    console.error('Error leaving group:', error);
+    alert('Error: ' + error.message);
+  }
+}
+
+// Copy invite code
+function copyInviteCode() {
+  const code = currentGroup.inviteCode;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = event.target.closest('button');
+    const originalHtml = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    setTimeout(() => {
+      btn.innerHTML = originalHtml;
+    }, 2000);
+  });
+}
+
+// Utility functions
+function scrollToBottom() {
+  const container = document.getElementById('messagesContainer');
+  container.scrollTop = container.scrollHeight;
+}
+
+function formatTime(timestamp) {
+  const date = new Date(timestamp);
+  const now = new Date();
+  const diff = now - date;
+  
+  // Less than a minute
+  if (diff < 60000) return 'Just now';
+  
+  // Less than an hour
+  if (diff < 3600000) {
+    const mins = Math.floor(diff / 60000);
+    return `${mins} min${mins !== 1 ? 's' : ''} ago`;
+  }
+  
+  // Today
+  if (date.toDateString() === now.toDateString()) {
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  }
+  
+  // This week
+  if (diff < 604800000) {
+    return date.toLocaleDateString('en-US', { weekday: 'short', hour: '2-digit', minute: '2-digit' });
+  }
+  
+  // Older
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+  if (socket) {
+    socket.emit('leave', { groupId, userId: currentUserId });
+    socket.disconnect();
+  }
+});
+</script>

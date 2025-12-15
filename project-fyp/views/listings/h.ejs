@@ -260,12 +260,34 @@
       <div class="card">
         <h3>🌤️ Weather Comparison</h3>
         <div id="weather-info">
-          <p style="margin-bottom: 10px;">Compare weather across all Central Asian countries on an interactive map.</p>
-          <button onclick="window.location.href='/listings/weather-comparison'" style="padding: 10px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 15px; transition: opacity 0.3s; display: block;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+          <p style="margin-bottom: 10px">
+            Compare weather across all Central Asian countries on an interactive
+            map.
+          </p>
+          <button
+            onclick="window.location.href='/listings/weather-comparison'"
+            style="
+              padding: 10px 16px;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              width: 100%;
+              font-weight: bold;
+              font-size: 15px;
+              transition: opacity 0.3s;
+              display: block;
+            "
+            onmouseover="this.style.opacity='0.85'"
+            onmouseout="this.style.opacity='1'"
+          >
             🗺️ Open Weather Map
           </button>
         </div>
-        <a class="view-more" href="/listings/weather-comparison">View Full Screen</a>
+        <a class="view-more" href="/listings/weather-comparison"
+          >View Full Screen</a
+        >
         <div class="updated-note">Live weather data</div>
       </div>
       <div class="card">
@@ -335,7 +357,9 @@
       const currency = CurrencyConverter.getUserCurrency();
 
       if (country && budget) {
-        window.location.href = `/packages?country=${encodeURIComponent(country)}&budget=${budget}&currency=${currency}`;
+        window.location.href = `/packages?country=${encodeURIComponent(
+          country
+        )}&budget=${budget}&currency=${currency}`;
       } else {
         alert("Please select a country and enter your budget first!");
       }
@@ -533,87 +557,40 @@
 
     // Wait for DOM to be ready before attaching event listeners
     document.addEventListener("DOMContentLoaded", function () {
-      // Groups
+      // Groups - Redirect to proper groups page
       document
         .getElementById("btn-create-group")
-        .addEventListener("click", async () => {
+        .addEventListener("click", () => {
           if (!isLoggedIn) return (window.location.href = "/login");
-          const name = prompt("Enter group name:", "My Trip Group");
-          if (!name) return;
-          const res = await fetch("/api/groups", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name }),
-          });
-          const data = await res.json();
-          if (res.ok) {
-            alert("Group created: " + data.group._id);
-          } else {
-            alert("Error: " + (data.message || "Failed"));
-          }
+          window.location.href = "/groups";
         });
 
       document
         .getElementById("btn-join-group")
-        .addEventListener("click", async () => {
+        .addEventListener("click", () => {
           if (!isLoggedIn) return (window.location.href = "/login");
-          const id = prompt("Enter group ID to join:");
-          if (!id) return;
-          const res = await fetch(`/api/groups/${id}/join`, { method: "POST" });
-          const data = await res.json();
-          alert(
-            res.ok ? "Joined group!" : "Error: " + (data.message || "Failed")
-          );
+          window.location.href = "/groups";
         });
 
       document
         .getElementById("btn-open-chat")
-        .addEventListener("click", async () => {
+        .addEventListener("click", () => {
           if (!isLoggedIn) return (window.location.href = "/login");
-          const id = prompt("Enter group ID to view messages:");
-          if (!id) return;
-          const res = await fetch(`/api/groups/${id}/messages`);
-          const data = await res.json();
-          if (res.ok) {
-            alert(`Messages loaded: ${data.messages.length}`);
-          } else {
-            alert("Error: " + (data.message || "Failed"));
-          }
+          window.location.href = "/groups";
         });
 
       document
         .getElementById("btn-view-plan")
-        .addEventListener("click", async () => {
+        .addEventListener("click", () => {
           if (!isLoggedIn) return (window.location.href = "/login");
-          const id = prompt("Enter group ID to view plan:");
-          if (!id) return;
-          const res = await fetch(`/api/groups/${id}/plan`);
-          const data = await res.json();
-          if (res.ok) {
-            const lines = data.itinerary
-              .map((i) => `Day ${i.day}: ${i.title}`)
-              .join("\n");
-            alert(`Itinerary Loaded:\n${lines}`);
-          } else {
-            alert("Error: " + (data.message || "Failed"));
-          }
+          window.location.href = "/groups";
         });
 
       document
         .getElementById("btn-expense-summary")
-        .addEventListener("click", async () => {
+        .addEventListener("click", () => {
           if (!isLoggedIn) return (window.location.href = "/login");
-          const id = prompt("Enter group ID to view expenses:");
-          if (!id) return;
-          const res = await fetch(`/api/groups/${id}/expenses`);
-          const data = await res.json();
-          if (res.ok) {
-            alert(
-              `Total: $${data.summary.total} | Per Member: $${data.summary.perMember}`
-            );
-          } else {
-            alert("Error: " + (data.message || "Failed"));
-          }
+          window.location.href = "/groups";
         });
 
       // Map/Location

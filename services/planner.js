@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
-const { calculatePackagePrice: calculateRealisticPrice } = require("./pricing.js");
+const {
+  calculatePackagePrice: calculateRealisticPrice,
+} = require("./pricing.js");
 
 // Simple CSV parser that handles quoted fields and commas
 function parseCSV(content) {
@@ -82,17 +84,22 @@ function coerceInt(val, fallback) {
 
 async function makePackageFromRow(row, budgetLevel, durationDays, index) {
   const days = coerceInt(row.suggested_days, durationDays || 5);
-  const country = row.country || 'Kyrgyzstan';
+  const country = row.country || "Kyrgyzstan";
   const city = row.city || country;
-  
+
   // Create unique package ID for stable pricing
-  const packageId = `${country}_${city}_${row.category || 'trip'}_${index}`;
-  
+  const packageId = `${country}_${city}_${row.category || "trip"}_${index}`;
+
   // Calculate realistic price using new pricing model
-  const pricingResult = await calculateRealisticPrice(country, budgetLevel, days, packageId);
+  const pricingResult = await calculateRealisticPrice(
+    country,
+    budgetLevel,
+    days,
+    packageId
+  );
   const priceUSD = pricingResult.priceUSD;
   const breakdown = pricingResult.breakdownUSD;
-  
+
   const attractions = (row.attractions || "")
     .split(/\s*;\s*|\s*,\s*/)
     .filter(Boolean);
@@ -132,13 +139,18 @@ async function makePackageFromRow(row, budgetLevel, durationDays, index) {
 async function fallbackPackage(country, budgetLevel, durationDays) {
   const days = durationDays || 5;
   const packageId = `${country}_fallback_${budgetLevel}`;
-  const pricingResult = await calculateRealisticPrice(country || 'Kyrgyzstan', budgetLevel, days, packageId);
+  const pricingResult = await calculateRealisticPrice(
+    country || "Kyrgyzstan",
+    budgetLevel,
+    days,
+    packageId
+  );
   const priceUSD = pricingResult.priceUSD;
   const breakdown = pricingResult.breakdownUSD;
-  
+
   return [
     {
-      country: country || 'Kyrgyzstan',
+      country: country || "Kyrgyzstan",
       name: `${country} Standard Package`,
       price: priceUSD,
       priceUSD: priceUSD,
@@ -167,14 +179,14 @@ async function fallbackPackage(country, budgetLevel, durationDays) {
 
 async function generatePackages({ country, budgetUSD, durationDays }) {
   const data = loadDataset();
-  
+
   if (!country) {
-    return await fallbackPackage('Kyrgyzstan', 'mid', durationDays);
+    return await fallbackPackage("Kyrgyzstan", "mid", durationDays);
   }
-  
+
   const rows = pickCityRows(data, country);
   if (!rows.length) {
-    return await fallbackPackage(country, 'mid', durationDays);
+    return await fallbackPackage(country, "mid", durationDays);
   }
 
   // Score and generate all possible packages
@@ -189,9 +201,9 @@ async function generatePackages({ country, budgetUSD, durationDays }) {
   scored.sort((a, b) => b.score - a.score);
 
   // Generate packages for all budget levels
-  const levels = ['budget', 'mid', 'luxury'];
+  const levels = ["budget", "mid", "luxury"];
   const packagesByCategory = {};
-  
+
   // Generate packages for each budget level (async)
   for (const level of levels) {
     packagesByCategory[level] = [];
@@ -201,43 +213,47 @@ async function generatePackages({ country, budgetUSD, durationDays }) {
       packagesByCategory[level].push(pkg);
     }
     // Sort by price
-    packagesByCategory[level].sort((a, b) => a.totalEstimateUSD - b.totalEstimateUSD);
+    packagesByCategory[level].sort(
+      (a, b) => a.totalEstimateUSD - b.totalEstimateUSD
+    );
   }
 
   // If budgetUSD is provided, return 3-4 packages within budget
   if (budgetUSD && budgetUSD > 0) {
     const allPackages = [];
-    
+
     // Collect all packages from all tiers
-    levels.forEach(level => {
+    levels.forEach((level) => {
       allPackages.push(...packagesByCategory[level]);
     });
-    
+
     // Filter packages within budget
-    const withinBudget = allPackages.filter(p => p.totalEstimateUSD <= budgetUSD);
-    
+    const withinBudget = allPackages.filter(
+      (p) => p.totalEstimateUSD <= budgetUSD
+    );
+
     // Sort by price
     withinBudget.sort((a, b) => a.totalEstimateUSD - b.totalEstimateUSD);
-    
+
     // If we have at least 3-4 packages within budget, return them
     if (withinBudget.length >= 3) {
       return withinBudget.slice(0, 4); // Return max 4 packages
     }
-    
+
     // If fewer than 3 within budget, fill with nearest above-budget packages
     const aboveBudget = allPackages
-      .filter(p => p.totalEstimateUSD > budgetUSD)
+      .filter((p) => p.totalEstimateUSD > budgetUSD)
       .sort((a, b) => a.totalEstimateUSD - b.totalEstimateUSD);
-    
+
     const result = [...withinBudget];
     const needed = 4 - result.length;
     result.push(...aboveBudget.slice(0, needed));
-    
+
     return result.slice(0, 4); // Ensure exactly 3-4 packages
   }
 
   // No budget filter - return 3 packages from budget tier by default
-  return packagesByCategory['budget'].slice(0, 3);
+  return packagesByCategory["budget"].slice(0, 3);
 }
 
 module.exports = { generatePackages };

@@ -8,6 +8,7 @@ node test-realistic-pricing.js
 ```
 
 Expected output:
+
 ```
 ✓ PKR exchange rate: 1 USD = 278 PKR
 ✓ Minimum package price: $1,798.56 USD
@@ -19,15 +20,18 @@ Expected output:
 ## Test in Browser
 
 ### 1. Start Server
+
 ```bash
 cd project-fyp
 node app.js
 ```
 
 ### 2. Test Scenario 1: High PKR Budget
+
 **URL**: http://localhost:8080/packages?country=Kazakhstan&budget=2800000&currency=PKR
 
 **Expected Result**:
+
 - Shows "Your Budget: ₨2,800,000"
 - Budget in USD: $10,071.94
 - 4 packages displayed
@@ -35,9 +39,11 @@ node app.js
 - Prices display in PKR (₨700,000 - ₨2,000,000)
 
 ### 3. Test Scenario 2: Low PKR Budget
+
 **URL**: http://localhost:8080/packages?country=Kyrgyzstan&budget=800000&currency=PKR
 
 **Expected Result**:
+
 - Shows "Your Budget: ₨800,000"
 - Budget in USD: $2,878.42
 - 4 packages displayed
@@ -45,9 +51,11 @@ node app.js
 - All packages realistic (>= PKR 500K equivalent)
 
 ### 4. Test Scenario 3: USD Budget
+
 **URL**: http://localhost:8080/packages?country=Uzbekistan&budget=5000&currency=USD
 
 **Expected Result**:
+
 - Shows "Your Budget: $5,000"
 - Budget in USD: $5,000
 - 4 packages displayed
@@ -55,9 +63,11 @@ node app.js
 - Prices display in USD
 
 ### 5. Test Scenario 4: EUR Budget
+
 **URL**: http://localhost:8080/packages?country=Azerbaijan&budget=10000&currency=EUR
 
 **Expected Result**:
+
 - Shows "Your Budget: €10,000"
 - Budget in USD: ~$11,730 (varies with exchange rate)
 - 4 packages displayed
@@ -66,17 +76,21 @@ node app.js
 ## Verify Currency Display
 
 ### Check 1: Package Price Elements
+
 Inspect any package price in browser console:
+
 ```javascript
-document.querySelector('.price-display')
+document.querySelector(".price-display");
 // Should have: data-price="2500" data-currency="USD"
 ```
 
 ### Check 2: No IQD Symbol Bug
+
 - Search page for "IQD" symbol
 - Should NOT appear anywhere (unless user selected IQD currency)
 
 ### Check 3: Budget Display
+
 - Budget should show in user's selected currency
 - Should NOT have data-price/data-currency attributes
 - Should display currency symbol correctly
@@ -84,13 +98,17 @@ document.querySelector('.price-display')
 ## Verify Pricing Logic
 
 ### Minimum Price Check
+
 All packages should meet these minimums (approximately):
+
 - Budget tier: ~$1,800 USD (500K PKR)
 - Mid tier: ~$3,000 USD (850K PKR)
 - Luxury tier: ~$5,000 USD (1.4M PKR)
 
 ### Country Variation Check
+
 Same budget, different countries should show different prices:
+
 - Tajikistan: Cheapest (0.85x multiplier)
 - Uzbekistan: Cheaper (0.90x multiplier)
 - Kyrgyzstan: Moderate (0.95x multiplier)
@@ -99,7 +117,9 @@ Same budget, different countries should show different prices:
 - Turkmenistan: Most expensive (1.20x multiplier)
 
 ### Breakdown Check
+
 Each package breakdown should sum to total:
+
 - Hotel: 40% of total
 - Food: 20% of total
 - Transport: 15% of total
@@ -108,27 +128,35 @@ Each package breakdown should sum to total:
 ## Common Issues
 
 ### Issue: Prices still showing as 50 IQD
-**Fix**: 
+
+**Fix**:
+
 1. Clear browser cache (Ctrl+Shift+Delete)
 2. Hard refresh (Ctrl+F5)
 3. Check browser console for JavaScript errors
 
 ### Issue: "Cannot find module" error
+
 **Fix**: Make sure you're in the correct directory
+
 ```bash
 cd project-fyp  # NOT the parent fyp directory
 node test-realistic-pricing.js
 ```
 
 ### Issue: generatePackages not awaited error
+
 **Fix**: Restart the server
+
 ```bash
 # Press Ctrl+C to stop
 node app.js  # Restart
 ```
 
 ### Issue: All packages above budget
+
 **Fix**: Check URL has correct currency parameter
+
 ```
 ❌ /packages?country=Kazakhstan&budget=2800000
 ✅ /packages?country=Kazakhstan&budget=2800000&currency=PKR
@@ -137,11 +165,13 @@ node app.js  # Restart
 ## API Testing with curl
 
 ### Test Package Generation
+
 ```bash
 curl "http://localhost:8080/api/packages?country=Kazakhstan&budget=2800000&currency=PKR"
 ```
 
 Expected JSON response:
+
 ```json
 {
   "items": [
@@ -164,12 +194,16 @@ Expected JSON response:
 ## Performance Check
 
 ### Response Time
+
 Packages should load within:
+
 - First request: ~1-2 seconds (fetching exchange rates)
 - Subsequent requests: ~100-500ms (cached rates)
 
 ### Exchange Rate Caching
+
 Check console logs:
+
 ```
 Fetching fresh PKR exchange rate...  ← First request
 PKR not supported, using fallback rate
