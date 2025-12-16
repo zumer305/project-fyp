@@ -1,7 +1,10 @@
 <% layout("/layouts/boiler") -%>
 
-<link rel="stylesheet" href="/css/groups.css?v=2">
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/groups.css?v=2" />
+<link
+  href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css"
+  rel="stylesheet"
+/>
 
 <style>
   .location-container {
@@ -27,7 +30,7 @@
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .member-marker {
@@ -36,7 +39,7 @@
     border-radius: 50%;
     cursor: pointer;
     border: 3px solid #fff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,14 +51,14 @@
 
   .member-marker:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
   }
 
   .mapboxgl-popup-content {
     font-family: Arial, sans-serif;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   .mapboxgl-popup-close-button {
@@ -70,7 +73,7 @@
 
   /* Map controls styling to match home screen */
   .mapboxgl-ctrl-group {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   .mapboxgl-ctrl-group button {
@@ -120,7 +123,7 @@
     bottom: 20px;
     right: 20px;
     z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -133,7 +136,7 @@
 
   .refresh-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
   }
 
   .refresh-btn:active {
@@ -174,13 +177,25 @@
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
   }
 
   @keyframes fadeOut {
-    from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    to { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    from {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.8);
+    }
   }
 
   #route-info-panel {
@@ -192,12 +207,12 @@
       flex-direction: column;
       height: auto;
     }
-    
+
     .members-sidebar {
       flex: none;
       width: 100%;
     }
-    
+
     .map-container {
       height: 400px;
     }
@@ -223,7 +238,10 @@
           <p class="text-muted mb-0" id="groupName">Loading...</p>
         </div>
         <div>
-          <button class="btn btn-outline-secondary" onclick="window.history.back()">
+          <button
+            class="btn btn-outline-secondary"
+            onclick="window.history.back()"
+          >
             <i class="fas fa-arrow-left"></i> Back to Group
           </button>
         </div>
@@ -234,10 +252,16 @@
   <!-- Info Banner -->
   <div class="row mb-3">
     <div class="col-md-12">
-      <div class="alert alert-info" role="alert" style="border-left: 4px solid #17a2b8;">
-        <i class="fas fa-info-circle"></i> <strong>Live Location Tracking:</strong> 
-        See where all your group members are during the tour. Enable sharing to let others see your location too. 
-        Click any member to get directions to them!
+      <div
+        class="alert alert-info"
+        role="alert"
+        style="border-left: 4px solid #17a2b8"
+      >
+        <i class="fas fa-info-circle"></i>
+        <strong>Live Location Tracking:</strong>
+        See where all your group members are during the tour. Enable sharing to
+        let others see your location too. Click any member to get directions to
+        them!
       </div>
     </div>
   </div>
@@ -249,13 +273,20 @@
       <!-- Location Sharing Info -->
       <div class="location-info">
         <h6><i class="fas fa-broadcast-tower"></i> Location Sharing</h6>
-        <p class="mb-2 small" style="font-size: 11px; line-height: 1.4;">
-          Share your location so other members can see where you are during the tour.
+        <p class="mb-2 small" style="font-size: 11px; line-height: 1.4">
+          Share your location so other members can see where you are during the
+          tour.
         </p>
         <p class="mb-2 small">
-          <span id="sharingStatus" class="location-status inactive">Sharing: OFF</span>
+          <span id="sharingStatus" class="location-status inactive"
+            >Sharing: OFF</span
+          >
         </p>
-        <button class="btn btn-success btn-sm w-100" id="toggleSharingBtn" onclick="toggleLocationSharing()">
+        <button
+          class="btn btn-success btn-sm w-100"
+          id="toggleSharingBtn"
+          onclick="toggleLocationSharing()"
+        >
           <i class="fas fa-location-arrow"></i> Start Sharing Location
         </button>
       </div>
@@ -263,7 +294,11 @@
       <!-- Member List -->
       <div class="card shadow-sm members-card">
         <div class="card-header bg-primary text-white">
-          <h6 class="mb-0"><i class="fas fa-users"></i> Group Members (<span id="memberCount">0</span>)</h6>
+          <h6 class="mb-0">
+            <i class="fas fa-users"></i> Group Members (<span id="memberCount"
+              >0</span
+            >)
+          </h6>
         </div>
         <div class="card-body p-0">
           <div id="membersList">
@@ -281,9 +316,13 @@
     <!-- Right Side: Map -->
     <div class="map-container">
       <div id="location-map"></div>
-      
+
       <!-- Refresh Button -->
-      <button class="btn btn-primary refresh-btn" onclick="refreshLocations()" title="Refresh Locations">
+      <button
+        class="btn btn-primary refresh-btn"
+        onclick="refreshLocations()"
+        title="Refresh Locations"
+      >
         <i class="fas fa-sync-alt"></i>
       </button>
     </div>
@@ -293,130 +332,148 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
 
 <script>
-const groupId = '<%= groupId %>';
-let map;
-let markers = [];
-let locationSharingEnabled = false;
-let watchId = null;
+  const groupId = "<%= groupId %>";
+  let map;
+  let markers = [];
+  let locationSharingEnabled = false;
+  let watchId = null;
 
-// Color palette for member markers
-const colors = ['#007bff', '#28a745', '#dc3545', '#ffc107', '#17a2b8', '#6f42c1', '#e83e8c', '#fd7e14'];
+  // Color palette for member markers
+  const colors = [
+    "#007bff",
+    "#28a745",
+    "#dc3545",
+    "#ffc107",
+    "#17a2b8",
+    "#6f42c1",
+    "#e83e8c",
+    "#fd7e14",
+  ];
 
-// Initialize map (matching home screen implementation)
-function initMap() {
-  mapboxgl.accessToken = 'pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w';
-  
-  map = new mapboxgl.Map({
-    container: 'location-map',
-    style: 'mapbox://styles/zumer/cmj3y5j60003c01qt3urcac07',
-    center: [74.5698, 42.8746], // Default center (Bishkek)
-    zoom: 2,
-    attributionControl: false
-  });
+  // Initialize map (matching home screen implementation)
+  function initMap() {
+    mapboxgl.accessToken =
+      "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
 
-  // Add navigation controls (zoom buttons) - same as home screen
-  map.addControl(new mapboxgl.NavigationControl(), 'top-right');
-  map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-  
-  // Add compact attribution
-  map.addControl(new mapboxgl.AttributionControl({
-    compact: true
-  }), 'bottom-left');
-
-  // Load locations after map loads
-  map.on('load', () => {
-    loadGroupInfo();
-    loadMemberLocations();
-  });
-}
-
-// Load group information
-async function loadGroupInfo() {
-  try {
-    const response = await fetch(`/api/groups/${groupId}`, {
-      credentials: 'include'
+    map = new mapboxgl.Map({
+      container: "location-map",
+      style: "mapbox://styles/zumer/cmj3y5j60003c01qt3urcac07",
+      center: [74.5698, 42.8746], // Default center (Bishkek)
+      zoom: 2,
+      attributionControl: false,
     });
 
-    if (!response.ok) throw new Error('Failed to load group info');
+    // Add navigation controls (zoom buttons) - same as home screen
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    map.addControl(new mapboxgl.FullscreenControl(), "top-right");
 
-    const data = await response.json();
-    document.getElementById('groupName').textContent = data.group.name;
-  } catch (error) {
-    console.error('Error loading group info:', error);
+    // Add compact attribution
+    map.addControl(
+      new mapboxgl.AttributionControl({
+        compact: true,
+      }),
+      "bottom-left"
+    );
+
+    // Load locations after map loads
+    map.on("load", () => {
+      loadGroupInfo();
+      loadMemberLocations();
+    });
   }
-}
 
-// Load member locations
-async function loadMemberLocations() {
-  try {
-    const response = await fetch(`/api/groups/${groupId}/locations`, {
-      credentials: 'include'
-    });
+  // Load group information
+  async function loadGroupInfo() {
+    try {
+      const response = await fetch(`/api/groups/${groupId}`, {
+        credentials: "include",
+      });
 
-    if (!response.ok) throw new Error('Failed to load locations');
+      if (!response.ok) throw new Error("Failed to load group info");
 
-    const data = await response.json();
-    displayLocationsOnMap(data.locations);
-    displayMembersList(data.locations);
-  } catch (error) {
-    console.error('Error loading locations:', error);
-    document.getElementById('membersList').innerHTML = `
+      const data = await response.json();
+      document.getElementById("groupName").textContent = data.group.name;
+    } catch (error) {
+      console.error("Error loading group info:", error);
+    }
+  }
+
+  // Load member locations
+  async function loadMemberLocations() {
+    try {
+      const response = await fetch(`/api/groups/${groupId}/locations`, {
+        credentials: "include",
+      });
+
+      if (!response.ok) throw new Error("Failed to load locations");
+
+      const data = await response.json();
+      displayLocationsOnMap(data.locations);
+      displayMembersList(data.locations);
+    } catch (error) {
+      console.error("Error loading locations:", error);
+      document.getElementById("membersList").innerHTML = `
       <div class="text-center text-danger py-3">
         <i class="fas fa-exclamation-triangle"></i> Failed to load locations
       </div>
     `;
-  }
-}
-
-// Display locations on map
-function displayLocationsOnMap(locations) {
-  // Clear existing markers
-  markers.forEach(marker => marker.remove());
-  markers = [];
-
-  if (locations.length === 0) {
-    // Center map on default location if no members
-    map.flyTo({
-      center: [0, 20],
-      zoom: 2,
-      duration: 1000
-    });
-    return;
+    }
   }
 
-  // Create bounds to fit all markers
-  const bounds = new mapboxgl.LngLatBounds();
+  // Display locations on map
+  function displayLocationsOnMap(locations) {
+    // Clear existing markers
+    markers.forEach((marker) => marker.remove());
+    markers = [];
 
-  locations.forEach((location, index) => {
-    const [lng, lat] = location.coordinates;
-    
-    // Create custom marker element (matching home screen style)
-    const el = document.createElement('div');
-    el.className = 'member-marker';
-    
-    // Use gradient background for better visual appeal
-    const color = colors[index % colors.length];
-    el.style.background = `radial-gradient(circle, ${color} 0%, ${adjustColor(color, -20)} 100%)`;
-    el.textContent = location.username.charAt(0).toUpperCase();
+    if (locations.length === 0) {
+      // Center map on default location if no members
+      map.flyTo({
+        center: [0, 20],
+        zoom: 2,
+        duration: 1000,
+      });
+      return;
+    }
 
-    // Create popup with improved styling
-    const lastUpdated = location.lastUpdated 
-      ? new Date(location.lastUpdated).toLocaleString('en-US', { 
-          hour: '2-digit', 
-          minute: '2-digit',
-          month: 'short',
-          day: 'numeric'
-        })
-      : 'Just now';
+    // Create bounds to fit all markers
+    const bounds = new mapboxgl.LngLatBounds();
 
-    const popupHTML = `
+    locations.forEach((location, index) => {
+      const [lng, lat] = location.coordinates;
+
+      // Create custom marker element (matching home screen style)
+      const el = document.createElement("div");
+      el.className = "member-marker";
+
+      // Use gradient background for better visual appeal
+      const color = colors[index % colors.length];
+      el.style.background = `radial-gradient(circle, ${color} 0%, ${adjustColor(
+        color,
+        -20
+      )} 100%)`;
+      el.textContent = location.username.charAt(0).toUpperCase();
+
+      // Create popup with improved styling
+      const lastUpdated = location.lastUpdated
+        ? new Date(location.lastUpdated).toLocaleString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            month: "short",
+            day: "numeric",
+          })
+        : "Just now";
+
+      const popupHTML = `
       <div style="font-family: Arial, sans-serif; min-width: 220px;">
         <div style="text-align: center; margin-bottom: 10px;">
           <div class="member-marker" style="background: ${color}; width: 50px; height: 50px; 
                font-size: 24px; margin: 0 auto 10px;">
             ${location.username.charAt(0).toUpperCase()}
           </div>
-          <strong style="font-size: 18px; color: #333;">${location.username}</strong>
+          <strong style="font-size: 18px; color: #333;">${
+            location.username
+          }</strong>
         </div>
         
         <div style="background: #f8f9fa; padding: 10px; border-radius: 6px; margin: 10px 0;">
@@ -434,7 +491,10 @@ function displayLocationsOnMap(locations) {
           <i class="fas fa-clock"></i> Updated: ${lastUpdated}
         </div>
 
-        <button onclick="getDirectionsToMember(${lng}, ${lat}, '${location.username.replace(/'/g, "\\'")}')" 
+        <button onclick="getDirectionsToMember(${lng}, ${lat}, '${location.username.replace(
+        /'/g,
+        "\\'"
+      )}')" 
                 style="margin-top: 10px; padding: 10px; background: linear-gradient(135deg, #007acc 0%, #0056b3 100%); 
                        color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; 
                        font-size: 14px; font-weight: 600; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
@@ -447,84 +507,87 @@ function displayLocationsOnMap(locations) {
       </div>
     `;
 
-    const popup = new mapboxgl.Popup({ 
-      offset: 25,
-      closeButton: true,
-      closeOnClick: false,
-      maxWidth: '280px'
-    }).setHTML(popupHTML);
+      const popup = new mapboxgl.Popup({
+        offset: 25,
+        closeButton: true,
+        closeOnClick: false,
+        maxWidth: "280px",
+      }).setHTML(popupHTML);
 
-    // Create marker with custom element
-    const marker = new mapboxgl.Marker({ element: el })
-      .setLngLat([lng, lat])
-      .setPopup(popup)
-      .addTo(map);
+      // Create marker with custom element
+      const marker = new mapboxgl.Marker({ element: el })
+        .setLngLat([lng, lat])
+        .setPopup(popup)
+        .addTo(map);
 
-    // Auto-open first marker popup
-    if (index === 0) {
-      marker.togglePopup();
-    }
+      // Auto-open first marker popup
+      if (index === 0) {
+        marker.togglePopup();
+      }
 
-    markers.push(marker);
-    bounds.extend([lng, lat]);
-  });
+      markers.push(marker);
+      bounds.extend([lng, lat]);
+    });
 
-  // Fit map to markers
-  if (locations.length > 0) {
-    if (locations.length === 1) {
-      // If only one location, center on it
-      const [lng, lat] = locations[0].coordinates;
-      map.flyTo({
-        center: [lng, lat],
-        zoom: 13,
-        duration: 1000
-      });
-    } else {
-      // Multiple locations, fit to bounds
-      map.fitBounds(bounds, {
-        padding: 80,
-        maxZoom: 15,
-        duration: 1000
-      });
+    // Fit map to markers
+    if (locations.length > 0) {
+      if (locations.length === 1) {
+        // If only one location, center on it
+        const [lng, lat] = locations[0].coordinates;
+        map.flyTo({
+          center: [lng, lat],
+          zoom: 13,
+          duration: 1000,
+        });
+      } else {
+        // Multiple locations, fit to bounds
+        map.fitBounds(bounds, {
+          padding: 80,
+          maxZoom: 15,
+          duration: 1000,
+        });
+      }
     }
   }
-}
 
-// Display members list
-function displayMembersList(locations) {
-  const membersList = document.getElementById('membersList');
-  const memberCount = document.getElementById('memberCount');
-  
-  memberCount.textContent = locations.length;
+  // Display members list
+  function displayMembersList(locations) {
+    const membersList = document.getElementById("membersList");
+    const memberCount = document.getElementById("memberCount");
 
-  if (locations.length === 0) {
-    membersList.innerHTML = `
+    memberCount.textContent = locations.length;
+
+    if (locations.length === 0) {
+      membersList.innerHTML = `
       <div class="text-center text-muted py-4">
         <i class="fas fa-info-circle fa-2x mb-2"></i>
         <p class="mb-0 small">No members sharing location</p>
         <p class="mb-0 small text-muted">Enable sharing to be visible!</p>
       </div>
     `;
-    return;
-  }
+      return;
+    }
 
-  membersList.innerHTML = locations.map((location, index) => {
-    const lastUpdated = location.lastUpdated 
-      ? new Date(location.lastUpdated).toLocaleString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          month: 'short',
-          day: 'numeric'
-        })
-      : 'Just now';
+    membersList.innerHTML = locations
+      .map((location, index) => {
+        const lastUpdated = location.lastUpdated
+          ? new Date(location.lastUpdated).toLocaleString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              month: "short",
+              day: "numeric",
+            })
+          : "Just now";
 
-    // Format coordinates for display
-    const [lng, lat] = location.coordinates;
-    const coordText = `${lat.toFixed(4)}°, ${lng.toFixed(4)}°`;
+        // Format coordinates for display
+        const [lng, lat] = location.coordinates;
+        const coordText = `${lat.toFixed(4)}°, ${lng.toFixed(4)}°`;
 
-    return `
+        return `
       <div class="member-list-item" onclick="flyToMember(${lng}, ${lat})">
-        <div class="member-marker" style="background-color: ${colors[index % colors.length]};">
+        <div class="member-marker" style="background-color: ${
+          colors[index % colors.length]
+        };">
           ${location.username.charAt(0).toUpperCase()}
         </div>
         <div style="flex: 1; min-width: 0;">
@@ -541,250 +604,261 @@ function displayMembersList(locations) {
         </button>
       </div>
     `;
-  }).join('');
-}
-
-// Fly to member location
-function flyToMember(lng, lat) {
-  map.flyTo({
-    center: [lng, lat],
-    zoom: 14,
-    duration: 2000
-  });
-}
-
-// Toggle location sharing
-async function toggleLocationSharing() {
-  if (locationSharingEnabled) {
-    // Stop sharing
-    if (watchId !== null) {
-      navigator.geolocation.clearWatch(watchId);
-      watchId = null;
-    }
-    locationSharingEnabled = false;
-    updateSharingUI(false);
-  } else {
-    // Start sharing
-    if (!navigator.geolocation) {
-      alert('Geolocation is not supported by your browser');
-      return;
-    }
-
-    // Request location permission
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        // Update location immediately
-        await updateUserLocation(position.coords.longitude, position.coords.latitude, true);
-        
-        // Watch for location changes
-        watchId = navigator.geolocation.watchPosition(
-          (position) => {
-            updateUserLocation(position.coords.longitude, position.coords.latitude, true);
-          },
-          (error) => {
-            console.error('Error watching location:', error);
-          },
-          {
-            enableHighAccuracy: true,
-            maximumAge: 30000,
-            timeout: 27000
-          }
-        );
-
-        locationSharingEnabled = true;
-        updateSharingUI(true);
-        
-        // Refresh locations after 2 seconds to show updated position
-        setTimeout(() => refreshLocations(), 2000);
-      },
-      (error) => {
-        console.error('Error getting location:', error);
-        alert('Unable to access your location. Please check your browser permissions.');
-      }
-    );
+      })
+      .join("");
   }
-}
 
-// Update user location on server
-async function updateUserLocation(longitude, latitude, sharingEnabled) {
-  try {
-    const response = await fetch('/api/groups/location/update', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({ longitude, latitude, sharingEnabled })
+  // Fly to member location
+  function flyToMember(lng, lat) {
+    map.flyTo({
+      center: [lng, lat],
+      zoom: 14,
+      duration: 2000,
     });
+  }
 
-    if (!response.ok) {
-      throw new Error('Failed to update location');
+  // Toggle location sharing
+  async function toggleLocationSharing() {
+    if (locationSharingEnabled) {
+      // Stop sharing
+      if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+      }
+      locationSharingEnabled = false;
+      updateSharingUI(false);
+    } else {
+      // Start sharing
+      if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser");
+        return;
+      }
+
+      // Request location permission
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          // Update location immediately
+          await updateUserLocation(
+            position.coords.longitude,
+            position.coords.latitude,
+            true
+          );
+
+          // Watch for location changes
+          watchId = navigator.geolocation.watchPosition(
+            (position) => {
+              updateUserLocation(
+                position.coords.longitude,
+                position.coords.latitude,
+                true
+              );
+            },
+            (error) => {
+              console.error("Error watching location:", error);
+            },
+            {
+              enableHighAccuracy: true,
+              maximumAge: 30000,
+              timeout: 27000,
+            }
+          );
+
+          locationSharingEnabled = true;
+          updateSharingUI(true);
+
+          // Refresh locations after 2 seconds to show updated position
+          setTimeout(() => refreshLocations(), 2000);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          alert(
+            "Unable to access your location. Please check your browser permissions."
+          );
+        }
+      );
     }
-
-    console.log('Location updated successfully');
-  } catch (error) {
-    console.error('Error updating location:', error);
   }
-}
 
-// Update sharing UI
-function updateSharingUI(enabled) {
-  const statusEl = document.getElementById('sharingStatus');
-  const btnEl = document.getElementById('toggleSharingBtn');
+  // Update user location on server
+  async function updateUserLocation(longitude, latitude, sharingEnabled) {
+    try {
+      const response = await fetch("/api/groups/location/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ longitude, latitude, sharingEnabled }),
+      });
 
-  if (enabled) {
-    statusEl.textContent = 'Sharing: ON ✓';
-    statusEl.className = 'location-status active';
-    btnEl.innerHTML = '<i class="fas fa-stop-circle"></i> Stop Sharing';
-    btnEl.className = 'btn btn-danger btn-sm w-100';
-  } else {
-    statusEl.textContent = 'Sharing: OFF';
-    statusEl.className = 'location-status inactive';
-    btnEl.innerHTML = '<i class="fas fa-location-arrow"></i> Start Sharing Location';
-    btnEl.className = 'btn btn-success btn-sm w-100';
+      if (!response.ok) {
+        throw new Error("Failed to update location");
+      }
+
+      console.log("Location updated successfully");
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
   }
-}
 
-// Refresh locations
-function refreshLocations() {
-  const btn = event?.target.closest('button');
-  if (btn) {
-    btn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i>';
+  // Update sharing UI
+  function updateSharingUI(enabled) {
+    const statusEl = document.getElementById("sharingStatus");
+    const btnEl = document.getElementById("toggleSharingBtn");
+
+    if (enabled) {
+      statusEl.textContent = "Sharing: ON ✓";
+      statusEl.className = "location-status active";
+      btnEl.innerHTML = '<i class="fas fa-stop-circle"></i> Stop Sharing';
+      btnEl.className = "btn btn-danger btn-sm w-100";
+    } else {
+      statusEl.textContent = "Sharing: OFF";
+      statusEl.className = "location-status inactive";
+      btnEl.innerHTML =
+        '<i class="fas fa-location-arrow"></i> Start Sharing Location';
+      btnEl.className = "btn btn-success btn-sm w-100";
+    }
   }
-  
-  loadMemberLocations().then(() => {
+
+  // Refresh locations
+  function refreshLocations() {
+    const btn = event?.target.closest("button");
     if (btn) {
-      btn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+      btn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i>';
     }
-  });
-}
 
-// Helper function to adjust color brightness
-function adjustColor(color, amount) {
-  const clamp = (num) => Math.min(Math.max(num, 0), 255);
-  
-  let r, g, b;
-  
-  if (color.startsWith('#')) {
-    const hex = color.slice(1);
-    r = parseInt(hex.substr(0, 2), 16);
-    g = parseInt(hex.substr(2, 2), 16);
-    b = parseInt(hex.substr(4, 2), 16);
-  } else if (color.startsWith('rgb')) {
-    [r, g, b] = color.match(/\d+/g).map(Number);
-  } else {
-    return color;
+    loadMemberLocations().then(() => {
+      if (btn) {
+        btn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+      }
+    });
   }
-  
-  r = clamp(r + amount);
-  g = clamp(g + amount);
-  b = clamp(b + amount);
-  
-  return `rgb(${r}, ${g}, ${b})`;
-}
 
+  // Helper function to adjust color brightness
+  function adjustColor(color, amount) {
+    const clamp = (num) => Math.min(Math.max(num, 0), 255);
 
+    let r, g, b;
 
-// Track current navigation
-let activeNavigation = null;
-let userLocationMarker = null;
+    if (color.startsWith("#")) {
+      const hex = color.slice(1);
+      r = parseInt(hex.substr(0, 2), 16);
+      g = parseInt(hex.substr(2, 2), 16);
+      b = parseInt(hex.substr(4, 2), 16);
+    } else if (color.startsWith("rgb")) {
+      [r, g, b] = color.match(/\d+/g).map(Number);
+    } else {
+      return color;
+    }
 
-// Get directions to member with live route tracking
-async function getDirectionsToMember(destLon, destLat, memberName) {
-  try {
-    // Show loading indicator
-    const loadingMsg = document.createElement('div');
-    loadingMsg.id = 'loading-directions';
-    loadingMsg.style.cssText = `
+    r = clamp(r + amount);
+    g = clamp(g + amount);
+    b = clamp(b + amount);
+
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  // Track current navigation
+  let activeNavigation = null;
+  let userLocationMarker = null;
+
+  // Get directions to member with live route tracking
+  async function getDirectionsToMember(destLon, destLat, memberName) {
+    try {
+      // Show loading indicator
+      const loadingMsg = document.createElement("div");
+      loadingMsg.id = "loading-directions";
+      loadingMsg.style.cssText = `
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
       background: white; padding: 20px 30px; border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000;
       font-family: Arial, sans-serif; text-align: center;
     `;
-    loadingMsg.innerHTML = `
+      loadingMsg.innerHTML = `
       <div class="spinner-border text-primary" role="status"></div>
       <div style="margin-top: 10px;">Getting your location...</div>
     `;
-    document.querySelector('.map-container').appendChild(loadingMsg);
+      document.querySelector(".map-container").appendChild(loadingMsg);
 
-    // Get user's current location
-    const position = await new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 0
+      // Get user's current location
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 0,
+        });
       });
-    });
 
-    const userLon = position.coords.longitude;
-    const userLat = position.coords.latitude;
+      const userLon = position.coords.longitude;
+      const userLat = position.coords.latitude;
 
-    // Remove loading indicator
-    const loader = document.getElementById('loading-directions');
-    if (loader) loader.remove();
+      // Remove loading indicator
+      const loader = document.getElementById("loading-directions");
+      if (loader) loader.remove();
 
-    // Mapbox Directions API
-    const accessToken = 'pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w';
-    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${userLon},${userLat};${destLon},${destLat}?geometries=geojson&steps=true&banner_instructions=true&access_token=${accessToken}`;
+      // Mapbox Directions API
+      const accessToken =
+        "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${userLon},${userLat};${destLon},${destLat}?geometries=geojson&steps=true&banner_instructions=true&access_token=${accessToken}`;
 
-    const response = await fetch(url);
-    const data = await response.json();
+      const response = await fetch(url);
+      const data = await response.json();
 
-    if (data.routes && data.routes.length > 0) {
-      const route = data.routes[0];
-      const distance = (route.distance / 1000).toFixed(2);
-      const duration = Math.round(route.duration / 60);
+      if (data.routes && data.routes.length > 0) {
+        const route = data.routes[0];
+        const distance = (route.distance / 1000).toFixed(2);
+        const duration = Math.round(route.duration / 60);
 
-      // Store navigation info
-      activeNavigation = {
-        destination: { lon: destLon, lat: destLat, name: memberName },
-        route: route,
-        startTime: new Date()
-      };
+        // Store navigation info
+        activeNavigation = {
+          destination: { lon: destLon, lat: destLat, name: memberName },
+          route: route,
+          startTime: new Date(),
+        };
 
-      // Clear any existing route layers
-      clearRouteFromMap();
+        // Clear any existing route layers
+        clearRouteFromMap();
 
-      // Add route line to map with gradient effect
-      map.addSource('route', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: route.geometry
+        // Add route line to map with gradient effect
+        map.addSource("route", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            geometry: route.geometry,
+          },
+        });
+
+        // Add route outline (darker)
+        map.addLayer({
+          id: "route-outline",
+          type: "line",
+          source: "route",
+          paint: {
+            "line-color": "#004d7a",
+            "line-width": 8,
+            "line-opacity": 0.4,
+          },
+        });
+
+        // Add main route line
+        map.addLayer({
+          id: "route",
+          type: "line",
+          source: "route",
+          paint: {
+            "line-color": "#007acc",
+            "line-width": 5,
+            "line-opacity": 0.9,
+          },
+        });
+
+        // Add start marker (user location)
+        if (userLocationMarker) {
+          userLocationMarker.remove();
         }
-      });
 
-      // Add route outline (darker)
-      map.addLayer({
-        id: 'route-outline',
-        type: 'line',
-        source: 'route',
-        paint: {
-          'line-color': '#004d7a',
-          'line-width': 8,
-          'line-opacity': 0.4
-        }
-      });
-
-      // Add main route line
-      map.addLayer({
-        id: 'route',
-        type: 'line',
-        source: 'route',
-        paint: {
-          'line-color': '#007acc',
-          'line-width': 5,
-          'line-opacity': 0.9
-        }
-      });
-
-      // Add start marker (user location)
-      if (userLocationMarker) {
-        userLocationMarker.remove();
-      }
-
-      const startEl = document.createElement('div');
-      startEl.innerHTML = `
+        const startEl = document.createElement("div");
+        startEl.innerHTML = `
         <div style="
           width: 35px;
           height: 35px;
@@ -801,77 +875,78 @@ async function getDirectionsToMember(destLon, destLat, memberName) {
         ">📍</div>
       `;
 
-      userLocationMarker = new mapboxgl.Marker({ element: startEl })
-        .setLngLat([userLon, userLat])
-        .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`
+        userLocationMarker = new mapboxgl.Marker({ element: startEl })
+          .setLngLat([userLon, userLat])
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }).setHTML(`
           <div style="font-family: Arial, sans-serif; text-align: center;">
             <strong>Your Location</strong><br>
             <small style="color: #666;">Starting point</small>
           </div>
-        `))
-        .addTo(map);
+        `)
+          )
+          .addTo(map);
 
-      // Fit map to show route
-      const coordinates = route.geometry.coordinates;
-      const bounds = coordinates.reduce((bounds, coord) => {
-        return bounds.extend(coord);
-      }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+        // Fit map to show route
+        const coordinates = route.geometry.coordinates;
+        const bounds = coordinates.reduce((bounds, coord) => {
+          return bounds.extend(coord);
+        }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
 
-      map.fitBounds(bounds, { 
-        padding: { top: 80, bottom: 80, left: 80, right: 80 },
-        duration: 1000
-      });
+        map.fitBounds(bounds, {
+          padding: { top: 80, bottom: 80, left: 80, right: 80 },
+          duration: 1000,
+        });
 
-      // Show route info panel
-      showRouteInfoPanel(memberName, distance, duration, route);
+        // Show route info panel
+        showRouteInfoPanel(memberName, distance, duration, route);
 
-      // Start live tracking if location sharing is enabled
-      if (locationSharingEnabled) {
-        startLiveTracking();
+        // Start live tracking if location sharing is enabled
+        if (locationSharingEnabled) {
+          startLiveTracking();
+        }
+      } else {
+        alert("Could not find a route. Please try again.");
       }
-
-    } else {
-      alert('Could not find a route. Please try again.');
-    }
-  } catch (error) {
-    console.error('Error getting directions:', error);
-    if (error.code === 1) {
-      alert('Please enable location access to get directions.');
-    } else {
-      alert('Error getting directions. Please try again.');
+    } catch (error) {
+      console.error("Error getting directions:", error);
+      if (error.code === 1) {
+        alert("Please enable location access to get directions.");
+      } else {
+        alert("Error getting directions. Please try again.");
+      }
     }
   }
-}
 
-// Clear route from map
-function clearRouteFromMap() {
-  if (map.getLayer('route')) {
-    map.removeLayer('route');
-  }
-  if (map.getLayer('route-outline')) {
-    map.removeLayer('route-outline');
-  }
-  if (map.getSource('route')) {
-    map.removeSource('route');
-  }
-  if (userLocationMarker) {
-    userLocationMarker.remove();
-    userLocationMarker = null;
-  }
-}
-
-// Show route info panel
-function showRouteInfoPanel(memberName, distance, duration, route) {
-  // Remove existing panel if any
-  const existingPanel = document.getElementById('route-info-panel');
-  if (existingPanel) {
-    existingPanel.remove();
+  // Clear route from map
+  function clearRouteFromMap() {
+    if (map.getLayer("route")) {
+      map.removeLayer("route");
+    }
+    if (map.getLayer("route-outline")) {
+      map.removeLayer("route-outline");
+    }
+    if (map.getSource("route")) {
+      map.removeSource("route");
+    }
+    if (userLocationMarker) {
+      userLocationMarker.remove();
+      userLocationMarker = null;
+    }
   }
 
-  // Create route info panel
-  const panel = document.createElement('div');
-  panel.id = 'route-info-panel';
-  panel.style.cssText = `
+  // Show route info panel
+  function showRouteInfoPanel(memberName, distance, duration, route) {
+    // Remove existing panel if any
+    const existingPanel = document.getElementById("route-info-panel");
+    if (existingPanel) {
+      existingPanel.remove();
+    }
+
+    // Create route info panel
+    const panel = document.createElement("div");
+    panel.id = "route-info-panel";
+    panel.style.cssText = `
     position: absolute;
     top: 20px;
     left: 50%;
@@ -885,11 +960,11 @@ function showRouteInfoPanel(memberName, distance, duration, route) {
     font-family: Arial, sans-serif;
   `;
 
-  const steps = route.legs[0].steps;
-  const firstStep = steps[0];
-  const instruction = firstStep.maneuver.instruction || 'Head to destination';
+    const steps = route.legs[0].steps;
+    const firstStep = steps[0];
+    const instruction = firstStep.maneuver.instruction || "Head to destination";
 
-  panel.innerHTML = `
+    panel.innerHTML = `
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <div style="font-size: 16px; font-weight: bold; color: #333;">
         🚗 Navigating to ${memberName}
@@ -919,79 +994,82 @@ function showRouteInfoPanel(memberName, distance, duration, route) {
     </div>
   `;
 
-  document.querySelector('.map-container').appendChild(panel);
-}
-
-// Stop navigation
-function stopNavigation() {
-  activeNavigation = null;
-  clearRouteFromMap();
-  
-  const panel = document.getElementById('route-info-panel');
-  if (panel) {
-    panel.remove();
+    document.querySelector(".map-container").appendChild(panel);
   }
 
-  // Refresh to show all members again
-  loadMemberLocations();
-}
+  // Stop navigation
+  function stopNavigation() {
+    activeNavigation = null;
+    clearRouteFromMap();
 
-// Start live tracking during navigation
-function startLiveTracking() {
-  if (!activeNavigation) return;
-
-  const trackingInterval = setInterval(() => {
-    if (!activeNavigation) {
-      clearInterval(trackingInterval);
-      return;
+    const panel = document.getElementById("route-info-panel");
+    if (panel) {
+      panel.remove();
     }
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const userLon = position.coords.longitude;
-        const userLat = position.coords.latitude;
+    // Refresh to show all members again
+    loadMemberLocations();
+  }
 
-        // Update user location marker
-        if (userLocationMarker) {
-          userLocationMarker.setLngLat([userLon, userLat]);
-        }
+  // Start live tracking during navigation
+  function startLiveTracking() {
+    if (!activeNavigation) return;
 
-        // Calculate distance to destination
-        const destLon = activeNavigation.destination.lon;
-        const destLat = activeNavigation.destination.lat;
-        
-        const R = 6371; // Earth radius in km
-        const dLat = (destLat - userLat) * Math.PI / 180;
-        const dLon = (destLon - userLon) * Math.PI / 180;
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                  Math.cos(userLat * Math.PI / 180) * Math.cos(destLat * Math.PI / 180) *
-                  Math.sin(dLon/2) * Math.sin(dLon/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        const distanceRemaining = (R * c).toFixed(2);
-
-        // Check if arrived (within 50 meters)
-        if (distanceRemaining < 0.05) {
-          clearInterval(trackingInterval);
-          showArrivalNotification();
-          stopNavigation();
-        }
-      },
-      (error) => {
-        console.error('Tracking error:', error);
-      },
-      {
-        enableHighAccuracy: true,
-        maximumAge: 5000,
-        timeout: 10000
+    const trackingInterval = setInterval(() => {
+      if (!activeNavigation) {
+        clearInterval(trackingInterval);
+        return;
       }
-    );
-  }, 5000); // Update every 5 seconds
-}
 
-// Show arrival notification
-function showArrivalNotification() {
-  const notification = document.createElement('div');
-  notification.style.cssText = `
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLon = position.coords.longitude;
+          const userLat = position.coords.latitude;
+
+          // Update user location marker
+          if (userLocationMarker) {
+            userLocationMarker.setLngLat([userLon, userLat]);
+          }
+
+          // Calculate distance to destination
+          const destLon = activeNavigation.destination.lon;
+          const destLat = activeNavigation.destination.lat;
+
+          const R = 6371; // Earth radius in km
+          const dLat = ((destLat - userLat) * Math.PI) / 180;
+          const dLon = ((destLon - userLon) * Math.PI) / 180;
+          const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos((userLat * Math.PI) / 180) *
+              Math.cos((destLat * Math.PI) / 180) *
+              Math.sin(dLon / 2) *
+              Math.sin(dLon / 2);
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          const distanceRemaining = (R * c).toFixed(2);
+
+          // Check if arrived (within 50 meters)
+          if (distanceRemaining < 0.05) {
+            clearInterval(trackingInterval);
+            showArrivalNotification();
+            stopNavigation();
+          }
+        },
+        (error) => {
+          console.error("Tracking error:", error);
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 5000,
+          timeout: 10000,
+        }
+      );
+    }, 5000); // Update every 5 seconds
+  }
+
+  // Show arrival notification
+  function showArrivalNotification() {
+    const notification = document.createElement("div");
+    notification.style.cssText = `
     position: fixed;
     top: 50%;
     left: 50%;
@@ -1007,39 +1085,39 @@ function showArrivalNotification() {
     text-align: center;
     animation: fadeIn 0.3s;
   `;
-  
-  notification.innerHTML = `
+
+    notification.innerHTML = `
     <div style="font-size: 48px; margin-bottom: 10px;">🎉</div>
     <div>You've Arrived!</div>
     <div style="font-size: 14px; font-weight: normal; margin-top: 10px;">
       You've reached ${activeNavigation.destination.name}
     </div>
   `;
-  
-  document.body.appendChild(notification);
-  
-  setTimeout(() => {
-    notification.style.animation = 'fadeOut 0.3s';
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-  initMap();
-  
-  // Auto-refresh every 30 seconds
-  setInterval(() => {
-    if (locationSharingEnabled) {
-      loadMemberLocations();
-    }
-  }, 30000);
-});
+    document.body.appendChild(notification);
 
-// Cleanup on page unload
-window.addEventListener('beforeunload', () => {
-  if (watchId !== null) {
-    navigator.geolocation.clearWatch(watchId);
+    setTimeout(() => {
+      notification.style.animation = "fadeOut 0.3s";
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
   }
-});
+
+  // Initialize on page load
+  document.addEventListener("DOMContentLoaded", () => {
+    initMap();
+
+    // Auto-refresh every 30 seconds
+    setInterval(() => {
+      if (locationSharingEnabled) {
+        loadMemberLocations();
+      }
+    }, 30000);
+  });
+
+  // Cleanup on page unload
+  window.addEventListener("beforeunload", () => {
+    if (watchId !== null) {
+      navigator.geolocation.clearWatch(watchId);
+    }
+  });
 </script>

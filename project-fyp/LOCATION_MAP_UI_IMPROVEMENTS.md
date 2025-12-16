@@ -3,31 +3,35 @@
 ## Changes Made to Match Home Screen Mapbox Implementation
 
 ### 1. **Updated Mapbox Token**
+
 - Changed to the same token used on home screen: `pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w`
 - Ensures consistent map style and features
 
 ### 2. **Enhanced Marker Design**
+
 - **Radial Gradient Background**: Like home screen markers
 - **Hover Effects**: Scale up on hover (1.1x) with shadow
 - **Larger Size**: 45px (up from 40px) for better visibility
 - **Smooth Transitions**: 0.2s animation on hover
 
 ### 3. **Improved Popup Styling**
+
 - **Better Typography**: Arial font, proper hierarchy
-- **Richer Content**: 
+- **Richer Content**:
   - Username with emoji (👤)
   - Color-coded location icon
   - Formatted coordinates (5 decimal places)
   - Friendly time format (e.g., "Dec 16, 2:30 PM")
-- **Get Directions Button**: 
+- **Get Directions Button**:
   - Blue color (#007acc) matching home screen
   - Hover effect (darker blue)
   - Full-width design
   - Smooth transition
 
 ### 4. **Directions Feature** (New!)
+
 - **Mapbox Directions API Integration**: Same as home screen
-- **Route Display**: 
+- **Route Display**:
   - Blue route line (#007acc, 4px width)
   - 80% opacity for visibility
   - Auto-fit bounds to show full route
@@ -35,12 +39,14 @@
 - **Error Handling**: Location permission prompts
 
 ### 5. **Map Controls Enhancement**
+
 - **Navigation Controls**: Top-right positioning (zoom, compass, rotate)
 - **Fullscreen Control**: Top-right for easy access
 - **Compact Attribution**: Bottom-left, minimal footprint
 - **Enhanced Shadows**: Deeper shadows (0 2px 8px) for better depth
 
 ### 6. **Improved Refresh Button**
+
 - **Circular Design**: 50px diameter round button
 - **Better Positioning**: Bottom-right with proper z-index
 - **Animation Effects**:
@@ -50,24 +56,26 @@
 - **Larger Icon**: 20px font size
 
 ### 7. **Color Helper Function**
+
 - `adjustColor()`: Darkens colors for gradient effect
 - Creates depth with radial gradients on markers
 
 ### 8. **Default Map Center**
+
 - Set to Bishkek (74.5698, 42.8746) - same as home screen
 - Better initial view before locations load
 
 ## Visual Improvements Summary
 
-| Feature | Before | After |
-|---------|--------|-------|
-| Marker Style | Flat color | Radial gradient |
-| Marker Size | 40px | 45px |
-| Hover Effect | None | Scale + shadow |
-| Popup Design | Basic | Rich formatting |
-| Directions | None | Full routing support |
-| Controls | Default | Styled + positioned |
-| Refresh Button | Square | Circular + animated |
+| Feature        | Before     | After                |
+| -------------- | ---------- | -------------------- |
+| Marker Style   | Flat color | Radial gradient      |
+| Marker Size    | 40px       | 45px                 |
+| Hover Effect   | None       | Scale + shadow       |
+| Popup Design   | Basic      | Rich formatting      |
+| Directions     | None       | Full routing support |
+| Controls       | Default    | Styled + positioned  |
+| Refresh Button | Square     | Circular + animated  |
 
 ## New Features Added
 
@@ -88,6 +96,7 @@
 ## Consistency with Home Screen
 
 The location map now uses:
+
 - ✅ Same Mapbox token
 - ✅ Same map style
 - ✅ Same marker design patterns

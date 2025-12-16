@@ -363,11 +363,18 @@ module.exports.updateLocation = async (req, res) => {
     const { longitude, latitude, sharingEnabled = true } = req.body;
 
     if (!longitude || !latitude) {
-      return res.status(400).json({ message: "Longitude and latitude are required" });
+      return res
+        .status(400)
+        .json({ message: "Longitude and latitude are required" });
     }
 
     // Validate coordinates
-    if (longitude < -180 || longitude > 180 || latitude < -90 || latitude > 90) {
+    if (
+      longitude < -180 ||
+      longitude > 180 ||
+      latitude < -90 ||
+      latitude > 90
+    ) {
       return res.status(400).json({ message: "Invalid coordinates" });
     }
 
@@ -379,10 +386,10 @@ module.exports.updateLocation = async (req, res) => {
     }
 
     user.location = {
-      type: 'Point',
+      type: "Point",
       coordinates: [longitude, latitude],
       lastUpdated: new Date(),
-      sharingEnabled
+      sharingEnabled,
     };
 
     await user.save();
@@ -390,7 +397,7 @@ module.exports.updateLocation = async (req, res) => {
     return res.json({
       success: true,
       message: "Location updated successfully",
-      location: user.location
+      location: user.location,
     });
   } catch (e) {
     console.error("Error updating location:", e);
@@ -409,38 +416,41 @@ module.exports.getMemberLocations = async (req, res) => {
 
     // Check if user is a member
     if (!group.members.some((m) => m._id.toString() === req.user.id)) {
-      return res.status(403).json({ message: "You are not a member of this group" });
+      return res
+        .status(403)
+        .json({ message: "You are not a member of this group" });
     }
 
     const User = require("../../models/user.js");
-    
+
     // Get all members with their locations
     const members = await User.find(
-      { 
+      {
         _id: { $in: group.members },
-        'location.sharingEnabled': true
+        "location.sharingEnabled": true,
       },
-      'username email location'
+      "username email location"
     );
 
     // Filter and format the response
     const locations = members
-      .filter(member => 
-        member.location && 
-        member.location.coordinates && 
-        member.location.coordinates[0] !== 0 && 
-        member.location.coordinates[1] !== 0
+      .filter(
+        (member) =>
+          member.location &&
+          member.location.coordinates &&
+          member.location.coordinates[0] !== 0 &&
+          member.location.coordinates[1] !== 0
       )
-      .map(member => ({
+      .map((member) => ({
         userId: member._id,
         username: member.username,
         coordinates: member.location.coordinates,
-        lastUpdated: member.location.lastUpdated
+        lastUpdated: member.location.lastUpdated,
       }));
 
     return res.json({
       success: true,
-      locations
+      locations,
     });
   } catch (e) {
     console.error("Error fetching member locations:", e);

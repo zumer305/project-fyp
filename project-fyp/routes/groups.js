@@ -20,7 +20,7 @@ router.get("/", isLoggedIn, (req, res) => {
 router.get("/:id/chat", isLoggedIn, async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
-    
+
     if (!group) {
       req.flash("error", "Group not found");
       return res.redirect("/groups");
@@ -48,7 +48,7 @@ router.get("/:id/chat", isLoggedIn, async (req, res) => {
 router.get("/:id/location-map", isLoggedIn, async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
-    
+
     if (!group) {
       req.flash("error", "Group not found");
       return res.redirect("/groups");
