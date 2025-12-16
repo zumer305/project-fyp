@@ -20,4 +20,8 @@ router.post("/:id/messages", requireAuth, ctrl.sendMessage);
 router.get("/:id/plan", requireAuth, ctrl.plan);
 router.get("/:id/expenses", requireAuth, ctrl.expenses);
 
+// Location tracking
+router.post("/location/update", requireAuth, ctrl.updateLocation);
+router.get("/:id/locations", requireAuth, ctrl.getMemberLocations);
+
 module.exports = router;

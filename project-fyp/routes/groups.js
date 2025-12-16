@@ -44,4 +44,32 @@ router.get("/:id/chat", isLoggedIn, async (req, res) => {
   }
 });
 
+// Location map page
+router.get("/:id/location-map", isLoggedIn, async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    
+    if (!group) {
+      req.flash("error", "Group not found");
+      return res.redirect("/groups");
+    }
+
+    // Check if user is a member
+    const isMember = group.members.some(
+      (memberId) => memberId.toString() === req.user._id.toString()
+    );
+
+    if (!isMember) {
+      req.flash("error", "You are not a member of this group");
+      return res.redirect("/groups");
+    }
+
+    res.render("groups/location-map.ejs", { groupId: req.params.id });
+  } catch (error) {
+    console.error("Error loading location map:", error);
+    req.flash("error", "Error loading location map");
+    res.redirect("/groups");
+  }
+});
+
 module.exports = router;

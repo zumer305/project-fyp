@@ -21,7 +21,7 @@
 
 /* Invite Code Display */
 .invite-code {
-  font-family: 'Courier New', 'Consolas', monospace;
+  font-family: "Courier New", "Consolas", monospace;
   font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -187,7 +187,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -245,17 +246,17 @@
   .message-bubble {
     max-width: 85%;
   }
-  
+
   .invite-code {
     font-size: 1rem;
     padding: 10px 15px;
   }
-  
+
   #messageInput {
     border-radius: 20px;
     padding: 10px 16px;
   }
-  
+
   #messageForm button[type="submit"] {
     border-radius: 20px;
     padding: 10px 16px;

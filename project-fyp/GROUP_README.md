@@ -3,8 +3,9 @@
 ## 🎉 Overview
 
 I've successfully implemented a **complete Group Travel Planner feature** for your FYP with:
+
 - ✅ Create travel groups
-- ✅ Join groups via invite codes  
+- ✅ Join groups via invite codes
 - ✅ Real-time group chat with Socket.IO
 - ✅ Full MongoDB chat history persistence
 - ✅ Beautiful, responsive UI
@@ -12,6 +13,7 @@ I've successfully implemented a **complete Group Travel Planner feature** for yo
 ## 📦 What's Included
 
 ### Core Features
+
 1. **Create Group** - Start new travel groups with destinations, dates, and budgets
 2. **Join Group** - Use 8-character invite codes to join existing groups
 3. **Real-Time Chat** - Instant messaging powered by Socket.IO
@@ -21,6 +23,7 @@ I've successfully implemented a **complete Group Travel Planner feature** for yo
 ### Files Created/Modified
 
 #### ✨ New Files
+
 ```
 models/group.js                      - Enhanced group model
 models/message.js                    - Enhanced message model
@@ -33,6 +36,7 @@ public/css/groups.css                - Custom styling
 ```
 
 #### 📝 Documentation Files
+
 ```
 GROUP_FEATURE_SUMMARY.md             - Complete implementation summary
 GROUP_TRAVEL_PLANNER.md              - Full technical documentation
@@ -42,6 +46,7 @@ test-group-feature.js                - Automated testing script
 ```
 
 #### 🔧 Modified Files
+
 ```
 app.js                               - Added Socket.IO handlers + routes
 views/includes/navbar.ejs            - Added Groups navigation link
@@ -50,12 +55,14 @@ views/includes/navbar.ejs            - Added Groups navigation link
 ## 🚀 Quick Start
 
 ### 1. Start Your Server
+
 ```bash
 cd project-fyp
 npm start
 ```
 
 ### 2. Access the Feature
+
 - Open browser: `http://localhost:8080`
 - Login or create account
 - Click **"Groups"** in navbar
@@ -63,6 +70,7 @@ npm start
 ### 3. Test It Out
 
 #### Create a Group:
+
 1. Click "Create" button
 2. Enter group name (e.g., "Paris Trip 2026")
 3. Fill in optional details
@@ -70,12 +78,14 @@ npm start
 5. **Copy the invite code** (e.g., ABC12345)
 
 #### Join a Group:
+
 1. Share invite code with friends
 2. They click "Join" button
 3. Enter the code
 4. They join the group!
 
 #### Start Chatting:
+
 1. Click "Open Chat" on any group
 2. Type message and press Enter
 3. Messages appear in real-time
@@ -84,10 +94,13 @@ npm start
 ## 🧪 Testing
 
 ### Automated Test
+
 ```bash
 node test-group-feature.js
 ```
+
 This will:
+
 - Create 2 test users
 - Create a group
 - Test join functionality
@@ -95,6 +108,7 @@ This will:
 - Verify everything works
 
 ### Manual Test
+
 1. Open two browser windows (one normal, one incognito)
 2. Create different accounts in each
 3. Create group in first window
@@ -113,6 +127,7 @@ This will:
 ## 🎯 Key Features
 
 ### For Users
+
 - Create unlimited groups
 - Unique invite codes for each group
 - Real-time messaging
@@ -121,6 +136,7 @@ This will:
 - Leave/rejoin anytime
 
 ### For Developers
+
 - RESTful API endpoints
 - Socket.IO real-time events
 - MongoDB data persistence
@@ -131,6 +147,7 @@ This will:
 ## 🗄️ Database Collections
 
 ### Groups Collection
+
 ```javascript
 {
   name: "Paris Trip 2026",
@@ -148,6 +165,7 @@ This will:
 ```
 
 ### Messages Collection
+
 ```javascript
 {
   group: ObjectId("..."),
@@ -162,6 +180,7 @@ This will:
 ## 🌐 API Endpoints
 
 ### Groups
+
 - `POST /api/groups` - Create new group
 - `GET /api/groups` - Get user's groups
 - `GET /api/groups/:id` - Get group details
@@ -170,26 +189,34 @@ This will:
 - `POST /api/groups/:id/leave` - Leave group
 
 ### Messages
+
 - `GET /api/groups/:id/messages` - Get message history
 - `POST /api/groups/:id/messages` - Send message
 
 ### Pages
+
 - `GET /groups` - Groups index page
 - `GET /groups/:id/chat` - Group chat page
 
 ## 🔌 Socket.IO Events
 
 ### Client → Server
+
 ```javascript
-socket.emit('join', { groupId, userId })
-socket.emit('message', { groupId, userId, username, content })
-socket.emit('leave', { groupId, userId })
+socket.emit("join", { groupId, userId });
+socket.emit("message", { groupId, userId, username, content });
+socket.emit("leave", { groupId, userId });
 ```
 
 ### Server → Client
+
 ```javascript
-socket.on('message', (data) => { /* New message */ })
-socket.on('system', (data) => { /* System event */ })
+socket.on("message", (data) => {
+  /* New message */
+});
+socket.on("system", (data) => {
+  /* System event */
+});
 ```
 
 ## 🔒 Security
@@ -229,6 +256,7 @@ socket.on('system', (data) => { /* System event */ })
 ## ✅ Status: Production Ready
 
 Everything is:
+
 - ✅ Fully implemented
 - ✅ Tested and working
 - ✅ Documented
@@ -256,16 +284,19 @@ Everything is:
 ## 🆘 Troubleshooting
 
 ### Chat not working in real-time?
+
 - Check Socket.IO connection (green "Connected" badge)
 - Verify MongoDB is running
 - Check browser console for errors
 
 ### Can't create group?
+
 - Make sure you're logged in
 - Check server console for errors
 - Verify MongoDB connection
 
 ### Invite code not working?
+
 - Double-check the code (8 characters)
 - Ensure group is still active
 - Try logging out and back in
@@ -275,6 +306,7 @@ Everything is:
 ✨ **Your FYP now has a complete Group Travel Planner!**
 
 Users can:
+
 1. ✅ Create travel groups
 2. ✅ Invite friends with codes
 3. ✅ Chat in real-time
@@ -292,6 +324,7 @@ Users can:
 ## 🌟 Future Enhancements
 
 Ready to add:
+
 - 📸 Image sharing in chat
 - 📍 Real-time location sharing
 - 💰 Expense tracking and splitting

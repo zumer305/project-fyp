@@ -321,9 +321,18 @@ function displayGroups() {
           </div>
         </div>
         <div class="card-footer bg-transparent">
-          <button class="btn btn-sm btn-primary w-100" onclick="event.stopPropagation(); openGroupChat('${group._id}')">
-            <i class="fas fa-comment"></i> Open Chat
-          </button>
+          <div class="row g-2">
+            <div class="col-6">
+              <button class="btn btn-sm btn-primary w-100" onclick="event.stopPropagation(); openGroupChat('${group._id}')">
+                <i class="fas fa-comment"></i> Open Chat
+              </button>
+            </div>
+            <div class="col-6">
+              <button class="btn btn-sm btn-success w-100" onclick="event.stopPropagation(); openLocationMap('${group._id}')">
+                <i class="fas fa-map-marker-alt"></i> See Location
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -437,6 +446,11 @@ async function joinGroup() {
 // Open group chat
 function openGroupChat(groupId) {
   window.location.href = `/groups/${groupId}/chat`;
+}
+
+// Open location map
+function openLocationMap(groupId) {
+  window.location.href = `/groups/${groupId}/location-map`;
 }
 
 // Copy invite code

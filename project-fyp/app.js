@@ -314,23 +314,23 @@ io.on("connection", (socket) => {
     if (groupId) {
       socket.join(`group:${groupId}`);
       console.log(`User ${userId} joined group ${groupId}`);
-      
+
       // Notify other members
-      socket.to(`group:${groupId}`).emit("system", { 
-        type: "join", 
+      socket.to(`group:${groupId}`).emit("system", {
+        type: "join",
         userId,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
     }
   });
 
   socket.on("message", async ({ groupId, userId, username, content }) => {
     if (!groupId || !content) return;
-    
+
     try {
       // Verify user is a member
       const group = await Group.findById(groupId);
-      if (!group || !group.members.some(m => m.toString() === userId)) {
+      if (!group || !group.members.some((m) => m.toString() === userId)) {
         console.log("Unauthorized message attempt");
         return;
       }
@@ -340,7 +340,7 @@ io.on("connection", (socket) => {
         group: groupId,
         user: userId,
         content: content.trim(),
-        type: "text"
+        type: "text",
       });
 
       // Broadcast to all clients in the group (including sender)
@@ -350,7 +350,7 @@ io.on("connection", (socket) => {
         username,
         content: content.trim(),
         createdAt: msg.createdAt,
-        type: "text"
+        type: "text",
       });
 
       console.log(`Message sent in group ${groupId} by ${username}`);
@@ -361,10 +361,10 @@ io.on("connection", (socket) => {
 
   socket.on("location-update", ({ groupId, userId, coords }) => {
     if (groupId && coords) {
-      socket.to(`group:${groupId}`).emit("location-update", { 
-        userId, 
+      socket.to(`group:${groupId}`).emit("location-update", {
+        userId,
         coords,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
     }
   });
@@ -373,12 +373,12 @@ io.on("connection", (socket) => {
     if (groupId) {
       socket.leave(`group:${groupId}`);
       console.log(`User ${userId} left group ${groupId}`);
-      
+
       // Notify other members
-      socket.to(`group:${groupId}`).emit("system", { 
-        type: "leave", 
+      socket.to(`group:${groupId}`).emit("system", {
+        type: "leave",
         userId,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
     }
   });

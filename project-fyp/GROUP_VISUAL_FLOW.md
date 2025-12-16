@@ -376,6 +376,7 @@ Request with Token
 ## 🚀 Quick Reference
 
 ### Key Files
+
 - **Models**: `models/group.js`, `models/message.js`
 - **Controllers**: `controllers/api/groupsController.js`
 - **Routes**: `routes/groups.js`, `routes/api/groups.js`
@@ -383,6 +384,7 @@ Request with Token
 - **Styles**: `public/css/groups.css`
 
 ### Main Endpoints
+
 - `GET /groups` - Groups page
 - `POST /api/groups` - Create group
 - `POST /api/groups/join-code` - Join group
@@ -390,6 +392,7 @@ Request with Token
 - `GET /api/groups/:id/messages` - Get messages
 
 ### Socket Events
+
 - `join` - Join room
 - `message` - Send message
 - `leave` - Leave room

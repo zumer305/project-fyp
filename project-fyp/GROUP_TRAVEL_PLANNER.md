@@ -1,11 +1,13 @@
 # Group Travel Planner Feature
 
 ## Overview
+
 The Group Travel Planner allows users to create travel groups, invite friends, and chat in real-time to plan trips together. All chat history is stored in MongoDB for persistence.
 
 ## Features
 
 ### 1. Create Group
+
 - Users can create a new travel group with:
   - Group name (required)
   - Description
@@ -16,12 +18,14 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
 - Creator is automatically added as the first member
 
 ### 2. Join Group
+
 - Users can join existing groups using an invite code
 - Validates that the group exists and is active
 - Prevents duplicate memberships
 - System message notifies existing members when someone joins
 
 ### 3. Real-Time Group Chat
+
 - **Socket.IO Integration**: Real-time messaging without page refresh
 - **MongoDB Persistence**: All messages saved to database with timestamps
 - **Message History**: Full chat history loaded when opening a group
@@ -34,6 +38,7 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
   - Auto-scroll to latest messages
 
 ### 4. Group Management
+
 - View all your groups
 - See group details (members, destination, dates, budget)
 - Copy and share invite codes
@@ -45,6 +50,7 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
 ### Database Models
 
 #### Group Model (`models/group.js`)
+
 ```javascript
 {
   name: String (required, max 100 chars),
@@ -65,6 +71,7 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
 ```
 
 #### Message Model (`models/message.js`)
+
 ```javascript
 {
   group: ObjectId (ref: Group, required, indexed),
@@ -80,6 +87,7 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
 ### API Endpoints
 
 #### Group Management
+
 - `POST /api/groups` - Create new group
 - `GET /api/groups` - Get user's groups
 - `GET /api/groups/:id` - Get group details
@@ -89,49 +97,68 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
 - `POST /api/groups/:id/leave` - Leave group
 
 #### Messages
+
 - `GET /api/groups/:id/messages` - Get message history (paginated)
 - `POST /api/groups/:id/messages` - Send message (HTTP fallback)
 
 #### Trip Planning (Stub)
+
 - `GET /api/groups/:id/plan` - Get itinerary
 - `GET /api/groups/:id/expenses` - Get expense summary
 
 ### Frontend Routes
+
 - `GET /groups` - Groups index page
 - `GET /groups/:id/chat` - Group chat page
 
 ### Socket.IO Events
 
 #### Client → Server
+
 - `join` - Join group room
   ```javascript
-  { groupId, userId }
+  {
+    groupId, userId;
+  }
   ```
 - `message` - Send message
   ```javascript
-  { groupId, userId, username, content }
+  {
+    groupId, userId, username, content;
+  }
   ```
 - `leave` - Leave group room
   ```javascript
-  { groupId, userId }
+  {
+    groupId, userId;
+  }
   ```
 - `location-update` - Share location (future feature)
   ```javascript
-  { groupId, userId, coords }
+  {
+    groupId, userId, coords;
+  }
   ```
 
 #### Server → Client
+
 - `message` - New message broadcast
   ```javascript
-  { id, userId, username, content, createdAt, type }
+  {
+    id, userId, username, content, createdAt, type;
+  }
   ```
 - `system` - System event notification
   ```javascript
-  { type: "join"|"leave", userId, timestamp }
+  {
+    type: "join" | "leave", userId, timestamp;
+  }
   ```
 - `location-update` - Location update broadcast
   ```javascript
-  { userId, coords, timestamp }
+  {
+    userId, coords, timestamp;
+  }
   ```
 
 ## Usage Guide
@@ -139,6 +166,7 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
 ### For Users
 
 1. **Creating a Group**:
+
    - Navigate to `/groups`
    - Click "Create" button
    - Fill in group details (at minimum, group name)
@@ -146,6 +174,7 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
    - Copy the generated invite code and share with friends
 
 2. **Joining a Group**:
+
    - Get invite code from friend
    - Navigate to `/groups`
    - Click "Join" button
@@ -153,6 +182,7 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
    - Click "Join Group"
 
 3. **Chatting in a Group**:
+
    - Click on a group card or "Open Chat" button
    - View group info and members in the left sidebar
    - Type message in the input at the bottom
@@ -173,6 +203,7 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
 2. **Controllers are ready** - Full CRUD operations implemented
 
 3. **Routes are configured**:
+
    - API routes in `/routes/api/groups.js`
    - View routes in `/routes/groups.js`
 
@@ -200,6 +231,7 @@ The Group Travel Planner allows users to create travel groups, invite friends, a
 #### Authentication Requirements
 
 All group endpoints require authentication:
+
 - Uses `requireAuth` middleware for API routes
 - Uses `isLoggedIn` middleware for view routes
 - User info from `req.user` (Passport.js)
@@ -207,6 +239,7 @@ All group endpoints require authentication:
 #### Database Queries
 
 The implementation uses efficient queries:
+
 - Indexed group lookups by invite code
 - Indexed message queries by group
 - Population of user and creator references
@@ -238,23 +271,27 @@ Planned features for future development:
 ## Troubleshooting
 
 ### Messages Not Showing in Real-Time
+
 - Check Socket.IO connection (status indicator in chat)
 - Verify MongoDB is running
 - Check browser console for errors
 - Ensure user is authenticated
 
 ### Cannot Join Group
+
 - Verify invite code is correct (case-insensitive)
 - Check group is still active
 - Ensure you're logged in
 
 ### Database Connection Issues
+
 - Verify MongoDB is running on `mongodb://127.0.0.1:27017/wanderlust`
 - Check database connection in app.js
 
 ## API Response Examples
 
 ### Create Group Success
+
 ```json
 {
   "success": true,
@@ -271,6 +308,7 @@ Planned features for future development:
 ```
 
 ### Get Messages Success
+
 ```json
 {
   "success": true,
@@ -295,6 +333,7 @@ Planned features for future development:
 ## Dependencies
 
 Required packages (already in package.json):
+
 - `socket.io` - Real-time communication
 - `mongoose` - MongoDB ODM
 - `express` - Web framework
@@ -325,6 +364,7 @@ project-fyp/
 ## Support
 
 For issues or questions:
+
 1. Check this documentation
 2. Review console logs (browser and server)
 3. Verify all dependencies are installed

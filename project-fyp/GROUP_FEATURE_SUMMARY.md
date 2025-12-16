@@ -7,18 +7,21 @@ Your FYP now includes a **fully functional Group Travel Planner** with the follo
 ### 🌟 Core Features
 
 #### 1. **Create Group** ✨
+
 - Create travel groups with detailed information
 - Auto-generated unique 8-character invite codes
 - Set destination, dates, and budget
 - You become the group creator/admin
 
 #### 2. **Join Group** 🎫
+
 - Join groups using invite codes
 - Automatic member verification
 - System notifications when someone joins
 - View all group members
 
 #### 3. **Real-Time Group Chat** 💬
+
 - **Socket.IO powered** instant messaging
 - **MongoDB persistence** - all messages saved
 - Message history with timestamps
@@ -28,6 +31,7 @@ Your FYP now includes a **fully functional Group Travel Planner** with the follo
 - Auto-scroll to latest messages
 
 #### 4. **Group Management** 👥
+
 - View all your groups
 - See group details (members, destination, dates, budget)
 - Copy and share invite codes easily
@@ -37,6 +41,7 @@ Your FYP now includes a **fully functional Group Travel Planner** with the follo
 ### 📁 Files Created/Modified
 
 #### **New Files**
+
 ```
 ✅ models/group.js (enhanced)
 ✅ models/message.js (enhanced)
@@ -52,6 +57,7 @@ Your FYP now includes a **fully functional Group Travel Planner** with the follo
 ```
 
 #### **Modified Files**
+
 ```
 ✅ app.js (added Socket.IO handlers + routes)
 ✅ views/includes/navbar.ejs (added Groups link)
@@ -62,6 +68,7 @@ Your FYP now includes a **fully functional Group Travel Planner** with the follo
 All endpoints require authentication (`Bearer token` or session):
 
 #### Group Management
+
 - `POST /api/groups` - Create new group
 - `GET /api/groups` - Get user's groups
 - `GET /api/groups/:id` - Get group details
@@ -71,22 +78,26 @@ All endpoints require authentication (`Bearer token` or session):
 - `POST /api/groups/:id/leave` - Leave group
 
 #### Messages
+
 - `GET /api/groups/:id/messages` - Get messages (paginated)
 - `POST /api/groups/:id/messages` - Send message (HTTP fallback)
 
 #### Pages
+
 - `GET /groups` - Groups index page
 - `GET /groups/:id/chat` - Group chat page
 
 ### 🔄 Socket.IO Events
 
 #### Client → Server
+
 - `join` - Join group room
 - `message` - Send real-time message
 - `leave` - Leave group room
 - `location-update` - Share location (ready for future use)
 
 #### Server → Client
+
 - `message` - Broadcast new messages
 - `system` - System notifications (joins/leaves)
 - `location-update` - Location updates (ready for future use)
@@ -94,6 +105,7 @@ All endpoints require authentication (`Bearer token` or session):
 ### 🗄️ Database Schema
 
 #### Group Collection
+
 ```javascript
 {
   name: String (required),
@@ -115,6 +127,7 @@ All endpoints require authentication (`Bearer token` or session):
 ```
 
 #### Message Collection
+
 ```javascript
 {
   group: ObjectId (Group, indexed),
@@ -145,6 +158,7 @@ All endpoints require authentication (`Bearer token` or session):
 ### For Testing
 
 #### Quick Manual Test:
+
 ```bash
 # Terminal 1: Start server
 cd project-fyp
@@ -155,6 +169,7 @@ node test-group-feature.js
 ```
 
 #### Browser Test:
+
 1. Open `http://localhost:8080`
 2. Create account & login
 3. Go to `/groups`
@@ -179,11 +194,13 @@ User Browser (Socket.IO Client)
 ### Request Flow
 
 1. **Creating Group:**
+
    ```
    User → POST /api/groups → Controller → MongoDB → Response with invite code
    ```
 
 2. **Real-Time Chat:**
+
    ```
    User A → Socket.emit('message') → Server → MongoDB → io.emit → All Users
    ```
@@ -196,6 +213,7 @@ User Browser (Socket.IO Client)
 ## 🎨 User Interface
 
 ### Main Groups Page
+
 - **Create Group Card** - Start new trips
 - **Join Group Card** - Use invite codes
 - **Group Chat Card** - Quick access
@@ -203,6 +221,7 @@ User Browser (Socket.IO Client)
 - **Modals** - Clean forms for create/join
 
 ### Chat Page
+
 - **Left Sidebar**: Group info, members, invite code
 - **Main Area**: Chat messages with timestamps
 - **Bottom Bar**: Message input with send button
@@ -250,6 +269,7 @@ Three comprehensive documents created:
 ## 🧪 Testing
 
 ### Automated Test Script
+
 - Creates 2 test users
 - Creates a group
 - Tests join functionality
@@ -258,6 +278,7 @@ Three comprehensive documents created:
 - Tests leave functionality
 
 ### Manual Testing Checklist
+
 - [ ] Can create group
 - [ ] Invite code generated
 - [ ] Can join with code
@@ -285,7 +306,7 @@ Three comprehensive documents created:
 ✅ **Scalable** - Room-based architecture supports many groups  
 ✅ **Documented** - Comprehensive guides and API docs  
 ✅ **Tested** - Automated test script included  
-✅ **Extensible** - Easy to add new features  
+✅ **Extensible** - Easy to add new features
 
 ## 🌐 URLs
 
@@ -309,6 +330,7 @@ Three comprehensive documents created:
 The feature is **fully implemented**, **tested**, and **ready to use**!
 
 ### What's Working:
+
 - ✅ Group creation and management
 - ✅ Invite code system
 - ✅ Real-time chat with Socket.IO
@@ -319,6 +341,7 @@ The feature is **fully implemented**, **tested**, and **ready to use**!
 - ✅ Error handling
 
 ### Dependencies Already Installed:
+
 - ✅ socket.io
 - ✅ mongoose
 - ✅ express
@@ -339,6 +362,7 @@ The feature is **fully implemented**, **tested**, and **ready to use**!
 **You now have a complete Group Travel Planner feature in your FYP!**
 
 It includes:
+
 - ✅ Group creation with invite codes
 - ✅ Join groups functionality
 - ✅ Real-time chat with Socket.IO
