@@ -281,31 +281,11 @@
   </div>
 
   <div class="budget-info">
-    <% 
-    // Get currency symbol
-    var currencySymbols = {};
-    currencySymbols['USD'] = '$';
-    currencySymbols['EUR'] = '€';
-    currencySymbols['GBP'] = '£';
-    currencySymbols['JPY'] = '¥';
-    currencySymbols['AUD'] = 'A$';
-    currencySymbols['CAD'] = 'C$';
-    currencySymbols['CNY'] = '¥';
-    currencySymbols['INR'] = '₹';
-    currencySymbols['PKR'] = '₨';
-    currencySymbols['SAR'] = '﷼';
-    currencySymbols['AED'] = 'د.إ';
-    currencySymbols['TRY'] = '₺';
-    currencySymbols['KZT'] = '₸';
-    currencySymbols['UZS'] = 'soʻm';
-    currencySymbols['KGS'] = 'с';
-    currencySymbols['TJS'] = 'сом';
-    currencySymbols['TMT'] = 'm';
-    currencySymbols['AZN'] = '₼';
-    
-    var symbol = currencySymbols[currency] || (currency + ' ');
-    var formattedBudget = symbol + parseFloat(budget).toLocaleString(); 
-    %>
+    <% // Get currency symbol const currencySymbols = { USD: '$', EUR: '€', GBP:
+    '£', JPY: '¥', AUD: 'A$', CAD: 'C$', CNY: '¥', INR: '₹', PKR: '₨', SAR: '﷼',
+    AED: 'د.إ', TRY: '₺', KZT: '₸', UZS: 'soʻm', KGS: 'с', TJS: 'сом', TMT: 'm',
+    AZN: '₼' }; const symbol = currencySymbols[currency] || currency + ' ';
+    const formattedBudget = symbol + parseFloat(budget).toLocaleString(); %>
     <h3>💰 Your Budget: <strong><%= formattedBudget %></strong></h3>
     <p style="font-size: 0.9rem; color: #6c757d; margin-top: 8px">
       Budget in USD:

@@ -24,7 +24,7 @@
     padding-right: 5px;
     max-height: calc(100vh - 250px);
   }
-  
+
   .members-sidebar::-webkit-scrollbar {
     width: 8px;
   }
@@ -357,21 +357,37 @@
         </div>
         <div class="card-body">
           <div class="mb-3">
-            <label class="form-label small fw-bold">From (Start Location):</label>
+            <label class="form-label small fw-bold"
+              >From (Start Location):</label
+            >
             <select class="form-select form-select-sm" id="startMemberSelect">
               <option value="">Select start member...</option>
             </select>
           </div>
           <div class="mb-3">
             <label class="form-label small fw-bold">To (Destinations):</label>
-            <div id="targetMembersContainer" class="border rounded p-2" style="background: #f8f9fa;">
+            <div
+              id="targetMembersContainer"
+              class="border rounded p-2"
+              style="background: #f8f9fa"
+            >
               <small class="text-muted">Select start member first...</small>
             </div>
           </div>
-          <button class="btn btn-success btn-sm w-100" id="showRoutesBtn" onclick="showMemberToMemberRoutes()" disabled>
+          <button
+            class="btn btn-success btn-sm w-100"
+            id="showRoutesBtn"
+            onclick="showMemberToMemberRoutes()"
+            disabled
+          >
             <i class="fas fa-map-marked-alt"></i> Show Routes
           </button>
-          <button class="btn btn-outline-secondary btn-sm w-100 mt-2" onclick="clearAllRoutes()" style="display:none;" id="clearRoutesBtn">
+          <button
+            class="btn btn-outline-secondary btn-sm w-100 mt-2"
+            onclick="clearAllRoutes()"
+            style="display: none"
+            id="clearRoutesBtn"
+          >
             <i class="fas fa-times"></i> Clear Routes
           </button>
         </div>
@@ -642,10 +658,10 @@
     const memberCount = document.getElementById("memberCount");
 
     memberCount.textContent = locations.length;
-    
+
     // Store locations for route planning
     memberLocationsData = locations;
-    
+
     // Update dropdowns
     updateMemberSelectors(locations);
 
@@ -699,47 +715,49 @@
       })
       .join("");
   }
-  
+
   // Update member selectors for route planning
   function updateMemberSelectors(locations) {
-    const startSelect = document.getElementById('startMemberSelect');
+    const startSelect = document.getElementById("startMemberSelect");
     const currentStart = startSelect.value;
-    
-    startSelect.innerHTML = '<option value="">Select start member...</option>' +
-      locations.map((loc, idx) => 
-        `<option value="${idx}">${loc.username}</option>`
-      ).join('');
-    
+
+    startSelect.innerHTML =
+      '<option value="">Select start member...</option>' +
+      locations
+        .map((loc, idx) => `<option value="${idx}">${loc.username}</option>`)
+        .join("");
+
     // Restore selection if still valid
     if (currentStart && locations[currentStart]) {
       startSelect.value = currentStart;
       populateTargetMembers(currentStart);
     }
   }
-  
+
   // Populate target members based on selected start
   function populateTargetMembers(startIdx) {
-    const container = document.getElementById('targetMembersContainer');
+    const container = document.getElementById("targetMembersContainer");
     const startMember = memberLocationsData[startIdx];
-    
+
     if (!startMember) {
-      container.innerHTML = '<small class="text-muted">No start member selected</small>';
-      document.getElementById('showRoutesBtn').disabled = true;
+      container.innerHTML =
+        '<small class="text-muted">No start member selected</small>';
+      document.getElementById("showRoutesBtn").disabled = true;
       return;
     }
-    
+
     selectedStartMember = startIdx;
-    
+
     container.innerHTML = memberLocationsData
       .map((loc, idx) => {
-        if (idx === parseInt(startIdx)) return ''; // Skip start member
-        
+        if (idx === parseInt(startIdx)) return ""; // Skip start member
+
         const isChecked = selectedTargetMembers.has(idx);
         return `
           <div class="form-check">
             <input class="form-check-input" type="checkbox" 
                    id="target_${idx}" value="${idx}" 
-                   ${isChecked ? 'checked' : ''}
+                   ${isChecked ? "checked" : ""}
                    onchange="toggleTargetMember(${idx})">
             <label class="form-check-label small" for="target_${idx}">
               ${loc.username}
@@ -747,11 +765,11 @@
           </div>
         `;
       })
-      .join('');
-      
+      .join("");
+
     updateShowRoutesButton();
   }
-  
+
   // Toggle target member selection
   function toggleTargetMember(idx) {
     if (selectedTargetMembers.has(idx)) {
@@ -761,25 +779,25 @@
     }
     updateShowRoutesButton();
   }
-  
+
   // Update show routes button state
   function updateShowRoutesButton() {
-    const btn = document.getElementById('showRoutesBtn');
+    const btn = document.getElementById("showRoutesBtn");
     btn.disabled = selectedTargetMembers.size === 0;
   }
-  
+
   // Handle start member selection change
-  document.addEventListener('DOMContentLoaded', () => {
-    const startSelect = document.getElementById('startMemberSelect');
+  document.addEventListener("DOMContentLoaded", () => {
+    const startSelect = document.getElementById("startMemberSelect");
     if (startSelect) {
-      startSelect.addEventListener('change', (e) => {
+      startSelect.addEventListener("change", (e) => {
         selectedTargetMembers.clear();
         if (e.target.value) {
           populateTargetMembers(e.target.value);
         } else {
-          document.getElementById('targetMembersContainer').innerHTML = 
+          document.getElementById("targetMembersContainer").innerHTML =
             '<small class="text-muted">Select start member first...</small>';
-          document.getElementById('showRoutesBtn').disabled = true;
+          document.getElementById("showRoutesBtn").disabled = true;
         }
       });
     }
@@ -938,7 +956,7 @@
   // Track current navigation
   let activeNavigation = null;
   let userLocationMarker = null;
-  
+
   // Track member-to-member routes
   let memberLocationsData = [];
   let selectedStartMember = null;
@@ -1300,74 +1318,79 @@
   // Show routes from start member to selected target members
   async function showMemberToMemberRoutes() {
     if (selectedStartMember === null || selectedTargetMembers.size === 0) {
-      alert('Please select start and target members');
+      alert("Please select start and target members");
       return;
     }
-    
+
     const startLoc = memberLocationsData[selectedStartMember];
     const [startLon, startLat] = startLoc.coordinates;
-    
+
     // Clear existing routes
     clearAllRoutes();
-    
+
     // Show loading
-    const btn = document.getElementById('showRoutesBtn');
+    const btn = document.getElementById("showRoutesBtn");
     const originalText = btn.innerHTML;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Loading routes...';
+    btn.innerHTML =
+      '<span class="spinner-border spinner-border-sm"></span> Loading routes...';
     btn.disabled = true;
-    
+
     try {
-      const routePromises = Array.from(selectedTargetMembers).map(async (targetIdx) => {
-        const targetLoc = memberLocationsData[targetIdx];
-        const [targetLon, targetLat] = targetLoc.coordinates;
-        
-        const accessToken = "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
-        const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLon},${startLat};${targetLon},${targetLat}?geometries=geojson&steps=true&access_token=${accessToken}`;
-        
-        const response = await fetch(url);
-        const data = await response.json();
-        
-        if (data.routes && data.routes.length > 0) {
-          return {
-            targetIdx,
-            targetName: targetLoc.username,
-            route: data.routes[0],
-            coords: [targetLon, targetLat]
-          };
+      const routePromises = Array.from(selectedTargetMembers).map(
+        async (targetIdx) => {
+          const targetLoc = memberLocationsData[targetIdx];
+          const [targetLon, targetLat] = targetLoc.coordinates;
+
+          const accessToken =
+            "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
+          const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLon},${startLat};${targetLon},${targetLat}?geometries=geojson&steps=true&access_token=${accessToken}`;
+
+          const response = await fetch(url);
+          const data = await response.json();
+
+          if (data.routes && data.routes.length > 0) {
+            return {
+              targetIdx,
+              targetName: targetLoc.username,
+              route: data.routes[0],
+              coords: [targetLon, targetLat],
+            };
+          }
+          return null;
         }
-        return null;
-      });
-      
-      const routes = (await Promise.all(routePromises)).filter(r => r !== null);
-      
+      );
+
+      const routes = (await Promise.all(routePromises)).filter(
+        (r) => r !== null
+      );
+
       if (routes.length === 0) {
-        alert('Could not find any routes. Please try again.');
+        alert("Could not find any routes. Please try again.");
         btn.innerHTML = originalText;
         btn.disabled = false;
         return;
       }
-      
+
       // Display all routes on map
       displayMultipleRoutes(startLoc, routes);
-      
+
       // Show clear button
-      document.getElementById('clearRoutesBtn').style.display = 'block';
-      
+      document.getElementById("clearRoutesBtn").style.display = "block";
     } catch (error) {
-      console.error('Error getting routes:', error);
-      alert('Error loading routes. Please try again.');
+      console.error("Error getting routes:", error);
+      alert("Error loading routes. Please try again.");
     } finally {
       btn.innerHTML = originalText;
       btn.disabled = false;
     }
   }
-  
+
   // Display multiple routes on map
   function displayMultipleRoutes(startLoc, routes) {
     const [startLon, startLat] = startLoc.coordinates;
-    
+
     // Add start marker
-    const startEl = document.createElement('div');
+    const startEl = document.createElement("div");
     startEl.innerHTML = `
       <div style="
         width: 50px; height: 50px;
@@ -1385,70 +1408,79 @@
              font-size: 14px;">📍</div>
       </div>
     `;
-    
+
     const startMarker = new mapboxgl.Marker({ element: startEl })
       .setLngLat([startLon, startLat])
-      .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`
+      .setPopup(
+        new mapboxgl.Popup({ offset: 25 }).setHTML(`
         <div style="text-align: center; font-family: Arial, sans-serif;">
           <strong style="font-size: 16px; color: #28a745;">📍 Start Location</strong><br>
           <div style="margin: 8px 0; font-size: 14px; font-weight: 600;">${startLoc.username}</div>
           <small style="color: #666;">Routes starting from here</small>
         </div>
-      `))
+      `)
+      )
       .addTo(map);
-    
+
     memberRouteMarkers.push(startMarker);
-    
+
     // Create bounds for fitting
     const bounds = new mapboxgl.LngLatBounds();
     bounds.extend([startLon, startLat]);
-    
+
     // Route colors for different destinations
-    const routeColors = ['#007acc', '#dc3545', '#28a745', '#ffc107', '#6f42c1', '#fd7e14'];
-    
+    const routeColors = [
+      "#007acc",
+      "#dc3545",
+      "#28a745",
+      "#ffc107",
+      "#6f42c1",
+      "#fd7e14",
+    ];
+
     // Add each route
     routes.forEach((routeData, idx) => {
       const color = routeColors[idx % routeColors.length];
       const route = routeData.route;
       const distance = (route.distance / 1000).toFixed(2);
       const duration = Math.round(route.duration / 60);
-      
+
       // Add route to map
       const sourceId = `route-${idx}`;
       map.addSource(sourceId, {
-        type: 'geojson',
+        type: "geojson",
         data: {
-          type: 'Feature',
-          geometry: route.geometry
-        }
+          type: "Feature",
+          geometry: route.geometry,
+        },
       });
-      
+
       // Route outline
       map.addLayer({
         id: `${sourceId}-outline`,
-        type: 'line',
+        type: "line",
         source: sourceId,
         paint: {
-          'line-color': '#000',
-          'line-width': 8,
-          'line-opacity': 0.3
-        }
+          "line-color": "#000",
+          "line-width": 8,
+          "line-opacity": 0.3,
+        },
       });
-      
+
       // Main route line
       map.addLayer({
         id: sourceId,
-        type: 'line',
+        type: "line",
         source: sourceId,
         paint: {
-          'line-color': color,
-          'line-width': 5,
-          'line-opacity': 0.8
-        }
+          "line-color": color,
+          "line-width": 5,
+          "line-opacity": 0.8,
+        },
       });
-      
+
       // Add destination marker
-      const destEl = document.createElement('div');
+      const destEl = document.createElement("div");
       destEl.innerHTML = `
         <div style="
           width: 45px; height: 45px;
@@ -1461,10 +1493,11 @@
           ${routeData.targetName.charAt(0).toUpperCase()}
         </div>
       `;
-      
+
       const destMarker = new mapboxgl.Marker({ element: destEl })
         .setLngLat(routeData.coords)
-        .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }).setHTML(`
           <div style="font-family: Arial, sans-serif; min-width: 200px;">
             <div style="text-align: center; margin-bottom: 10px;">
               <strong style="font-size: 16px; color: ${color};">🎯 ${routeData.targetName}</strong>
@@ -1483,32 +1516,33 @@
             </div>
             <small style="color: #999; font-size: 11px;">Route from ${startLoc.username}</small>
           </div>
-        `))
+        `)
+        )
         .addTo(map);
-      
+
       memberRouteMarkers.push(destMarker);
-      
+
       // Extend bounds
-      route.geometry.coordinates.forEach(coord => bounds.extend(coord));
+      route.geometry.coordinates.forEach((coord) => bounds.extend(coord));
     });
-    
+
     // Fit map to show all routes
     map.fitBounds(bounds, {
       padding: { top: 100, bottom: 100, left: 100, right: 100 },
-      duration: 1500
+      duration: 1500,
     });
-    
+
     // Show info panel
     showRouteSummaryPanel(startLoc.username, routes);
   }
-  
+
   // Show route summary panel
   function showRouteSummaryPanel(startName, routes) {
-    const existingPanel = document.getElementById('route-summary-panel');
+    const existingPanel = document.getElementById("route-summary-panel");
     if (existingPanel) existingPanel.remove();
-    
-    const panel = document.createElement('div');
-    panel.id = 'route-summary-panel';
+
+    const panel = document.createElement("div");
+    panel.id = "route-summary-panel";
     panel.style.cssText = `
       position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
       background: white; padding: 15px 20px; border-radius: 10px;
@@ -1516,10 +1550,13 @@
       min-width: 350px; font-family: Arial, sans-serif;
       animation: slideDown 0.3s ease-out;
     `;
-    
-    const totalDistance = routes.reduce((sum, r) => sum + r.route.distance, 0) / 1000;
-    const avgDuration = Math.round(routes.reduce((sum, r) => sum + r.route.duration, 0) / routes.length / 60);
-    
+
+    const totalDistance =
+      routes.reduce((sum, r) => sum + r.route.distance, 0) / 1000;
+    const avgDuration = Math.round(
+      routes.reduce((sum, r) => sum + r.route.duration, 0) / routes.length / 60
+    );
+
     panel.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
         <div style="font-size: 16px; font-weight: bold; color: #333;">
@@ -1533,11 +1570,15 @@
       <div style="background: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
         <div style="display: flex; gap: 15px; justify-content: center;">
           <div style="text-align: center;">
-            <div style="font-size: 20px; font-weight: bold; color: #007acc;">${routes.length}</div>
+            <div style="font-size: 20px; font-weight: bold; color: #007acc;">${
+              routes.length
+            }</div>
             <div style="font-size: 11px; color: #666;">Routes</div>
           </div>
           <div style="text-align: center;">
-            <div style="font-size: 20px; font-weight: bold; color: #28a745;">${totalDistance.toFixed(1)} km</div>
+            <div style="font-size: 20px; font-weight: bold; color: #28a745;">${totalDistance.toFixed(
+              1
+            )} km</div>
             <div style="font-size: 11px; color: #666;">Total Dist.</div>
           </div>
           <div style="text-align: center;">
@@ -1547,12 +1588,20 @@
         </div>
       </div>
       <div style="max-height: 150px; overflow-y: auto;">
-        ${routes.map((r, idx) => {
-          const dist = (r.route.distance / 1000).toFixed(1);
-          const dur = Math.round(r.route.duration / 60);
-          const routeColors = ['#007acc', '#dc3545', '#28a745', '#ffc107', '#6f42c1', '#fd7e14'];
-          const color = routeColors[idx % routeColors.length];
-          return `
+        ${routes
+          .map((r, idx) => {
+            const dist = (r.route.distance / 1000).toFixed(1);
+            const dur = Math.round(r.route.duration / 60);
+            const routeColors = [
+              "#007acc",
+              "#dc3545",
+              "#28a745",
+              "#ffc107",
+              "#6f42c1",
+              "#fd7e14",
+            ];
+            const color = routeColors[idx % routeColors.length];
+            return `
             <div style="padding: 8px; background: white; border-left: 4px solid ${color}; 
                  margin-bottom: 6px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
               <div>
@@ -1566,13 +1615,14 @@
               </button>
             </div>
           `;
-        }).join('')}
+          })
+          .join("")}
       </div>
     `;
-    
-    document.querySelector('.map-container').appendChild(panel);
+
+    document.querySelector(".map-container").appendChild(panel);
   }
-  
+
   // Clear all member-to-member routes
   function clearAllRoutes() {
     // Remove all route layers and sources
@@ -1583,18 +1633,18 @@
       map.removeSource(`route-${idx}`);
       idx++;
     }
-    
+
     // Remove markers
-    memberRouteMarkers.forEach(marker => marker.remove());
+    memberRouteMarkers.forEach((marker) => marker.remove());
     memberRouteMarkers = [];
-    
+
     // Remove summary panel
-    const panel = document.getElementById('route-summary-panel');
+    const panel = document.getElementById("route-summary-panel");
     if (panel) panel.remove();
-    
+
     // Hide clear button
-    document.getElementById('clearRoutesBtn').style.display = 'none';
-    
+    document.getElementById("clearRoutesBtn").style.display = "none";
+
     // Refresh to show all members
     loadMemberLocations();
   }

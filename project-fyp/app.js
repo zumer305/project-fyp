@@ -35,6 +35,7 @@ const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const groupsRouter = require("./routes/groups.js");
+const bookingRouter = require("./routes/booking.js");
 // API routes
 const apiAuthRouter = require("./routes/api/auth.js");
 const apiDestRouter = require("./routes/api/destinations.js");
@@ -270,6 +271,7 @@ app.get("/events", (req, res) => {
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/groups", groupsRouter);
+app.use("/", bookingRouter); // Booking routes (handles /book and /bookings/*)
 app.use("/", userRouter);
 // Mount API routers
 app.use("/api/auth", apiAuthRouter);

@@ -1,0 +1,408 @@
+<% layout("/layouts/boiler") %>
+
+<style>
+  .booking-detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+
+  .booking-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+  }
+
+  .booking-reference {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 15px;
+  }
+
+  .status-pending {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .status-confirmed {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  .status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+  }
+
+  .status-completed {
+    background: #d1ecf1;
+    color: #0c5460;
+  }
+
+  .booking-content {
+    background: white;
+    padding: 40px;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .section {
+    margin-bottom: 35px;
+    padding-bottom: 35px;
+    border-bottom: 2px solid #e9ecef;
+  }
+
+  .section:last-child {
+    border-bottom: none;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .section-title-icon {
+    margin-right: 10px;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .detail-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #007bff;
+  }
+
+  .detail-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .detail-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .package-summary {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    padding: 25px;
+    border-radius: 10px;
+  }
+
+  .price-highlight {
+    background: #28a745;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .special-requests {
+    background: #fff3cd;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #ffc107;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #007bff;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #007bff;
+  }
+
+  .timeline-item::after {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 17px;
+    width: 2px;
+    height: 100%;
+    background: #dee2e6;
+  }
+
+  .timeline-item:last-child::after {
+    display: none;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+
+  .btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    background: #007bff;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #0056b3;
+  }
+
+  .btn-danger {
+    background: #dc3545;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #c82333;
+  }
+
+  .btn-secondary {
+    background: #6c757d;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #5a6268;
+  }
+
+  .alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  .alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border-left: 4px solid #17a2b8;
+  }
+
+  .alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+  }
+
+  @media (max-width: 768px) {
+    .action-buttons {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<div class="booking-detail-container">
+  <div class="booking-header">
+    <div class="booking-reference">🎫 <%= booking.bookingReference %></div>
+    <p style="margin: 10px 0 0 0;">
+      Booked on <%= new Date(booking.createdAt).toLocaleDateString() %> at <%= new Date(booking.createdAt).toLocaleTimeString() %>
+    </p>
+    <span class="status-badge status-<%= booking.status %>">
+      <%= booking.status.toUpperCase() %>
+    </span>
+  </div>
+
+  <div class="booking-content">
+    <!-- Status Information -->
+    <% if (booking.status === 'pending') { %>
+      <div class="alert alert-info">
+        <strong>⏳ Pending Review:</strong> Our team is reviewing your booking request. We'll contact you within 24 hours to confirm availability and provide payment instructions.
+      </div>
+    <% } else if (booking.status === 'confirmed') { %>
+      <div class="alert alert-success">
+        <strong>✅ Confirmed:</strong> Your booking has been confirmed! Check your email for detailed itinerary and instructions.
+      </div>
+    <% } %>
+
+    <!-- Package Details -->
+    <div class="section">
+      <h3 class="section-title">
+        <span class="section-title-icon">📦</span>
+        Package Details
+      </h3>
+      <div class="package-summary">
+        <h4 style="margin-top: 0;"><%= booking.packageDetails.packageTitle || 'Custom Package' %></h4>
+        <div class="detail-grid" style="margin-top: 20px;">
+          <div>
+            <strong>📍 Destination:</strong><br>
+            <%= booking.packageDetails.destination || booking.packageDetails.country %>
+          </div>
+          <div>
+            <strong>⏱️ Duration:</strong><br>
+            <%= booking.packageDetails.duration || 'Flexible' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Travel Information -->
+    <div class="section">
+      <h3 class="section-title">
+        <span class="section-title-icon">📅</span>
+        Travel Information
+      </h3>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label">Start Date</div>
+          <div class="detail-value"><%= new Date(booking.travelDates.startDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">End Date</div>
+          <div class="detail-value"><%= new Date(booking.travelDates.endDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Adults (18+)</div>
+          <div class="detail-value"><%= booking.travelers.adults %></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Children</div>
+          <div class="detail-value"><%= booking.travelers.children || 0 %></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="section">
+      <h3 class="section-title">
+        <span class="section-title-icon">📞</span>
+        Contact Information
+      </h3>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label">Full Name</div>
+          <div class="detail-value"><%= booking.contactInfo.fullName %></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Email</div>
+          <div class="detail-value" style="font-size: 1rem;"><%= booking.contactInfo.email %></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Phone</div>
+          <div class="detail-value"><%= booking.contactInfo.phone %></div>
+        </div>
+      </div>
+
+      <% if (booking.contactInfo.specialRequests) { %>
+        <div class="special-requests" style="margin-top: 20px;">
+          <h4 style="margin-top: 0;">💬 Special Requests</h4>
+          <p style="margin: 0;"><%= booking.contactInfo.specialRequests %></p>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Pricing -->
+    <div class="section">
+      <h3 class="section-title">
+        <span class="section-title-icon">💰</span>
+        Pricing Details
+      </h3>
+      <div class="price-highlight">
+        Total Price: 
+        <span class="price" data-amount="<%= booking.totalPrice %>" data-currency="<%= booking.packageDetails.currency %>">
+          <%= booking.packageDetails.currency %> <%= booking.totalPrice.toLocaleString() %>
+        </span>
+      </div>
+    </div>
+
+    <!-- Booking Timeline -->
+    <div class="section">
+      <h3 class="section-title">
+        <span class="section-title-icon">📋</span>
+        Booking Timeline
+      </h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <strong>Booking Created</strong>
+          <div style="color: #666; font-size: 0.9rem;">
+            <%= new Date(booking.createdAt).toLocaleString() %>
+          </div>
+        </div>
+        <% if (booking.updatedAt && booking.updatedAt.getTime() !== booking.createdAt.getTime()) { %>
+          <div class="timeline-item">
+            <strong>Last Updated</strong>
+            <div style="color: #666; font-size: 0.9rem;">
+              <%= new Date(booking.updatedAt).toLocaleString() %>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <a href="/bookings/my-bookings" class="btn btn-secondary">
+        ← Back to My Bookings
+      </a>
+
+      <% if (booking.status === 'pending' || booking.status === 'confirmed') { %>
+        <form method="POST" action="/bookings/<%= booking._id %>/cancel" style="display: inline;" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+          <button type="submit" class="btn btn-danger">
+            ❌ Cancel Booking
+          </button>
+        </form>
+      <% } %>
+
+      <% if (booking.status === 'confirmed') { %>
+        <a href="/track?booking=<%= booking._id %>" class="btn btn-primary">
+          📍 Track My Trip
+        </a>
+      <% } %>
+
+      <button onclick="window.print()" class="btn btn-secondary">
+        🖨️ Print Details
+      </button>
+    </div>
+
+    <% if (booking.adminNotes) { %>
+      <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+        <h4>📝 Admin Notes</h4>
+        <p><%= booking.adminNotes %></p>
+      </div>
+    <% } %>
+  </div>
+</div>

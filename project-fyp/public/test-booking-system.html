@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking System Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    .status {
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .info {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .test-result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      background: #f8f9fa;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    li:before {
+      content: "✓ ";
+      color: #28a745;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Booking System Test Page</h1>
+
+  <div class="test-card">
+    <h2>📋 Quick Test Checklist</h2>
+    <ul>
+      <li>Booking model created</li>
+      <li>Booking routes added</li>
+      <li>Booking views created</li>
+      <li>Email system configured</li>
+      <li>Controllers implemented</li>
+    </ul>
+  </div>
+
+  <div class="test-card">
+    <h2>🧪 Test the Booking Flow</h2>
+    <div class="status info">
+      <strong>Step 1:</strong> Make sure you're logged in
+    </div>
+    <button onclick="window.location.href='/login'">Go to Login</button>
+    <button onclick="window.location.href='/signup'">Go to Signup</button>
+  </div>
+
+  <div class="test-card">
+    <h2>🏖️ Create a Test Booking</h2>
+    <div class="status info">
+      <strong>Step 2:</strong> Create a test package selection
+    </div>
+    <button onclick="createTestPackage()">Create Test Package</button>
+    <button onclick="window.location.href='/book'">Go to Booking Page</button>
+    <div id="testResult" class="test-result" style="display:none;">
+      <strong>Test package created!</strong> Click "Go to Booking Page" to test the form.
+    </div>
+  </div>
+
+  <div class="test-card">
+    <h2>👀 View Your Bookings</h2>
+    <div class="status info">
+      <strong>Step 3:</strong> After creating a booking, view it here
+    </div>
+    <button onclick="window.location.href='/bookings/my-bookings'">My Bookings</button>
+  </div>
+
+  <div class="test-card">
+    <h2>📧 Email Configuration</h2>
+    <div class="status info">
+      Make sure your <code>.env</code> file has these variables set:
+    </div>
+    <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASSWORD=your-app-password
+ADMIN_EMAIL=admin@example.com
+    </pre>
+    <a href="https://myaccount.google.com/apppasswords" target="_blank">
+      <button>Get Gmail App Password</button>
+    </a>
+  </div>
+
+  <div class="test-card">
+    <h2>📍 Available Routes</h2>
+    <ul style="list-style: disc; padding-left: 20px;">
+      <li style="border: none;">GET /book - Booking form</li>
+      <li style="border: none;">POST /book - Submit booking</li>
+      <li style="border: none;">GET /bookings/my-bookings - View all bookings</li>
+      <li style="border: none;">GET /bookings/:id - View specific booking</li>
+      <li style="border: none;">POST /bookings/:id/cancel - Cancel booking</li>
+    </ul>
+  </div>
+
+  <script>
+    function createTestPackage() {
+      const testPackage = {
+        packageId: 'test-' + Date.now(),
+        packageTitle: 'Amazing Test Package to Paris',
+        title: 'Amazing Test Package to Paris',
+        destination: 'Paris, France',
+        country: 'France',
+        duration: '7 Days, 6 Nights',
+        totalCost: 1500,
+        currency: 'USD',
+        description: 'This is a test package for testing the booking system',
+        activities: ['Eiffel Tower Visit', 'Louvre Museum', 'Seine River Cruise'],
+        accommodations: ['4-Star Hotel in Central Paris'],
+        transportation: ['Round-trip flights', 'Airport transfers'],
+      };
+
+      localStorage.setItem('selectedPackage', JSON.stringify(testPackage));
+      localStorage.setItem('selectedPackage_context', JSON.stringify({
+        country: 'France',
+        budget: '2000'
+      }));
+
+      document.getElementById('testResult').style.display = 'block';
+      console.log('Test package created:', testPackage);
+    }
+
+    // Check if user is logged in
+    window.onload = function() {
+      // You can add logic here to check login status
+      console.log('Booking system test page loaded');
+    };
+  </script>
+</body>
+</html>
