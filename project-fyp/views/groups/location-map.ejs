@@ -161,6 +161,32 @@
     border-bottom: none;
   }
 
+  /* Route info panel animations */
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    to { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  }
+
+  #route-info-panel {
+    animation: slideDown 0.3s ease-out;
+  }
+
   @media (max-width: 992px) {
     .location-container {
       flex-direction: column;
@@ -175,19 +201,26 @@
     .map-container {
       height: 400px;
     }
+
+    #route-info-panel {
+      min-width: auto;
+      width: calc(100% - 40px);
+      left: 20px;
+      transform: none;
+    }
   }
 </style>
 
 <div class="container mt-4">
   <!-- Header -->
-  <div class="row mb-4">
+  <div class="row mb-3">
     <div class="col-md-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <h1 class="display-5">
-            <i class="fas fa-map-marked-alt"></i> Member Locations
+            <i class="fas fa-map-marked-alt"></i> Track Group Members
           </h1>
-          <p class="text-muted" id="groupName">Loading...</p>
+          <p class="text-muted mb-0" id="groupName">Loading...</p>
         </div>
         <div>
           <button class="btn btn-outline-secondary" onclick="window.history.back()">
@@ -198,18 +231,32 @@
     </div>
   </div>
 
+  <!-- Info Banner -->
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <div class="alert alert-info" role="alert" style="border-left: 4px solid #17a2b8;">
+        <i class="fas fa-info-circle"></i> <strong>Live Location Tracking:</strong> 
+        See where all your group members are during the tour. Enable sharing to let others see your location too. 
+        Click any member to get directions to them!
+      </div>
+    </div>
+  </div>
+
   <!-- Main Content: Sidebar + Map -->
   <div class="location-container">
     <!-- Left Sidebar: Members & Controls -->
     <div class="members-sidebar">
       <!-- Location Sharing Info -->
       <div class="location-info">
-        <h6><i class="fas fa-info-circle"></i> Your Location</h6>
-        <p class="mb-2 small">
-          <span id="sharingStatus" class="location-status inactive">Location Sharing Off</span>
+        <h6><i class="fas fa-broadcast-tower"></i> Location Sharing</h6>
+        <p class="mb-2 small" style="font-size: 11px; line-height: 1.4;">
+          Share your location so other members can see where you are during the tour.
         </p>
-        <button class="btn btn-primary btn-sm w-100" id="toggleSharingBtn" onclick="toggleLocationSharing()">
-          <i class="fas fa-location-arrow"></i> Enable Sharing
+        <p class="mb-2 small">
+          <span id="sharingStatus" class="location-status inactive">Sharing: OFF</span>
+        </p>
+        <button class="btn btn-success btn-sm w-100" id="toggleSharingBtn" onclick="toggleLocationSharing()">
+          <i class="fas fa-location-arrow"></i> Start Sharing Location
         </button>
       </div>
 
@@ -352,7 +399,7 @@ function displayLocationsOnMap(locations) {
     el.style.background = `radial-gradient(circle, ${color} 0%, ${adjustColor(color, -20)} 100%)`;
     el.textContent = location.username.charAt(0).toUpperCase();
 
-    // Create popup with improved styling (matching home screen)
+    // Create popup with improved styling
     const lastUpdated = location.lastUpdated 
       ? new Date(location.lastUpdated).toLocaleString('en-US', { 
           hour: '2-digit', 
@@ -360,29 +407,43 @@ function displayLocationsOnMap(locations) {
           month: 'short',
           day: 'numeric'
         })
-      : 'Unknown';
+      : 'Just now';
 
     const popupHTML = `
-      <div style="font-family: Arial, sans-serif; min-width: 200px;">
-        <strong style="font-size: 16px; color: #333;">👤 ${location.username}</strong>
-        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">
-          <div style="font-size: 13px; color: #666; margin-bottom: 6px;">
+      <div style="font-family: Arial, sans-serif; min-width: 220px;">
+        <div style="text-align: center; margin-bottom: 10px;">
+          <div class="member-marker" style="background: ${color}; width: 50px; height: 50px; 
+               font-size: 24px; margin: 0 auto 10px;">
+            ${location.username.charAt(0).toUpperCase()}
+          </div>
+          <strong style="font-size: 18px; color: #333;">${location.username}</strong>
+        </div>
+        
+        <div style="background: #f8f9fa; padding: 10px; border-radius: 6px; margin: 10px 0;">
+          <div style="font-size: 12px; color: #666; margin-bottom: 5px;">
             <i class="fas fa-map-marker-alt" style="color: ${color}; width: 16px;"></i>
-            <strong>Location:</strong>
+            <strong>Current Location</strong>
           </div>
-          <div style="font-size: 12px; color: #888; margin-left: 20px;">
-            📍 ${lat.toFixed(5)}°, ${lng.toFixed(5)}°
+          <div style="font-size: 11px; color: #888;">
+            📍 Lat: ${lat.toFixed(5)}°<br>
+            📍 Lng: ${lng.toFixed(5)}°
           </div>
         </div>
-        <div style="margin-top: 8px; font-size: 12px; color: #999;">
-          <i class="fas fa-clock" style="width: 16px;"></i> ${lastUpdated}
+
+        <div style="font-size: 11px; color: #999; text-align: center; margin: 8px 0;">
+          <i class="fas fa-clock"></i> Updated: ${lastUpdated}
         </div>
+
         <button onclick="getDirectionsToMember(${lng}, ${lat}, '${location.username.replace(/'/g, "\\'")}')" 
-                style="margin-top: 10px; padding: 8px 12px; background: #007acc; color: white; border: none; 
-                       border-radius: 6px; cursor: pointer; width: 100%; font-size: 13px; font-weight: 500;
-                       transition: background 0.2s;">
-          🚗 Get Directions
+                style="margin-top: 10px; padding: 10px; background: linear-gradient(135deg, #007acc 0%, #0056b3 100%); 
+                       color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; 
+                       font-size: 14px; font-weight: 600; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+          � Navigate to ${location.username}
         </button>
+
+        <div style="font-size: 10px; color: #999; text-align: center; margin-top: 8px;">
+          Click to get turn-by-turn directions
+        </div>
       </div>
     `;
 
@@ -390,7 +451,7 @@ function displayLocationsOnMap(locations) {
       offset: 25,
       closeButton: true,
       closeOnClick: false,
-      maxWidth: '300px'
+      maxWidth: '280px'
     }).setHTML(popupHTML);
 
     // Create marker with custom element
@@ -441,7 +502,7 @@ function displayMembersList(locations) {
       <div class="text-center text-muted py-4">
         <i class="fas fa-info-circle fa-2x mb-2"></i>
         <p class="mb-0 small">No members sharing location</p>
-        <p class="mb-0 small text-muted">Be the first to share!</p>
+        <p class="mb-0 small text-muted">Enable sharing to be visible!</p>
       </div>
     `;
     return;
@@ -449,22 +510,34 @@ function displayMembersList(locations) {
 
   membersList.innerHTML = locations.map((location, index) => {
     const lastUpdated = location.lastUpdated 
-      ? new Date(location.lastUpdated).toLocaleTimeString()
-      : 'Unknown';
+      ? new Date(location.lastUpdated).toLocaleString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          month: 'short',
+          day: 'numeric'
+        })
+      : 'Just now';
+
+    // Format coordinates for display
+    const [lng, lat] = location.coordinates;
+    const coordText = `${lat.toFixed(4)}°, ${lng.toFixed(4)}°`;
 
     return `
-      <div class="member-list-item">
+      <div class="member-list-item" onclick="flyToMember(${lng}, ${lat})">
         <div class="member-marker" style="background-color: ${colors[index % colors.length]};">
           ${location.username.charAt(0).toUpperCase()}
         </div>
         <div style="flex: 1; min-width: 0;">
           <h6 class="mb-0" style="font-size: 14px;">${location.username}</h6>
-          <small class="text-muted" style="font-size: 11px;">
+          <small class="text-muted" style="font-size: 10px; display: block;">
+            📍 ${coordText}
+          </small>
+          <small class="text-muted" style="font-size: 10px; display: block;">
             <i class="fas fa-clock"></i> ${lastUpdated}
           </small>
         </div>
-        <button class="btn btn-sm btn-outline-primary" onclick="flyToMember(${location.coordinates[0]}, ${location.coordinates[1]})" title="Focus on map">
-          <i class="fas fa-eye"></i>
+        <button class="btn btn-sm btn-outline-success" onclick="event.stopPropagation(); flyToMember(${lng}, ${lat})" title="View on map">
+          <i class="fas fa-map-marked-alt"></i>
         </button>
       </div>
     `;
@@ -560,15 +633,15 @@ function updateSharingUI(enabled) {
   const btnEl = document.getElementById('toggleSharingBtn');
 
   if (enabled) {
-    statusEl.textContent = 'Location Sharing On';
+    statusEl.textContent = 'Sharing: ON ✓';
     statusEl.className = 'location-status active';
-    btnEl.innerHTML = '<i class="fas fa-stop"></i> Stop Sharing';
-    btnEl.className = 'btn btn-danger';
+    btnEl.innerHTML = '<i class="fas fa-stop-circle"></i> Stop Sharing';
+    btnEl.className = 'btn btn-danger btn-sm w-100';
   } else {
-    statusEl.textContent = 'Location Sharing Off';
+    statusEl.textContent = 'Sharing: OFF';
     statusEl.className = 'location-status inactive';
-    btnEl.innerHTML = '<i class="fas fa-location-arrow"></i> Enable Sharing';
-    btnEl.className = 'btn btn-primary';
+    btnEl.innerHTML = '<i class="fas fa-location-arrow"></i> Start Sharing Location';
+    btnEl.className = 'btn btn-success btn-sm w-100';
   }
 }
 
@@ -610,14 +683,35 @@ function adjustColor(color, amount) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-// Get directions to member (matching home screen implementation)
+
+
+// Track current navigation
+let activeNavigation = null;
+let userLocationMarker = null;
+
+// Get directions to member with live route tracking
 async function getDirectionsToMember(destLon, destLat, memberName) {
   try {
+    // Show loading indicator
+    const loadingMsg = document.createElement('div');
+    loadingMsg.id = 'loading-directions';
+    loadingMsg.style.cssText = `
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: white; padding: 20px 30px; border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000;
+      font-family: Arial, sans-serif; text-align: center;
+    `;
+    loadingMsg.innerHTML = `
+      <div class="spinner-border text-primary" role="status"></div>
+      <div style="margin-top: 10px;">Getting your location...</div>
+    `;
+    document.querySelector('.map-container').appendChild(loadingMsg);
+
     // Get user's current location
     const position = await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, {
         enableHighAccuracy: true,
-        timeout: 10000,
+        timeout: 15000,
         maximumAge: 0
       });
     });
@@ -625,25 +719,33 @@ async function getDirectionsToMember(destLon, destLat, memberName) {
     const userLon = position.coords.longitude;
     const userLat = position.coords.latitude;
 
-    // Mapbox Directions API (same as home screen)
+    // Remove loading indicator
+    const loader = document.getElementById('loading-directions');
+    if (loader) loader.remove();
+
+    // Mapbox Directions API
     const accessToken = 'pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w';
-    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${userLon},${userLat};${destLon},${destLat}?geometries=geojson&access_token=${accessToken}`;
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${userLon},${userLat};${destLon},${destLat}?geometries=geojson&steps=true&banner_instructions=true&access_token=${accessToken}`;
 
     const response = await fetch(url);
     const data = await response.json();
 
     if (data.routes && data.routes.length > 0) {
       const route = data.routes[0];
-      const distance = (route.distance / 1000).toFixed(2); // Convert to km
-      const duration = Math.round(route.duration / 60); // Convert to minutes
+      const distance = (route.distance / 1000).toFixed(2);
+      const duration = Math.round(route.duration / 60);
 
-      // Remove existing route if any
-      if (map.getSource('route')) {
-        map.removeLayer('route');
-        map.removeSource('route');
-      }
+      // Store navigation info
+      activeNavigation = {
+        destination: { lon: destLon, lat: destLat, name: memberName },
+        route: route,
+        startTime: new Date()
+      };
 
-      // Add route line to map (same style as home screen)
+      // Clear any existing route layers
+      clearRouteFromMap();
+
+      // Add route line to map with gradient effect
       map.addSource('route', {
         type: 'geojson',
         data: {
@@ -652,16 +754,62 @@ async function getDirectionsToMember(destLon, destLat, memberName) {
         }
       });
 
+      // Add route outline (darker)
+      map.addLayer({
+        id: 'route-outline',
+        type: 'line',
+        source: 'route',
+        paint: {
+          'line-color': '#004d7a',
+          'line-width': 8,
+          'line-opacity': 0.4
+        }
+      });
+
+      // Add main route line
       map.addLayer({
         id: 'route',
         type: 'line',
         source: 'route',
         paint: {
           'line-color': '#007acc',
-          'line-width': 4,
-          'line-opacity': 0.8
+          'line-width': 5,
+          'line-opacity': 0.9
         }
       });
+
+      // Add start marker (user location)
+      if (userLocationMarker) {
+        userLocationMarker.remove();
+      }
+
+      const startEl = document.createElement('div');
+      startEl.innerHTML = `
+        <div style="
+          width: 35px;
+          height: 35px;
+          background: linear-gradient(135deg, #00c853 0%, #00a843 100%);
+          border-radius: 50%;
+          border: 3px solid white;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 18px;
+          font-weight: bold;
+        ">📍</div>
+      `;
+
+      userLocationMarker = new mapboxgl.Marker({ element: startEl })
+        .setLngLat([userLon, userLat])
+        .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`
+          <div style="font-family: Arial, sans-serif; text-align: center;">
+            <strong>Your Location</strong><br>
+            <small style="color: #666;">Starting point</small>
+          </div>
+        `))
+        .addTo(map);
 
       // Fit map to show route
       const coordinates = route.geometry.coordinates;
@@ -669,10 +817,19 @@ async function getDirectionsToMember(destLon, destLat, memberName) {
         return bounds.extend(coord);
       }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
 
-      map.fitBounds(bounds, { padding: 80 });
+      map.fitBounds(bounds, { 
+        padding: { top: 80, bottom: 80, left: 80, right: 80 },
+        duration: 1000
+      });
 
-      // Show route info
-      alert(`🚗 Route to ${memberName}:\n\n📍 Distance: ${distance} km\n⏱️ Duration: ${duration} minutes\n\nThe route is now shown on the map in blue.`);
+      // Show route info panel
+      showRouteInfoPanel(memberName, distance, duration, route);
+
+      // Start live tracking if location sharing is enabled
+      if (locationSharingEnabled) {
+        startLiveTracking();
+      }
+
     } else {
       alert('Could not find a route. Please try again.');
     }
@@ -684,6 +841,187 @@ async function getDirectionsToMember(destLon, destLat, memberName) {
       alert('Error getting directions. Please try again.');
     }
   }
+}
+
+// Clear route from map
+function clearRouteFromMap() {
+  if (map.getLayer('route')) {
+    map.removeLayer('route');
+  }
+  if (map.getLayer('route-outline')) {
+    map.removeLayer('route-outline');
+  }
+  if (map.getSource('route')) {
+    map.removeSource('route');
+  }
+  if (userLocationMarker) {
+    userLocationMarker.remove();
+    userLocationMarker = null;
+  }
+}
+
+// Show route info panel
+function showRouteInfoPanel(memberName, distance, duration, route) {
+  // Remove existing panel if any
+  const existingPanel = document.getElementById('route-info-panel');
+  if (existingPanel) {
+    existingPanel.remove();
+  }
+
+  // Create route info panel
+  const panel = document.createElement('div');
+  panel.id = 'route-info-panel';
+  panel.style.cssText = `
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 1000;
+    min-width: 300px;
+    font-family: Arial, sans-serif;
+  `;
+
+  const steps = route.legs[0].steps;
+  const firstStep = steps[0];
+  const instruction = firstStep.maneuver.instruction || 'Head to destination';
+
+  panel.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div style="font-size: 16px; font-weight: bold; color: #333;">
+        🚗 Navigating to ${memberName}
+      </div>
+      <button onclick="stopNavigation()" style="background: #dc3545; color: white; border: none; 
+              border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 12px;">
+        ✕ Stop
+      </button>
+    </div>
+    <div style="display: flex; gap: 15px; margin-bottom: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+      <div style="text-align: center;">
+        <div style="font-size: 20px; font-weight: bold; color: #007acc;">${distance} km</div>
+        <div style="font-size: 11px; color: #666;">Distance</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 20px; font-weight: bold; color: #28a745;">${duration} min</div>
+        <div style="font-size: 11px; color: #666;">Duration</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 20px; font-weight: bold; color: #ffc107;">${steps.length}</div>
+        <div style="font-size: 11px; color: #666;">Steps</div>
+      </div>
+    </div>
+    <div id="current-instruction" style="padding: 10px; background: #e3f2fd; border-radius: 5px; 
+         font-size: 14px; color: #1565c0; font-weight: 500;">
+      📍 ${instruction}
+    </div>
+  `;
+
+  document.querySelector('.map-container').appendChild(panel);
+}
+
+// Stop navigation
+function stopNavigation() {
+  activeNavigation = null;
+  clearRouteFromMap();
+  
+  const panel = document.getElementById('route-info-panel');
+  if (panel) {
+    panel.remove();
+  }
+
+  // Refresh to show all members again
+  loadMemberLocations();
+}
+
+// Start live tracking during navigation
+function startLiveTracking() {
+  if (!activeNavigation) return;
+
+  const trackingInterval = setInterval(() => {
+    if (!activeNavigation) {
+      clearInterval(trackingInterval);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLon = position.coords.longitude;
+        const userLat = position.coords.latitude;
+
+        // Update user location marker
+        if (userLocationMarker) {
+          userLocationMarker.setLngLat([userLon, userLat]);
+        }
+
+        // Calculate distance to destination
+        const destLon = activeNavigation.destination.lon;
+        const destLat = activeNavigation.destination.lat;
+        
+        const R = 6371; // Earth radius in km
+        const dLat = (destLat - userLat) * Math.PI / 180;
+        const dLon = (destLon - userLon) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                  Math.cos(userLat * Math.PI / 180) * Math.cos(destLat * Math.PI / 180) *
+                  Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        const distanceRemaining = (R * c).toFixed(2);
+
+        // Check if arrived (within 50 meters)
+        if (distanceRemaining < 0.05) {
+          clearInterval(trackingInterval);
+          showArrivalNotification();
+          stopNavigation();
+        }
+      },
+      (error) => {
+        console.error('Tracking error:', error);
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 10000
+      }
+    );
+  }, 5000); // Update every 5 seconds
+}
+
+// Show arrival notification
+function showArrivalNotification() {
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #28a745;
+    color: white;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    z-index: 10000;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    animation: fadeIn 0.3s;
+  `;
+  
+  notification.innerHTML = `
+    <div style="font-size: 48px; margin-bottom: 10px;">🎉</div>
+    <div>You've Arrived!</div>
+    <div style="font-size: 14px; font-weight: normal; margin-top: 10px;">
+      You've reached ${activeNavigation.destination.name}
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'fadeOut 0.3s';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
 }
 
 // Initialize on page load
