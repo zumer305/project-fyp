@@ -118,31 +118,17 @@
   <div class="section">
     <h2>👥 Group Travel Planner</h2>
     <div class="grid">
-      <div class="feature-card">
+      <div class="feature-card" style="grid-column: span 2;">
         <div class="icon-title">
           <img
             src="https://img.icons8.com/ios-filled/50/add-user-group-man-man.png"
           />
-          <h3>Create Group</h3>
+          <h3>Group Travel Planner</h3>
         </div>
-        <p>Start a new travel group and invite friends via email or code.</p>
-        <button id="btn-create-group">➕ Create</button>
-      </div>
-      <div class="feature-card">
-        <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/link--v1.png" />
-          <h3>Join Group</h3>
-        </div>
-        <p>Join a group using an invite code from your friends.</p>
-        <button id="btn-join-group">🔗 Join</button>
-      </div>
-      <div class="feature-card">
-        <div class="icon-title">
-          <img src="https://img.icons8.com/ios-glyphs/30/chat--v1.png" />
-          <h3>Group Chat</h3>
-        </div>
-        <p>Chat with your group members in real-time.</p>
-        <button id="btn-open-chat">💬 Open Chat</button>
+        <p>Create groups, invite friends, chat in real-time, and plan your trips together. Manage all your group travel activities in one place.</p>
+        <button id="btn-group-travel" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-size: 1.1rem; padding: 12px 24px;">
+          🎯 Manage Groups
+        </button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
@@ -557,23 +543,9 @@
 
     // Wait for DOM to be ready before attaching event listeners
     document.addEventListener("DOMContentLoaded", function () {
-      // Groups - Redirect to proper groups page
+      // Group Travel Planner - Redirect to groups page
       document
-        .getElementById("btn-create-group")
-        .addEventListener("click", () => {
-          if (!isLoggedIn) return (window.location.href = "/login");
-          window.location.href = "/groups";
-        });
-
-      document
-        .getElementById("btn-join-group")
-        .addEventListener("click", () => {
-          if (!isLoggedIn) return (window.location.href = "/login");
-          window.location.href = "/groups";
-        });
-
-      document
-        .getElementById("btn-open-chat")
+        .getElementById("btn-group-travel")
         .addEventListener("click", () => {
           if (!isLoggedIn) return (window.location.href = "/login");
           window.location.href = "/groups";
