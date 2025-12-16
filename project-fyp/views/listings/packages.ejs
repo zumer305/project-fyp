@@ -281,11 +281,16 @@
   </div>
 
   <div class="budget-info">
-    <% // Get currency symbol const currencySymbols = { USD: '$', EUR: '€', GBP:
-    '£', JPY: '¥', AUD: 'A$', CAD: 'C$', CNY: '¥', INR: '₹', PKR: '₨', SAR: '﷼',
-    AED: 'د.إ', TRY: '₺', KZT: '₸', UZS: 'soʻm', KGS: 'с', TJS: 'сом', TMT: 'm',
-    AZN: '₼' }; const symbol = currencySymbols[currency] || currency + ' ';
-    const formattedBudget = symbol + parseFloat(budget).toLocaleString(); %>
+    <% 
+    // Get currency symbol 
+    const currencySymbols = { 
+      USD: '$', EUR: '€', GBP: '£', JPY: '¥', AUD: 'A$', CAD: 'C$', CNY: '¥', 
+      INR: '₹', PKR: '₨', SAR: '﷼', AED: 'د.إ', TRY: '₺', KZT: '₸', 
+      UZS: 'soʻm', KGS: 'с', TJS: 'сом', TMT: 'm', AZN: '₼' 
+    }; 
+    const symbol = currencySymbols[currency] || currency + ' ';
+    const formattedBudget = symbol + parseFloat(budget).toLocaleString(); 
+    %>
     <h3>💰 Your Budget: <strong><%= formattedBudget %></strong></h3>
     <p style="font-size: 0.9rem; color: #6c757d; margin-top: 8px">
       Budget in USD:
@@ -311,15 +316,19 @@
     Showing packages across different budget categories
   </p>
 
-  <% // Group packages by price range for display const budgetPackages =
-  packagesList.filter(p => p.totalEstimateUSD < 500); const midPackages =
-  packagesList.filter(p => p.totalEstimateUSD >= 500 && p.totalEstimateUSD <
-  1500); const luxuryPackages = packagesList.filter(p => p.totalEstimateUSD >=
-  1500); const categories = [ { name: '💰 Budget-Friendly', packages:
-  budgetPackages, color: '#28a745' }, { name: '⭐ Mid-Range', packages:
-  midPackages, color: '#ffc107' }, { name: '👑 Luxury', packages:
-  luxuryPackages, color: '#dc3545' } ]; categories.forEach(category => { if
-  (category.packages.length > 0) { %>
+  <% 
+  // Group packages by price range for display 
+  const budgetPackages = packagesList.filter(p => p.totalEstimateUSD < 500); 
+  const midPackages = packagesList.filter(p => p.totalEstimateUSD >= 500 && p.totalEstimateUSD < 1500); 
+  const luxuryPackages = packagesList.filter(p => p.totalEstimateUSD >= 1500); 
+  const categories = [ 
+    { name: '💰 Budget-Friendly', packages: budgetPackages, color: '#28a745' }, 
+    { name: '⭐ Mid-Range', packages: midPackages, color: '#ffc107' }, 
+    { name: '👑 Luxury', packages: luxuryPackages, color: '#dc3545' } 
+  ]; 
+  categories.forEach(category => { 
+    if (category.packages.length > 0) { 
+  %>
   <div style="margin-bottom: 40px">
     <h3
       style="
