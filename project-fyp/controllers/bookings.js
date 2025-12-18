@@ -19,6 +19,9 @@ const sendUserConfirmationEmail = async (booking, userEmail) => {
   try {
     const transporter = createEmailTransporter();
 
+    const adminEmail =
+      process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "admin@example.com";
+
     const mailOptions = {
       from: process.env.EMAIL_USER || "your-email@gmail.com",
       to: userEmail,
@@ -61,32 +64,51 @@ const sendUserConfirmationEmail = async (booking, userEmail) => {
                 <h3 style="margin-top: 0;">📦 Booking Details</h3>
                 <div class="detail-row">
                   <span class="label">Package:</span>
-                  <span class="value">${booking.packageDetails.packageTitle || "Custom Package"}</span>
+                  <span class="value">${
+                    booking.packageDetails.packageTitle || "Custom Package"
+                  }</span>
                 </div>
                 <div class="detail-row">
                   <span class="label">Destination:</span>
-                  <span class="value">${booking.packageDetails.destination || booking.packageDetails.country}</span>
+                  <span class="value">${
+                    booking.packageDetails.destination ||
+                    booking.packageDetails.country
+                  }</span>
                 </div>
                 <div class="detail-row">
                   <span class="label">Travel Dates:</span>
-                  <span class="value">${new Date(booking.travelDates.startDate).toLocaleDateString()} - ${new Date(booking.travelDates.endDate).toLocaleDateString()}</span>
+                  <span class="value">${new Date(
+                    booking.travelDates.startDate
+                  ).toLocaleDateString()} - ${new Date(
+        booking.travelDates.endDate
+      ).toLocaleDateString()}</span>
                 </div>
                 <div class="detail-row">
                   <span class="label">Travelers:</span>
-                  <span class="value">${booking.travelers.adults} Adult(s)${booking.travelers.children > 0 ? `, ${booking.travelers.children} Child(ren)` : ""}</span>
+                  <span class="value">${booking.travelers.adults} Adult(s)${
+        booking.travelers.children > 0
+          ? `, ${booking.travelers.children} Child(ren)`
+          : ""
+      }</span>
                 </div>
                 <div class="detail-row">
                   <span class="label">Total Price:</span>
-                  <span class="value" style="font-size: 18px; font-weight: bold; color: #007bff;">${booking.packageDetails.currency} ${booking.totalPrice.toLocaleString()}</span>
+                  <span class="value" style="font-size: 18px; font-weight: bold; color: #007bff;">${
+                    booking.packageDetails.currency
+                  } ${booking.totalPrice.toLocaleString()}</span>
                 </div>
               </div>
 
-              ${booking.contactInfo.specialRequests ? `
+              ${
+                booking.contactInfo.specialRequests
+                  ? `
               <div class="booking-details">
                 <h4 style="margin-top: 0;">Special Requests:</h4>
                 <p>${booking.contactInfo.specialRequests}</p>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
 
               <p><strong>What's Next?</strong></p>
               <ul>
@@ -96,7 +118,9 @@ const sendUserConfirmationEmail = async (booking, userEmail) => {
                 <li>Once confirmed, we'll send your complete itinerary</li>
               </ul>
 
-              <p>If you have any questions, feel free to reply to this email or contact us at ${process.env.EMAIL_USER || "support@example.com"}</p>
+              <p>If you have any questions, feel free to reply to this email or contact us at ${
+                process.env.EMAIL_USER || "support@example.com"
+              }</p>
 
               <div class="footer">
                 <p>This is an automated email. Please save your booking reference for future correspondence.</p>
@@ -122,7 +146,8 @@ const sendAdminNotificationEmail = async (booking) => {
   try {
     const transporter = createEmailTransporter();
 
-    const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "admin@example.com";
+    const adminEmail =
+      process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "admin@example.com";
 
     const mailOptions = {
       from: process.env.EMAIL_USER || "your-email@gmail.com",
@@ -160,7 +185,9 @@ const sendAdminNotificationEmail = async (booking) => {
                 <h3 style="margin-top: 0;">📋 Booking Information</h3>
                 <div class="detail-row">
                   <span class="label">Booking Reference:</span>
-                  <span class="value"><strong>${booking.bookingReference}</strong></span>
+                  <span class="value"><strong>${
+                    booking.bookingReference
+                  }</strong></span>
                 </div>
                 <div class="detail-row">
                   <span class="label">Status:</span>
@@ -168,7 +195,9 @@ const sendAdminNotificationEmail = async (booking) => {
                 </div>
                 <div class="detail-row">
                   <span class="label">Booking Date:</span>
-                  <span class="value">${new Date(booking.createdAt).toLocaleString()}</span>
+                  <span class="value">${new Date(
+                    booking.createdAt
+                  ).toLocaleString()}</span>
                 </div>
               </div>
 
@@ -180,11 +209,15 @@ const sendAdminNotificationEmail = async (booking) => {
                 </div>
                 <div class="detail-row">
                   <span class="label">Email:</span>
-                  <span class="value"><a href="mailto:${booking.contactInfo.email}">${booking.contactInfo.email}</a></span>
+                  <span class="value"><a href="mailto:${
+                    booking.contactInfo.email
+                  }">${booking.contactInfo.email}</a></span>
                 </div>
                 <div class="detail-row">
                   <span class="label">Phone:</span>
-                  <span class="value"><a href="tel:${booking.contactInfo.phone}">${booking.contactInfo.phone}</a></span>
+                  <span class="value"><a href="tel:${
+                    booking.contactInfo.phone
+                  }">${booking.contactInfo.phone}</a></span>
                 </div>
               </div>
 
@@ -192,15 +225,22 @@ const sendAdminNotificationEmail = async (booking) => {
                 <h3 class="section-title">🏖️ Package Details</h3>
                 <div class="detail-row">
                   <span class="label">Package:</span>
-                  <span class="value">${booking.packageDetails.packageTitle || "Custom Package"}</span>
+                  <span class="value">${
+                    booking.packageDetails.packageTitle || "Custom Package"
+                  }</span>
                 </div>
                 <div class="detail-row">
                   <span class="label">Destination:</span>
-                  <span class="value">${booking.packageDetails.destination || booking.packageDetails.country}</span>
+                  <span class="value">${
+                    booking.packageDetails.destination ||
+                    booking.packageDetails.country
+                  }</span>
                 </div>
                 <div class="detail-row">
                   <span class="label">Duration:</span>
-                  <span class="value">${booking.packageDetails.duration || "N/A"}</span>
+                  <span class="value">${
+                    booking.packageDetails.duration || "N/A"
+                  }</span>
                 </div>
               </div>
 
@@ -208,11 +248,15 @@ const sendAdminNotificationEmail = async (booking) => {
                 <h3 class="section-title">📅 Travel Information</h3>
                 <div class="detail-row">
                   <span class="label">Start Date:</span>
-                  <span class="value">${new Date(booking.travelDates.startDate).toLocaleDateString()}</span>
+                  <span class="value">${new Date(
+                    booking.travelDates.startDate
+                  ).toLocaleDateString()}</span>
                 </div>
                 <div class="detail-row">
                   <span class="label">End Date:</span>
-                  <span class="value">${new Date(booking.travelDates.endDate).toLocaleDateString()}</span>
+                  <span class="value">${new Date(
+                    booking.travelDates.endDate
+                  ).toLocaleDateString()}</span>
                 </div>
                 <div class="detail-row">
                   <span class="label">Adults:</span>
@@ -224,22 +268,30 @@ const sendAdminNotificationEmail = async (booking) => {
                 </div>
                 <div class="detail-row">
                   <span class="label">Total Travelers:</span>
-                  <span class="value"><strong>${booking.travelers.adults + booking.travelers.children}</strong></span>
+                  <span class="value"><strong>${
+                    booking.travelers.adults + booking.travelers.children
+                  }</strong></span>
                 </div>
               </div>
 
-              ${booking.contactInfo.specialRequests ? `
+              ${
+                booking.contactInfo.specialRequests
+                  ? `
               <div class="booking-details">
                 <h3 class="section-title">💬 Special Requests</h3>
                 <p style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0;">${booking.contactInfo.specialRequests}</p>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
 
               <div class="booking-details">
                 <h3 class="section-title">💰 Pricing</h3>
                 <div class="detail-row">
                   <span class="label">Total Price:</span>
-                  <span class="value" style="font-size: 20px; font-weight: bold; color: #28a745;">${booking.packageDetails.currency} ${booking.totalPrice.toLocaleString()}</span>
+                  <span class="value" style="font-size: 20px; font-weight: bold; color: #28a745;">${
+                    booking.packageDetails.currency
+                  } ${booking.totalPrice.toLocaleString()}</span>
                 </div>
               </div>
 
@@ -274,6 +326,8 @@ const sendAdminNotificationEmail = async (booking) => {
 // Controller functions
 module.exports.renderBookingForm = async (req, res) => {
   try {
+    console.log("📄 Rendering booking form for user:", req.user ? req.user.username : "Unknown");
+    
     // Package data should be passed as URL query parameter from the frontend
     // The frontend already encodes the package in the URL
     res.render("bookings/book", {
@@ -281,7 +335,7 @@ module.exports.renderBookingForm = async (req, res) => {
       currentUser: req.user || null,
     });
   } catch (error) {
-    console.error("Error rendering booking form:", error);
+    console.error("❌ Error rendering booking form:", error);
     req.flash("error", "Unable to load booking form");
     res.redirect("/");
   }
@@ -289,6 +343,9 @@ module.exports.renderBookingForm = async (req, res) => {
 
 module.exports.createBooking = async (req, res) => {
   try {
+    console.log("📥 Received booking request");
+    console.log("Request body:", req.body);
+
     const {
       packageId,
       packageDetails,
@@ -302,68 +359,122 @@ module.exports.createBooking = async (req, res) => {
       specialRequests,
     } = req.body;
 
+    // Validate required fields
+    if (!packageId || !packageDetails || !startDate || !endDate || !adults || !fullName || !email || !phone) {
+      console.error("❌ Missing required fields");
+      req.flash("error", "Please fill in all required fields");
+      return res.redirect("/book");
+    }
+
     // Parse package details
     let parsedPackageDetails;
     try {
       parsedPackageDetails = JSON.parse(decodeURIComponent(packageDetails));
+      console.log("✅ Parsed package details:", parsedPackageDetails);
     } catch (error) {
-      console.error("Error parsing package details:", error);
-      req.flash("error", "Invalid package data");
+      console.error("❌ Error parsing package details:", error);
+      req.flash("error", "Invalid package data. Please select a package again.");
+      return res.redirect("/");
+    }
+
+    // Validate package details
+    if (!parsedPackageDetails.totalCost && !parsedPackageDetails.price) {
+      console.error("❌ Package missing price information");
+      req.flash("error", "Package pricing information is missing");
       return res.redirect("/");
     }
 
     // Calculate total price
-    const basePrice = parsedPackageDetails.totalCost || 0;
+    const basePrice = parsedPackageDetails.totalCost || parsedPackageDetails.price || 0;
     const adultsCount = parseInt(adults) || 1;
     const childrenCount = parseInt(children) || 0;
     const childRate = 0.7; // Children pay 70%
-    const totalPrice = basePrice * adultsCount + basePrice * childrenCount * childRate;
+    const totalPrice =
+      basePrice * adultsCount + basePrice * childrenCount * childRate;
+
+    console.log(`💰 Calculated price: Base=${basePrice}, Adults=${adultsCount}, Children=${childrenCount}, Total=${totalPrice}`);
+
+    // Validate dates
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (startDateObj < today) {
+      console.error("❌ Start date is in the past");
+      req.flash("error", "Start date cannot be in the past");
+      return res.redirect("/book");
+    }
+
+    if (endDateObj < startDateObj) {
+      console.error("❌ End date before start date");
+      req.flash("error", "End date must be after start date");
+      return res.redirect("/book");
+    }
 
     // Create booking
+    console.log("📝 Creating booking document...");
     const booking = new Booking({
       user: req.user._id,
       packageDetails: {
         packageId: packageId,
-        packageTitle: parsedPackageDetails.packageTitle || parsedPackageDetails.title,
-        destination: parsedPackageDetails.destination || parsedPackageDetails.country,
-        country: parsedPackageDetails.country,
-        duration: parsedPackageDetails.duration,
-        totalCost: parsedPackageDetails.totalCost,
+        packageTitle:
+          parsedPackageDetails.packageTitle || parsedPackageDetails.title || "Custom Package",
+        destination:
+          parsedPackageDetails.destination || parsedPackageDetails.country || "Unknown",
+        country: parsedPackageDetails.country || parsedPackageDetails.destination,
+        duration: parsedPackageDetails.duration || "Flexible",
+        totalCost: basePrice,
         currency: parsedPackageDetails.currency || "USD",
         fullPackage: parsedPackageDetails,
       },
       travelDates: {
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
+        startDate: startDateObj,
+        endDate: endDateObj,
       },
       travelers: {
         adults: adultsCount,
         children: childrenCount,
       },
       contactInfo: {
-        fullName: fullName,
-        email: email,
-        phone: phone,
-        specialRequests: specialRequests || "",
+        fullName: fullName.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        specialRequests: specialRequests ? specialRequests.trim() : "",
       },
       totalPrice: totalPrice,
       status: "pending",
     });
 
     await booking.save();
+    console.log("✅ Booking saved successfully:", booking.bookingReference);
 
     // Send emails (non-blocking)
     Promise.all([
       sendUserConfirmationEmail(booking, email),
       sendAdminNotificationEmail(booking),
-    ]).catch((err) => console.error("Email sending error:", err));
+    ]).catch((err) => console.error("⚠️ Email sending error:", err));
 
-    req.flash("success", `Booking request submitted successfully! Reference: ${booking.bookingReference}`);
+    req.flash(
+      "success",
+      `🎉 Booking request submitted successfully! Your reference number is: ${booking.bookingReference}`
+    );
     res.redirect(`/bookings/${booking._id}`);
   } catch (error) {
-    console.error("Error creating booking:", error);
-    req.flash("error", "Unable to create booking. Please try again.");
-    res.redirect("back");
+    console.error("❌ Error creating booking:", error);
+    console.error("Error stack:", error.stack);
+    
+    let errorMessage = "Unable to create booking. Please try again.";
+    
+    // Provide more specific error messages
+    if (error.name === "ValidationError") {
+      errorMessage = "Please check all required fields are filled correctly.";
+    } else if (error.code === 11000) {
+      errorMessage = "Duplicate booking detected. Please try again.";
+    }
+    
+    req.flash("error", errorMessage);
+    res.redirect("/book");
   }
 };
 
@@ -393,7 +504,9 @@ module.exports.showBooking = async (req, res) => {
 
 module.exports.showMyBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find({ user: req.user._id }).sort({ createdAt: -1 });
+    const bookings = await Booking.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
     res.render("bookings/my-bookings", { bookings });
   } catch (error) {
     console.error("Error fetching bookings:", error);

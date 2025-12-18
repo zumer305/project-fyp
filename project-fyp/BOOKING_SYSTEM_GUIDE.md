@@ -11,6 +11,7 @@ Your tour web app now has a **complete booking request system** where users can:
 5. ❌ Cancel bookings if needed
 
 **Admins receive:**
+
 - 🔔 Email notification for every new booking
 - 📧 Complete customer and booking details
 
@@ -19,20 +20,25 @@ Your tour web app now has a **complete booking request system** where users can:
 ## 📁 Files Created
 
 ### Models
+
 - `models/booking.js` - Database schema for bookings
 
 ### Controllers
+
 - `controllers/bookings.js` - All booking logic and email sending
 
 ### Routes
+
 - `routes/booking.js` - Booking routes
 
 ### Views
+
 - `views/bookings/book.ejs` - Booking form page
 - `views/bookings/my-bookings.ejs` - User's booking dashboard
 - `views/bookings/show.ejs` - Individual booking details
 
 ### Configuration
+
 - `.env.example` - Email configuration template
 
 ---
@@ -67,6 +73,7 @@ The system has already been integrated into your app. The booking routes are now
 ### Step 3: Test the System
 
 1. **Start your server:**
+
 ```bash
 npm start
 ```
@@ -74,21 +81,25 @@ npm start
 2. **Login to your account**
 
 3. **Generate a package:**
+
    - Go to home page
    - Enter country, budget, and days
    - Click "Plan my trip"
 
 4. **Select a package:**
+
    - Click "Select Package" button
    - You'll be redirected to `/book`
 
 5. **Fill the booking form:**
+
    - Enter travel dates
    - Enter number of travelers
    - Fill contact information
    - Submit the form
 
 6. **Check emails:**
+
    - User receives confirmation email
    - Admin receives notification email
 
@@ -100,19 +111,20 @@ npm start
 
 ## 🔗 Available Routes
 
-| Route | Method | Description | Auth Required |
-|-------|--------|-------------|---------------|
-| `/book` | GET | Show booking form | Yes |
-| `/book` | POST | Submit booking request | Yes |
-| `/bookings/my-bookings` | GET | Show user's bookings | Yes |
-| `/bookings/:id` | GET | Show specific booking details | Yes |
-| `/bookings/:id/cancel` | POST | Cancel a booking | Yes |
+| Route                   | Method | Description                   | Auth Required |
+| ----------------------- | ------ | ----------------------------- | ------------- |
+| `/book`                 | GET    | Show booking form             | Yes           |
+| `/book`                 | POST   | Submit booking request        | Yes           |
+| `/bookings/my-bookings` | GET    | Show user's bookings          | Yes           |
+| `/bookings/:id`         | GET    | Show specific booking details | Yes           |
+| `/bookings/:id/cancel`  | POST   | Cancel a booking              | Yes           |
 
 ---
 
 ## 📧 Email Templates
 
 ### User Receives:
+
 - ✅ Booking reference number
 - 📦 Complete package details
 - 📅 Travel dates and traveler count
@@ -120,6 +132,7 @@ npm start
 - 📝 Next steps information
 
 ### Admin Receives:
+
 - 🔔 Immediate notification
 - 👤 Customer contact details
 - 🏖️ Full booking information
@@ -135,11 +148,11 @@ Update your navigation bar to include a link to bookings:
 
 ```html
 <% if (currUser) { %>
-  <li class="nav-item">
-    <a class="nav-link" href="/bookings/my-bookings">
-      <i class="fa-solid fa-calendar-check"></i> My Bookings
-    </a>
-  </li>
+<li class="nav-item">
+  <a class="nav-link" href="/bookings/my-bookings">
+    <i class="fa-solid fa-calendar-check"></i> My Bookings
+  </a>
+</li>
 <% } %>
 ```
 
@@ -150,16 +163,19 @@ Update your navigation bar to include a link to bookings:
 ### User Flow:
 
 1. **Package Selection**
+
    ```
    Packages Page → Click "Select Package" → Redirected to /book
    ```
 
 2. **Booking Form**
+
    ```
    Fill details → Submit → Booking saved to database
    ```
 
 3. **Email Notifications**
+
    ```
    User email sent → Admin email sent → Confirmation page
    ```
@@ -220,12 +236,12 @@ Each booking contains:
 
 ## 🎯 Booking Statuses
 
-| Status | Meaning | User Can |
-|--------|---------|----------|
-| `pending` | Awaiting admin review | View, Cancel |
-| `confirmed` | Admin approved | View, Track, Cancel |
-| `cancelled` | Booking cancelled | View only |
-| `completed` | Trip finished | View only |
+| Status      | Meaning               | User Can            |
+| ----------- | --------------------- | ------------------- |
+| `pending`   | Awaiting admin review | View, Cancel        |
+| `confirmed` | Admin approved        | View, Track, Cancel |
+| `cancelled` | Booking cancelled     | View only           |
+| `completed` | Trip finished         | View only           |
 
 ---
 
@@ -263,6 +279,7 @@ Edit the HTML in `sendUserConfirmationEmail()` and `sendAdminNotificationEmail()
 ### 4. Add Payment Integration
 
 Later, you can integrate:
+
 - **Stripe**: `npm install stripe`
 - **PayPal**: `npm install @paypal/checkout-server-sdk`
 - **Razorpay**: `npm install razorpay`
@@ -272,22 +289,26 @@ Later, you can integrate:
 ## 🐛 Troubleshooting
 
 ### Email not sending?
+
 1. Check `.env` file has correct credentials
 2. Verify Gmail App Password is correct (16 chars, no spaces)
 3. Check console for error messages
 4. Ensure 2FA is enabled on Gmail
 
 ### Booking form not showing?
+
 1. Make sure user is logged in
 2. Check if package data is passed correctly
 3. View browser console for JavaScript errors
 
 ### Cannot access /book route?
+
 1. Restart your server after changes
 2. Verify `routes/booking.js` is imported in `app.js`
 3. Check for authentication middleware
 
 ### Database errors?
+
 1. Ensure MongoDB is running
 2. Check connection string in `app.js`
 3. Verify `models/booking.js` is correct
@@ -297,21 +318,25 @@ Later, you can integrate:
 ## 📝 Next Steps (Optional Enhancements)
 
 1. **Admin Dashboard**
+
    - Create `/admin/bookings` to view all bookings
    - Allow admin to update booking status
    - Add filters and search
 
 2. **Payment Integration**
+
    - Integrate Stripe/PayPal
    - Process actual payments
    - Generate invoices
 
 3. **Notifications**
+
    - Add SMS notifications (Twilio)
    - Push notifications
    - WhatsApp integration
 
 4. **PDF Generation**
+
    - Generate booking vouchers
    - Create itinerary PDFs
    - Email as attachments
@@ -337,6 +362,7 @@ If you encounter any issues:
 ## 🎊 Success!
 
 Your booking system is now fully functional! Users can:
+
 - ✅ Select packages
 - ✅ Submit booking requests
 - ✅ Receive email confirmations

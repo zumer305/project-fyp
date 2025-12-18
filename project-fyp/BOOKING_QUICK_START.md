@@ -17,6 +17,7 @@ ADMIN_EMAIL=admin@example.com
 ```
 
 **Get App Password:**
+
 1. Go to: https://myaccount.google.com/apppasswords
 2. Generate password
 3. Copy & paste into `.env`
@@ -52,7 +53,9 @@ Open: http://localhost:8080/test-booking-system.html
 ## 📧 What Happens After Booking
 
 ### User Receives:
+
 ✉️ **Instant Email** with:
+
 - Booking reference number
 - Full package details
 - Travel dates
@@ -60,7 +63,9 @@ Open: http://localhost:8080/test-booking-system.html
 - Next steps
 
 ### Admin Receives:
+
 🔔 **Notification Email** with:
+
 - Customer contact details
 - Complete booking information
 - Action required notice
@@ -69,12 +74,12 @@ Open: http://localhost:8080/test-booking-system.html
 
 ## 🔗 New Routes Available
 
-| Page | URL | Description |
-|------|-----|-------------|
-| Booking Form | `/book` | Select package & fill details |
-| My Bookings | `/bookings/my-bookings` | View all bookings |
-| Booking Details | `/bookings/:id` | View specific booking |
-| Test Page | `/test-booking-system.html` | Quick testing |
+| Page            | URL                         | Description                   |
+| --------------- | --------------------------- | ----------------------------- |
+| Booking Form    | `/book`                     | Select package & fill details |
+| My Bookings     | `/bookings/my-bookings`     | View all bookings             |
+| Booking Details | `/bookings/:id`             | View specific booking         |
+| Test Page       | `/test-booking-system.html` | Quick testing                 |
 
 ---
 
@@ -84,9 +89,7 @@ In your `views/includes/navbar.ejs`:
 
 ```html
 <% if (currUser) { %>
-  <a href="/bookings/my-bookings">
-    📋 My Bookings
-  </a>
+<a href="/bookings/my-bookings"> 📋 My Bookings </a>
 <% } %>
 ```
 
@@ -151,18 +154,21 @@ Documentation/
 ## 💡 What Makes This Special
 
 ### For Your Users:
+
 - Simple booking process
 - Instant confirmation
 - Track all bookings in one place
 - Cancel anytime
 
 ### For You (Admin):
+
 - Get notified immediately
 - Complete customer info
 - Professional emails
 - Easy to manage
 
 ### For Your Business:
+
 - Captures customer data
 - No payment gateway needed (yet)
 - Professional booking system
@@ -175,11 +181,13 @@ Documentation/
 After testing, you can add:
 
 1. **Payment Integration**
+
    - Stripe
    - PayPal
    - Razorpay
 
 2. **Admin Dashboard**
+
    - View all bookings
    - Update status
    - Manage customers
@@ -195,16 +203,19 @@ After testing, you can add:
 ## 🆘 Need Help?
 
 ### Email not working?
+
 - Check `.env` file
 - Verify Gmail App Password
 - Check console for errors
 
 ### Booking page blank?
+
 - Ensure you selected a package first
 - Check browser localStorage
 - Look at browser console
 
 ### Can't access routes?
+
 - Make sure you're logged in
 - Restart server after changes
 - Check `app.js` has booking routes

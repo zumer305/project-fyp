@@ -194,14 +194,20 @@
 <div class="booking-container">
   <div class="booking-header">
     <h1>📋 Complete Your Booking</h1>
-    <p style="margin-top: 10px; font-size: 1.1rem;">
+    <p style="margin-top: 10px; font-size: 1.1rem">
       You're one step away from your dream vacation!
     </p>
   </div>
 
   <div class="booking-content">
+    <!-- Loading indicator -->
+    <div id="loadingIndicator" style="text-align: center; padding: 40px;">
+      <div style="font-size: 2rem; margin-bottom: 10px;">⏳</div>
+      <p>Loading booking details...</p>
+    </div>
+
     <!-- Package Summary (will be populated by JavaScript from localStorage) -->
-    <div id="packageSummaryContainer" style="display: none;">
+    <div id="packageSummaryContainer" style="display: none">
       <div class="package-summary">
         <h3>📦 Package Summary</h3>
         <div class="summary-row">
@@ -219,17 +225,23 @@
         <div class="summary-row">
           <span><strong>Base Price:</strong></span>
           <span class="price" id="packagePriceDisplay">
-            <span id="packageCurrency">USD</span> <span id="packagePrice">0</span>
+            <span id="packageCurrency">USD</span>
+            <span id="packagePrice">0</span>
           </span>
         </div>
       </div>
     </div>
 
     <!-- Booking Form -->
-    <form action="/book" method="POST" id="bookingForm" style="display: none;">
+    <form action="/book" method="POST" id="bookingForm" style="display: none">
       <!-- Hidden fields - will be populated by JavaScript -->
       <input type="hidden" name="packageId" id="hiddenPackageId" value="" />
-      <input type="hidden" name="packageDetails" id="hiddenPackageDetails" value="" />
+      <input
+        type="hidden"
+        name="packageDetails"
+        id="hiddenPackageDetails"
+        value=""
+      />
 
       <!-- Travel Dates -->
       <div class="form-section">
@@ -356,11 +368,12 @@
 
       <!-- Price Breakdown -->
       <div class="price-breakdown">
-        <h4 style="margin-top: 0; color: #333;">💰 Price Breakdown</h4>
+        <h4 style="margin-top: 0; color: #333">💰 Price Breakdown</h4>
         <div class="price-row">
           <span>Base Package Price:</span>
           <span class="price" id="basePriceDisplay">
-            <span id="basePriceCurrency">USD</span> <span id="basePrice">0</span>
+            <span id="basePriceCurrency">USD</span>
+            <span id="basePrice">0</span>
           </span>
         </div>
         <div class="price-row">
@@ -370,15 +383,16 @@
         <div class="price-row total-price">
           <span>Total Price:</span>
           <span class="price" id="totalPriceDisplay">
-            <span id="totalPriceCurrency">USD</span> <span id="totalPrice">0</span>
+            <span id="totalPriceCurrency">USD</span>
+            <span id="totalPrice">0</span>
           </span>
         </div>
       </div>
 
-      <div class="alert alert-info" style="margin-top: 20px;">
-        <strong>ℹ️ Note:</strong> This is a booking request. Our team will review
-        your request and contact you within 24 hours to confirm availability and
-        payment details.
+      <div class="alert alert-info" style="margin-top: 20px">
+        <strong>ℹ️ Note:</strong> This is a booking request. Our team will
+        review your request and contact you within 24 hours to confirm
+        availability and payment details.
       </div>
 
       <button type="submit" class="btn-submit" id="submitBtn">
@@ -387,56 +401,100 @@
     </form>
 
     <!-- Error message if no package selected -->
-    <div class="alert alert-danger" id="noPackageError" style="display: none;">
-      <strong>⚠️ Error:</strong> No package selected. Please go back and select a
-      package first.
+    <div class="alert alert-danger" id="noPackageError" style="display: none">
+      <strong>⚠️ Error:</strong> No package selected. Please go back and select
+      a package first.
+      <br /><br />
+      <a href="/" class="btn btn-primary">Go to Packages</a>
     </div>
 
-    <a href="/" class="btn-back" id="backLink">
-      ← Back to Packages
-    </a>
+    <!-- Submission Error Message -->
+    <div class="alert alert-danger" id="submissionError" style="display: none">
+      <strong>⚠️ Submission Error:</strong> <span id="errorMessage"></span>
+      <br /><br />
+      <button type="button" class="btn btn-primary" onclick="location.reload()">Try Again</button>
+    </div>
+
+    <a href="/" class="btn-back" id="backLink"> ← Back to Packages </a>
   </div>
 </div>
 
 <script>
   (function () {
+    // Hide loading indicator
+    const loadingIndicator = document.getElementById("loadingIndicator");
+    
     // Load package data from localStorage
     let packageData = null;
     try {
       const stored = localStorage.getItem("selectedPackage");
       if (stored) {
         packageData = JSON.parse(stored);
-        console.log("Loaded package from localStorage:", packageData);
+        console.log("✅ Loaded package from localStorage:", packageData);
+      } else {
+        console.warn("⚠️ No package data found in localStorage");
       }
     } catch (err) {
-      console.error("Error loading package from localStorage:", err);
+      console.error("❌ Error loading package from localStorage:", err);
+      showError("Failed to load package data: " + err.message);
     }
 
     // If no package data, show error
     if (!packageData) {
+      loadingIndicator.style.display = "none";
       document.getElementById("noPackageError").style.display = "block";
       return;
     }
 
-    // Show the form and summary
+    // Validate package data has required fields
+    if (!packageData.totalCost && !packageData.price) {
+      console.error("❌ Invalid package data: missing price");
+      loadingIndicator.style.display = "none";
+      showError("Package data is incomplete. Please select a package again.");
+      document.getElementById("noPackageError").style.display = "block";
+      return;
+    }
+
+    // Hide loading, show the form and summary
+    loadingIndicator.style.display = "none";
     document.getElementById("packageSummaryContainer").style.display = "block";
     document.getElementById("bookingForm").style.display = "block";
 
+    function showError(message) {
+      const errorDiv = document.getElementById("submissionError");
+      const errorMsg = document.getElementById("errorMessage");
+      errorMsg.textContent = message;
+      errorDiv.style.display = "block";
+    }
+
     // Populate package summary
-    document.getElementById("packageTitle").textContent = packageData.packageTitle || packageData.title || "Custom Package";
-    document.getElementById("packageDestination").textContent = packageData.destination || packageData.country || "Unknown";
-    document.getElementById("packageDuration").textContent = packageData.duration || "Flexible";
-    document.getElementById("packageCurrency").textContent = packageData.currency || "USD";
-    document.getElementById("packagePrice").textContent = (packageData.totalCost || 0).toLocaleString();
+    document.getElementById("packageTitle").textContent =
+      packageData.packageTitle || packageData.title || "Custom Package";
+    document.getElementById("packageDestination").textContent =
+      packageData.destination || packageData.country || "Unknown";
+    document.getElementById("packageDuration").textContent =
+      packageData.duration || "Flexible";
+    document.getElementById("packageCurrency").textContent =
+      packageData.currency || "USD";
+    document.getElementById("packagePrice").textContent = (
+      packageData.totalCost || 0
+    ).toLocaleString();
 
     // Populate hidden form fields
-    document.getElementById("hiddenPackageId").value = packageData.packageId || packageData.id || Date.now().toString();
-    document.getElementById("hiddenPackageDetails").value = encodeURIComponent(JSON.stringify(packageData));
+    document.getElementById("hiddenPackageId").value =
+      packageData.packageId || packageData.id || Date.now().toString();
+    document.getElementById("hiddenPackageDetails").value = encodeURIComponent(
+      JSON.stringify(packageData)
+    );
 
     // Update back link
-    const context = JSON.parse(localStorage.getItem("selectedPackage_context") || "{}");
+    const context = JSON.parse(
+      localStorage.getItem("selectedPackage_context") || "{}"
+    );
     if (context.country) {
-      document.getElementById("backLink").href = `/packages?country=${context.country}`;
+      document.getElementById(
+        "backLink"
+      ).href = `/packages?country=${context.country}`;
     }
 
     // Form elements
@@ -473,7 +531,10 @@
       totalPriceCurrencyEl.textContent = currency;
 
       // Trigger currency conversion if available
-      if (window.CurrencyConverter && window.CurrencyConverter.convertAllPrices) {
+      if (
+        window.CurrencyConverter &&
+        window.CurrencyConverter.convertAllPrices
+      ) {
         setTimeout(() => window.CurrencyConverter.convertAllPrices(), 100);
       }
     }
@@ -501,23 +562,76 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
+      // Validation
       const startDate = new Date(startDateInput.value);
       const endDate = new Date(endDateInput.value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // Validate dates
+      if (!startDateInput.value || !endDateInput.value) {
+        alert("⚠️ Please select both start and end dates!");
+        return;
+      }
+
+      if (startDate < today) {
+        alert("⚠️ Start date cannot be in the past!");
+        return;
+      }
 
       if (endDate < startDate) {
-        alert("End date must be after start date!");
+        alert("⚠️ End date must be after start date!");
         return;
       }
 
-      if (!adultsInput.value || adultsInput.value < 1) {
-        alert("At least one adult traveler is required!");
+      // Validate travelers
+      const adults = parseInt(adultsInput.value) || 0;
+      if (adults < 1) {
+        alert("⚠️ At least one adult traveler is required!");
         return;
       }
 
+      // Validate contact info
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+
+      if (!fullName || !email || !phone) {
+        alert("⚠️ Please fill in all required contact information!");
+        return;
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert("⚠️ Please enter a valid email address!");
+        return;
+      }
+
+      // Validate package data is still available
+      if (!packageData || !packageData.totalCost) {
+        alert("⚠️ Package data is missing. Please select a package again.");
+        showError("Package data lost. Please go back and select a package again.");
+        return;
+      }
+
+      // Disable submit button and show loading state
       submitBtn.disabled = true;
-      submitBtn.textContent = "⏳ Submitting...";
+      submitBtn.textContent = "⏳ Submitting your booking...";
+      submitBtn.style.opacity = "0.7";
 
-      form.submit();
+      console.log("📤 Submitting booking form...");
+      
+      // Submit the form
+      try {
+        form.submit();
+      } catch (err) {
+        console.error("❌ Form submission error:", err);
+        submitBtn.disabled = false;
+        submitBtn.textContent = "🎉 Submit Booking Request";
+        submitBtn.style.opacity = "1";
+        alert("⚠️ Error submitting form. Please try again.");
+      }
     });
 
     // Initial price calculation

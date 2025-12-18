@@ -219,130 +219,149 @@
 <div class="bookings-container">
   <div class="page-header">
     <h1>📋 My Bookings</h1>
-    <p style="margin-top: 10px; font-size: 1.1rem;">
+    <p style="margin-top: 10px; font-size: 1.1rem">
       View and manage all your travel bookings
     </p>
   </div>
 
   <% if (bookings && bookings.length > 0) { %>
-    <!-- Booking Statistics -->
-    <div class="bookings-stats">
-      <div class="stat-card">
-        <div class="stat-number"><%= bookings.length %></div>
-        <div class="stat-label">Total Bookings</div>
+  <!-- Booking Statistics -->
+  <div class="bookings-stats">
+    <div class="stat-card">
+      <div class="stat-number"><%= bookings.length %></div>
+      <div class="stat-label">Total Bookings</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">
+        <%= bookings.filter(b => b.status === 'pending').length %>
       </div>
-      <div class="stat-card">
-        <div class="stat-number"><%= bookings.filter(b => b.status === 'pending').length %></div>
-        <div class="stat-label">Pending</div>
+      <div class="stat-label">Pending</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">
+        <%= bookings.filter(b => b.status === 'confirmed').length %>
       </div>
-      <div class="stat-card">
-        <div class="stat-number"><%= bookings.filter(b => b.status === 'confirmed').length %></div>
-        <div class="stat-label">Confirmed</div>
+      <div class="stat-label">Confirmed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">
+        <%= bookings.filter(b => b.status === 'completed').length %>
       </div>
-      <div class="stat-card">
-        <div class="stat-number"><%= bookings.filter(b => b.status === 'completed').length %></div>
-        <div class="stat-label">Completed</div>
+      <div class="stat-label">Completed</div>
+    </div>
+  </div>
+
+  <!-- Bookings List -->
+  <% bookings.forEach(booking => { %>
+  <div class="booking-card">
+    <div class="booking-header">
+      <div>
+        <div class="booking-reference">🎫 <%= booking.bookingReference %></div>
+        <div style="font-size: 0.9rem; margin-top: 5px">
+          Booked on <%= new Date(booking.createdAt).toLocaleDateString() %>
+        </div>
       </div>
+      <span class="status-badge status-<%= booking.status %>">
+        <%= booking.status %>
+      </span>
     </div>
 
-    <!-- Bookings List -->
-    <% bookings.forEach(booking => { %>
-      <div class="booking-card">
-        <div class="booking-header">
-          <div>
-            <div class="booking-reference">🎫 <%= booking.bookingReference %></div>
-            <div style="font-size: 0.9rem; margin-top: 5px;">
-              Booked on <%= new Date(booking.createdAt).toLocaleDateString() %>
-            </div>
+    <div class="booking-body">
+      <div class="booking-grid">
+        <div class="info-section">
+          <div class="info-label">🏖️ Package</div>
+          <div class="info-value">
+            <%= booking.packageDetails.packageTitle || 'Custom Package' %>
           </div>
-          <span class="status-badge status-<%= booking.status %>">
-            <%= booking.status %>
-          </span>
         </div>
 
-        <div class="booking-body">
-          <div class="booking-grid">
-            <div class="info-section">
-              <div class="info-label">🏖️ Package</div>
-              <div class="info-value"><%= booking.packageDetails.packageTitle || 'Custom Package' %></div>
-            </div>
-
-            <div class="info-section">
-              <div class="info-label">📍 Destination</div>
-              <div class="info-value"><%= booking.packageDetails.destination || booking.packageDetails.country %></div>
-            </div>
-
-            <div class="info-section">
-              <div class="info-label">📅 Travel Dates</div>
-              <div class="info-value">
-                <%= new Date(booking.travelDates.startDate).toLocaleDateString() %>
-                <br>to <%= new Date(booking.travelDates.endDate).toLocaleDateString() %>
-              </div>
-            </div>
-
-            <div class="info-section">
-              <div class="info-label">👥 Travelers</div>
-              <div class="info-value">
-                <%= booking.travelers.adults %> Adult(s)
-                <% if (booking.travelers.children > 0) { %>
-                  + <%= booking.travelers.children %> Child(ren)
-                <% } %>
-              </div>
-            </div>
-
-            <div class="info-section">
-              <div class="info-label">💰 Total Price</div>
-              <div class="info-value" style="color: #28a745;">
-                <span class="price" data-amount="<%= booking.totalPrice %>" data-currency="<%= booking.packageDetails.currency %>">
-                  <%= booking.packageDetails.currency %> <%= booking.totalPrice.toLocaleString() %>
-                </span>
-              </div>
-            </div>
-
-            <div class="info-section">
-              <div class="info-label">📧 Contact Email</div>
-              <div class="info-value" style="font-size: 0.95rem;">
-                <%= booking.contactInfo.email %>
-              </div>
-            </div>
+        <div class="info-section">
+          <div class="info-label">📍 Destination</div>
+          <div class="info-value">
+            <%= booking.packageDetails.destination ||
+            booking.packageDetails.country %>
           </div>
+        </div>
 
-          <div class="booking-actions">
-            <a href="/bookings/<%= booking._id %>" class="btn btn-primary">
-              👁️ View Details
-            </a>
-            
-            <% if (booking.status === 'pending' || booking.status === 'confirmed') { %>
-              <form method="POST" action="/bookings/<%= booking._id %>/cancel" style="display: inline;" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
-                <button type="submit" class="btn btn-danger">
-                  ❌ Cancel Booking
-                </button>
-              </form>
-            <% } %>
+        <div class="info-section">
+          <div class="info-label">📅 Travel Dates</div>
+          <div class="info-value">
+            <%= new Date(booking.travelDates.startDate).toLocaleDateString() %>
+            <br />to <%= new
+            Date(booking.travelDates.endDate).toLocaleDateString() %>
+          </div>
+        </div>
 
-            <% if (booking.status === 'confirmed') { %>
-              <a href="/track?booking=<%= booking._id %>" class="btn btn-secondary">
-                📍 Track Trip
-              </a>
-            <% } %>
+        <div class="info-section">
+          <div class="info-label">👥 Travelers</div>
+          <div class="info-value">
+            <%= booking.travelers.adults %> Adult(s) <% if
+            (booking.travelers.children > 0) { %> + <%=
+            booking.travelers.children %> Child(ren) <% } %>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-label">💰 Total Price</div>
+          <div class="info-value" style="color: #28a745">
+            <span
+              class="price"
+              data-amount="<%= booking.totalPrice %>"
+              data-currency="<%= booking.packageDetails.currency %>"
+            >
+              <%= booking.packageDetails.currency %> <%=
+              booking.totalPrice.toLocaleString() %>
+            </span>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-label">📧 Contact Email</div>
+          <div class="info-value" style="font-size: 0.95rem">
+            <%= booking.contactInfo.email %>
           </div>
         </div>
       </div>
-    <% }) %>
 
-  <% } else { %>
-    <!-- Empty State -->
-    <div class="empty-state">
-      <div class="empty-state-icon">✈️</div>
-      <h3>No Bookings Yet</h3>
-      <p>Start planning your next adventure! Browse our packages and make your first booking.</p>
-      <a href="/" class="btn btn-primary">
-        🔍 Explore Packages
-      </a>
+      <div class="booking-actions">
+        <a href="/bookings/<%= booking._id %>" class="btn btn-primary">
+          👁️ View Details
+        </a>
+
+        <% if (booking.status === 'pending' || booking.status === 'confirmed') {
+        %>
+        <form
+          method="POST"
+          action="/bookings/<%= booking._id %>/cancel"
+          style="display: inline"
+          onsubmit="return confirm('Are you sure you want to cancel this booking?');"
+        >
+          <button type="submit" class="btn btn-danger">
+            ❌ Cancel Booking
+          </button>
+        </form>
+        <% } %> <% if (booking.status === 'confirmed') { %>
+        <a href="/track?booking=<%= booking._id %>" class="btn btn-secondary">
+          📍 Track Trip
+        </a>
+        <% } %>
+      </div>
     </div>
+  </div>
+  <% }) %> <% } else { %>
+  <!-- Empty State -->
+  <div class="empty-state">
+    <div class="empty-state-icon">✈️</div>
+    <h3>No Bookings Yet</h3>
+    <p>
+      Start planning your next adventure! Browse our packages and make your
+      first booking.
+    </p>
+    <a href="/" class="btn btn-primary"> 🔍 Explore Packages </a>
+  </div>
   <% } %>
 
-  <div style="text-align: center; margin-top: 30px;">
+  <div style="text-align: center; margin-top: 30px">
     <a href="/" class="btn btn-secondary">← Back to Home</a>
   </div>
 </div>

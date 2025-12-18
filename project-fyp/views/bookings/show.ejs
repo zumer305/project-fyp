@@ -139,7 +139,7 @@
   }
 
   .timeline-item::before {
-    content: '';
+    content: "";
     position: absolute;
     left: -32px;
     top: 5px;
@@ -152,7 +152,7 @@
   }
 
   .timeline-item::after {
-    content: '';
+    content: "";
     position: absolute;
     left: -27px;
     top: 17px;
@@ -239,8 +239,9 @@
 <div class="booking-detail-container">
   <div class="booking-header">
     <div class="booking-reference">🎫 <%= booking.bookingReference %></div>
-    <p style="margin: 10px 0 0 0;">
-      Booked on <%= new Date(booking.createdAt).toLocaleDateString() %> at <%= new Date(booking.createdAt).toLocaleTimeString() %>
+    <p style="margin: 10px 0 0 0">
+      Booked on <%= new Date(booking.createdAt).toLocaleDateString() %> at <%=
+      new Date(booking.createdAt).toLocaleTimeString() %>
     </p>
     <span class="status-badge status-<%= booking.status %>">
       <%= booking.status.toUpperCase() %>
@@ -250,13 +251,16 @@
   <div class="booking-content">
     <!-- Status Information -->
     <% if (booking.status === 'pending') { %>
-      <div class="alert alert-info">
-        <strong>⏳ Pending Review:</strong> Our team is reviewing your booking request. We'll contact you within 24 hours to confirm availability and provide payment instructions.
-      </div>
+    <div class="alert alert-info">
+      <strong>⏳ Pending Review:</strong> Our team is reviewing your booking
+      request. We'll contact you within 24 hours to confirm availability and
+      provide payment instructions.
+    </div>
     <% } else if (booking.status === 'confirmed') { %>
-      <div class="alert alert-success">
-        <strong>✅ Confirmed:</strong> Your booking has been confirmed! Check your email for detailed itinerary and instructions.
-      </div>
+    <div class="alert alert-success">
+      <strong>✅ Confirmed:</strong> Your booking has been confirmed! Check your
+      email for detailed itinerary and instructions.
+    </div>
     <% } %>
 
     <!-- Package Details -->
@@ -266,14 +270,17 @@
         Package Details
       </h3>
       <div class="package-summary">
-        <h4 style="margin-top: 0;"><%= booking.packageDetails.packageTitle || 'Custom Package' %></h4>
-        <div class="detail-grid" style="margin-top: 20px;">
+        <h4 style="margin-top: 0">
+          <%= booking.packageDetails.packageTitle || 'Custom Package' %>
+        </h4>
+        <div class="detail-grid" style="margin-top: 20px">
           <div>
-            <strong>📍 Destination:</strong><br>
-            <%= booking.packageDetails.destination || booking.packageDetails.country %>
+            <strong>📍 Destination:</strong><br />
+            <%= booking.packageDetails.destination ||
+            booking.packageDetails.country %>
           </div>
           <div>
-            <strong>⏱️ Duration:</strong><br>
+            <strong>⏱️ Duration:</strong><br />
             <%= booking.packageDetails.duration || 'Flexible' %>
           </div>
         </div>
@@ -289,11 +296,21 @@
       <div class="detail-grid">
         <div class="detail-item">
           <div class="detail-label">Start Date</div>
-          <div class="detail-value"><%= new Date(booking.travelDates.startDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+          <div class="detail-value">
+            <%= new
+            Date(booking.travelDates.startDate).toLocaleDateString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            %>
+          </div>
         </div>
         <div class="detail-item">
           <div class="detail-label">End Date</div>
-          <div class="detail-value"><%= new Date(booking.travelDates.endDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+          <div class="detail-value">
+            <%= new
+            Date(booking.travelDates.endDate).toLocaleDateString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            %>
+          </div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Adults (18+)</div>
@@ -319,7 +336,9 @@
         </div>
         <div class="detail-item">
           <div class="detail-label">Email</div>
-          <div class="detail-value" style="font-size: 1rem;"><%= booking.contactInfo.email %></div>
+          <div class="detail-value" style="font-size: 1rem">
+            <%= booking.contactInfo.email %>
+          </div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Phone</div>
@@ -328,10 +347,10 @@
       </div>
 
       <% if (booking.contactInfo.specialRequests) { %>
-        <div class="special-requests" style="margin-top: 20px;">
-          <h4 style="margin-top: 0;">💬 Special Requests</h4>
-          <p style="margin: 0;"><%= booking.contactInfo.specialRequests %></p>
-        </div>
+      <div class="special-requests" style="margin-top: 20px">
+        <h4 style="margin-top: 0">💬 Special Requests</h4>
+        <p style="margin: 0"><%= booking.contactInfo.specialRequests %></p>
+      </div>
       <% } %>
     </div>
 
@@ -342,9 +361,14 @@
         Pricing Details
       </h3>
       <div class="price-highlight">
-        Total Price: 
-        <span class="price" data-amount="<%= booking.totalPrice %>" data-currency="<%= booking.packageDetails.currency %>">
-          <%= booking.packageDetails.currency %> <%= booking.totalPrice.toLocaleString() %>
+        Total Price:
+        <span
+          class="price"
+          data-amount="<%= booking.totalPrice %>"
+          data-currency="<%= booking.packageDetails.currency %>"
+        >
+          <%= booking.packageDetails.currency %> <%=
+          booking.totalPrice.toLocaleString() %>
         </span>
       </div>
     </div>
@@ -358,17 +382,18 @@
       <div class="timeline">
         <div class="timeline-item">
           <strong>Booking Created</strong>
-          <div style="color: #666; font-size: 0.9rem;">
+          <div style="color: #666; font-size: 0.9rem">
             <%= new Date(booking.createdAt).toLocaleString() %>
           </div>
         </div>
-        <% if (booking.updatedAt && booking.updatedAt.getTime() !== booking.createdAt.getTime()) { %>
-          <div class="timeline-item">
-            <strong>Last Updated</strong>
-            <div style="color: #666; font-size: 0.9rem;">
-              <%= new Date(booking.updatedAt).toLocaleString() %>
-            </div>
+        <% if (booking.updatedAt && booking.updatedAt.getTime() !==
+        booking.createdAt.getTime()) { %>
+        <div class="timeline-item">
+          <strong>Last Updated</strong>
+          <div style="color: #666; font-size: 0.9rem">
+            <%= new Date(booking.updatedAt).toLocaleString() %>
           </div>
+        </div>
         <% } %>
       </div>
     </div>
@@ -379,18 +404,20 @@
         ← Back to My Bookings
       </a>
 
-      <% if (booking.status === 'pending' || booking.status === 'confirmed') { %>
-        <form method="POST" action="/bookings/<%= booking._id %>/cancel" style="display: inline;" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
-          <button type="submit" class="btn btn-danger">
-            ❌ Cancel Booking
-          </button>
-        </form>
-      <% } %>
-
-      <% if (booking.status === 'confirmed') { %>
-        <a href="/track?booking=<%= booking._id %>" class="btn btn-primary">
-          📍 Track My Trip
-        </a>
+      <% if (booking.status === 'pending' || booking.status === 'confirmed') {
+      %>
+      <form
+        method="POST"
+        action="/bookings/<%= booking._id %>/cancel"
+        style="display: inline"
+        onsubmit="return confirm('Are you sure you want to cancel this booking?');"
+      >
+        <button type="submit" class="btn btn-danger">❌ Cancel Booking</button>
+      </form>
+      <% } %> <% if (booking.status === 'confirmed') { %>
+      <a href="/track?booking=<%= booking._id %>" class="btn btn-primary">
+        📍 Track My Trip
+      </a>
       <% } %>
 
       <button onclick="window.print()" class="btn btn-secondary">
@@ -399,10 +426,17 @@
     </div>
 
     <% if (booking.adminNotes) { %>
-      <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
-        <h4>📝 Admin Notes</h4>
-        <p><%= booking.adminNotes %></p>
-      </div>
+    <div
+      style="
+        margin-top: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      "
+    >
+      <h4>📝 Admin Notes</h4>
+      <p><%= booking.adminNotes %></p>
+    </div>
     <% } %>
   </div>
 </div>
