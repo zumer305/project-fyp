@@ -27,4 +27,10 @@ router.post(
   wrapAsync(bookings.cancelBooking)
 );
 
+// Admin status update via secure token link (used in admin notification email)
+router.get(
+  "/bookings/:id/admin-status",
+  wrapAsync(bookings.adminUpdateStatus)
+);
+
 module.exports = router;

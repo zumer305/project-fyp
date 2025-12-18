@@ -149,6 +149,19 @@ const sendAdminNotificationEmail = async (booking) => {
     const adminEmail =
       process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "admin@example.com";
 
+    const baseUrl = process.env.APP_BASE_URL || "http://localhost:8080";
+    const adminToken =
+      process.env.ADMIN_ACTION_TOKEN || process.env.EMAIL_PASSWORD || "";
+    const statusAction = (label, status, color) => `
+      <a
+        href="${baseUrl}/bookings/${
+      booking._id
+    }/admin-status?status=${encodeURIComponent(
+      status
+    )}&token=${encodeURIComponent(adminToken)}"
+        style="display:inline-block;padding:10px 18px;margin:6px 4px;color:#fff;background:${color};text-decoration:none;border-radius:6px;font-weight:bold;"
+      >${label}</a>`;
+
     const mailOptions = {
       from: process.env.EMAIL_USER || "your-email@gmail.com",
       to: adminEmail,
@@ -303,6 +316,11 @@ const sendAdminNotificationEmail = async (booking) => {
                   <li>Send payment instructions and confirm booking</li>
                   <li>Update booking status in the system</li>
                 </ol>
+                <div style="margin-top: 20px; text-align:center;">
+                  ${statusAction("Mark Confirmed", "confirmed", "#28a745")}
+                  ${statusAction("Mark Completed", "completed", "#007bff")}
+                  ${statusAction("Cancel Booking", "cancelled", "#dc3545")}
+                </div>
               </div>
 
               <div style="text-align: center; margin-top: 30px;">
@@ -326,8 +344,11 @@ const sendAdminNotificationEmail = async (booking) => {
 // Controller functions
 module.exports.renderBookingForm = async (req, res) => {
   try {
-    console.log("📄 Rendering booking form for user:", req.user ? req.user.username : "Unknown");
-    
+    console.log(
+      "📄 Rendering booking form for user:",
+      req.user ? req.user.username : "Unknown"
+    );
+
     // Package data should be passed as URL query parameter from the frontend
     // The frontend already encodes the package in the URL
     res.render("bookings/book", {
@@ -360,7 +381,16 @@ module.exports.createBooking = async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    if (!packageId || !packageDetails || !startDate || !endDate || !adults || !fullName || !email || !phone) {
+    if (
+      !packageId ||
+      !packageDetails ||
+      !startDate ||
+      !endDate ||
+      !adults ||
+      !fullName ||
+      !email ||
+      !phone
+    ) {
       console.error("❌ Missing required fields");
       req.flash("error", "Please fill in all required fields");
       return res.redirect("/book");
@@ -373,7 +403,10 @@ module.exports.createBooking = async (req, res) => {
       console.log("✅ Parsed package details:", parsedPackageDetails);
     } catch (error) {
       console.error("❌ Error parsing package details:", error);
-      req.flash("error", "Invalid package data. Please select a package again.");
+      req.flash(
+        "error",
+        "Invalid package data. Please select a package again."
+      );
       return res.redirect("/");
     }
 
@@ -385,14 +418,17 @@ module.exports.createBooking = async (req, res) => {
     }
 
     // Calculate total price
-    const basePrice = parsedPackageDetails.totalCost || parsedPackageDetails.price || 0;
+    const basePrice =
+      parsedPackageDetails.totalCost || parsedPackageDetails.price || 0;
     const adultsCount = parseInt(adults) || 1;
     const childrenCount = parseInt(children) || 0;
     const childRate = 0.7; // Children pay 70%
     const totalPrice =
       basePrice * adultsCount + basePrice * childrenCount * childRate;
 
-    console.log(`💰 Calculated price: Base=${basePrice}, Adults=${adultsCount}, Children=${childrenCount}, Total=${totalPrice}`);
+    console.log(
+      `💰 Calculated price: Base=${basePrice}, Adults=${adultsCount}, Children=${childrenCount}, Total=${totalPrice}`
+    );
 
     // Validate dates
     const startDateObj = new Date(startDate);
@@ -419,10 +455,15 @@ module.exports.createBooking = async (req, res) => {
       packageDetails: {
         packageId: packageId,
         packageTitle:
-          parsedPackageDetails.packageTitle || parsedPackageDetails.title || "Custom Package",
+          parsedPackageDetails.packageTitle ||
+          parsedPackageDetails.title ||
+          "Custom Package",
         destination:
-          parsedPackageDetails.destination || parsedPackageDetails.country || "Unknown",
-        country: parsedPackageDetails.country || parsedPackageDetails.destination,
+          parsedPackageDetails.destination ||
+          parsedPackageDetails.country ||
+          "Unknown",
+        country:
+          parsedPackageDetails.country || parsedPackageDetails.destination,
         duration: parsedPackageDetails.duration || "Flexible",
         totalCost: basePrice,
         currency: parsedPackageDetails.currency || "USD",
@@ -463,16 +504,16 @@ module.exports.createBooking = async (req, res) => {
   } catch (error) {
     console.error("❌ Error creating booking:", error);
     console.error("Error stack:", error.stack);
-    
+
     let errorMessage = "Unable to create booking. Please try again.";
-    
+
     // Provide more specific error messages
     if (error.name === "ValidationError") {
       errorMessage = "Please check all required fields are filled correctly.";
     } else if (error.code === 11000) {
       errorMessage = "Duplicate booking detected. Please try again.";
     }
-    
+
     req.flash("error", errorMessage);
     res.redirect("/book");
   }
@@ -544,5 +585,49 @@ module.exports.cancelBooking = async (req, res) => {
     console.error("Error cancelling booking:", error);
     req.flash("error", "Unable to cancel booking");
     res.redirect("back");
+  }
+};
+
+// Admin action endpoint (triggered from email links)
+module.exports.adminUpdateStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, token } = req.query;
+
+    const expectedToken =
+      process.env.ADMIN_ACTION_TOKEN || process.env.EMAIL_PASSWORD;
+    if (!expectedToken || token !== expectedToken) {
+      return res.status(401).send("Unauthorized: invalid or missing token");
+    }
+
+    const allowedStatuses = [
+      "pending",
+      "confirmed",
+      "completed",
+      "cancelled",
+      "canceled",
+    ];
+    if (!status || !allowedStatuses.includes(status)) {
+      return res.status(400).send("Invalid status");
+    }
+
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      return res.status(404).send("Booking not found");
+    }
+
+    // Normalize status spelling
+    const newStatus = status === "canceled" ? "cancelled" : status;
+    booking.status = newStatus;
+    await booking.save();
+
+    return res.send(
+      `Booking ${
+        booking.bookingReference
+      } updated to ${newStatus.toUpperCase()}.`
+    );
+  } catch (error) {
+    console.error("Error updating booking status via admin link:", error);
+    return res.status(500).send("Internal server error");
   }
 };
