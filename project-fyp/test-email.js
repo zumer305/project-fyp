@@ -123,7 +123,9 @@ async function testEmail() {
 
     if (error.code === "EAUTH") {
       console.log("\n🔐 Authentication Error - Solutions:");
-      console.log("  1. Make sure you're using Gmail App Password (not regular password)");
+      console.log(
+        "  1. Make sure you're using Gmail App Password (not regular password)"
+      );
       console.log("  2. Generate App Password:");
       console.log("     • Go to: https://myaccount.google.com/apppasswords");
       console.log("     • Enable 2-Factor Authentication first");

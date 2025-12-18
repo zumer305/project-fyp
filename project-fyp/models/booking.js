@@ -83,10 +83,7 @@ const bookingSchema = new Schema(
 bookingSchema.pre("save", function (next) {
   if (!this.bookingReference) {
     const timestamp = Date.now();
-    const randomStr = Math.random()
-      .toString(36)
-      .substr(2, 9)
-      .toUpperCase();
+    const randomStr = Math.random().toString(36).substr(2, 9).toUpperCase();
     this.bookingReference = `BK-${timestamp}-${randomStr}`;
     console.log(`📌 Generated booking reference: ${this.bookingReference}`);
   }

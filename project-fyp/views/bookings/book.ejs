@@ -201,8 +201,8 @@
 
   <div class="booking-content">
     <!-- Loading indicator -->
-    <div id="loadingIndicator" style="text-align: center; padding: 40px;">
-      <div style="font-size: 2rem; margin-bottom: 10px;">⏳</div>
+    <div id="loadingIndicator" style="text-align: center; padding: 40px">
+      <div style="font-size: 2rem; margin-bottom: 10px">⏳</div>
       <p>Loading booking details...</p>
     </div>
 
@@ -403,8 +403,7 @@
     <!-- Error message if no package selected -->
     <div class="alert alert-danger" id="noPackageError" style="display: none">
       <strong>⚠️ Error:</strong> No package selected. Please go back and select
-      a package first.
-      <br /><br />
+      a package first. <br /><br />
       <a href="/" class="btn btn-primary">Go to Packages</a>
     </div>
 
@@ -412,7 +411,9 @@
     <div class="alert alert-danger" id="submissionError" style="display: none">
       <strong>⚠️ Submission Error:</strong> <span id="errorMessage"></span>
       <br /><br />
-      <button type="button" class="btn btn-primary" onclick="location.reload()">Try Again</button>
+      <button type="button" class="btn btn-primary" onclick="location.reload()">
+        Try Again
+      </button>
     </div>
 
     <a href="/" class="btn-back" id="backLink"> ← Back to Packages </a>
@@ -423,7 +424,7 @@
   (function () {
     // Hide loading indicator
     const loadingIndicator = document.getElementById("loadingIndicator");
-    
+
     // Load package data from localStorage
     let packageData = null;
     try {
@@ -611,7 +612,9 @@
       // Validate package data is still available
       if (!packageData || !packageData.totalCost) {
         alert("⚠️ Package data is missing. Please select a package again.");
-        showError("Package data lost. Please go back and select a package again.");
+        showError(
+          "Package data lost. Please go back and select a package again."
+        );
         return;
       }
 
@@ -621,7 +624,7 @@
       submitBtn.style.opacity = "0.7";
 
       console.log("📤 Submitting booking form...");
-      
+
       // Submit the form
       try {
         form.submit();

@@ -25,7 +25,7 @@ async function testBookingCreation() {
     // Find or create a test user
     console.log("\n👤 Finding test user...");
     let testUser = await User.findOne({ email: "test@example.com" });
-    
+
     if (!testUser) {
       console.log("Creating test user...");
       testUser = new User({
@@ -80,14 +80,31 @@ async function testBookingCreation() {
     console.log("✅ Test booking created successfully!");
     console.log("📌 Booking Reference:", testBooking.bookingReference);
     console.log("🆔 Booking ID:", testBooking._id);
-    console.log("💰 Total Price:", testBooking.totalPrice, testBooking.packageDetails.currency);
-    console.log("📅 Travel Dates:", testBooking.travelDates.startDate.toDateString(), "to", testBooking.travelDates.endDate.toDateString());
-    console.log("👥 Travelers:", testBooking.travelers.adults, "adults,", testBooking.travelers.children, "children");
+    console.log(
+      "💰 Total Price:",
+      testBooking.totalPrice,
+      testBooking.packageDetails.currency
+    );
+    console.log(
+      "📅 Travel Dates:",
+      testBooking.travelDates.startDate.toDateString(),
+      "to",
+      testBooking.travelDates.endDate.toDateString()
+    );
+    console.log(
+      "👥 Travelers:",
+      testBooking.travelers.adults,
+      "adults,",
+      testBooking.travelers.children,
+      "children"
+    );
 
     // Verify the booking can be retrieved
     console.log("\n🔍 Verifying booking retrieval...");
-    const retrievedBooking = await Booking.findById(testBooking._id).populate("user");
-    
+    const retrievedBooking = await Booking.findById(testBooking._id).populate(
+      "user"
+    );
+
     if (retrievedBooking) {
       console.log("✅ Booking retrieved successfully!");
       console.log("📌 Retrieved Reference:", retrievedBooking.bookingReference);
@@ -101,18 +118,21 @@ async function testBookingCreation() {
     const allBookings = await Booking.find().limit(5);
     console.log(`Found ${allBookings.length} booking(s)`);
     allBookings.forEach((b, index) => {
-      console.log(`  ${index + 1}. ${b.bookingReference} - ${b.packageDetails.packageTitle} (${b.status})`);
+      console.log(
+        `  ${index + 1}. ${b.bookingReference} - ${
+          b.packageDetails.packageTitle
+        } (${b.status})`
+      );
     });
 
     console.log("\n✅ All tests completed successfully!");
     console.log("\n💡 Booking system is working correctly!");
-
   } catch (error) {
     console.error("\n❌ Test failed with error:");
     console.error(error);
     if (error.errors) {
       console.error("\nValidation errors:");
-      Object.keys(error.errors).forEach(key => {
+      Object.keys(error.errors).forEach((key) => {
         console.error(`  - ${key}: ${error.errors[key].message}`);
       });
     }

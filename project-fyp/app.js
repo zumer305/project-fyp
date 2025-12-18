@@ -57,7 +57,8 @@ const ExpressError = require("./utils/ExpressError.js");
 // ===================
 // MONGODB CONNECTION
 // ===================
-const url = "mongodb://127.0.0.1:27017/wanderlust";
+const url = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/wanderlust";
+const sessionSecret = process.env.SESSION_SECRET || "mysupersecretcode";
 
 async function main() {
   await mongoose.connect(url);
@@ -121,9 +122,9 @@ app.use(express.json());
 
 // SESSION CONFIG
 const sessionOptions = {
-  secret: "mysupersecretcode",
+  secret: sessionSecret,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     httpOnly: true,
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
@@ -300,6 +301,10 @@ app.all("*", (req, res, next) => {
 // ===================
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
+  // Log full error for debugging in development
+  if (process.env.NODE_ENV !== "production") {
+    console.error("[ERROR]", err?.stack || err);
+  }
   res.status(statusCode).render("error.ejs", { message });
 });
 

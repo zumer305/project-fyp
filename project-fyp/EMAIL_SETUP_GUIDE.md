@@ -1,7 +1,9 @@
 # 📧 Email Setup Guide - Booking Notifications
 
 ## 🎯 Overview
+
 When a user creates a booking, the system will send:
+
 1. **Confirmation email** to the user's email address
 2. **Notification email** to admin (ai.based.destination.explorer@gmail.com)
 
@@ -10,12 +12,14 @@ When a user creates a booking, the system will send:
 Since you're using Gmail, you need to create an **App Password** (not your regular Gmail password).
 
 ### Step 1: Enable 2-Factor Authentication
+
 1. Go to your Google Account: https://myaccount.google.com/
 2. Click on **Security** (left sidebar)
 3. Under "Signing in to Google", click **2-Step Verification**
 4. Follow the steps to enable 2FA if not already enabled
 
 ### Step 2: Generate App Password
+
 1. Go to: https://myaccount.google.com/apppasswords
    - Or: Google Account → Security → 2-Step Verification → App passwords (at the bottom)
 2. Click **Select app** → Choose "Mail"
@@ -25,6 +29,7 @@ Since you're using Gmail, you need to create an **App Password** (not your regul
 6. **Copy the 16-character password** (looks like: `abcd efgh ijkl mnop`)
 
 ### Step 3: Update .env File
+
 Replace the password in your `.env` file:
 
 ```properties
@@ -48,29 +53,34 @@ TO (Admin): ai.based.destination.explorer@gmail.com
 1. **User fills booking form** with their email
 2. **System creates booking** in database
 3. **Two emails are sent**:
-   
+
    **Email 1 - To User:**
+
    - Subject: "Booking Confirmation - BK-xxxxx"
    - Content: Booking details, reference number, what's next
-   
+
    **Email 2 - To Admin (you):**
+
    - Subject: "🔔 New Booking Request - BK-xxxxx"
    - Content: Customer info, package details, action required
 
 ## 🧪 Testing Email System
 
 ### Option 1: Use the Test Script
+
 ```bash
 cd c:\Users\Hp\Desktop\fyp\project-fyp
 node test-booking-creation.js
 ```
 
 This will:
+
 - Create a test booking
 - Send emails to both user and admin
 - Check server console for email status
 
 ### Option 2: Create a Real Booking
+
 1. Start your server: `npm start`
 2. Login to the website
 3. Select a package
@@ -81,6 +91,7 @@ This will:
 ## 📨 Email Templates
 
 ### User Confirmation Email
+
 ```
 Subject: 🎉 Booking Request Received! - BK-xxxxx
 
@@ -107,6 +118,7 @@ Questions? Reply to this email.
 ```
 
 ### Admin Notification Email
+
 ```
 Subject: 🔔 New Booking Request - BK-xxxxx
 
@@ -144,24 +156,30 @@ Next Steps:
 ## 🐛 Troubleshooting
 
 ### Error: "Invalid login"
+
 **Solution**: Make sure you're using App Password, not regular password
 
 ### Error: "Username and Password not accepted"
+
 **Solutions**:
+
 1. Enable "Less secure app access" (not recommended)
 2. Use App Password instead (recommended)
 3. Check 2FA is enabled
 
 ### Emails not sending but booking created
+
 **This is OK!** Emails are sent asynchronously and won't block booking creation.
 
 **Check**:
+
 1. Server console for email errors
 2. .env file has correct credentials
 3. App Password is correct (no spaces)
 4. Internet connection is working
 
 ### Test email sending directly:
+
 ```javascript
 // test-email.js
 const nodemailer = require("nodemailer");
@@ -174,15 +192,18 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-transporter.sendMail({
-  from: "ai.based.destination.explorer@gmail.com",
-  to: "ai.based.destination.explorer@gmail.com",
-  subject: "Test Email - Booking System",
-  text: "If you receive this, email is working!",
-}, (err, info) => {
-  if (err) console.error("❌ Error:", err);
-  else console.log("✅ Email sent:", info.messageId);
-});
+transporter.sendMail(
+  {
+    from: "ai.based.destination.explorer@gmail.com",
+    to: "ai.based.destination.explorer@gmail.com",
+    subject: "Test Email - Booking System",
+    text: "If you receive this, email is working!",
+  },
+  (err, info) => {
+    if (err) console.error("❌ Error:", err);
+    else console.log("✅ Email sent:", info.messageId);
+  }
+);
 ```
 
 Run: `node test-email.js`
@@ -190,6 +211,7 @@ Run: `node test-email.js`
 ## 📊 Email Status Indicators
 
 Server console shows:
+
 - `✅ User confirmation email sent successfully`
 - `✅ Admin notification email sent successfully`
 - `⚠️ Email sending error: [details]`
@@ -204,6 +226,7 @@ Server console shows:
 ## 📞 Support
 
 If emails still don't work after following this guide:
+
 1. Check server console for specific error messages
 2. Verify Gmail account settings
 3. Try sending test email with script above

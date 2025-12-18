@@ -28,9 +28,6 @@ router.post(
 );
 
 // Admin status update via secure token link (used in admin notification email)
-router.get(
-  "/bookings/:id/admin-status",
-  wrapAsync(bookings.adminUpdateStatus)
-);
+router.get("/bookings/:id/admin-status", wrapAsync(bookings.adminUpdateStatus));
 
 module.exports = router;
