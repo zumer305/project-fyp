@@ -27,8 +27,75 @@ const Review = require("./models/review.js");
 // Import data from data.js
 const initData = require("./init/data.js");
 
+
 // UTILITIES
 const { convertBudgetToUSD } = require("./utils/currencyHelper.js");
+const nodemailer = require("nodemailer");
+
+const EMAIL_FROM =
+  process.env.EMAIL_USER || "ai.based.destination.explorer@gmail.com";
+const EMAIL_PASSWORD =
+  process.env.EMAIL_PASSWORD || process.env.EMAIL_APP_PASSWORD;
+const APP_BASE_URL = process.env.APP_BASE_URL || "http://localhost:8080";
+
+const sanitizeText = (text = "") =>
+  typeof text === "string"
+    ? text.replace(/[&<>"']/g, (c) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+          c
+        ]
+      )
+    : "";
+
+const createEmailTransporter = () => {
+  if (!EMAIL_FROM || !EMAIL_PASSWORD) {
+    console.warn("Email credentials missing; skipping email notifications.");
+    return null;
+  }
+
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: EMAIL_FROM,
+      pass: EMAIL_PASSWORD,
+    },
+  });
+};
+
+const groupChatLink = (groupId) => `${APP_BASE_URL}/groups/${groupId}/chat`;
+
+const sendGroupEmail = async (group, { subject, html, excludeUserId }) => {
+  const transporter = createEmailTransporter();
+  if (!transporter) return;
+
+  const recipients = Array.from(
+    new Set(
+      (group.members || [])
+        .filter((m) => !excludeUserId || m._id?.toString() !== excludeUserId)
+        .map((m) => m.email)
+        .filter(Boolean)
+    )
+  );
+
+  if (recipients.length === 0) {
+    console.warn(`No recipient emails found for group ${group._id}`);
+    return;
+  }
+
+  try {
+    await transporter.sendMail({
+      from: EMAIL_FROM,
+      bcc: recipients,
+      subject,
+      html,
+    });
+    console.log(
+      `📧 Sent group email to ${recipients.length} recipient(s) for group ${group._id}`
+    );
+  } catch (err) {
+    console.error("❌ Failed to send group email:", err);
+  }
+};
 
 // ROUTES
 const listingsRouter = require("./routes/listing.js");
@@ -335,18 +402,23 @@ io.on("connection", (socket) => {
     if (!groupId || !content) return;
 
     try {
-      // Verify user is a member
-      const group = await Group.findById(groupId);
-      if (!group || !group.members.some((m) => m.toString() === userId)) {
+      // Verify user is a member and load member emails for notifications
+      const group = await Group.findById(groupId).populate(
+        "members",
+        "username email"
+      );
+      if (!group || !group.members.some((m) => m._id.toString() === userId)) {
         console.log("Unauthorized message attempt");
         return;
       }
+
+      const trimmedContent = content.trim();
 
       // Save message to database
       const msg = await Message.create({
         group: groupId,
         user: userId,
-        content: content.trim(),
+        content: trimmedContent,
         type: "text",
       });
 
@@ -355,9 +427,26 @@ io.on("connection", (socket) => {
         id: msg._id,
         userId,
         username,
-        content: content.trim(),
+        content: trimmedContent,
         createdAt: msg.createdAt,
         type: "text",
+      });
+
+      // Email notification to other members
+      await sendGroupEmail(group, {
+        subject: `New message in ${group.name || "your group"}`,
+        html: `
+          <p><strong>${sanitizeText(
+            username || "A group member"
+          )}</strong> posted a new message in <strong>${sanitizeText(
+          group.name || "your group"
+        )}</strong>:</p>
+          <blockquote style="margin:12px 0;padding-left:12px;border-left:4px solid #eee;">
+            ${sanitizeText(trimmedContent)}
+          </blockquote>
+          <p><a href="${groupChatLink(group._id)}">Open group chat</a></p>
+        `,
+        excludeUserId: userId,
       });
 
       console.log(`Message sent in group ${groupId} by ${username}`);
