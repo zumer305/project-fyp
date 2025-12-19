@@ -194,6 +194,14 @@
         <p>Discover nearby halal restaurants and certified food places.</p>
         <button id="btn-find-halal">🍽️ Find Halal</button>
       </div>
+      <div class="feature-card">
+        <div class="icon-title">
+          <img src="https://img.icons8.com/ios-filled/50/bed.png" />
+          <h3>Hotel Finder</h3>
+        </div>
+        <p>Find hotels and guest houses at your destination.</p>
+        <button id="btn-find-hotels">🏨 Find Hotels</button>
+      </div>
     </div>
   </div>
   <!-- 📍 Map Section -->
@@ -849,6 +857,78 @@
             console.error("Failed to lookup halal food", e);
             alert(
               "Could not load halal food spots for this destination right now. Please try again later."
+            );
+          }
+        });
+
+      document
+        .getElementById("btn-find-hotels")
+        .addEventListener("click", async () => {
+          let destination = null;
+          let destinationType = "city";
+          const pkg = getSelectedPackageCached();
+
+          if (pkg && (pkg.city || pkg.country)) {
+            if (pkg.city) {
+              destination = pkg.city;
+              destinationType = "city";
+            } else {
+              destination = pkg.country;
+              destinationType = "country";
+            }
+            console.log(
+              `Using cached destination: ${destination} (${destinationType})`
+            );
+          } else {
+            destination = prompt(
+              "Enter destination (city or country name):",
+              "Bishkek"
+            );
+            if (!destination || !destination.trim()) {
+              alert("Please enter a destination to search for hotels.");
+              return;
+            }
+            destinationType = "city";
+          }
+
+          const fallbackArea = destination;
+          try {
+            let queryParams = new URLSearchParams();
+            if (destinationType === "city") {
+              queryParams.set("city", destination);
+              if (pkg && pkg.country) {
+                queryParams.set("country", pkg.country);
+              }
+            } else {
+              queryParams.set("country", destination);
+            }
+
+            console.log(`Fetching hotels for: ${queryParams.toString()}`);
+            const res = await fetch(
+              `/api/faith/hotels?${queryParams.toString()}`
+            );
+            const data = await res.json();
+
+            console.log("Hotels API response:", data);
+
+            if (!res.ok) {
+              alert("Error: " + (data.message || "Failed to find hotels"));
+              return;
+            }
+            if (data.fallback) {
+              console.warn("Using fallback data:", data.message);
+              alert(
+                data.message ||
+                  "Using fallback hotel listings. Live lookup unavailable."
+              );
+            }
+            const center = buildMapCenter(data, fallbackArea);
+            await renderMapboxMarkers(data.items, center);
+            updateMapAreaLabel(center && center.area);
+          } catch (e) {
+            console.error("Failed to lookup hotels", e);
+            alert(
+              "Could not load hotels for this destination right now. Please try again later."
             );
           }
         });

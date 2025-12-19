@@ -610,6 +610,8 @@ function buildFallbackItems(type, label, lat, lon) {
       name:
         type === "mosque"
           ? `${displayName} Mosque`
+          : type === "hotel"
+          ? `${displayName} Hotel`
           : `${displayName} Halal Eatery`,
       note: "Showing cached results while live lookup is unavailable",
       lat,
@@ -714,6 +716,122 @@ async function queryOverpassMosques(lat, lon, radiusKm, options) {
 async function queryOverpassHalalFood(lat, lon, radiusKm, options) {
   return queryOverpassWithExpansion(
     fetchOverpassHalalFood,
+    lat,
+    lon,
+    radiusKm,
+    options
+  );
+}
+
+// --- Hotels Overpass Query ---
+async function fetchOverpassHotels(lat, lon, options = {}) {
+  const { radiusKm, boundingBox, countryCode, mode } = options;
+
+  // Common lodging tags
+  const buildSelectors = (scope) => `
+        node["tourism"="hotel"]${scope};
+        way["tourism"="hotel"]${scope};
+        node["tourism"="guest_house"]${scope};
+        way["tourism"="guest_house"]${scope};
+        node["tourism"="hostel"]${scope};
+        way["tourism"="hostel"]${scope};
+  `;
+
+  let query;
+  if (mode === "country" && countryCode) {
+    const iso = countryCode.toUpperCase();
+    query = `
+      [out:json][timeout:20];
+      (
+        area["ISO3166-1"="${iso}"];
+        area["ISO3166-1:alpha2"="${iso}"];
+      )->.searchArea;
+      (
+${buildSelectors("(area.searchArea)")}
+      );
+      out center 30;
+    `;
+  } else if (mode === "bbox" && boundingBox) {
+    const bbox = formatBoundingBox(boundingBox);
+    query = `
+      [out:json][timeout:20];
+      (
+${buildSelectors(`(${bbox})`)}
+      );
+      out center 60;
+    `;
+  } else {
+    const radiusMeters = Math.max(
+      1000,
+      Math.min(150000, Math.round((radiusKm || 5) * 1000))
+    );
+    query = `
+      [out:json][timeout:15];
+      (
+${buildSelectors(`(around:${radiusMeters},${lat},${lon})`)}
+      );
+      out center 60;
+    `;
+  }
+
+  const data = await runOverpassQuery(query);
+  if (!data || !Array.isArray(data.elements)) return [];
+
+  const seen = new Set();
+  const items = [];
+  for (const element of data.elements) {
+    const tags = element.tags || {};
+    const name = tags.name || tags["name:en"] || tags.brand;
+    if (!name) continue;
+
+    let latVal = element.lat;
+    let lonVal = element.lon;
+    if (element.type !== "node" && element.center) {
+      latVal = element.center.lat;
+      lonVal = element.center.lon;
+    }
+    if (typeof latVal !== "number" || typeof lonVal !== "number") continue;
+
+    const signature = `${latVal.toFixed(6)},${lonVal.toFixed(6)}`;
+    if (seen.has(signature)) continue;
+    seen.add(signature);
+
+    const addrParts = [];
+    if (tags["addr:street"]) addrParts.push(tags["addr:street"]);
+    if (tags["addr:housenumber"]) addrParts.push(tags["addr:housenumber"]);
+    if (tags["addr:city"]) addrParts.push(tags["addr:city"]);
+    if (tags["addr:postcode"]) addrParts.push(tags["addr:postcode"]);
+
+    const details = [];
+    if (tags["stars"]) details.push(`${tags["stars"]}★`);
+    if (tags["phone"]) details.push(`☎ ${tags["phone"]}`);
+    if (tags["contact:phone"]) details.push(`☎ ${tags["contact:phone"]}`);
+    if (tags["website"]) details.push(tags["website"]);
+
+    const address = addrParts.join(", ");
+
+    items.push({
+      name,
+      note: [details.join(" • "), address || tags.description || "Hotel"]
+        .filter(Boolean)
+        .join(" | "),
+      lat: latVal,
+      lon: lonVal,
+    });
+    if (items.length >= 25) break;
+  }
+
+  return items
+    .map((item) => ({
+      ...item,
+      distanceKm: haversineDistanceKm(lat, lon, item.lat, item.lon),
+    }))
+    .sort((a, b) => a.distanceKm - b.distanceKm);
+}
+
+async function queryOverpassHotels(lat, lon, radiusKm, options) {
+  return queryOverpassWithExpansion(
+    fetchOverpassHotels,
     lat,
     lon,
     radiusKm,
@@ -999,6 +1117,121 @@ module.exports.halal = async (req, res) => {
       ),
       fallback: true,
       message: "Live halal food lookup unavailable; displaying fallback data.",
+    };
+
+    if (boundingBox) {
+      payload.searchedBoundingBox = boundingBox;
+    }
+
+    if (countryCode) {
+      payload.searchedCountryCode = countryCode;
+    }
+
+    return res.json(payload);
+  }
+};
+
+module.exports.hotels = async (req, res) => {
+  const { lat, lon, country, city } = req.query;
+  const radiusKm = Number(req.query.radiusKm) || 5;
+
+  let latNum = lat !== undefined ? Number(lat) : NaN;
+  let lonNum = lon !== undefined ? Number(lon) : NaN;
+  let areaLabel = city || country || "Selected Destination";
+  let boundingBox = null;
+  let countryCode =
+    typeof req.query.countryCode === "string" &&
+    req.query.countryCode.trim().length === 2
+      ? req.query.countryCode.trim().toUpperCase()
+      : null;
+
+  if (!countryCode && typeof country === "string" && country.trim().length === 2) {
+    countryCode = country.trim().toUpperCase();
+  }
+
+  try {
+    let geocoded = null;
+    if (city || country) {
+      geocoded = await geocodeCityCountry(city, country);
+    }
+
+    if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
+      if (geocoded) {
+        latNum = geocoded.lat;
+        lonNum = geocoded.lon;
+        areaLabel = geocoded.displayName || areaLabel;
+      }
+    }
+
+    if (geocoded) {
+      if (!boundingBox && geocoded.boundingBox) {
+        boundingBox = geocoded.boundingBox;
+      }
+      if (!countryCode && geocoded.countryCode) {
+        countryCode = geocoded.countryCode;
+      }
+      if (geocoded.displayName) {
+        areaLabel = geocoded.displayName;
+      }
+    }
+
+    if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
+      return res
+        .status(400)
+        .json({ message: "A valid city/country or lat/lon is required" });
+    }
+
+    let searchRadius = radiusKm;
+    if (geocoded && !geocoded.isCity) {
+      searchRadius = 20;
+      console.log("Country search detected - using 20km radius around capital city");
+    }
+
+    let items = await queryOverpassHotels(latNum, lonNum, searchRadius, {
+      boundingBox,
+      countryCode,
+    });
+
+    if (!items.length) {
+      items = buildFallbackItems("hotel", areaLabel, latNum, lonNum);
+    }
+
+    const payload = {
+      coords: { lat: latNum, lon: lonNum },
+      area: areaLabel,
+      items,
+    };
+
+    if (boundingBox) {
+      payload.searchedBoundingBox = boundingBox;
+    }
+
+    if (countryCode) {
+      payload.searchedCountryCode = countryCode;
+    }
+
+    return res.json(payload);
+  } catch (err) {
+    console.error("Hotels lookup failed", err);
+
+    const fallbackArea = areaLabel || city || country || "Selected Destination";
+    const hasCoords = Number.isFinite(latNum) && Number.isFinite(lonNum);
+    const fallbackCoords = {
+      lat: hasCoords ? latNum : null,
+      lon: hasCoords ? lonNum : null,
+    };
+
+    const payload = {
+      coords: fallbackCoords,
+      area: fallbackArea,
+      items: buildFallbackItems(
+        "hotel",
+        fallbackArea,
+        fallbackCoords.lat,
+        fallbackCoords.lon
+      ),
+      fallback: true,
+      message: "Live hotel lookup unavailable; displaying fallback data.",
     };
 
     if (boundingBox) {
