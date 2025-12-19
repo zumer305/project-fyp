@@ -156,14 +156,6 @@
         <p>Track spending and calculate balances between members.</p>
         <button id="btn-expense-summary">💸 View Summary</button>
       </div>
-      <div class="feature-card">
-        <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/marker.png" />
-          <h3>Share Live Location</h3>
-        </div>
-        <p>Share your real-time location with group members during the trip.</p>
-        <button id="btn-share-location">📍 Share Now</button>
-      </div>
     </div>
   </div>
 
@@ -293,16 +285,6 @@
           >View Full Screen</a
         >
         <div class="updated-note">Live weather data</div>
-      </div>
-      <div class="card">
-        <h3>💡 Budgeted Tour Suggestions</h3>
-        <p class="budget-text">
-          3-Day Trip: City Tour → Ala Archa Park → Osh Bazaar. Budget under
-          <span data-price="100" data-currency="USD" class="inline-price"></span
-          >.
-        </p>
-        <a class="view-more" href="#">View More</a>
-        <div class="updated-note">Updated automatically</div>
       </div>
     </div>
   </div>
@@ -581,24 +563,7 @@
           window.location.href = "/groups";
         });
 
-      // Map/Location
-      document
-        .getElementById("btn-share-location")
-        .addEventListener("click", async () => {
-          const coords = await getCoords();
-          const res = await fetch(
-            `/api/map/nearby?lat=${coords.lat}&lon=${coords.lon}&type=hotel`
-          );
-          const data = await res.json();
-          if (res.ok) {
-            // Render hotels on map with routing
-            await renderHalalMarkers(data.hotels, {
-              area: "Nearby Hotels",
-            });
-          } else {
-            alert("Error: " + (data.message || "Failed"));
-          }
-        });
+      // Map/Location card removed
 
       // Faith tools
       document
