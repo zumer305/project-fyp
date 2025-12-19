@@ -263,47 +263,47 @@
 
   <script>
     const isLoggedIn = document.body.dataset.loggedIn === "true";
-    let cachedRate = null; // Cache the rate globally for this page
+    // Country-specific budget thresholds (PKR) derived from CSV packages
+    const COUNTRY_BUDGET_THRESHOLDS = {
+      Azerbaijan: { basic: 167000, mid: 288000, luxury: 590000 },
+      Kazakhstan: { basic: 152000, mid: 288000, luxury: 805000 },
+      Kyrgyzstan: { basic: 136000, mid: 259000, luxury: 710000 },
+      Tajikistan: { basic: 141000, mid: 275000, luxury: 785000 },
+      Turkmenistan: { basic: 306000, mid: 580000, luxury: 1150000 },
+      Uzbekistan: { basic: 112000, mid: 240000, luxury: 680000 },
+    };
+
+    let cachedRate = null; // Cache the rate globally for this page (kept for future currency use)
     let cachedCurrency = null;
 
-    async function showBudget() {
+    function getThresholdsPKR(country) {
+      return COUNTRY_BUDGET_THRESHOLDS[country] || {
+        basic: 112000,
+        mid: 240000,
+        luxury: 680000,
+      };
+    }
+
+    function showBudget() {
       const budget = document.getElementById("budget").value;
+      const country = document.getElementById("country").value;
       const result = document.getElementById("result");
-      const currentCurrency = CurrencyConverter.getUserCurrency();
-      const currencySymbol = CurrencyConverter.getSymbol(currentCurrency);
+      const { basic, mid, luxury } = getThresholdsPKR(country);
+      const budgetNum = parseFloat(budget);
 
-      if (budget) {
-        // Get rate once if currency changed
-        if (cachedCurrency !== currentCurrency || !cachedRate) {
-          const rateResult = await CurrencyConverter.getExchangeRate(
-            "USD",
-            currentCurrency
-          );
-          if (rateResult.success) {
-            cachedRate = rateResult.rate;
-            cachedCurrency = currentCurrency;
-          } else {
-            cachedRate = 1;
-          }
-        }
-
-        // Convert thresholds using cached rate (NO API calls)
-        const threshold1 = CurrencyConverter.convertWithRate(5000, cachedRate);
-        const threshold2 = CurrencyConverter.convertWithRate(10000, cachedRate);
-        const threshold3 = CurrencyConverter.convertWithRate(15000, cachedRate);
-        const budgetNum = parseFloat(budget);
-
-        if (budgetNum < threshold1) {
-          result.innerHTML = `<span style="color: #dc3545;">💰 Budget: ${currencySymbol}${budgetNum.toLocaleString()} - Consider increasing for better packages</span>`;
-        } else if (budgetNum >= threshold1 && budgetNum < threshold2) {
-          result.innerHTML = `<span style="color: #ffc107;">💰 Budget: ${currencySymbol}${budgetNum.toLocaleString()} - Good for basic packages</span>`;
-        } else if (budgetNum >= threshold2 && budgetNum < threshold3) {
-          result.innerHTML = `<span style="color: #28a745;">💰 Budget: ${currencySymbol}${budgetNum.toLocaleString()} - Excellent for premium packages!</span>`;
-        } else {
-          result.innerHTML = `<span style="color: #28a745;">💰 Budget: ${currencySymbol}${budgetNum.toLocaleString()} - Luxury packages available!</span>`;
-        }
-      } else {
+      if (!budget) {
         result.innerHTML = "";
+        return;
+      }
+
+      if (budgetNum < basic) {
+        result.innerHTML = `<span style="color: #dc3545;">💰 Budget: Rs${budgetNum.toLocaleString()} - Consider increasing for better packages (min ~Rs${basic.toLocaleString()})</span>`;
+      } else if (budgetNum >= basic && budgetNum < mid) {
+        result.innerHTML = `<span style="color: #ffc107;">💰 Budget: Rs${budgetNum.toLocaleString()} - Good for basic packages (mid-tier starts ~Rs${mid.toLocaleString()})</span>`;
+      } else if (budgetNum >= mid && budgetNum < luxury) {
+        result.innerHTML = `<span style="color: #28a745;">💰 Budget: Rs${budgetNum.toLocaleString()} - Great for premium packages (luxury starts ~Rs${luxury.toLocaleString()})</span>`;
+      } else {
+        result.innerHTML = `<span style="color: #28a745;">💰 Budget: Rs${budgetNum.toLocaleString()} - Luxury packages available!</span>`;
       }
     }
 

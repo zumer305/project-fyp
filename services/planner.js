@@ -95,7 +95,8 @@ async function makePackageFromRow(row, budgetLevel, durationDays, index) {
     country,
     budgetLevel,
     days,
-    packageId
+    packageId,
+    city
   );
   const priceUSD = pricingResult.priceUSD;
   const breakdown = pricingResult.breakdownUSD;

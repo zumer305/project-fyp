@@ -1,39 +1,143 @@
 /**
  * Realistic Pricing Model for Travel Packages
- * All prices calculated in PKR, then converted to USD for storage
+ * All prices from actual pricing tables (6 countries × 3 cities × 3 tiers = 54 packages)
  */
 
+const fs = require("fs");
+const path = require("path");
 const { convertCurrency } = require("../project-fyp/utils/currencyHelper.js");
 
-// Base prices in PKR per tier (starting price for 3 days)
-const BASE_PRICES_PKR = {
-  budget: 500000, // ~$1,800 USD
-  mid: 850000, // ~$3,060 USD
-  luxury: 1400000, // ~$5,040 USD
-};
-
-// Per-day increments in PKR
-const PER_DAY_PKR = {
-  budget: 60000, // ~$216 USD per day
-  mid: 90000, // ~$324 USD per day
-  luxury: 140000, // ~$504 USD per day
-};
-
-// Country multipliers (cost of living adjustments)
-const COUNTRY_MULTIPLIERS = {
-  Kyrgyzstan: 0.95,
-  Uzbekistan: 0.9,
-  Tajikistan: 0.85,
-  Kazakhstan: 1.05,
-  Turkmenistan: 1.2,
-  Azerbaijan: 1.1,
-};
-
-// Minimum days for pricing (prevents unrealistic single-day prices)
-const MIN_PRICING_DAYS = 3;
-
-// Fallback PKR per USD if API fails
 const FALLBACK_PKR_PER_USD = 278;
+const PACKAGES_FILE = path.join(
+  __dirname,
+  "..",
+  "project-fyp",
+  "dataset",
+  "central_asia_travel_packages.txt"
+);
+
+let PRICING_DATABASE = null;
+let MIN_PKR_THRESHOLD = 100000;
+
+function normalizeTier(tier) {
+  if (!tier) return "mid";
+  const t = tier.toLowerCase();
+  if (t.startsWith("mid")) return "mid";
+  if (t.startsWith("lux")) return "luxury";
+  return "budget";
+}
+
+function parsePackagesFile() {
+  if (!fs.existsSync(PACKAGES_FILE)) {
+    throw new Error(`Packages file not found: ${PACKAGES_FILE}`);
+  }
+
+  const content = fs.readFileSync(PACKAGES_FILE, "utf8").trim();
+  const lines = content.split(/\r?\n/).filter(Boolean);
+  if (lines.length <= 1) {
+    throw new Error("Packages file is empty or missing data rows");
+  }
+
+  const table = {};
+  let minPKR = Number.POSITIVE_INFINITY;
+
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(",").map((v) => v.trim());
+    if (cols.length < 12) continue;
+
+    const [
+      country,
+      city,
+      packageType,
+      daysNights,
+      flights,
+      hotel,
+      food,
+      transport,
+      attractions,
+      shopping,
+      misc,
+      total,
+    ] = cols;
+
+    const tierKey = normalizeTier(packageType);
+    const days = parseInt(daysNights, 10) || parseInt((daysNights || "").split("D")[0], 10) || 5;
+
+    const entry = {
+      price_pkr: parseInt(total, 10),
+      days,
+      breakdown: {
+        flights: parseInt(flights, 10),
+        hotel: parseInt(hotel, 10),
+        food: parseInt(food, 10),
+        transport: parseInt(transport, 10),
+        attractions: parseInt(attractions, 10),
+        shopping: parseInt(shopping, 10),
+        misc: parseInt(misc, 10),
+      },
+    };
+
+    if (!table[country]) table[country] = {};
+    if (!table[country][city]) table[country][city] = {};
+    table[country][city][tierKey] = entry;
+
+    if (Number.isFinite(entry.price_pkr)) {
+      minPKR = Math.min(minPKR, entry.price_pkr);
+    }
+  }
+
+  return {
+    table,
+    minPKR: Number.isFinite(minPKR) ? minPKR : MIN_PKR_THRESHOLD,
+  };
+}
+
+function getPricingTable() {
+  if (PRICING_DATABASE) return PRICING_DATABASE;
+  const { table, minPKR } = parsePackagesFile();
+  PRICING_DATABASE = table;
+  MIN_PKR_THRESHOLD = minPKR;
+  return PRICING_DATABASE;
+}
+
+// Preload pricing table so exports reflect file values immediately
+try {
+  getPricingTable();
+} catch (error) {
+  console.warn("Failed to preload pricing table:", error.message);
+}
+
+function resolveCity(countryData, city, packageId) {
+  if (city && countryData[city]) return city;
+  if (packageId) {
+    const parts = packageId.split("_");
+    if (parts.length > 1 && countryData[parts[1]]) {
+      return parts[1];
+    }
+  }
+  return Object.keys(countryData)[0];
+}
+
+function getPackageEntry(country, tier, city, packageId) {
+  const pricingTable = getPricingTable();
+  const countryData = pricingTable[country];
+  if (!countryData) {
+    throw new Error(`No pricing found for country: ${country}`);
+  }
+  const resolvedCity = resolveCity(countryData, city, packageId);
+  const cityData = countryData[resolvedCity];
+  if (!cityData) {
+    throw new Error(`No pricing found for city: ${resolvedCity} in ${country}`);
+  }
+  const normalizedTier = normalizeTier(tier);
+  const pkg = cityData[normalizedTier];
+  if (!pkg) {
+    throw new Error(
+      `No pricing found for tier: ${normalizedTier} in ${resolvedCity}, ${country}`
+    );
+  }
+  return { pkg, city: resolvedCity, tier: normalizedTier };
+}
 
 // Cache for PKR exchange rate
 let pkrRateCache = {
@@ -41,28 +145,6 @@ let pkrRateCache = {
   timestamp: null,
   expiry: 60 * 60 * 1000, // 1 hour
 };
-
-/**
- * Stable hash function for consistent jitter per package
- */
-function simpleHash(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash;
-  }
-  return Math.abs(hash);
-}
-
-/**
- * Get stable jitter multiplier (0.90 to 1.10) based on package ID
- */
-function getStableJitter(packageId) {
-  const hash = simpleHash(packageId);
-  // Map hash to 0.90-1.10 range
-  return 0.9 + (hash % 21) / 100;
-}
 
 /**
  * Get PKR per USD exchange rate (cached)
@@ -113,88 +195,60 @@ async function getPKRPerUSD() {
  * @param {string} packageId - Unique package identifier for stable jitter
  * @returns {Promise<Object>} Price information {priceUSD, pricePKR, breakdown}
  */
-async function calculatePackagePrice(country, tier, days, packageId) {
-  // Normalize inputs
-  const normalizedTier = tier || "mid";
-  const daysActual = days || 5;
-
-  // Use minimum days for pricing (prevents unrealistic low prices)
-  const daysPriced = Math.max(daysActual, MIN_PRICING_DAYS);
-
-  // Get base price and per-day rate for this tier
-  const basePKR = BASE_PRICES_PKR[normalizedTier] || BASE_PRICES_PKR.mid;
-  const perDayPKR = PER_DAY_PKR[normalizedTier] || PER_DAY_PKR.mid;
-
-  // Get country multiplier
-  const countryMultiplier = COUNTRY_MULTIPLIERS[country] || 1.0;
-
-  // Get stable jitter for this package
-  const jitter = getStableJitter(packageId);
-
-  // Calculate price in PKR
-  // Formula: (base + (days-1)*perDay) * countryMultiplier * jitter
-  // We subtract 1 from days because base includes first day
-  const pricePKR = Math.round(
-    (basePKR + (daysPriced - 1) * perDayPKR) * countryMultiplier * jitter
+async function calculatePackagePrice(country, tier, days, packageId, city) {
+  const { pkg, city: resolvedCity, tier: normalizedTier } = getPackageEntry(
+    country,
+    tier,
+    city,
+    packageId
   );
 
-  // Get PKR per USD rate
   const pkrPerUSD = await getPKRPerUSD();
-
-  // Convert to USD
+  const pricePKR = pkg.price_pkr;
   const priceUSD = Math.round(pricePKR / pkrPerUSD);
 
-  // Calculate breakdown (in USD)
   const breakdown = {
-    hotel: Math.round(priceUSD * 0.4),
-    food: Math.round(priceUSD * 0.2),
-    transport: Math.round(priceUSD * 0.15),
-    activities: Math.round(priceUSD * 0.25),
+    flights: Math.round(pkg.breakdown.flights / pkrPerUSD),
+    hotel: Math.round(pkg.breakdown.hotel / pkrPerUSD),
+    food: Math.round(pkg.breakdown.food / pkrPerUSD),
+    transport: Math.round(pkg.breakdown.transport / pkrPerUSD),
+    activities: Math.round(pkg.breakdown.attractions / pkrPerUSD),
+    shopping: Math.round(pkg.breakdown.shopping / pkrPerUSD),
+    misc: Math.round(pkg.breakdown.misc / pkrPerUSD),
   };
-
-  // Ensure breakdown sums to total (adjust activities for rounding)
-  const breakdownSum =
-    breakdown.hotel +
-    breakdown.food +
-    breakdown.transport +
-    breakdown.activities;
-  if (breakdownSum !== priceUSD) {
-    breakdown.activities += priceUSD - breakdownSum;
-  }
 
   return {
     priceUSD,
     pricePKR,
     totalEstimateUSD: priceUSD,
     breakdownUSD: breakdown,
-    breakdown: breakdown, // For compatibility
+    breakdown,
     pricingDetails: {
+      country,
+      city: resolvedCity,
       tier: normalizedTier,
-      daysActual,
-      daysPriced,
-      basePKR,
-      perDayPKR,
-      countryMultiplier,
-      jitter: jitter.toFixed(2),
+      packageDays: pkg.days,
+      requestedDays: days || pkg.days,
       pkrPerUSD: pkrPerUSD.toFixed(2),
     },
   };
 }
 
 /**
- * Validate that a price is realistic (minimum PKR 500,000 equivalent)
+ * Validate that a price is realistic (minimum derived from package table)
  */
 function isPriceRealistic(priceUSD) {
-  const minPriceUSD = Math.round(500000 / FALLBACK_PKR_PER_USD); // ~$1,800
-  return priceUSD >= minPriceUSD;
+  const minUSD = Math.round(MIN_PKR_THRESHOLD / FALLBACK_PKR_PER_USD);
+  return priceUSD >= minUSD;
 }
 
 module.exports = {
   calculatePackagePrice,
   isPriceRealistic,
   getPKRPerUSD,
-  BASE_PRICES_PKR,
-  PER_DAY_PKR,
-  COUNTRY_MULTIPLIERS,
-  MIN_PRICING_DAYS,
+  getPricingTable,
+  PRICING_DATABASE,
+  PACKAGES_FILE,
+  FALLBACK_PKR_PER_USD,
+  MIN_PKR_THRESHOLD,
 };

@@ -12,6 +12,7 @@ const {
   calculatePackagePrice,
   isPriceRealistic,
   getPKRPerUSD,
+  MIN_PKR_THRESHOLD,
 } = require("./services/pricing.js");
 const { generatePackages } = require("./services/planner.js");
 
@@ -28,7 +29,7 @@ async function runTests() {
     const pkrRate = await getPKRPerUSD();
     console.log(`✓ 1 USD = ${pkrRate.toFixed(2)} PKR`);
     console.log(
-      `✓ Minimum package price: ${(500000 / pkrRate).toFixed(2)} USD`
+      `✓ Minimum package price: ${(MIN_PKR_THRESHOLD / pkrRate).toFixed(2)} USD`
     );
     console.log();
   } catch (error) {
@@ -145,19 +146,22 @@ async function runTests() {
       "Kazakhstan",
       "budget",
       5,
-      "test_jitter_123"
+      "Kazakhstan_Almaty_test_jitter_123",
+      "Almaty"
     );
     const pkg1b = await calculatePackagePrice(
       "Kazakhstan",
       "budget",
       5,
-      "test_jitter_123"
+      "Kazakhstan_Almaty_test_jitter_123",
+      "Almaty"
     );
     const pkg2 = await calculatePackagePrice(
       "Kazakhstan",
       "budget",
       5,
-      "test_jitter_456"
+      "Kazakhstan_Astana_test_jitter_456",
+      "Astana"
     );
 
     console.log(`Package test_jitter_123 (call 1): ${pkg1a.priceUSD} USD`);
@@ -170,7 +174,7 @@ async function runTests() {
       }`
     );
     console.log();
-    console.log(`Package test_jitter_456: ${pkg2.priceUSD} USD`);
+    console.log(`Package test_jitter_456 (Astana): ${pkg2.priceUSD} USD`);
     console.log(
       `Different? ${
         pkg1a.priceUSD !== pkg2.priceUSD
@@ -258,7 +262,9 @@ async function runTests() {
   }
 
   // Test 7: All Packages Meet Minimum
-  console.log("📊 Test 7: Verify All Generated Packages Meet PKR 500K Minimum");
+  console.log(
+    `📊 Test 7: Verify All Generated Packages Meet PKR ${MIN_PKR_THRESHOLD.toLocaleString()} Minimum`
+  );
   console.log("-".repeat(60));
   try {
     const countries = ["Kazakhstan", "Uzbekistan", "Kyrgyzstan"];
