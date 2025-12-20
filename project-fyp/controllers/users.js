@@ -1,7 +1,7 @@
 const User = require("../models/user");
 
 module.exports.renderSignupForm = (req, res) => {
-  res.render("users/signup.ejs");
+  res.render("auth/signup.ejs");
 };
 
 module.exports.signup = async (req, res) => {
@@ -22,7 +22,7 @@ module.exports.signup = async (req, res) => {
   }
 };
 module.exports.renderLoginForm = (req, res) => {
-  res.render("users/login.ejs");
+  res.render("auth/login.ejs");
 };
 module.exports.login = async (req, res) => {
   req.flash("success", "Welcome to Wanderlust! You are logged in!");

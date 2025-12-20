@@ -569,7 +569,7 @@ app.use((err, req, res, next) => {
   if (process.env.NODE_ENV !== "production") {
     console.error("[ERROR]", err?.stack || err);
   }
-  res.status(statusCode).render("error.ejs", { message });
+  res.status(statusCode).render("common/error.ejs", { message });
 });
 
 // ===================
