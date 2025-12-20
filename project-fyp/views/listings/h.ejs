@@ -41,6 +41,81 @@
     z-index: 550;
     pointer-events: none;
   }
+
+  .bookings-card {
+    max-width: 960px;
+    margin: 0 auto 28px;
+    padding: 22px 26px;
+    border-radius: 16px;
+    background: linear-gradient(120deg, #f8fbff, #eef4ff);
+    border: 1px solid #dfe7fb;
+    box-shadow: 0 14px 35px rgba(0, 28, 80, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .bookings-card .icon-pill {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #2f80ed, #56ccf2);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 1.5rem;
+    box-shadow: 0 10px 25px rgba(47, 128, 237, 0.25);
+  }
+
+  .bookings-card h3 {
+    margin: 0 0 6px;
+    font-size: 1.35rem;
+    color: #1c2a4a;
+  }
+
+  .bookings-card p {
+    margin: 0;
+    color: #4a5674;
+    font-size: 0.98rem;
+  }
+
+  .bookings-card .actions {
+    margin-left: auto;
+  }
+
+  .bookings-card .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    background: #1f6feb;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 10px 25px rgba(31, 111, 235, 0.28);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .bookings-card .cta-btn:hover {
+    background: #195ac4;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(31, 111, 235, 0.32);
+  }
+
+  .location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #eef3ff;
+    color: #1f6feb;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: 1px solid #dfe7fb;
+    box-shadow: 0 8px 18px rgba(0, 28, 80, 0.08);
+  }
 </style>
 
 <!-- Mapbox GL JS CSS moved to global layout for consistency (see layouts/boiler.ejs) -->
@@ -76,24 +151,16 @@
     <button onclick="goToPackages()">View Packages</button>
   </div>
 
-  <h2 id="package-heading">✨ Recommendations for You</h2>
+  <h2 id="package-heading">🧠 My Bookings</h2>
   <div class="grid">
-    <div class="card">
-      <img
-        src="https://concept.kg/media/redactor/ik.jpg"
-        alt="Issyk-Kul Lake"
-      />
-      <h3>Issyk-Kul Lake, Kyrgyzstan</h3>
-      <p>
-        <span class="price-display" data-price="620" data-currency="USD"></span>
-        / trip
-      </p>
-      <p>⭐ 4.6 (185 reviews)</p>
-      <div class="tags">
-        <span>#Cool</span><span>#Mountain</span><span>#CentralAsia</span>
+    <div class="bookings-card">
+      <div class="icon-pill">📄</div>
+      <div>
+        <h3>Access Your Bookings</h3>
+        <p>Open your booking details and confirmations in one place.</p>
       </div>
       <div class="actions">
-        <button class="view">👁️ View Details</button>
+        <a class="cta-btn" href="/bookings/my-bookings">Open My Bookings →</a>
       </div>
     </div>
   </div>
@@ -121,7 +188,7 @@
       <div class="feature-card">
         <div class="icon-title">
           <img src="https://img.icons8.com/ios-glyphs/30/money.png" />
-          <h3>Expense Split</h3>
+          <h3>Expense Details</h3>
         </div>
         <p>Track spending and calculate balances between members.</p>
         <button id="btn-expense-summary">💸 View Summary</button>
@@ -129,15 +196,24 @@
     </div>
   </div>
 
+  <% const latestCity = latestBooking && (latestBooking.packageDetails.destination || latestBooking.packageDetails.city); %>
+  <% const latestCountry = latestBooking && (latestBooking.packageDetails.country || latestBooking.packageDetails.destination); %>
+  <% const latestLocation = [latestCity, latestCountry].filter(Boolean).join(', '); %>
+
   <div class="section">
-    <h2>🕌 Faith-Friendly Travel Tools</h2>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <h2 style="margin:0;">🕌 Faith-Friendly Travel Tools</h2>
+      <span class="location-pill">
+        📍 <%= latestLocation || 'Set a booking to personalize location' %>
+      </span>
+    </div>
     <div class="grid">
       <div class="feature-card">
         <div class="icon-title">
           <img src="https://img.icons8.com/ios-filled/50/mosque.png" />
           <h3>Nearby Mosques</h3>
         </div>
-        <p>Find mosques nearby with prayer times and distance info.</p>
+        <p>Find mosques near <%= latestLocation || 'your destination' %> with prayer times and distance info.</p>
         <button id="btn-find-mosques">🕌 Find Mosques</button>
       </div>
       <div class="feature-card">
@@ -145,7 +221,7 @@
           <img src="https://img.icons8.com/ios-filled/50/compass.png" />
           <h3>Qiblah Direction</h3>
         </div>
-        <p>View direction of Qiblah from your current location.</p>
+        <p>View direction of Qiblah from  your location.</p>
         <button id="btn-show-qiblah">🕋 Show Qiblah</button>
       </div>
       <div class="feature-card">
@@ -153,7 +229,7 @@
           <img src="https://img.icons8.com/ios-filled/50/restaurant.png" />
           <h3>Halal Food Locator</h3>
         </div>
-        <p>Discover nearby halal restaurants and certified food places.</p>
+        <p>Discover halal restaurants in <%= latestLocation || 'your area' %>.</p>
         <button id="btn-find-halal">🍽️ Find Halal</button>
       </div>
       <div class="feature-card">
@@ -161,7 +237,7 @@
           <img src="https://img.icons8.com/ios-filled/50/bed.png" />
           <h3>Hotel Finder</h3>
         </div>
-        <p>Find hotels and guest houses at your destination.</p>
+        <p>Find hotels and guest houses in <%= latestLocation || 'your destination' %>.</p>
         <button id="btn-find-hotels">🏨 Find Hotels</button>
       </div>
     </div>
@@ -259,7 +335,7 @@
     </div>
   </div>
 
-  <button onclick="goToPackages()">View Packages</button>
+  <!-- <button onclick="goToPackages()">View Packages</button> -->
 
   <script>
     const isLoggedIn = document.body.dataset.loggedIn === "true";
@@ -1187,157 +1263,7 @@
       })
     );
 
-    // If a package is cached, replace the hard-coded AI card with its details
-    (async function populateAICardFromCache() {
-      try {
-        const raw = localStorage.getItem("selectedPackage");
-        const card = document.querySelector(".grid .card");
-        const heading = document.getElementById("package-heading");
-        if (!card) return;
-
-        let pkg = null;
-        let usedRecommendation = false;
-
-        // Check if user has selected a package
-        if (raw) {
-          try {
-            pkg = JSON.parse(raw);
-          } catch (e) {
-            pkg = null;
-          }
-        }
-
-        // Update heading based on whether package is selected or recommended
-        if (raw && pkg) {
-          // User has selected a package
-          if (heading) {
-            heading.textContent = "🧠 My Selected Package";
-          }
-        } else {
-          // No package selected - show recommendations
-          if (heading) {
-            heading.textContent = "✨ Recommendations for You";
-          }
-
-          // fetch random destination from server
-          try {
-            const countryInput =
-              (document.getElementById("country") &&
-                document.getElementById("country").value) ||
-              "";
-            const budgetInput =
-              (document.getElementById("budget") &&
-                document.getElementById("budget").value) ||
-              "";
-            const q = `?country=${encodeURIComponent(
-              countryInput
-            )}&budget=${encodeURIComponent(budgetInput)}`;
-            const res = await fetch("/api/packages" + q);
-            if (res.ok) {
-              const data = await res.json();
-              const items = data.items || [];
-              if (items.length > 0) {
-                pkg = items[Math.floor(Math.random() * items.length)];
-                usedRecommendation = true;
-              }
-            }
-          } catch (e) {
-            // fallback: leave pkg null
-            console.warn(
-              "Failed to fetch package recommendations from server",
-              e
-            );
-          }
-        }
-
-        if (!pkg) return; // nothing to show
-
-        // Add a small badge indicating this is a recommendation when using server-provided item
-        const header = card.querySelector("h3");
-        if (usedRecommendation && header) {
-          const badge = document.createElement("div");
-          badge.textContent = "Recommendation for you";
-          badge.style.fontSize = "0.85rem";
-          badge.style.color = "#0f8e95";
-          badge.style.fontWeight = "700";
-          badge.style.marginBottom = "6px";
-          header.parentNode.insertBefore(badge, header);
-        }
-
-        // Update image if present
-        const img = card.querySelector("img");
-        if (img && pkg.image) img.src = pkg.image;
-        else if (img && pkg.images && pkg.images.length)
-          img.src = pkg.images[0];
-
-        // Update title
-        const titleEl = card.querySelector("h3");
-        if (titleEl && pkg.name) titleEl.textContent = pkg.name;
-
-        // Update price paragraph (first <p> after title)
-        const pEls = card.querySelectorAll("p");
-        if (pEls && pEls.length > 0) {
-          const priceEl = pEls[0];
-          if (pkg.minBudget || pkg.maxBudget) {
-            const priceText =
-              pkg.minBudget && pkg.maxBudget
-                ? `${pkg.minBudget}-${pkg.maxBudget}`
-                : pkg.minBudget || pkg.maxBudget || "N/A";
-            priceEl.textContent = `💰 $${priceText} / trip`;
-          } else if (pkg.price) {
-            priceEl.textContent = `💰 $${Number(
-              pkg.price
-            ).toLocaleString()} / trip`;
-          }
-          if (pEls[1])
-            pEls[1].textContent = pkg.description
-              ? pkg.description.substring(0, 80) + "..."
-              : pkg.country
-              ? pkg.country
-              : "";
-        }
-
-        // Update tags to show duration and first attractions
-        const tags = card.querySelector(".tags");
-        if (tags) {
-          tags.innerHTML = "";
-          if (pkg.duration) {
-            const s = document.createElement("span");
-            s.textContent = `#${pkg.duration}`;
-            tags.appendChild(s);
-          } else if (pkg.typicalDuration) {
-            const s = document.createElement("span");
-            s.textContent = `#${pkg.typicalDuration}d`;
-            tags.appendChild(s);
-          }
-          if (pkg.attractions && pkg.attractions.length) {
-            pkg.attractions.slice(0, 3).forEach((t) => {
-              const s = document.createElement("span");
-              s.textContent = `#${t.replace(/\s+/g, "")}`;
-              tags.appendChild(s);
-            });
-          }
-        }
-
-        // Attach recommendation data to View button when not using a real cached package
-        const viewBtn = card.querySelector(".view");
-        if (viewBtn) {
-          if (usedRecommendation) {
-            // store the full package object returned by generatePackages so detail page can render it
-            viewBtn.dataset.recommendation = encodeURIComponent(
-              JSON.stringify(pkg)
-            );
-          } else {
-            delete viewBtn.dataset.recommendation;
-          }
-        }
-      } catch (e) {
-        console.warn(
-          "Could not populate AI card from cached package or server recommendations",
-          e
-        );
-      }
-    })();
+    // Removed cached package card population; showing bookings link instead
 
     // Ensure map redraw on window resize or when page becomes visible again (fixes tiles in some layouts)
     (function () {

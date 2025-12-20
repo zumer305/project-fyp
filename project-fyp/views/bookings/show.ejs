@@ -249,6 +249,15 @@
   </div>
 
   <div class="booking-content">
+    <% const pkgFull = booking.packageDetails.fullPackage || {}; %>
+    <% const breakdownPKR = pkgFull.breakdownPKR || {}; %>
+    <% const breakdownUSD = pkgFull.breakdownUSD || {}; %>
+    <% const hasBreakdown = Object.keys(breakdownPKR).length || Object.keys(breakdownUSD).length; %>
+    <% const baseAmount = pkgFull.totalPKR || pkgFull.totalCostPKR || booking.packageDetails.totalCost || booking.totalPrice || 0; %>
+    <% const baseCurrency = pkgFull.currency || (pkgFull.totalPKR || pkgFull.totalCostPKR ? 'PKR' : booking.packageDetails.currency || 'USD'); %>
+    <% const bookingCurrency = booking.packageDetails.currency || baseCurrency; %>
+    <% const bookingTotal = booking.totalPrice || baseAmount; %>
+
     <!-- Status Information -->
     <% if (booking.status === 'pending') { %>
     <div class="alert alert-info">
@@ -285,6 +294,54 @@
           </div>
         </div>
       </div>
+      <div class="detail-grid" style="margin-top: 16px">
+        <div class="detail-item">
+          <div class="detail-label">Tier</div>
+          <div class="detail-value"><%= pkgFull.tier || 'N/A' %></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">City / Country</div>
+          <div class="detail-value">
+            <%= [pkgFull.city || pkgFull.destination, pkgFull.country].filter(Boolean).join(', ') || 'N/A' %>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Hotel</div>
+          <div class="detail-value"><%= pkgFull.hotel || 'N/A' %></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Food Plan</div>
+          <div class="detail-value"><%= pkgFull.food || 'N/A' %></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Transport</div>
+          <div class="detail-value"><%= pkgFull.transport || 'N/A' %></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Weather</div>
+          <div class="detail-value"><%= pkgFull.weather ? `${pkgFull.weather.current || ''} ${pkgFull.weather.forecast || ''}`.trim() : 'N/A' %></div>
+        </div>
+      </div>
+      <% if (pkgFull.attractions && pkgFull.attractions.length) { %>
+      <div class="section" style="margin-top: 12px; padding-top: 0; border: none;">
+        <h4 class="section-title" style="font-size:1.1rem; margin-bottom: 8px;">Key Attractions</h4>
+        <ul class="feature-list">
+          <% pkgFull.attractions.forEach(function(a){ %>
+            <li><%= a %></li>
+          <% }) %>
+        </ul>
+      </div>
+      <% } %>
+      <% if (pkgFull.muslimFeatures && pkgFull.muslimFeatures.length) { %>
+      <div class="section" style="margin-top: -10px; padding-top: 0; border: none;">
+        <h4 class="section-title" style="font-size:1.1rem; margin-bottom: 8px;">Muslim-Friendly Features</h4>
+        <ul class="feature-list">
+          <% pkgFull.muslimFeatures.forEach(function(m){ %>
+            <li><%= m %></li>
+          <% }) %>
+        </ul>
+      </div>
+      <% } %>
     </div>
 
     <!-- Travel Information -->
@@ -360,19 +417,38 @@
         <span class="section-title-icon">💰</span>
         Pricing Details
       </h3>
-      <% const fullPkg = booking.packageDetails.fullPackage || {}; %>
-      <% const resolvedAmount = fullPkg.totalPKR || fullPkg.totalCostPKR || booking.packageDetails.totalCost || booking.totalPrice || 0; %>
-      <% const resolvedCurrency = fullPkg.currency || (fullPkg.totalPKR || fullPkg.totalCostPKR ? 'PKR' : booking.packageDetails.currency || 'USD'); %>
       <div class="price-highlight">
-        Total Price:
+        Booking Total:
         <span
           class="price"
-          data-amount="<%= resolvedAmount %>"
-          data-currency="<%= resolvedCurrency %>"
+          data-amount="<%= bookingTotal %>"
+          data-currency="<%= bookingCurrency %>"
         >
-          <%= resolvedCurrency %> <%= resolvedAmount.toLocaleString() %>
+          <%= bookingCurrency %> <%= bookingTotal.toLocaleString() %>
         </span>
       </div>
+      <p style="margin-top: 10px; color: #555;">
+        Package base: <strong><%= baseCurrency %> <%= baseAmount.toLocaleString() %></strong>
+      </p>
+      <% if (hasBreakdown) { %>
+      <div class="detail-grid" style="margin-top: 16px; gap: 12px;">
+        <% ['flights','hotel','food','transport','attractions','shopping','misc'].forEach(function(key){ %>
+          <% if (breakdownPKR[key] || breakdownUSD[key]) { %>
+          <div class="detail-item" style="border-left-color:#28a745;">
+            <div class="detail-label" style="text-transform: capitalize;"><%= key %></div>
+            <div class="detail-value" style="font-size:1rem;">
+              <% if (breakdownPKR[key]) { %>
+                PKR <%= breakdownPKR[key].toLocaleString() %>
+              <% } %>
+              <% if (breakdownUSD[key]) { %>
+                <span style="color:#666;"> (~$<%= breakdownUSD[key] %>)</span>
+              <% } %>
+            </div>
+          </div>
+          <% } %>
+        <% }) %>
+      </div>
+      <% } %>
     </div>
 
     <!-- Booking Timeline -->

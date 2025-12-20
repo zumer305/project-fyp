@@ -23,6 +23,7 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
+const Booking = require("./models/booking.js");
 
 // Import data from data.js
 const initData = require("./init/data.js");
@@ -224,8 +225,20 @@ app.use((req, res, next) => {
 // ===================
 
 // Home page
-app.get("/", (req, res) => {
-  res.render("listings/h.ejs");
+app.get("/", async (req, res) => {
+  try {
+    let latestBooking = null;
+    if (req.user) {
+      latestBooking = await Booking.findOne({ user: req.user._id }).sort({
+        createdAt: -1,
+      });
+    }
+
+    res.render("listings/h.ejs", { latestBooking });
+  } catch (err) {
+    console.warn("⚠️ Failed to load latest booking for home:", err);
+    res.render("listings/h.ejs", { latestBooking: null });
+  }
 });
 
 // Packages page (dataset-driven with TXT exact match fallback)
