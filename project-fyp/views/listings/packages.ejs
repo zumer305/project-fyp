@@ -331,6 +331,11 @@
           <%= package.name %>
           <span class="duration-badge"><%= package.duration %></span>
         </div>
+          <% if (package.city || package.country) { %>
+          <div style="margin-top:6px;font-size:1rem;opacity:0.95">
+            📍 <%= [package.city, package.country].filter(Boolean).join(', ') %>
+          </div>
+          <% } %>
         <div class="package-price">
           <span
             class="price-display"

@@ -139,6 +139,39 @@ function getPackageEntry(country, tier, city, packageId) {
   return { pkg, city: resolvedCity, tier: normalizedTier };
 }
 
+/**
+ * List all packages for a country with total PKR <= maxPKR (from TXT table)
+ * Returns array of { country, city, tier, days, price_pkr, breakdown }
+ */
+function listPackagesUnderBudget(country, maxPKR) {
+  const table = getPricingTable();
+  const countryData = table[country];
+  if (!countryData) return [];
+
+  const results = [];
+  for (const city of Object.keys(countryData)) {
+    const tiers = countryData[city] || {};
+    for (const tier of Object.keys(tiers)) {
+      const pkg = tiers[tier];
+      if (!pkg || !Number.isFinite(pkg.price_pkr)) continue;
+      if (pkg.price_pkr <= maxPKR) {
+        results.push({
+          country,
+          city,
+          tier,
+          days: pkg.days,
+          price_pkr: pkg.price_pkr,
+          breakdown: { ...pkg.breakdown },
+        });
+      }
+    }
+  }
+
+  // Sort by total price ascending
+  results.sort((a, b) => a.price_pkr - b.price_pkr);
+  return results;
+}
+
 // Cache for PKR exchange rate
 let pkrRateCache = {
   rate: FALLBACK_PKR_PER_USD,
@@ -247,6 +280,7 @@ module.exports = {
   isPriceRealistic,
   getPKRPerUSD,
   getPricingTable,
+  listPackagesUnderBudget,
   PRICING_DATABASE,
   PACKAGES_FILE,
   FALLBACK_PKR_PER_USD,

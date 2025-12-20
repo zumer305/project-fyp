@@ -228,7 +228,7 @@ app.get("/", (req, res) => {
   res.render("listings/h.ejs");
 });
 
-// Packages page (dataset-driven)
+// Packages page (dataset-driven with TXT exact match fallback)
 app.get("/packages", async (req, res) => {
   try {
     const country = (req.query.country || "").trim();
@@ -242,11 +242,51 @@ app.get("/packages", async (req, res) => {
       `Packages request: ${budget} ${currency} = ${budgetUSD.toFixed(2)} USD`
     );
 
-    const packagesList = await generatePackages({
-      country,
-      budgetUSD,
-      durationDays,
-    });
+    // TXT-based exact filtering: show all packages under the given budget (in PKR) for the selected country
+    // Falls back to generator if no TXT matches are found
+    const { getPKRPerUSD, listPackagesUnderBudget } = require("../services/pricing.js");
+    const pkrPerUSD = await getPKRPerUSD();
+    const budgetPKR = Math.round(budgetUSD * pkrPerUSD);
+
+    let packagesList = [];
+    if (country && budgetPKR > 0) {
+      const txtMatches = listPackagesUnderBudget(country, budgetPKR);
+      if (txtMatches && txtMatches.length > 0) {
+        // Map TXT rows to UI-friendly package objects
+        packagesList = txtMatches.map((row, idx) => {
+          const priceUSD = Math.round(row.price_pkr / pkrPerUSD);
+          const breakdownUSD = {
+            hotel: Math.round(row.breakdown.hotel / pkrPerUSD),
+            food: Math.round(row.breakdown.food / pkrPerUSD),
+            transport: Math.round(row.breakdown.transport / pkrPerUSD),
+          };
+          return {
+            id: `${row.country}_${row.city}_${row.tier}_${row.days}_${idx}`,
+            country: row.country,
+            city: row.city,
+            name: `${row.city} - ${row.tier.charAt(0).toUpperCase() + row.tier.slice(1)} (${row.days}D)`,
+            duration: `${row.days} Days`,
+            price: priceUSD,
+            priceUSD: priceUSD,
+            totalEstimateUSD: priceUSD,
+            hotel: `Estimated hotel budget - $${breakdownUSD.hotel} total`,
+            food: `Halal-friendly meals - $${breakdownUSD.food} total`,
+            transport: `Local transport & airport transfers - $${breakdownUSD.transport} total`,
+            attractions: ["City highlights", "Cultural sites", "Local markets"],
+            shopping: ["Souks & bazaars"],
+          };
+        });
+      }
+    }
+
+    // Fallback to AI planner if no TXT matches
+    if (!packagesList || packagesList.length === 0) {
+      packagesList = await generatePackages({
+        country,
+        budgetUSD,
+        durationDays,
+      });
+    }
 
     res.render("listings/packages", {
       country,
