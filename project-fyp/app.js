@@ -344,6 +344,9 @@ app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.currUser = req.user; // <- VERY IMPORTANT: fixes your navbar error
+  res.locals.adminEmail = EMAIL_FROM || "support@example.com";
+  res.locals.supportPhone = "03184070936";
+  res.locals.brandName = "AI Based Destination Explorer";
   next();
 });
 

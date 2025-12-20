@@ -1,21 +1,15 @@
-<footer>
-    <div class="f-info">
-        <div class="f-info-socials">
- <i class="fa-brands fa-facebook"></i>
- <i class="fa-brands fa-instagram"></i>
- <i class="fa-brands fa-linkedin"></i>
+<footer class="site-footer">
+    <div class="footer-simple">
+        <div class="footer-brand-line"><%= brandName %></div>
+        <div class="footer-tagline">Live pricing, bookings, and travel tools tailored to your destination.</div>
+        <div class="footer-contact-line">
+            <span>📧 <a href="mailto:<%= adminEmail %>"><%= adminEmail %></a></span>
+            <span>📞 <a href="tel:<%= supportPhone %>"><%= supportPhone %></a></span>
         </div>
-       
-
-
-<div class="f-info-brand">AI Based Destination Exlorer</div>
-
-
-    <div class="f-info-links">
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>  
-    </div>
-
-
+        <!-- <div class="footer-links-line">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div> -->
+        <div class="footer-copy">© <%= new Date().getFullYear() %> <%= brandName %>. All rights reserved.</div>
     </div>
 </footer>

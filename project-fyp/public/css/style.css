@@ -12,34 +12,74 @@ body {
 
 /* navbar */
 
-.f-info-links a {
-  text-decoration: none;
-  color: #222222;
-}
-.f-info-links a:hover {
-  text-decoration: underline;
-}
-.f-info {
-  height: 8rem;
-  background-color: #ebebeb;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: space-evenly;
-  display: flex;
-  text-align: center;
-}
-.f-info-links,
-.f-info-socials,
-.f-info-brand {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* footer */
+.site-footer {
+  margin-top: 48px;
+  padding: 28px 0;
+  background: linear-gradient(135deg, #f7f9fc 0%, #eef2fb 100%);
+  border-top: 1px solid #e3e8f0;
 }
 
-.f-info-socials i {
-  font-size: 1.2rem;
-  margin-right: 1rem;
+.footer-simple {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px;
+  text-align: center;
+  color: #1f3b8f;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-brand-line {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.footer-tagline {
+  font-size: 14px;
+  color: #4a5674;
+  font-weight: 600;
+}
+
+.footer-contact-line {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-weight: 700;
+}
+
+.footer-contact-line a {
+  color: #1f6feb;
+  text-decoration: none;
+}
+
+.footer-contact-line a:hover {
+  text-decoration: underline;
+}
+
+.footer-links-line {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.footer-links-line a {
+  color: #1f6feb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-links-line a:hover {
+  text-decoration: underline;
+}
+
+.footer-copy {
+  color: #4a5674;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 /* cards */
