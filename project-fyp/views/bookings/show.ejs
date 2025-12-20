@@ -360,15 +360,17 @@
         <span class="section-title-icon">💰</span>
         Pricing Details
       </h3>
+      <% const fullPkg = booking.packageDetails.fullPackage || {}; %>
+      <% const resolvedAmount = fullPkg.totalPKR || fullPkg.totalCostPKR || booking.packageDetails.totalCost || booking.totalPrice || 0; %>
+      <% const resolvedCurrency = fullPkg.currency || (fullPkg.totalPKR || fullPkg.totalCostPKR ? 'PKR' : booking.packageDetails.currency || 'USD'); %>
       <div class="price-highlight">
         Total Price:
         <span
           class="price"
-          data-amount="<%= booking.totalPrice %>"
-          data-currency="<%= booking.packageDetails.currency %>"
+          data-amount="<%= resolvedAmount %>"
+          data-currency="<%= resolvedCurrency %>"
         >
-          <%= booking.packageDetails.currency %> <%=
-          booking.totalPrice.toLocaleString() %>
+          <%= resolvedCurrency %> <%= resolvedAmount.toLocaleString() %>
         </span>
       </div>
     </div>

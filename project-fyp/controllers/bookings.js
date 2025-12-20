@@ -411,7 +411,14 @@ module.exports.createBooking = async (req, res) => {
     }
 
     // Validate package details
-    if (!parsedPackageDetails.totalCost && !parsedPackageDetails.price) {
+    if (
+      !(
+        parsedPackageDetails.totalCostPKR ||
+        parsedPackageDetails.totalPKR ||
+        parsedPackageDetails.totalCost ||
+        parsedPackageDetails.price
+      )
+    ) {
       console.error("❌ Package missing price information");
       req.flash("error", "Package pricing information is missing");
       return res.redirect("/");
@@ -419,7 +426,11 @@ module.exports.createBooking = async (req, res) => {
 
     // Calculate total price
     const basePrice =
-      parsedPackageDetails.totalCost || parsedPackageDetails.price || 0;
+      parsedPackageDetails.totalCostPKR ||
+      parsedPackageDetails.totalPKR ||
+      parsedPackageDetails.totalCost ||
+      parsedPackageDetails.price ||
+      0;
     const adultsCount = parseInt(adults) || 1;
     const childrenCount = parseInt(children) || 0;
     const childRate = 0.7; // Children pay 70%
@@ -429,6 +440,12 @@ module.exports.createBooking = async (req, res) => {
     console.log(
       `💰 Calculated price: Base=${basePrice}, Adults=${adultsCount}, Children=${childrenCount}, Total=${totalPrice}`
     );
+
+    const resolvedCurrency =
+      parsedPackageDetails.currency ||
+      (parsedPackageDetails.totalCostPKR || parsedPackageDetails.totalPKR
+        ? "PKR"
+        : "USD");
 
     // Validate dates
     const startDateObj = new Date(startDate);
@@ -466,7 +483,7 @@ module.exports.createBooking = async (req, res) => {
           parsedPackageDetails.country || parsedPackageDetails.destination,
         duration: parsedPackageDetails.duration || "Flexible",
         totalCost: basePrice,
-        currency: parsedPackageDetails.currency || "USD",
+        currency: resolvedCurrency,
         fullPackage: parsedPackageDetails,
       },
       travelDates: {

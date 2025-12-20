@@ -475,11 +475,18 @@
       packageData.destination || packageData.country || "Unknown";
     document.getElementById("packageDuration").textContent =
       packageData.duration || "Flexible";
-    document.getElementById("packageCurrency").textContent =
-      packageData.currency || "USD";
-    document.getElementById("packagePrice").textContent = (
-      packageData.totalCost || 0
-    ).toLocaleString();
+    const summaryPrice =
+      packageData.totalCostPKR ||
+      packageData.totalPKR ||
+      packageData.totalCost ||
+      packageData.price ||
+      0;
+    const summaryCurrency =
+      packageData.totalCostPKR || packageData.totalPKR
+        ? "PKR"
+        : packageData.currency || "USD";
+    document.getElementById("packageCurrency").textContent = summaryCurrency;
+    document.getElementById("packagePrice").textContent = summaryPrice.toLocaleString();
 
     // Populate hidden form fields
     document.getElementById("hiddenPackageId").value =
@@ -511,8 +518,13 @@
     const travelerCountEl = document.getElementById("travelerCount");
     const submitBtn = document.getElementById("submitBtn");
 
-    const basePrice = packageData.totalCost || 0;
-    const currency = packageData.currency || "USD";
+    const basePrice =
+      packageData.totalCostPKR ||
+      packageData.totalPKR ||
+      packageData.totalCost ||
+      packageData.price ||
+      0;
+    const currency = packageData.totalCostPKR || packageData.totalPKR ? "PKR" : (packageData.currency || "USD");
 
     function updatePrice() {
       const adults = parseInt(adultsInput.value) || 0;
