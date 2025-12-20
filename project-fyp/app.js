@@ -13,6 +13,7 @@ const { Server } = require("socket.io");
 const io = new Server(server, { cors: { origin: "*" } });
 const mongoose = require("mongoose");
 const path = require("path");
+const fs = require("fs");
 const methodOverride = require("method-override");
 const session = require("express-session");
 const flash = require("connect-flash");
@@ -96,6 +97,132 @@ const sendGroupEmail = async (group, { subject, html, excludeUserId }) => {
   } catch (err) {
     console.error("❌ Failed to send group email:", err);
   }
+};
+
+// ===================
+// DATASET HELPERS
+// ===================
+const packageDatasetPath = path.join(
+  __dirname,
+  "dataset",
+  "central_asia_travel_packages.txt"
+);
+
+let cachedPackageDataset = null;
+
+const parsePackageDataset = () => {
+  if (cachedPackageDataset) return cachedPackageDataset;
+
+  try {
+    const raw = fs.readFileSync(packageDatasetPath, "utf-8");
+    const lines = raw.trim().split(/\r?\n/);
+    // Remove header
+    lines.shift();
+
+    cachedPackageDataset = lines
+      .map((line) => line.split(","))
+      .filter((cols) => cols.length >= 12)
+      .map((cols) => ({
+        country: cols[0].trim(),
+        city: cols[1].trim(),
+        packageType: cols[2].trim(),
+        duration: cols[3].trim(),
+        flights: Number(cols[4]) || 0,
+        hotel: Number(cols[5]) || 0,
+        food: Number(cols[6]) || 0,
+        transport: Number(cols[7]) || 0,
+        attractions: Number(cols[8]) || 0,
+        shopping: Number(cols[9]) || 0,
+        misc: Number(cols[10]) || 0,
+        total: Number(cols[11]) || 0,
+      }));
+
+    return cachedPackageDataset;
+  } catch (err) {
+    console.error("Failed to read package dataset:", err);
+    cachedPackageDataset = [];
+    return cachedPackageDataset;
+  }
+};
+
+const normalize = (value) => (value || "").toString().trim().toLowerCase();
+
+const detectPackageType = (packageDetails = {}) => {
+  const candidateStrings = [
+    packageDetails.packageType,
+    packageDetails.PackageType,
+    packageDetails.type,
+    packageDetails.packageTitle,
+    packageDetails.title,
+  ]
+    .concat(
+      packageDetails.fullPackage && typeof packageDetails.fullPackage === "object"
+        ? [
+            packageDetails.fullPackage.packageType,
+            packageDetails.fullPackage.type,
+            packageDetails.fullPackage.title,
+          ]
+        : []
+    )
+    .filter(Boolean)
+    .map((s) => s.toString().toLowerCase());
+
+  const has = (needle) => candidateStrings.some((s) => s.includes(needle));
+  if (has("budget")) return "Budget";
+  if (has("mid")) return "Mid-Range";
+  if (has("lux")) return "Luxury";
+  return null;
+};
+
+const findDatasetPackage = (latestBooking) => {
+  if (!latestBooking || !latestBooking.packageDetails) return null;
+  const packages = parsePackageDataset();
+  if (!packages.length) return null;
+
+  const details = latestBooking.packageDetails;
+  const country =
+    details.country ||
+    details.destination ||
+    (details.fullPackage && details.fullPackage.country) ||
+    null;
+  const city =
+    details.destination ||
+    details.city ||
+    (details.fullPackage && details.fullPackage.city) ||
+    null;
+  const packageType = detectPackageType(details);
+
+  const matches = packages.filter(
+    (p) =>
+      (!country || normalize(p.country) === normalize(country)) &&
+      (!city || normalize(p.city) === normalize(city))
+  );
+
+  if (matches.length) {
+    if (packageType) {
+      const typeMatch = matches.find(
+        (p) => normalize(p.packageType) === normalize(packageType)
+      );
+      if (typeMatch) return typeMatch;
+    }
+    return matches[0];
+  }
+
+  // Fallback: match by country only
+  const countryMatches = packages.filter(
+    (p) => country && normalize(p.country) === normalize(country)
+  );
+  if (countryMatches.length) {
+    if (packageType) {
+      const typeMatch = countryMatches.find(
+        (p) => normalize(p.packageType) === normalize(packageType)
+      );
+      if (typeMatch) return typeMatch;
+    }
+    return countryMatches[0];
+  }
+
+  return null;
 };
 
 // ROUTES
@@ -238,6 +365,33 @@ app.get("/", async (req, res) => {
   } catch (err) {
     console.warn("⚠️ Failed to load latest booking for home:", err);
     res.render("listings/h.ejs", { latestBooking: null });
+  }
+});
+
+// Expense details for latest booking
+app.get("/expenses/latest", async (req, res) => {
+  if (!req.user) {
+    req.flash("error", "Please log in to view expense details.");
+    return res.redirect("/login");
+  }
+
+  try {
+    const latestBooking = await Booking.findOne({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
+
+    const datasetExpense = findDatasetPackage(latestBooking);
+    const datasetAvailable = parsePackageDataset();
+
+    res.render("listings/expense-details", {
+      latestBooking,
+      datasetExpense,
+      datasetAvailable,
+    });
+  } catch (err) {
+    console.error("Failed to load expense details:", err);
+    req.flash("error", "Could not load expense details. Please try again.");
+    res.redirect("/");
   }
 });
 
