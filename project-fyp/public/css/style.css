@@ -629,8 +629,8 @@ h2 {
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
       margin-top: 20px;
     }
 
@@ -669,7 +669,139 @@ h2 {
       margin-top: 5px;
     }
 
+    /* Enhanced Insight Cards */
+    .insight-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+      border-radius: 16px;
+      border: 1px solid #e3f2fd;
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.12);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .insight-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .insight-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(102, 126, 234, 0.18);
+      border-color: #667eea;
+    }
+
+    .insight-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 16px rgba(102, 126, 234, 0.25);
+    }
+
+    .insight-card h3 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1c2a4a;
+    }
+
+    .insight-location {
+      display: inline-block;
+      background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+      color: #667eea;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      border: 1px solid #d1e7fc;
+    }
+
+    .insight-card p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4a5674;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .insight-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+      margin-top: auto;
+    }
+
+    .insight-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+      color: white;
+    }
+
+    .insight-btn i {
+      transition: transform 0.3s ease;
+    }
+
+    .insight-btn:hover i {
+      transform: translateX(4px);
+    }
+
+    .weather-map-btn {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      display: block;
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+    }
+
+    .weather-map-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .insight-card .updated-note {
+      font-size: 11px;
+      color: #9ba5b8;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
     @media (max-width: 768px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
       .info-overlay h1 {
         font-size: 24px;
       }

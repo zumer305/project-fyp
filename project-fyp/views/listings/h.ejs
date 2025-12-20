@@ -270,66 +270,74 @@
 
   <!-- 📡 Scraped Info Section -->
   <div class="section">
-    <h2>Live Destination Insights</h2>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+      <h2 style="margin:0;">Live Destination Insights</h2>
+      <% if (latestLocation) { %>
+        <span class="location-pill">
+          📍 <%= latestLocation %>
+        </span>
+      <% } %>
+    </div>
     <div class="cards">
-      <div class="card">
-        <h3>💸 Local Taxi Fares</h3>
-        <p class="taxi-fare-text">
-          Base fare starts at
-          <span
-            data-price="1.2"
-            data-currency="USD"
-            class="inline-price"
-          ></span>
-          with
-          <span data-price="0.5" data-currency="USD" class="inline-price"></span
-          >/km. Rideshare apps available.
-        </p>
-        <a class="view-more" href="/fares" onclick="saveFaresContext()"
-          >View More</a
-        >
+      <div class="insight-card">
+        <div class="insight-card-icon">💸</div>
+        <h3>Local Taxi Fares</h3>
+        <% if (latestCountry) { %>
+          <p class="insight-location"><%= latestCountry %></p>
+          <p class="taxi-fare-text">
+            Base fare starts at <span data-price="334.20" data-currency="PKR" class="inline-price"></span> with <span data-price="139.25" data-currency="PKR" class="inline-price"></span>/km. Rideshare apps available.
+          </p>
+        <% } else { %>
+          <p class="taxi-fare-text">
+            View real-time taxi fares for Central Asian destinations.
+          </p>
+        <% } %>
+        <a class="insight-btn" href="/fares" onclick="saveFaresContext()">
+          <span>View More</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
         <div class="updated-note">Updated automatically</div>
       </div>
-      <div class="card">
-        <h3>📅 Festivals & Events</h3>
-        <p>
-          Don't miss the "Nowruz Spring Festival" in March with local music and
-          food.
-        </p>
-        <a class="view-more" href="/listings/eventbrite">View More</a>
+      <div class="insight-card">
+        <div class="insight-card-icon">📅</div>
+        <h3>Festivals & Events</h3>
+        <% if (latestCity || latestCountry) { %>
+          <p class="insight-location"><%= latestCity || latestCountry %></p>
+          <p>
+            Discover local festivals like Nowruz, cultural celebrations, and seasonal events happening in your destination.
+          </p>
+        <% } else { %>
+          <p>
+            Explore cultural festivals and events across Central Asia.
+          </p>
+        <% } %>
+        <a class="insight-btn" href="/listings/eventbrite">
+          <span>View More</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
         <div class="updated-note">Updated automatically</div>
       </div>
-      <div class="card">
-        <h3>🌤️ Weather Comparison</h3>
+      <div class="insight-card">
+        <div class="insight-card-icon">🌤️</div>
+        <h3>Weather Comparison</h3>
+        <% if (latestCity || latestCountry) { %>
+          <p class="insight-location"><%= latestCity || latestCountry %></p>
+        <% } %>
         <div id="weather-info">
-          <p style="margin-bottom: 10px">
-            Compare weather across all Central Asian countries on an interactive
-            map.
+          <p style="margin-bottom: 14px;color:#4a5674;">
+            Compare weather across all Central Asian countries on an interactive map.
           </p>
           <button
             onclick="window.location.href='/listings/weather-comparison'"
-            style="
-              padding: 10px 16px;
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-              color: white;
-              border: none;
-              border-radius: 8px;
-              cursor: pointer;
-              width: 100%;
-              font-weight: bold;
-              font-size: 15px;
-              transition: opacity 0.3s;
-              display: block;
-            "
-            onmouseover="this.style.opacity='0.85'"
-            onmouseout="this.style.opacity='1'"
+            class="weather-map-btn"
           >
             🗺️ Open Weather Map
           </button>
         </div>
-        <a class="view-more" href="/listings/weather-comparison"
-          >View Full Screen</a
-        >
+        <a class="insight-btn" href="/listings/weather-comparison">
+          <span>View Full Screen</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
         <div class="updated-note">Live weather data</div>
       </div>
     </div>
