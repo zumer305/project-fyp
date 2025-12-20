@@ -1,0 +1,4253 @@
+  [
+  {
+    "country": "Kazakhstan",
+    "city": "Taraz",
+    "places": ["Aisha Bibi Mausoleum", "Babaji Khatun Mausoleum", "Taraz Historical Museum", "Karakhan Mausoleum"],
+    "halal_food": ["Zhetysu Halal Cafe", "Sultan Taraz Restaurant", "Nomad Dastarkhan"],
+    "mosques": ["Central Mosque Taraz", "Nur Mosque Taraz"],
+    "hotels": {
+      "budget": ["Taraz Hostel", "Guesthouse Zhetysu"],
+      "midrange": ["Taraz City Hotel", "Hotel Rahat Taraz"],
+      "luxury": ["Rixos Taraz"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay in central areas, avoid poorly lit streets at night",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-80/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local traditions and historical sites",
+    "season": "Spring and autumn ideal for sightseeing",
+    "activities": ["Visit mausoleums", "Cultural museum tours", "Local market shopping", "City walking tours"],
+    "current_events": ["Taraz City Day in June", "Historical Heritage Festival in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kostanay",
+    "places": ["Kostanay Regional Museum", "Central Park Kostanay", "Victory Square", "Kostanay Drama Theater"],
+    "halal_food": ["Nomad Halal Cafe Kostanay", "Sultan Restaurant Kostanay"],
+    "mosques": ["Central Mosque Kostanay", "Nur Kostanay Mosque"],
+    "hotels": {
+      "budget": ["Kostanay Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Kostanay", "Rixos Kostanay"],
+      "luxury": ["Grand Hotel Kostanay"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stick to central areas and avoid isolated streets at night",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Attend local cultural events, respect mosque etiquette",
+    "season": "Summer best for city tours and park visits",
+    "activities": ["City sightseeing", "Visit museums and theaters", "Park walks", "Local shopping"],
+    "current_events": ["Kostanay City Day in July", "Summer Cultural Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kyzylorda",
+    "places": ["Baikonur Cosmodrome (nearby)", "Kyzylorda Regional Museum", "Central Park Kyzylorda", "Syr Darya River Promenade"],
+    "halal_food": ["Syr Darya Halal Cafe", "Nomad Restaurant Kyzylorda"],
+    "mosques": ["Central Mosque Kyzylorda", "Nur Mosque Kyzylorda"],
+    "hotels": {
+      "budget": ["Kyzylorda Hostel", "Guesthouse Syr Darya"],
+      "midrange": ["Hotel Kyzylorda", "Syr Darya View Hotel"],
+      "luxury": ["Grand Hotel Kyzylorda"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Avoid remote riversides alone, stay in city areas",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect river traditions and local customs",
+    "season": "Spring and autumn ideal for sightseeing",
+    "activities": ["Visit regional museums", "River walks", "Local cultural tours", "Cosmodrome guided trips"],
+    "current_events": ["Kyzylorda City Day in August", "Syr Darya Cultural Festival in June"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Ust-Kamenogorsk (Oskemen)",
+    "places": ["Central Park Oskemen", "Regional Museum of History", "Swan Lake", "Ust-Kamenogorsk Fortress"],
+    "halal_food": ["Nomad Halal Cafe Oskemen", "Sultan Restaurant Oskemen"],
+    "mosques": ["Central Mosque Oskemen", "Nur Oskemen Mosque"],
+    "hotels": {
+      "budget": ["Oskemen Hostel", "Guesthouse Ust-Kamenogorsk"],
+      "midrange": ["Hotel Oskemen", "Rixos Oskemen"],
+      "luxury": ["Grand Hotel Oskemen"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stick to central areas, avoid deserted streets at night",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-100/day",
+      "luxury": "$130+"
+    },
+    "culture": "Respect local customs and traditions",
+    "season": "Summer and autumn best for outdoor activities",
+    "activities": ["City sightseeing", "Museum visits", "Park and lake walks", "Guided fortress tours"],
+    "current_events": ["Oskemen City Day in July", "Local Cultural Fair in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Petropavl",
+    "places": ["Central Square Petropavl", "Petropavl Regional Museum", "Victory Park", "Alexander Park"],
+    "halal_food": ["Petropavl Halal Cafe", "Nomad Restaurant Petropavl"],
+    "mosques": ["Central Mosque Petropavl", "Nur Mosque Petropavl"],
+    "hotels": {
+      "budget": ["Petropavl Hostel", "Guesthouse Central Petropavl"],
+      "midrange": ["Hotel Petropavl", "Rixos Petropavl"],
+      "luxury": ["Grand Hotel Petropavl"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Avoid walking alone at night, stay in populated areas",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Attend local cultural exhibitions, respect traditions",
+    "season": "Summer ideal for city tours and parks",
+    "activities": ["Museum visits", "City walking tours", "Park activities", "Cultural event participation"],
+    "current_events": ["Petropavl City Day in June", "Summer Arts Festival in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Ekibastuz",
+    "places": ["Central Park Ekibastuz", "Ekibastuz History Museum", "Local Market Square", "Energy Museum Ekibastuz"],
+    "halal_food": ["Nomad Halal Eatery", "Sultan Ekibastuz Restaurant"],
+    "mosques": ["Central Mosque Ekibastuz", "Nur Mosque Ekibastuz"],
+    "hotels": {
+      "budget": ["Ekibastuz Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Ekibastuz", "Rixos Ekibastuz"],
+      "luxury": ["Grand Hotel Ekibastuz"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay near main streets, avoid industrial areas alone at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local industrial heritage and customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["City tours", "Museum visits", "Market exploration", "Local cultural events"],
+    "current_events": ["Ekibastuz City Day in July", "Local Art Fair in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Zhezkazgan",
+    "places": ["Karaganda Mining Museum", "Central Park Zhezkazgan", "Victory Square", "Zhezkazgan Regional Museum"],
+    "halal_food": ["Zhezkazgan Halal Cafe", "Nomad Restaurant Zhezkazgan"],
+    "mosques": ["Central Mosque Zhezkazgan", "Nur Zhezkazgan Mosque"],
+    "hotels": {
+      "budget": ["Zhezkazgan Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Zhezkazgan", "Rixos Zhezkazgan"],
+      "luxury": ["Grand Hotel Zhezkazgan"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid walking alone at night, stay in central areas",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local mining heritage and traditions",
+    "season": "Summer ideal for city and park tours",
+    "activities": ["Museum visits", "City sightseeing", "Park walks", "Industrial heritage tours"],
+    "current_events": ["Zhezkazgan City Day in August", "Mining Festival in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kokshetau",
+    "places": ["Lake Shchuchye", "Central Park Kokshetau", "Bukpa Hill", "Kokshetau Regional Museum"],
+    "halal_food": ["Nomad Halal Cafe Kokshetau", "Sultan Restaurant Kokshetau"],
+    "mosques": ["Central Mosque Kokshetau", "Nur Kokshetau Mosque"],
+    "hotels": {
+      "budget": ["Kokshetau Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Kokshetau", "Rixos Kokshetau"],
+      "luxury": ["Grand Hotel Kokshetau"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stick to central areas, avoid remote lakes at night",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Attend local cultural and lake festivals, respect traditions",
+    "season": "Spring and summer ideal for lake activities",
+    "activities": ["Lake visits", "Hiking nearby hills", "Cultural museum tours", "City walking tours"],
+    "current_events": ["Kokshetau Lake Festival in July", "City Cultural Day in June"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Turkistan",
+    "places": ["Mausoleum of Khoja Ahmed Yasawi", "Ancient City Walls", "Turkistan Regional Museum", "Hilal Park"],
+    "halal_food": ["Sultan Turkistan", "Nomad Halal Cafe Turkistan"],
+    "mosques": ["Central Mosque Turkistan", "Nur Mosque Turkistan"],
+    "hotels": {
+      "budget": ["Turkistan Hostel", "Guesthouse Central Turkistan"],
+      "midrange": ["Hotel Turkistan", "Rixos Turkistan"],
+      "luxury": ["Grand Hotel Turkistan"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay near main attractions, avoid deserted areas at night",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect historical sites, follow local customs",
+    "season": "Spring and autumn ideal for sightseeing",
+    "activities": ["Visit mausoleums", "Cultural tours", "Attend local crafts exhibitions", "City walking tours"],
+    "current_events": ["Turkistan Historical Festival in September", "City Day in July"]
+  },
+  
+  {
+    "country": "Kazakhstan",
+    "city": "Aksu",
+    "places": ["Central Park Aksu", "Aksu Regional Museum", "Victory Square", "Local Bazaar Aksu"],
+    "halal_food": ["Nomad Halal Cafe Aksu", "Sultan Aksu Restaurant"],
+    "mosques": ["Central Mosque Aksu", "Nur Mosque Aksu"],
+    "hotels": {
+      "budget": ["Aksu Hostel", "Guesthouse Central Aksu"],
+      "midrange": ["Hotel Aksu", "Rixos Aksu"],
+      "luxury": ["Grand Hotel Aksu"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Stay in central areas, avoid isolated streets at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local customs, visit cultural exhibitions",
+    "season": "Spring and autumn ideal",
+    "activities": ["City walking tours", "Museum visits", "Park strolls", "Market shopping"],
+    "current_events": ["Aksu City Day in July", "Local Cultural Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Balkhash",
+    "places": ["Lake Balkhash Promenade", "Central Park Balkhash", "Regional History Museum", "Victory Square Balkhash"],
+    "halal_food": ["Balkhash Halal Cafe", "Nomad Restaurant Balkhash"],
+    "mosques": ["Central Mosque Balkhash", "Nur Balkhash Mosque"],
+    "hotels": {
+      "budget": ["Balkhash Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Balkhash", "Rixos Balkhash"],
+      "luxury": ["Grand Hotel Balkhash"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid isolated areas near the lake at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect lake-related customs and local traditions",
+    "season": "Spring and summer ideal for lakeside activities",
+    "activities": ["Lake walks", "Museum tours", "City sightseeing", "Local cultural events"],
+    "current_events": ["Balkhash City Day in June", "Lake Festival in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Taldykorgan",
+    "places": ["Central Park Taldykorgan", "Regional Museum of History", "Abay Park", "Victory Square"],
+    "halal_food": ["Sultan Taldykorgan", "Nomad Halal Cafe Taldykorgan"],
+    "mosques": ["Central Mosque Taldykorgan", "Nur Mosque Taldykorgan"],
+    "hotels": {
+      "budget": ["Taldykorgan Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Taldykorgan", "Rixos Taldykorgan"],
+      "luxury": ["Grand Hotel Taldykorgan"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Stay in central neighborhoods, avoid deserted streets",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Attend local exhibitions and cultural events",
+    "season": "Spring and autumn ideal for sightseeing",
+    "activities": ["Museum visits", "Park walks", "City tours", "Local market exploration"],
+    "current_events": ["Taldykorgan City Day in August", "Autumn Cultural Festival in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Stepnogorsk",
+    "places": ["Stepnogorsk Central Park", "Regional History Museum", "Victory Square", "Industrial Heritage Site"],
+    "halal_food": ["Nomad Halal Cafe Stepnogorsk", "Sultan Restaurant Stepnogorsk"],
+    "mosques": ["Central Mosque Stepnogorsk", "Nur Stepnogorsk Mosque"],
+    "hotels": {
+      "budget": ["Stepnogorsk Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Stepnogorsk", "Rixos Stepnogorsk"],
+      "luxury": ["Grand Hotel Stepnogorsk"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Avoid industrial areas at night, stay near main streets",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local industrial heritage",
+    "season": "Spring and autumn ideal",
+    "activities": ["City sightseeing", "Museum visits", "Industrial tours", "Park walks"],
+    "current_events": ["Stepnogorsk City Day in June", "Local Industrial Fair in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Rudny",
+    "places": ["Central Park Rudny", "Rudny Regional Museum", "Victory Square", "Miner’s Memorial"],
+    "halal_food": ["Rudny Halal Cafe", "Nomad Restaurant Rudny"],
+    "mosques": ["Central Mosque Rudny", "Nur Rudny Mosque"],
+    "hotels": {
+      "budget": ["Rudny Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Rudny", "Rixos Rudny"],
+      "luxury": ["Grand Hotel Rudny"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay near city center, avoid deserted streets at night",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect mining heritage and local customs",
+    "season": "Summer ideal for sightseeing",
+    "activities": ["Museum visits", "City tours", "Park walks", "Cultural events"],
+    "current_events": ["Rudny City Day in July", "Miner’s Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Aktogay",
+    "places": ["Central Park Aktogay", "Aktogay Regional Museum", "Victory Square", "Local Market"],
+    "halal_food": ["Nomad Halal Cafe Aktogay", "Sultan Restaurant Aktogay"],
+    "mosques": ["Central Mosque Aktogay", "Nur Mosque Aktogay"],
+    "hotels": {
+      "budget": ["Aktogay Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Aktogay", "Rixos Aktogay"],
+      "luxury": ["Grand Hotel Aktogay"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay in central areas, avoid isolated streets",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local traditions, attend cultural exhibitions",
+    "season": "Spring and autumn ideal",
+    "activities": ["City tours", "Museum visits", "Market exploration", "Park walks"],
+    "current_events": ["Aktogay City Day in June", "Local Arts Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Saran",
+    "places": ["Central Park Saran", "Regional Museum of History", "Victory Square", "Cultural Center Saran"],
+    "halal_food": ["Nomad Halal Cafe Saran", "Sultan Restaurant Saran"],
+    "mosques": ["Central Mosque Saran", "Nur Saran Mosque"],
+    "hotels": {
+      "budget": ["Saran Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Saran", "Rixos Saran"],
+      "luxury": ["Grand Hotel Saran"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Avoid isolated streets at night, stay near main areas",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Attend local cultural events, respect local traditions",
+    "season": "Spring and summer ideal",
+    "activities": ["City sightseeing", "Museum visits", "Park walks", "Cultural festivals"],
+    "current_events": ["Saran City Day in July", "Summer Cultural Fair in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Baykonur",
+    "places": ["Cosmodrome Visitor Center", "Central Park Baykonur", "Victory Square", "Space Exploration Museum"],
+    "halal_food": ["Nomad Halal Cafe Baykonur", "Sultan Restaurant Baykonur"],
+    "mosques": ["Central Mosque Baykonur", "Nur Baykonur Mosque"],
+    "hotels": {
+      "budget": ["Baykonur Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Baykonur", "Rixos Baykonur"],
+      "luxury": ["Grand Hotel Baykonur"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay near the city center and cosmodrome, avoid deserted areas",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-100/day",
+      "luxury": "$130+"
+    },
+    "culture": "Respect cosmodrome heritage, follow local etiquette",
+    "season": "Spring and autumn ideal for sightseeing",
+    "activities": ["Visit Cosmodrome", "Museum tours", "City walking tours", "Park visits"],
+    "current_events": ["Space Festival in April", "Baykonur City Day in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Shalkar",
+    "places": ["Shalkar Lake", "Central Park Shalkar", "Regional Museum", "Victory Square Shalkar"],
+    "halal_food": ["Nomad Halal Cafe Shalkar", "Sultan Restaurant Shalkar"],
+    "mosques": ["Central Mosque Shalkar", "Nur Shalkar Mosque"],
+    "hotels": {
+      "budget": ["Shalkar Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Shalkar", "Rixos Shalkar"],
+      "luxury": ["Grand Hotel Shalkar"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid walking near the lake alone at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local customs and lake traditions",
+    "season": "Spring and summer ideal for lake activities",
+    "activities": ["Lake visits", "Museum tours", "City walking tours", "Park strolls"],
+    "current_events": ["Shalkar City Day in July", "Lake Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Zaysan",
+    "places": ["Zaysan Lake Promenade", "Central Park Zaysan", "Victory Square", "Zaysan Regional Museum"],
+    "halal_food": ["Nomad Halal Cafe Zaysan", "Sultan Restaurant Zaysan"],
+    "mosques": ["Central Mosque Zaysan", "Nur Zaysan Mosque"],
+    "hotels": {
+      "budget": ["Zaysan Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Zaysan", "Rixos Zaysan"],
+      "luxury": ["Grand Hotel Zaysan"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid walking near the lake alone at night, stay near city center",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local lake traditions and customs",
+    "season": "Spring and summer ideal for lakeside visits",
+    "activities": ["Lake walks", "Museum tours", "City sightseeing", "Cultural events"],
+    "current_events": ["Zaysan City Day in July", "Summer Cultural Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Tarbagatay",
+    "places": ["Tarbagatay Mountains", "Sauran Archaeological Site", "Kurchum Reservoir", "Bakanas Nature Reserve"],
+    "halal_food": ["Tarbagatay Halal Cafe", "Nomad Eatery Tarbagatay"],
+    "mosques": ["Central Mosque Tarbagatay", "Al-Farabi Mosque Tarbagatay"],
+    "hotels": {
+      "budget": ["Tarbagatay Guesthouse", "Mountain Hostel Tarbagatay"],
+      "midrange": ["Tarbagatay River Hotel", "Nomad Inn"],
+      "luxury": ["Grand Tarbagatay Hotel"]
+    },
+    "transport": "Taxis, local buses, minibuses",
+    "safety_tips": "Avoid hiking alone in remote areas, respect local wildlife",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs and traditions, modest dressing recommended",
+    "season": "Late spring to early autumn is ideal for hiking",
+    "activities": ["Mountain hiking", "Bird watching", "Exploring archaeological sites", "Fishing at Kurchum Reservoir"],
+    "current_events": ["Tarbagatay Local Heritage Festival in August", "Traditional Horse Riding Events in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Zhetysu",
+    "places": ["Lake Balkhash East Shore", "Aksu-Zhabagly Nature Reserve", "Zhetysu Mountains", "Kapchagay Reservoir"],
+    "halal_food": ["Zhetysu Halal Cafe", "Nomad Restaurant Zhetysu"],
+    "mosques": ["Zhetysu Central Mosque", "Al-Rahman Mosque Zhetysu"],
+    "hotels": {
+      "budget": ["Zhetysu Guesthouse", "Lakeview Hostel"],
+      "midrange": ["Zhetysu Inn", "Kapchagay Hotel"],
+      "luxury": ["Grand Zhetysu Hotel"]
+    },
+    "transport": "Buses, taxis, river ferries",
+    "safety_tips": "Stay close to populated areas, avoid swimming in unknown lakes alone",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Local Kazakh hospitality is strong, follow etiquette when visiting homes",
+    "season": "Summer is best for lake activities, spring for mountain treks",
+    "activities": ["Lake tours", "Nature reserve hiking", "Bird watching", "Fishing and boating"],
+    "current_events": ["Zhetysu Environmental Festival in June", "Lake Balkhash Sailing Event in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Karatal",
+    "places": ["Karatal River Scenic Area", "Karatal Mountains", "Historical Karatal Fort Site"],
+    "halal_food": ["Karatal Halal Eatery", "Nomad Dastarkhan"],
+    "mosques": ["Karatal Central Mosque", "Imam Mosque Karatal"],
+    "hotels": {
+      "budget": ["Karatal Guesthouse", "Mountain Hostel Karatal"],
+      "midrange": ["Karatal Riverside Hotel", "Nomad Inn Karatal"],
+      "luxury": ["Grand Hotel Karatal"]
+    },
+    "transport": "Buses, taxis, local shuttles",
+    "safety_tips": "Avoid venturing into mountains alone, follow local guidance",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-75/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs, modest clothing is preferred",
+    "season": "Late spring to early autumn",
+    "activities": ["Mountain trekking", "Historical site visits", "River fishing", "Photography tours"],
+    "current_events": ["Karatal Cultural Fair in August", "Local Folk Music Festival in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Ayagoz",
+    "places": ["Ayagoz Canyon", "Ayagoz River", "Regional History Museum"],
+    "halal_food": ["Ayagoz Halal Cafe", "Nomad Restaurant Ayagoz"],
+    "mosques": ["Ayagoz Central Mosque", "Al-Farabi Mosque Ayagoz"],
+    "hotels": {
+      "budget": ["Ayagoz Guesthouse", "Backpackers Hostel Ayagoz"],
+      "midrange": ["Ayagoz Riverside Hotel", "Nomad Inn Ayagoz"],
+      "luxury": ["Grand Ayagoz Hotel"]
+    },
+    "transport": "Taxis, minibuses, buses",
+    "safety_tips": "Avoid walking alone near rivers at night, follow local safety signs",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-80/day",
+      "luxury": "$110+"
+    },
+    "culture": "Follow local traditions, modest dressing is recommended",
+    "season": "Spring and summer are ideal for outdoor activities",
+    "activities": ["River walks", "Canyon hiking", "Museum tours", "Photography"],
+    "current_events": ["Ayagoz Cultural Festival in June", "River Cleaning Volunteer Event in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Bayanaul",
+    "places": ["Bayanaul National Park", "Lake Zhasybai", "Ayusai Mountain", "Sarykopa Plateau"],
+    "halal_food": ["Bayanaul Halal Cafe", "Nomad Guesthouse Restaurant"],
+    "mosques": ["Bayanaul Central Mosque", "Al-Rahman Mosque Bayanaul"],
+    "hotels": {
+      "budget": ["Bayanaul Guesthouse", "National Park Hostel"],
+      "midrange": ["Bayanaul Hotel Resort", "Nomad Inn Bayanaul"],
+      "luxury": ["Grand Bayanaul Hotel"]
+    },
+    "transport": "Buses, taxis, shuttle vans",
+    "safety_tips": "Stick to marked trails in the park, avoid secluded areas at night",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect natural sites, follow park rules, dress modestly",
+    "season": "Summer is best for park activities and lake visits",
+    "activities": ["Hiking", "Boat rides on lakes", "Camping", "Rock climbing"],
+    "current_events": ["Bayanaul National Park Festival in July", "Local Hiking Event in June"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kandyagash",
+    "places": ["Kandyagash Desert Outskirts", "Local History Museum", "Steppe Observation Point"],
+    "halal_food": ["Kandyagash Halal Cafe", "Nomad Eatery Kandyagash"],
+    "mosques": ["Kandyagash Central Mosque", "Al-Farabi Mosque Kandyagash"],
+    "hotels": {
+      "budget": ["Kandyagash Guesthouse", "Steppe Hostel"],
+      "midrange": ["Kandyagash Inn", "Nomad Riverside Hotel"],
+      "luxury": ["Grand Kandyagash Hotel"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid desert excursions without a guide, stay in city center at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-75/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions, modest dressing preferred",
+    "season": "Spring and autumn are ideal",
+    "activities": ["Desert excursions", "Museum tours", "Photography", "Local cultural events"],
+    "current_events": ["Kandyagash Steppe Festival in July", "Local Handicraft Fair in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Uralsk (Oral)",
+    "places": ["Ural River Embankment", "Oral History Museum", "Central Park Oral", "Kaztalov Palace"],
+    "halal_food": ["Uralsk Halal Cafe", "Nomad Eatery Oral"],
+    "mosques": ["Oral Central Mosque", "Al-Farabi Mosque Uralsk"],
+    "hotels": {
+      "budget": ["Uralsk Guesthouse", "Backpackers Hostel Oral"],
+      "midrange": ["Uralsk Riverside Hotel", "Nomad Inn Uralsk"],
+      "luxury": ["Grand Uralsk Hotel"]
+    },
+    "transport": "Buses, taxis, riverboats",
+    "safety_tips": "Avoid walking near riverbanks at night, stay in populated areas",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local heritage, dress modestly",
+    "season": "Summer for river activities, winter for city sightseeing",
+    "activities": ["River cruises", "Museum visits", "City walking tours", "Park activities"],
+    "current_events": ["Oral City Day in August", "Ural River Festival in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Esil",
+    "places": ["Esil River Promenade", "Local History Museum", "Esil Central Park", "Cultural Center Esil"],
+    "halal_food": ["Esil Halal Cafe", "Nomad Restaurant Esil"],
+    "mosques": ["Esil Central Mosque", "Al-Rahman Mosque Esil"],
+    "hotels": {
+      "budget": ["Esil Guesthouse", "Backpackers Hostel Esil"],
+      "midrange": ["Esil Riverside Hotel", "Nomad Inn Esil"],
+      "luxury": ["Grand Hotel Esil"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid walking alone in isolated streets at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-75/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions, modest dressing",
+    "season": "Spring and summer ideal",
+    "activities": ["River walks", "Museum visits", "City tours", "Cultural performances"],
+    "current_events": ["Esil City Festival in July", "Local Music Fair in June"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Shchuchinsk",
+    "places": ["Burabay National Park nearby", "Shchuchinsk Lake", "Kazakh Ski Resort", "Local Museum Shchuchinsk"],
+    "halal_food": ["Shchuchinsk Halal Cafe", "Nomad Restaurant Shchuchinsk"],
+    "mosques": ["Shchuchinsk Central Mosque", "Al-Farabi Mosque Shchuchinsk"],
+    "hotels": {
+      "budget": ["Shchuchinsk Guesthouse", "Backpackers Hostel"],
+      "midrange": ["Shchuchinsk Resort Hotel", "Nomad Inn Shchuchinsk"],
+      "luxury": ["Grand Shchuchinsk Hotel"]
+    },
+    "transport": "Buses, taxis, shuttle services",
+    "safety_tips": "Avoid isolated trails in the national park alone",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect natural areas, follow park rules, modest dressing recommended",
+    "season": "Summer ideal for lake and mountain activities",
+    "activities": ["Hiking", "Lake boating", "Skiing in winter", "Guided park tours"],
+    "current_events": ["Burabay National Park Festival in July", "Shchuchinsk Cultural Fair in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Aral",
+    "places": ["Aral Sea Region", "Aral History Museum", "Ship Graveyard Site", "Aral Local Market"],
+    "halal_food": ["Aral Halal Cafe", "Nomad Eatery Aral"],
+    "mosques": ["Aral Central Mosque", "Al-Rahman Mosque Aral"],
+    "hotels": {
+      "budget": ["Aral Guesthouse", "Nomad Hostel"],
+      "midrange": ["Aral Riverside Hotel", "Local Inn Aral"],
+      "luxury": ["Grand Aral Hotel"]
+    },
+    "transport": "Buses, taxis, river boats",
+    "safety_tips": "Avoid visiting the ship graveyard alone, stay in town at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions, follow fishing regulations, modest dressing",
+    "season": "Spring and autumn ideal for sightseeing",
+    "activities": ["Explore Aral Sea remnants", "Museum visits", "Fishing trips", "Cultural walks"],
+    "current_events": ["Aral Sea Awareness Festival in June", "Local Cultural Day in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Maktaaral",
+    "places": ["Maktaaral Regional Museum", "Amangeldi Park", "Maktaaral Botanical Garden", "Local Historical Monuments"],
+    "halal_food": ["Maktaaral Halal Cafe", "Nomad Eatery", "Sultan Restaurant"],
+    "mosques": ["Central Mosque Maktaaral", "Al-Farabi Mosque"],
+    "hotels": {
+      "budget": ["Maktaaral Guesthouse", "Central Hostel Maktaaral"],
+      "midrange": ["Maktaaral City Hotel", "Rixos Maktaaral"],
+      "luxury": ["Grand Hotel Maktaaral"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid isolated areas at night, stay in central neighborhoods",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-80/day",
+      "luxury": "$110+"
+    },
+    "culture": "Respect local traditions and dress modestly",
+    "season": "Spring and autumn ideal",
+    "activities": ["City sightseeing", "Park walks", "Historical tours", "Local market visits"],
+    "current_events": ["Maktaaral Cultural Festival in May", "Harvest Celebration in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Arys",
+    "places": ["Arys Central Park", "Victory Monument", "Arys Museum of Local History", "Railway Station Square"],
+    "halal_food": ["Arys Halal Grill", "Sultan Cafe", "Nomad Restaurant"],
+    "mosques": ["Central Mosque Arys", "Al-Hikma Mosque"],
+    "hotels": {
+      "budget": ["Arys Guesthouse", "City Hostel Arys"],
+      "midrange": ["Arys City Hotel", "Hotel Victory Arys"],
+      "luxury": ["Grand Arys Hotel"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stick to main streets, avoid walking alone after dark",
+    "budget": {
+      "budget": "$20-40/day",
+      "midrange": "$45-75/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local fairs, respect religious customs",
+    "season": "Late spring and summer best",
+    "activities": ["Visit museums", "Local park walks", "Historical site tours", "Railway sightseeing"],
+    "current_events": ["Arys City Day in June", "Summer Music Festival in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Lisakovsk",
+    "places": ["Lisakovsk Central Park", "Mining Museum", "Victory Square", "Lisakovsk Cultural Center"],
+    "halal_food": ["Lisakovsk Halal Cafe", "Nomad Bistro", "Sultan Eatery"],
+    "mosques": ["Central Mosque Lisakovsk", "Nur Mosque"],
+    "hotels": {
+      "budget": ["Lisakovsk Hostel", "Guesthouse Lisakovsk"],
+      "midrange": ["Lisakovsk City Hotel", "Hotel Nomad"],
+      "luxury": ["Grand Hotel Lisakovsk"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid industrial areas at night, stay in main districts",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local customs, attend cultural performances",
+    "season": "Spring and summer ideal",
+    "activities": ["City sightseeing", "Museum tours", "Park walks", "Attend local music events"],
+    "current_events": ["Lisakovsk Cultural Week in August", "Local Art Festival in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Atbasar",
+    "places": ["Atbasar Central Park", "Local History Museum", "Victory Monument", "Atbasar Market Square"],
+    "halal_food": ["Atbasar Halal Cafe", "Sultan Eatery", "Nomad Restaurant"],
+    "mosques": ["Central Mosque Atbasar", "Al-Farabi Mosque"],
+    "hotels": {
+      "budget": ["Atbasar Guesthouse", "City Hostel Atbasar"],
+      "midrange": ["Atbasar City Hotel", "Hotel Nomad Atbasar"],
+      "luxury": ["Grand Hotel Atbasar"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid walking alone at night, stay near central streets",
+    "budget": {
+      "budget": "$20-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions and religious customs",
+    "season": "Spring and autumn best",
+    "activities": ["City tours", "Visit local museums", "Market exploration", "Park walks"],
+    "current_events": ["Atbasar Independence Day Parade in July", "Local Cultural Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Koksu",
+    "places": ["Koksu River Embankment", "Central Park Koksu", "Koksu History Museum", "Mountain View Point"],
+    "halal_food": ["Koksu Halal Cafe", "Nomad Bistro", "Sultan Restaurant"],
+    "mosques": ["Central Mosque Koksu", "Nur Mosque Koksu"],
+    "hotels": {
+      "budget": ["Koksu Guesthouse", "City Hostel Koksu"],
+      "midrange": ["Koksu City Hotel", "Hotel Nomad"],
+      "luxury": ["Grand Hotel Koksu"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in populated areas at night, avoid riverbanks alone",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local traditions, attend regional events",
+    "season": "Spring and summer ideal",
+    "activities": ["Hiking nearby hills", "Visit museums", "Park walks", "Attend local fairs"],
+    "current_events": ["Koksu Regional Festival in June", "Cultural Market Day in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Karkaralinsk",
+    "places": ["Karkaralinsk National Park", "Central Square Karkaralinsk", "Local Museum", "Victory Monument"],
+    "halal_food": ["Karkaralinsk Halal Cafe", "Nomad Restaurant", "Sultan Bistro"],
+    "mosques": ["Central Mosque Karkaralinsk", "Al-Farabi Mosque Karkaralinsk"],
+    "hotels": {
+      "budget": ["Karkaralinsk Guesthouse", "City Hostel Karkaralinsk"],
+      "midrange": ["Karkaralinsk City Hotel", "Hotel Nomad"],
+      "luxury": ["Grand Hotel Karkaralinsk"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid isolated forest areas at night, stay in city center",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$55-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local heritage, attend folk events",
+    "season": "Summer ideal for parks, winter for indoor tours",
+    "activities": ["Hiking", "Museum visits", "Park walks", "Attend local folk shows"],
+    "current_events": ["Karkaralinsk Summer Festival in July", "Local Art Week in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Zhetikara",
+    "places": ["Zhetikara Central Park", "Historical Museum", "Victory Square", "City Library"],
+    "halal_food": ["Zhetikara Halal Cafe", "Nomad Restaurant", "Sultan Eatery"],
+    "mosques": ["Central Mosque Zhetikara", "Nur Mosque Zhetikara"],
+    "hotels": {
+      "budget": ["Zhetikara Hostel", "Guesthouse Zhetikara"],
+      "midrange": ["Zhetikara City Hotel", "Hotel Nomad"],
+      "luxury": ["Grand Hotel Zhetikara"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Avoid walking alone at night, stay in main streets",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local customs, participate in city events",
+    "season": "Spring and autumn ideal",
+    "activities": ["City sightseeing", "Museum tours", "Park walks", "Market exploration"],
+    "current_events": ["Zhetikara City Day in June", "Local Cultural Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Shu",
+    "places": ["Shu Central Park", "Historical Museum Shu", "Railway Square", "Victory Monument"],
+    "halal_food": ["Shu Halal Cafe", "Nomad Restaurant", "Sultan Bistro"],
+    "mosques": ["Central Mosque Shu", "Nur Mosque Shu"],
+    "hotels": {
+      "budget": ["Shu Guesthouse", "City Hostel Shu"],
+      "midrange": ["Shu City Hotel", "Hotel Nomad Shu"],
+      "luxury": ["Grand Hotel Shu"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in populated areas, avoid deserted streets at night",
+    "budget": {
+      "budget": "$20-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local fairs, respect traditions",
+    "season": "Spring and summer ideal",
+    "activities": ["City sightseeing", "Museum tours", "Park walks", "Local market visits"],
+    "current_events": ["Shu Cultural Day in July", "Summer Music Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Bakanas",
+    "places": ["Bakanas Central Park", "Local History Museum", "River Embankment", "City Square Bakanas"],
+    "halal_food": ["Bakanas Halal Cafe", "Nomad Restaurant", "Sultan Eatery"],
+    "mosques": ["Central Mosque Bakanas", "Nur Mosque Bakanas"],
+    "hotels": {
+      "budget": ["Bakanas Guesthouse", "City Hostel Bakanas"],
+      "midrange": ["Bakanas City Hotel", "Hotel Nomad Bakanas"],
+      "luxury": ["Grand Hotel Bakanas"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Avoid remote river areas at night, stay in city center",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local customs, attend cultural exhibitions",
+    "season": "Spring and autumn ideal",
+    "activities": ["City tours", "Museum visits", "River walks", "Local markets"],
+    "current_events": ["Bakanas Cultural Festival in June", "City Day in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Zhangatas",
+    "places": ["Zhangatas Central Park", "Local Museum of History", "Victory Monument", "Cultural Center Zhangatas"],
+    "halal_food": ["Zhangatas Halal Cafe", "Nomad Eatery", "Sultan Restaurant"],
+    "mosques": ["Central Mosque Zhangatas", "Nur Mosque Zhangatas"],
+    "hotels": {
+      "budget": ["Zhangatas Guesthouse", "City Hostel Zhangatas"],
+      "midrange": ["Zhangatas City Hotel", "Hotel Nomad Zhangatas"],
+      "luxury": ["Grand Hotel Zhangatas"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in populated areas, avoid isolated streets at night",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-85/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect traditions, participate in city events",
+    "season": "Spring and summer ideal",
+    "activities": ["City sightseeing", "Museum tours", "Park walks", "Attend local cultural events"],
+    "current_events": ["Zhangatas City Day in July", "Summer Arts Festival in August"]
+  },
+  
+  {
+    "country": "Kazakhstan",
+    "city": "Stepnyak",
+    "places": ["Stepnyak Central Park", "Stepnyak Regional Museum", "Victory Monument", "Stepnyak Botanical Garden"],
+    "halal_food": ["Stepnyak Halal Cafe", "Nomad Eatery Stepnyak"],
+    "mosques": ["Central Mosque Stepnyak", "Nur Mosque Stepnyak"],
+    "hotels": {
+      "budget": ["Stepnyak Hostel", "Guesthouse Stepnyak"],
+      "midrange": ["Hotel Stepnyak", "Stepnyak City Hotel"],
+      "luxury": ["Stepnyak Grand Hotel"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid walking alone at night, stay in main streets",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs, attend regional events",
+    "season": "Spring and summer are ideal",
+    "activities": ["City tours", "Botanical garden walks", "Museum visits", "Cultural festivals"],
+    "current_events": ["Stepnyak City Day in June", "Regional Art Fair in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Balkashino",
+    "places": ["Balkashino Lake View", "Central Square Balkashino", "Balkashino History Museum", "Mountain Lookout Point"],
+    "halal_food": ["Balkashino Halal Restaurant", "Riverside Cafe Balkashino"],
+    "mosques": ["Central Mosque Balkashino", "Al-Farabi Mosque"],
+    "hotels": {
+      "budget": ["Balkashino Guesthouse", "Lakeview Hostel"],
+      "midrange": ["Balkashino Hotel", "Riverside Hotel Balkashino"],
+      "luxury": ["Balkashino Grand Resort"]
+    },
+    "transport": "Buses, taxis, boats for lake tours",
+    "safety_tips": "Be cautious near the lake, stay in central areas at night",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-100/day",
+      "luxury": "$120+"
+    },
+    "culture": "Attend local music and cultural events",
+    "season": "Summer best for lake activities",
+    "activities": ["Boating", "Fishing trips", "Museum visits", "City sightseeing"],
+    "current_events": ["Balkashino Lake Festival in July", "Local Summer Fair in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Akzhar",
+    "places": ["Akzhar Central Park", "Akzhar Museum of History", "Riverfront Promenade", "Old Town Akzhar"],
+    "halal_food": ["Akzhar Halal Cafe", "Nomad Eatery Akzhar"],
+    "mosques": ["Central Mosque Akzhar", "Nur Mosque Akzhar"],
+    "hotels": {
+      "budget": ["Akzhar Hostel", "Guesthouse Akzhar"],
+      "midrange": ["Hotel Akzhar", "Akzhar City Hotel"],
+      "luxury": ["Grand Akzhar Hotel"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid isolated streets at night, stay in populated areas",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$55-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local traditions, attend regional fairs",
+    "season": "Spring and autumn ideal",
+    "activities": ["City walking tours", "Museum visits", "Park picnics", "Attend local events"],
+    "current_events": ["Akzhar City Day in August", "Traditional Folk Festival in June"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kamysty",
+    "places": ["Kamysty Central Square", "Regional History Museum", "Kamysty Lake", "Victory Park Kamysty"],
+    "halal_food": ["Kamysty Halal Eatery", "Riverside Halal Cafe"],
+    "mosques": ["Central Mosque Kamysty", "Al-Mashriq Mosque"],
+    "hotels": {
+      "budget": ["Kamysty Hostel", "Guesthouse Kamysty"],
+      "midrange": ["Hotel Kamysty", "Kamysty City Hotel"],
+      "luxury": ["Kamysty Grand Hotel"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in central areas, avoid remote streets at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local festivals, respect mosque etiquette",
+    "season": "Summer ideal for outdoor activities",
+    "activities": ["Museum tours", "Lake walks", "City sightseeing", "Cultural festival visits"],
+    "current_events": ["Kamysty Cultural Festival in July", "City Day in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Derzhavinsk",
+    "places": ["Derzhavinsk Historical Museum", "Central Park", "River Embankment", "Local Market Derzhavinsk"],
+    "halal_food": ["Derzhavinsk Halal Cafe", "Nomad Eatery Derzhavinsk"],
+    "mosques": ["Central Mosque Derzhavinsk", "Nur Mosque"],
+    "hotels": {
+      "budget": ["Derzhavinsk Hostel", "Guesthouse Derzhavinsk"],
+      "midrange": ["Hotel Derzhavinsk", "Derzhavinsk City Hotel"],
+      "luxury": ["Grand Hotel Derzhavinsk"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid deserted streets at night, stick to central areas",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions, attend cultural fairs",
+    "season": "Spring and summer ideal",
+    "activities": ["City walking tours", "Visit local museums", "Park walks", "Cultural festival attendance"],
+    "current_events": ["Derzhavinsk City Day in September", "Local Handicraft Fair in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Temirlan",
+    "places": ["Temirlan Central Park", "Historical Museum Temirlan", "Victory Monument", "Local Art Gallery"],
+    "halal_food": ["Temirlan Halal Cafe", "Nomad Eatery Temirlan"],
+    "mosques": ["Central Mosque Temirlan", "Nur Mosque Temirlan"],
+    "hotels": {
+      "budget": ["Temirlan Hostel", "Guesthouse Temirlan"],
+      "midrange": ["Hotel Temirlan", "Temirlan City Hotel"],
+      "luxury": ["Grand Temirlan Hotel"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid walking alone at night, stay in well-lit areas",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$55-90/day",
+      "luxury": "$110+"
+    },
+    "culture": "Attend local cultural events, respect traditions",
+    "season": "Summer best for outdoor activities",
+    "activities": ["City tours", "Museum visits", "Art gallery visits", "Park walks"],
+    "current_events": ["Temirlan City Day in August", "Regional Cultural Festival in June"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Zhanatas",
+    "places": ["Zhanatas Central Park", "Mining History Museum", "City Square", "Local Cultural Center"],
+    "halal_food": ["Zhanatas Halal Cafe", "Nomad Eatery Zhanatas"],
+    "mosques": ["Central Mosque Zhanatas", "Nur Mosque Zhanatas"],
+    "hotels": {
+      "budget": ["Zhanatas Hostel", "Guesthouse Zhanatas"],
+      "midrange": ["Hotel Zhanatas", "Zhanatas City Hotel"],
+      "luxury": ["Grand Zhanatas Hotel"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stick to main streets, avoid poorly lit areas at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions, attend local fairs",
+    "season": "Spring and summer ideal",
+    "activities": ["City sightseeing", "Museum tours", "Park walks", "Cultural festival visits"],
+    "current_events": ["Zhanatas City Day in July", "Local Handicraft Fair in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Bayterek",
+    "places": ["Bayterek Tower Replica Park", "Central Square Bayterek", "Local Museum", "City Park Walks"],
+    "halal_food": ["Bayterek Halal Cafe", "Nomad Eatery Bayterek"],
+    "mosques": ["Central Mosque Bayterek", "Nur Mosque Bayterek"],
+    "hotels": {
+      "budget": ["Bayterek Hostel", "Guesthouse Bayterek"],
+      "midrange": ["Hotel Bayterek", "Bayterek City Hotel"],
+      "luxury": ["Grand Hotel Bayterek"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in populated areas, avoid walking alone at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local festivals, respect mosque etiquette",
+    "season": "Spring and summer ideal",
+    "activities": ["City tours", "Museum visits", "Park walks", "Attend cultural events"],
+    "current_events": ["Bayterek City Day in June", "Local Music Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Makinsk",
+    "places": ["Makinsk Central Park", "Historical Museum Makinsk", "River Promenade", "Victory Square Makinsk"],
+    "halal_food": ["Makinsk Halal Cafe", "Nomad Eatery Makinsk"],
+    "mosques": ["Central Mosque Makinsk", "Nur Mosque Makinsk"],
+    "hotels": {
+      "budget": ["Makinsk Hostel", "Guesthouse Makinsk"],
+      "midrange": ["Hotel Makinsk", "Makinsk City Hotel"],
+      "luxury": ["Grand Hotel Makinsk"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid poorly lit streets at night, stay in city center",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions, attend regional fairs",
+    "season": "Spring and autumn ideal",
+    "activities": ["City tours", "Museum visits", "Park walks", "Cultural events"],
+    "current_events": ["Makinsk City Day in August", "Local Art Exhibition in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Belogorsk",
+    "places": ["Belogorsk Central Park", "Historical Museum", "City Square Belogorsk", "Local Art Center"],
+    "halal_food": ["Belogorsk Halal Cafe", "Nomad Eatery Belogorsk"],
+    "mosques": ["Central Mosque Belogorsk", "Nur Mosque Belogorsk"],
+    "hotels": {
+      "budget": ["Belogorsk Hostel", "Guesthouse Belogorsk"],
+      "midrange": ["Hotel Belogorsk", "Belogorsk City Hotel"],
+      "luxury": ["Grand Hotel Belogorsk"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in populated areas, avoid deserted streets",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs, attend cultural events",
+    "season": "Spring and summer ideal",
+    "activities": ["City tours", "Museum visits", "Park walks", "Attend local festivals"],
+    "current_events": ["Belogorsk City Day in July", "Local Handicraft Fair in August"]
+  },
+  
+  {
+    "country": "Kazakhstan",
+    "city": "Kulan",
+    "places": ["Kulan Central Park", "Historical Museum Kulan", "City Square Kulan", "Local Cultural Center"],
+    "halal_food": ["Kulan Halal Cafe", "Nomad Eatery Kulan"],
+    "mosques": ["Central Mosque Kulan", "Nur Mosque Kulan"],
+    "hotels": {
+      "budget": ["Kulan Hostel", "Guesthouse Kulan"],
+      "midrange": ["Hotel Kulan", "Kulan City Hotel"],
+      "luxury": ["Grand Hotel Kulan"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid poorly lit areas at night, stay in central neighborhoods",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local fairs, respect mosque etiquette",
+    "season": "Spring and autumn ideal",
+    "activities": ["City tours", "Museum visits", "Park walks", "Attend cultural events"],
+    "current_events": ["Kulan City Day in July", "Local Art Exhibition in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Turgai",
+    "places": ["Turgai Regional Museum", "Central Square Turgai", "Victory Park", "Turgai Botanical Garden"],
+    "halal_food": ["Turgai Halal Cafe", "Nomad Eatery Turgai"],
+    "mosques": ["Central Mosque Turgai", "Nur Mosque Turgai"],
+    "hotels": {
+      "budget": ["Turgai Hostel", "Guesthouse Turgai"],
+      "midrange": ["Hotel Turgai", "Turgai City Hotel"],
+      "luxury": ["Grand Hotel Turgai"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Stay in populated areas, avoid isolated streets at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions, attend regional fairs",
+    "season": "Summer ideal for outdoor activities",
+    "activities": ["Museum visits", "City sightseeing", "Botanical garden walks", "Cultural festival participation"],
+    "current_events": ["Turgai City Day in June", "Regional Folk Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Saryshagan",
+    "places": ["Saryshagan Central Park", "Saryshagan History Museum", "City Square Saryshagan", "Local Art Center"],
+    "halal_food": ["Saryshagan Halal Cafe", "Nomad Eatery Saryshagan"],
+    "mosques": ["Central Mosque Saryshagan", "Nur Mosque Saryshagan"],
+    "hotels": {
+      "budget": ["Saryshagan Hostel", "Guesthouse Saryshagan"],
+      "midrange": ["Hotel Saryshagan", "Saryshagan City Hotel"],
+      "luxury": ["Grand Hotel Saryshagan"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Avoid remote streets at night, stay near main areas",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local exhibitions, respect cultural norms",
+    "season": "Spring and autumn ideal",
+    "activities": ["City walking tours", "Museum visits", "Park walks", "Attend local cultural events"],
+    "current_events": ["Saryshagan City Day in July", "Local Folk Festival in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Shardara",
+    "places": ["Shardara Reservoir", "Central Park Shardara", "Historical Museum", "City Square Shardara"],
+    "halal_food": ["Shardara Halal Cafe", "Nomad Eatery Shardara"],
+    "mosques": ["Central Mosque Shardara", "Nur Mosque Shardara"],
+    "hotels": {
+      "budget": ["Shardara Hostel", "Guesthouse Shardara"],
+      "midrange": ["Hotel Shardara", "Shardara City Hotel"],
+      "luxury": ["Grand Hotel Shardara"]
+    },
+    "transport": "Buses, taxis, boats for reservoir tours",
+    "safety_tips": "Be cautious near water, avoid isolated areas at night",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$55-90/day",
+      "luxury": "$110+"
+    },
+    "culture": "Respect local customs, attend lake-related events",
+    "season": "Summer ideal for reservoir activities",
+    "activities": ["Boating", "Fishing trips", "Museum visits", "Park walks"],
+    "current_events": ["Shardara Reservoir Festival in July", "City Day Shardara in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Zyryanovsk",
+    "places": ["Zyryanovsk Central Park", "Mining History Museum", "Victory Square Zyryanovsk", "Local Cultural Center"],
+    "halal_food": ["Zyryanovsk Halal Cafe", "Nomad Eatery Zyryanovsk"],
+    "mosques": ["Central Mosque Zyryanovsk", "Nur Mosque Zyryanovsk"],
+    "hotels": {
+      "budget": ["Zyryanovsk Hostel", "Guesthouse Zyryanovsk"],
+      "midrange": ["Hotel Zyryanovsk", "Zyryanovsk City Hotel"],
+      "luxury": ["Grand Hotel Zyryanovsk"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid deserted streets at night, stay in central areas",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local mining museum exhibitions, respect mosque etiquette",
+    "season": "Spring and summer ideal",
+    "activities": ["Museum tours", "City sightseeing", "Park walks", "Local cultural events"],
+    "current_events": ["Zyryanovsk City Day in August", "Mining Heritage Festival in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kamenka",
+    "places": ["Kamenka Central Park", "Historical Museum Kamenka", "City Square Kamenka", "Botanical Garden"],
+    "halal_food": ["Kamenka Halal Cafe", "Nomad Eatery Kamenka"],
+    "mosques": ["Central Mosque Kamenka", "Nur Mosque Kamenka"],
+    "hotels": {
+      "budget": ["Kamenka Hostel", "Guesthouse Kamenka"],
+      "midrange": ["Hotel Kamenka", "Kamenka City Hotel"],
+      "luxury": ["Grand Hotel Kamenka"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid remote streets at night, stay in populated areas",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs, attend local fairs",
+    "season": "Spring and autumn ideal",
+    "activities": ["City tours", "Museum visits", "Park walks", "Attend cultural events"],
+    "current_events": ["Kamenka City Day in July", "Local Folk Festival in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Ayteke Bi",
+    "places": ["Ayteke Bi Central Park", "Historical Museum Ayteke Bi", "City Square", "Local Cultural Center"],
+    "halal_food": ["Ayteke Bi Halal Cafe", "Nomad Eatery Ayteke Bi"],
+    "mosques": ["Central Mosque Ayteke Bi", "Nur Mosque Ayteke Bi"],
+    "hotels": {
+      "budget": ["Ayteke Bi Hostel", "Guesthouse Ayteke Bi"],
+      "midrange": ["Hotel Ayteke Bi", "Ayteke Bi City Hotel"],
+      "luxury": ["Grand Hotel Ayteke Bi"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in central areas, avoid isolated streets at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect traditions, attend local events",
+    "season": "Summer ideal",
+    "activities": ["City sightseeing", "Museum visits", "Park walks", "Local festival participation"],
+    "current_events": ["Ayteke Bi City Day in August", "Cultural Fair in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Uyalik",
+    "places": ["Uyalik Central Park", "Historical Museum Uyalik", "River Embankment", "City Square"],
+    "halal_food": ["Uyalik Halal Cafe", "Nomad Eatery Uyalik"],
+    "mosques": ["Central Mosque Uyalik", "Nur Mosque Uyalik"],
+    "hotels": {
+      "budget": ["Uyalik Hostel", "Guesthouse Uyalik"],
+      "midrange": ["Hotel Uyalik", "Uyalik City Hotel"],
+      "luxury": ["Grand Hotel Uyalik"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid poorly lit areas at night, stay in central locations",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local fairs, respect mosque etiquette",
+    "season": "Spring and summer ideal",
+    "activities": ["City tours", "Museum visits", "Park walks", "Cultural festival attendance"],
+    "current_events": ["Uyalik City Day in July", "Local Handicraft Fair in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Shyngystau",
+    "places": ["Shyngystau Central Park", "Historical Museum Shyngystau", "Victory Square", "City Square"],
+    "halal_food": ["Shyngystau Halal Cafe", "Nomad Eatery Shyngystau"],
+    "mosques": ["Central Mosque Shyngystau", "Nur Mosque Shyngystau"],
+    "hotels": {
+      "budget": ["Shyngystau Hostel", "Guesthouse Shyngystau"],
+      "midrange": ["Hotel Shyngystau", "Shyngystau City Hotel"],
+      "luxury": ["Grand Hotel Shyngystau"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in populated areas, avoid walking alone at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local festivals, respect traditions",
+    "season": "Spring and summer ideal",
+    "activities": ["City sightseeing", "Museum tours", "Park walks", "Cultural festival visits"],
+    "current_events": ["Shyngystau City Day in July", "Local Cultural Fair in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kokpekti",
+    "places": ["Kokpekti Lake", "Central Park Kokpekti", "Local Museum", "City Square Kokpekti"],
+    "halal_food": ["Kokpekti Halal Cafe", "Nomad Eatery Kokpekti"],
+    "mosques": ["Central Mosque Kokpekti", "Nur Mosque Kokpekti"],
+    "hotels": {
+      "budget": ["Kokpekti Hostel", "Guesthouse Kokpekti"],
+      "midrange": ["Hotel Kokpekti", "Kokpekti City Hotel"],
+      "luxury": ["Grand Hotel Kokpekti"]
+    },
+    "transport": "Buses, taxis, boats for lake tours",
+    "safety_tips": "Avoid isolated streets at night, stay near main areas",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$55-90/day",
+      "luxury": "$110+"
+    },
+    "culture": "Attend lake-related cultural events, respect local traditions",
+    "season": "Summer ideal for lake activities",
+    "activities": ["Boating", "Fishing trips", "Museum visits", "Park walks"],
+    "current_events": ["Kokpekti Lake Festival in July", "Kokpekti City Day in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Aksu-Zhabagly",
+    "places": ["Aksu-Zhabagly Nature Reserve", "Zhabagly Mountains Viewpoint", "Sairam Lake nearby", "Botanical Trail Reserve"],
+    "halal_food": ["Aksu Halal Cafe", "Zhabagly Guesthouse Eatery"],
+    "mosques": ["Central Mosque Aksu-Zhabagly", "Nur Mosque Zhabagly"],
+    "hotels": {
+      "budget": ["Aksu Backpackers", "Zhabagly Guesthouse"],
+      "midrange": ["Nature Lodge Aksu", "Eco Hotel Zhabagly"],
+      "luxury": ["Aksu-Zhabagly Resort"]
+    },
+    "transport": "Taxis, private cars, hiking trails",
+    "safety_tips": "Be careful on mountain trails, avoid wandering alone",
+    "budget": {
+      "budget": "$40-60/day",
+      "midrange": "$70-100/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local reserve rules and wildlife regulations",
+    "season": "Spring and summer best for hiking",
+    "activities": ["Wildlife watching", "Guided mountain treks", "Botanical tours", "Photography of landscapes"],
+    "current_events": ["Nature Reserve Eco Camp in June", "Birdwatching Festival in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Sarykemer",
+    "places": ["Sarykemer Canyon", "Ancient Petroglyph Site", "River Valley Park", "Local Handicraft Center"],
+    "halal_food": ["Sarykemer Halal Cafe", "Nomad Restaurant Sarykemer"],
+    "mosques": ["Central Mosque Sarykemer", "Juma Mosque Sarykemer"],
+    "hotels": {
+      "budget": ["Sarykemer Guesthouse", "Nomad Hostel"],
+      "midrange": ["Sarykemer Hotel", "River View Lodge"],
+      "luxury": ["Sarykemer Grand Resort"]
+    },
+    "transport": "Buses, taxis, private vehicles",
+    "safety_tips": "Avoid hiking alone near the canyon edges",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local artisan traditions",
+    "season": "April to September ideal",
+    "activities": ["Canyon hiking", "Visit petroglyphs", "River walks", "Cultural workshops"],
+    "current_events": ["Petroglyph Heritage Day in August", "Sarykemer Art Fair in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Zhetisay",
+    "places": ["Zhetisay Central Park", "Historical Museum Zhetisay", "Local Bazaar", "Zhetisay Mosque Square"],
+    "halal_food": ["Zhetisay Halal Cafe", "Nomad Eatery Zhetisay"],
+    "mosques": ["Central Mosque Zhetisay", "Al-Farabi Mosque Zhetisay"],
+    "hotels": {
+      "budget": ["Zhetisay Hostel", "Guesthouse Zhetisay"],
+      "midrange": ["Hotel Zhetisay", "Zhetisay City Hotel"],
+      "luxury": ["Grand Hotel Zhetisay"]
+    },
+    "transport": "Taxis, buses",
+    "safety_tips": "Stay in well-populated areas, avoid isolated streets at night",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions and dress modestly",
+    "season": "Spring and autumn ideal",
+    "activities": ["City sightseeing", "Market visits", "Historical museum tours", "Attend local festivals"],
+    "current_events": ["Zhetisay Cultural Day in June", "Traditional Music Festival in September"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Baimak",
+    "places": ["Baimak Canyon", "Riverfront Park", "Local History Museum", "Baimak Mosque Square"],
+    "halal_food": ["Baimak Halal Cafe", "Nomad Restaurant Baimak"],
+    "mosques": ["Central Mosque Baimak", "Juma Mosque Baimak"],
+    "hotels": {
+      "budget": ["Baimak Hostel", "Guesthouse Baimak"],
+      "midrange": ["Baimak City Hotel", "River View Hotel"],
+      "luxury": ["Baimak Grand Resort"]
+    },
+    "transport": "Buses, taxis, private cars",
+    "safety_tips": "Avoid walking near cliffs, stay in central areas at night",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local customs and mosque etiquette",
+    "season": "May to September best for sightseeing",
+    "activities": ["Canyon trekking", "River fishing trips", "Museum visits", "Attend local cultural events"],
+    "current_events": ["Baimak Folk Festival in July", "Historical Exhibition in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Burabai",
+    "places": ["Burabay National Park", "Lake Borovoe", "Okzhetpes Rock", "Zhilbir Bay"],
+    "halal_food": ["Burabay Halal Cafe", "Lakeview Restaurant Burabay"],
+    "mosques": ["Central Mosque Burabay", "Nur Mosque Burabay"],
+    "hotels": {
+      "budget": ["Burabay Hostel", "Guesthouse Borovoe"],
+      "midrange": ["Lakeview Hotel Burabay", "Burabay Eco Resort"],
+      "luxury": ["Burabay Grand Resort"]
+    },
+    "transport": "Buses, taxis, boats",
+    "safety_tips": "Follow park rules, avoid swimming alone in lakes",
+    "budget": {
+      "budget": "$40-60/day",
+      "midrange": "$70-110/day",
+      "luxury": "$150+"
+    },
+    "culture": "Respect nature and park regulations",
+    "season": "Summer ideal for lake activities",
+    "activities": ["Hiking", "Boat tours", "Birdwatching", "Photography tours"],
+    "current_events": ["Burabay Lake Festival in July", "Eco Tourism Week in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Aktas",
+    "places": ["Aktas Mountain Range", "Local Mineral Springs", "Cultural Heritage Center", "Aktas Central Mosque"],
+    "halal_food": ["Aktas Halal Cafe", "Nomad Eatery Aktas"],
+    "mosques": ["Central Mosque Aktas", "Juma Mosque Aktas"],
+    "hotels": {
+      "budget": ["Aktas Guesthouse", "Aktas Hostel"],
+      "midrange": ["Aktas Mountain Lodge", "Hotel Aktas"],
+      "luxury": ["Aktas Grand Resort"]
+    },
+    "transport": "Private cars, taxis",
+    "safety_tips": "Avoid steep mountain paths alone, follow local guides",
+    "budget": {
+      "budget": "$35-55/day",
+      "midrange": "$60-95/day",
+      "luxury": "$120+"
+    },
+    "culture": "Follow local traditions, respect prayer times",
+    "season": "Summer best for hiking",
+    "activities": ["Mountain trekking", "Nature walks", "Cultural tours", "Visit mineral springs"],
+    "current_events": ["Aktas Mountain Festival in June", "Cultural Days in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Arganat",
+    "places": ["Arganat Lake", "Historic Fortress Ruins", "Local Museum", "Arganat Mosque Square"],
+    "halal_food": ["Arganat Halal Cafe", "Nomad Restaurant Arganat"],
+    "mosques": ["Central Mosque Arganat", "Juma Mosque Arganat"],
+    "hotels": {
+      "budget": ["Arganat Guesthouse", "Arganat Hostel"],
+      "midrange": ["Hotel Arganat", "Lakeview Lodge Arganat"],
+      "luxury": ["Arganat Grand Resort"]
+    },
+    "transport": "Buses, taxis, private vehicles",
+    "safety_tips": "Avoid remote ruins alone, stay in central areas at night",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local traditions and customs",
+    "season": "Spring and summer ideal",
+    "activities": ["Lake visits", "Historical tours", "Museum visits", "Attend local festivals"],
+    "current_events": ["Arganat Cultural Fair in July", "Historical Week in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kentau",
+    "places": ["Kentau Steel Plant Tour", "City Central Park", "Local History Museum", "Kentau Mosque Square"],
+    "halal_food": ["Kentau Halal Cafe", "Nomad Eatery Kentau"],
+    "mosques": ["Central Mosque Kentau", "Nur Mosque Kentau"],
+    "hotels": {
+      "budget": ["Kentau Hostel", "Guesthouse Kentau"],
+      "midrange": ["Kentau City Hotel", "Hotel Kentau"],
+      "luxury": ["Kentau Grand Hotel"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Stay in populated areas, avoid industrial zones at night",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local culture and industrial heritage",
+    "season": "Summer best for sightseeing",
+    "activities": ["City tours", "Industrial heritage tours", "Park walks", "Museum visits"],
+    "current_events": ["Kentau City Day in August", "Industrial Heritage Festival in July"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kegen",
+    "places": ["Kegen Mountains", "Kegen River Valley", "Local Ethnographic Museum", "Kegen Mosque Square"],
+    "halal_food": ["Kegen Halal Cafe", "Nomad Restaurant Kegen"],
+    "mosques": ["Central Mosque Kegen", "Juma Mosque Kegen"],
+    "hotels": {
+      "budget": ["Kegen Hostel", "Guesthouse Kegen"],
+      "midrange": ["Hotel Kegen", "Riverview Lodge Kegen"],
+      "luxury": ["Kegen Grand Resort"]
+    },
+    "transport": "Taxis, private cars",
+    "safety_tips": "Avoid remote mountain areas alone",
+    "budget": {
+      "budget": "$35-55/day",
+      "midrange": "$60-95/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local traditions, follow mosque etiquette",
+    "season": "Summer ideal for trekking",
+    "activities": ["Hiking", "River walks", "Museum visits", "Attend local festivals"],
+    "current_events": ["Kegen Mountain Festival in July", "Local Cultural Week in August"]
+  },
+  {
+    "country": "Kazakhstan",
+    "city": "Kaztal",
+    "places": ["Kaztal Central Park", "Historic Mosque Kaztal", "Local Handicraft Center", "Kaztal Museum of History"],
+    "halal_food": ["Kaztal Halal Cafe", "Nomad Restaurant Kaztal"],
+    "mosques": ["Central Mosque Kaztal", "Juma Mosque Kaztal"],
+    "hotels": {
+      "budget": ["Kaztal Guesthouse", "Kaztal Hostel"],
+      "midrange": ["Hotel Kaztal", "Kaztal City Hotel"],
+      "luxury": ["Kaztal Grand Hotel"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Stay in populated areas at night, avoid isolated streets",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local customs and mosque etiquette",
+    "season": "Spring and autumn ideal",
+    "activities": ["City sightseeing", "Visit local handicraft center", "Museum tours", "Attend cultural events"],
+    "current_events": ["Kaztal Cultural Day in June", "Local Music Festival in August"]
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "country": "Kyrgyzstan",
+    "city": "Bishkek",
+    "places": ["Ala-Too Square", "Victory Square", "Osh Bazaar", "State Historical Museum"],
+    "halal_food": ["Sultan Halal Restaurant", "Chayhana Asia", "Almaz Halal Cafe"],
+    "mosques": ["Central Mosque Bishkek", "Juma Mosque Bishkek", "Madina Mosque"],
+    "hotels": {
+      "budget": ["Bishkek Hostel", "Guesthouse Osh Bazaar"],
+      "midrange": ["Plaza Hotel Bishkek", "Orion Hotel"],
+      "luxury": ["Hyatt Regency Bishkek", "Hotel Bishkek Grand Hotel"]
+    },
+    "transport": "Buses, minibuses, taxis, shared vans",
+    "safety_tips": "Avoid walking alone late at night, stay in populated areas",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-100/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local customs, dress modestly, remove shoes in homes and mosques",
+    "season": "Spring and autumn are ideal for sightseeing",
+    "activities": ["City walking tours", "Shopping at Osh Bazaar", "Museum visits", "Visiting local parks"],
+    "current_events": ["Bishkek Day in September", "City Arts Festival in July"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Osh",
+    "places": ["Sulaiman-Too Mountain", "Osh Bazaar", "Osh Museum of History", "Jayma Bazaar"],
+    "halal_food": ["Saray Osh Halal", "Bazaar Cafe", "Chaykhana Osh"],
+    "mosques": ["Juma Mosque Osh", "Central Mosque Osh"],
+    "hotels": {
+      "budget": ["Osh Hostel", "Guesthouse Osh"],
+      "midrange": ["Hotel Osh", "Grand Hotel Osh"],
+      "luxury": ["Kurmanjan Datka Hotel", "Ak-Keme Hotel Osh"]
+    },
+    "transport": "Taxis, minibuses, buses",
+    "safety_tips": "Avoid isolated streets at night, keep valuables secure",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-90/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions, especially during Friday prayers",
+    "season": "Late spring to early autumn is best",
+    "activities": ["Climb Sulaiman-Too", "Bazaar shopping", "Cultural tours", "Visit local museums"],
+    "current_events": ["Osh Food Festival in August", "Cultural Heritage Day in September"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Jalal-Abad",
+    "places": ["Arslanbob Walnut Forest", "Jalal-Abad Regional Museum", "Hot Springs of Jalal-Abad"],
+    "halal_food": ["Jalal-Abad Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Central Mosque Jalal-Abad", "Nur Mosque Jalal-Abad"],
+    "hotels": {
+      "budget": ["Jalal-Abad Hostel", "Guesthouse Arslanbob"],
+      "midrange": ["Hotel Jalal-Abad", "Jalal-Abad City Hotel"],
+      "luxury": ["Grand Hotel Jalal-Abad"]
+    },
+    "transport": "Buses, shared vans, taxis",
+    "safety_tips": "Avoid remote areas alone, stick to main roads",
+    "budget": {
+      "budget": "$20-40/day",
+      "midrange": "$45-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Dress modestly, respect elders and local customs",
+    "season": "Spring and summer are ideal for forest hikes",
+    "activities": ["Hiking in Arslanbob", "Visit hot springs", "Local market tours", "Cultural excursions"],
+    "current_events": ["Walnut Festival in September", "Local Music Festival in July"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Karakol",
+    "places": ["Karakol Historical Museum", "Dungan Mosque", "Przewalski Museum", "Jeti-Ögüz Rocks"],
+    "halal_food": ["Karakol Halal Cafe", "Nomad Restaurant Karakol"],
+    "mosques": ["Karakol Central Mosque", "Dungan Mosque"],
+    "hotels": {
+      "budget": ["Karakol Hostel", "Guesthouse Karakol"],
+      "midrange": ["Hotel Karakol", "Karakol Plaza Hotel"],
+      "luxury": ["Jeti-Oguz Resort", "Grand Karakol Hotel"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Be cautious in mountain areas, avoid hiking alone",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-90/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect religious sites, dress modestly",
+    "season": "Summer is best for trekking and outdoor activities",
+    "activities": ["Trekking in Jeti-Ögüz", "Horse riding", "Museum visits", "Lake Issyk-Kul day trips"],
+    "current_events": ["Karakol Winter Festival in February", "Folk Music Days in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Naryn",
+    "places": ["Naryn Historical Museum", "Tash Rabat Caravanserai", "Karakol River Valley"],
+    "halal_food": ["Naryn Halal Cafe", "Nomad Eatery Naryn"],
+    "mosques": ["Central Mosque Naryn", "Juma Mosque Naryn"],
+    "hotels": {
+      "budget": ["Naryn Hostel", "Guesthouse Tash Rabat"],
+      "midrange": ["Hotel Naryn", "Naryn City Hotel"],
+      "luxury": ["Tash Rabat Resort"]
+    },
+    "transport": "Shared vans, taxis, buses",
+    "safety_tips": "Avoid remote mountain areas alone, travel with guides",
+    "budget": {
+      "budget": "$20-40/day",
+      "midrange": "$45-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect nomadic traditions, dress modestly",
+    "season": "Summer is best for trekking and sightseeing",
+    "activities": ["Trekking in mountains", "Visit Tash Rabat", "Cultural tours", "Horse riding"],
+    "current_events": ["Nomad Festival in July", "Cultural Heritage Day in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Batken",
+    "places": ["Batken Regional Museum", "Isfara River", "Sokh Valley viewpoints"],
+    "halal_food": ["Batken Halal Cafe", "Nomad Restaurant Batken"],
+    "mosques": ["Central Mosque Batken", "Juma Mosque Batken"],
+    "hotels": {
+      "budget": ["Batken Hostel", "Guesthouse Batken"],
+      "midrange": ["Hotel Batken", "Batken City Hotel"],
+      "luxury": ["Grand Hotel Batken"]
+    },
+    "transport": "Taxis, minibuses, buses",
+    "safety_tips": "Avoid remote border areas, stick to city center",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Dress modestly, respect local traditions",
+    "season": "Spring and autumn are ideal",
+    "activities": ["River walks", "Cultural sightseeing", "Market visits", "Hiking nearby valleys"],
+    "current_events": ["Batken City Day in September", "Cultural Folk Festival in July"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Talas",
+    "places": ["Talas Valley", "Manas Ordo Monument", "Talas Historical Museum", "Ala-Too Mountains nearby"],
+    "halal_food": ["Talas Halal Restaurant", "Nomad Cafe Talas"],
+    "mosques": ["Central Mosque Talas", "Imam Talas Mosque"],
+    "hotels": {
+      "budget": ["Talas Hostel", "Guesthouse Talas"],
+      "midrange": ["Hotel Talas", "Grand Talas Hotel"],
+      "luxury": ["Mountain View Resort Talas"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Stick to central areas, avoid isolated streets",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-80/day",
+      "luxury": "$120+"
+    },
+    "culture": "Dress modestly, respect local heritage",
+    "season": "Spring and summer ideal",
+    "activities": ["Cultural sightseeing", "Mountain hiking", "Museum visits", "Local markets"],
+    "current_events": ["Manas Festival in August", "Talas City Day in June"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Tokmok",
+    "places": ["Burana Tower", "Tokmok Historical Museum", "Chüy Valley viewpoints"],
+    "halal_food": ["Tokmok Halal Cafe", "Nomad Restaurant Tokmok"],
+    "mosques": ["Central Mosque Tokmok", "Juma Mosque Tokmok"],
+    "hotels": {
+      "budget": ["Tokmok Hostel", "Guesthouse Tokmok"],
+      "midrange": ["Hotel Tokmok", "Grand Hotel Tokmok"],
+      "luxury": ["Burana View Resort"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid isolated roads at night, stay in central areas",
+    "budget": {
+      "budget": "$20-40/day",
+      "midrange": "$45-75/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs, dress modestly",
+    "season": "Spring and autumn are best",
+    "activities": ["Visit Burana Tower", "Hiking nearby hills", "Cultural tours", "Museum visits"],
+    "current_events": ["Tokmok City Day in August", "Historical Heritage Festival in June"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Kara-Balta",
+    "places": ["Kara-Balta Regional Museum", "Local Market Kara-Balta", "Nearby Forest Trails"],
+    "halal_food": ["Kara-Balta Halal Cafe", "Nomad Restaurant Kara-Balta"],
+    "mosques": ["Central Mosque Kara-Balta", "Juma Mosque Kara-Balta"],
+    "hotels": {
+      "budget": ["Kara-Balta Hostel", "Guesthouse Kara-Balta"],
+      "midrange": ["Hotel Kara-Balta", "Grand Hotel Kara-Balta"],
+      "luxury": ["Kara-Balta Resort"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stick to city center, avoid walking alone at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs, dress modestly",
+    "season": "Summer ideal for nature walks",
+    "activities": ["Hiking in nearby forests", "Cultural tours", "Visit local markets", "Photography"],
+    "current_events": ["Kara-Balta City Day in July", "Local Cultural Festival in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Kant",
+    "places": ["Kant City Park", "Local History Museum", "Nearby Mountains for Hiking"],
+    "halal_food": ["Kant Halal Cafe", "Nomad Restaurant Kant"],
+    "mosques": ["Central Mosque Kant", "Juma Mosque Kant"],
+    "hotels": {
+      "budget": ["Kant Hostel", "Guesthouse Kant"],
+      "midrange": ["Hotel Kant", "Grand Hotel Kant"],
+      "luxury": ["Kant Resort Hotel"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Avoid isolated areas at night, stay near main streets",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$40-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Dress modestly, respect local traditions",
+    "season": "Spring and summer ideal",
+    "activities": ["Hiking nearby mountains", "City tours", "Visit local parks", "Cultural tours"],
+    "current_events": ["Kant City Day in June", "Local Music Festival in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Chüy",
+    "places": ["Chüy Valley", "Chüy Regional Museum", "Nearby Mountain Trails"],
+    "halal_food": ["Chüy Halal Cafe", "Nomad Restaurant Chüy"],
+    "mosques": ["Central Mosque Chüy", "Juma Mosque Chüy"],
+    "hotels": {
+      "budget": ["Chüy Hostel", "Guesthouse Chüy"],
+      "midrange": ["Hotel Chüy", "Grand Hotel Chüy"],
+      "luxury": ["Chüy Resort"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid isolated roads, stay in central areas",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs and traditions, dress modestly",
+    "season": "Summer is best for outdoor activities",
+    "activities": ["Hiking and trekking", "Cultural tours", "Visit museums", "Photography"],
+    "current_events": ["Chüy Valley Festival in July", "City Day in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Balykchy",
+    "places": ["Issyk-Kul Lake Promenade", "Karven Market", "Balykchy Central Park", "Baytik Batyr Monument"],
+    "halal_food": ["Lake View Halal Cafe", "Balykchy Dastarkhan", "Nomad Halal Eatery"],
+    "mosques": ["Central Mosque Balykchy", "Al-Azhar Mosque"],
+    "hotels": {
+      "budget": ["Balykchy Hostel", "Lakeview Guesthouse"],
+      "midrange": ["Rixos Balykchy", "Hotel Lakeview"],
+      "luxury": ["Grand Hotel Issyk-Kul"]
+    },
+    "transport": "Taxis, minibuses, boats",
+    "safety_tips": "Stay near main streets and lakeside areas, avoid walking alone at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local traditions, modest dressing in mosques",
+    "season": "Summer best for lake activities",
+    "activities": ["Boat rides on Issyk-Kul", "Fishing", "Beach visits", "Local market tours"],
+    "current_events": ["Issyk-Kul Summer Festival in July", "Balykchy Cultural Fair in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Chong-Kemin",
+    "places": ["Chong-Kemin National Park", "Kemin River", "Alpine Meadows", "Eco-Village Tours"],
+    "halal_food": ["Chong-Kemin Halal Cafe", "Eco Lodge Restaurant"],
+    "mosques": ["Chong-Kemin Mosque"],
+    "hotels": {
+      "budget": ["Chong-Kemin Hostel", "Eco Guesthouse"],
+      "midrange": ["Chong-Kemin Eco Hotel", "Valley View Hotel"],
+      "luxury": ["Alpine Resort Chong-Kemin"]
+    },
+    "transport": "Taxis, minibuses, private cars",
+    "safety_tips": "Carry warm clothing, follow park safety rules",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local eco-tourism rules, traditional customs",
+    "season": "Summer for trekking and nature tours",
+    "activities": ["Hiking", "Bird watching", "River rafting", "Nature photography"],
+    "current_events": ["Chong-Kemin Eco Festival in June"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Kochkor",
+    "places": ["Kochkor Handmade Felt Workshops", "Sary-Chelek Lake Excursions", "Local Artisans Market"],
+    "halal_food": ["Kochkor Halal Cafe", "Nomad Restaurant Kochkor"],
+    "mosques": ["Kochkor Central Mosque"],
+    "hotels": {
+      "budget": ["Kochkor Guesthouse", "Felt Workshop Hostel"],
+      "midrange": ["Kochkor Boutique Hotel", "Nomad Guesthouse"],
+      "luxury": ["Kochkor Eco-Lodge Resort"]
+    },
+    "transport": "Taxis, shared minibuses, horseback tours",
+    "safety_tips": "Be cautious during mountain treks, avoid traveling alone in remote areas",
+    "budget": {
+      "budget": "$20-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Experience local felt-making, respect artisan workshops",
+    "season": "Summer and early autumn for trekking and crafts",
+    "activities": ["Felt-making workshops", "Horse riding", "Lake visits", "Hiking"],
+    "current_events": ["Kochkor Cultural Fair in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Ak-Talaa",
+    "places": ["Ak-Talaa Valley", "Mountainside Meadows", "Local Villages Tours"],
+    "halal_food": ["Ak-Talaa Halal Cafe", "Nomad Eatery"],
+    "mosques": ["Ak-Talaa Mosque"],
+    "hotels": {
+      "budget": ["Ak-Talaa Guesthouse", "Valley Hostel"],
+      "midrange": ["Ak-Talaa Eco Hotel", "Mountain View Guesthouse"],
+      "luxury": ["Ak-Talaa Resort"]
+    },
+    "transport": "Taxis, minibuses, horses for mountain areas",
+    "safety_tips": "Avoid remote areas without guide, respect local customs",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$100+"
+    },
+    "culture": "Engage respectfully with local villages",
+    "season": "Summer ideal for hiking and exploring valleys",
+    "activities": ["Hiking", "Village tours", "Nature photography", "Camping"],
+    "current_events": ["Ak-Talaa Summer Festival in July"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Ala-Buka",
+    "places": ["Ala-Buka Mountains", "Local Historical Museum", "Riverside Park"],
+    "halal_food": ["Ala-Buka Halal Restaurant", "Nomad Cafe Ala-Buka"],
+    "mosques": ["Ala-Buka Central Mosque"],
+    "hotels": {
+      "budget": ["Ala-Buka Guesthouse", "Mountain Hostel"],
+      "midrange": ["Ala-Buka Hotel", "Riverside Lodge"],
+      "luxury": ["Ala-Buka Eco Resort"]
+    },
+    "transport": "Taxis, minibuses, private vehicles",
+    "safety_tips": "Avoid unmarked trails in mountains, travel with guide",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$110+"
+    },
+    "culture": "Respect local traditions, modest dressing",
+    "season": "Summer for mountain treks, spring for river tours",
+    "activities": ["Hiking", "Fishing by rivers", "Village exploration", "Photography"],
+    "current_events": ["Ala-Buka Cultural Festival in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Kyzyl-Kiya",
+    "places": ["Kyzyl-Kiya Mining Museum", "Central Park Kyzyl-Kiya", "Local Market Square"],
+    "halal_food": ["Kyzyl-Kiya Halal Cafe", "Nomad Eatery Kyzyl-Kiya"],
+    "mosques": ["Central Mosque Kyzyl-Kiya"],
+    "hotels": {
+      "budget": ["Kyzyl-Kiya Guesthouse", "City Hostel Kyzyl-Kiya"],
+      "midrange": ["Kyzyl-Kiya Hotel", "Nomad Lodge"],
+      "luxury": ["Grand Hotel Kyzyl-Kiya"]
+    },
+    "transport": "Taxis, minibuses, shared vans",
+    "safety_tips": "Stay in well-populated areas, avoid deserted streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local cultural events, respect mosque etiquette",
+    "season": "Summer best for outdoor exploration",
+    "activities": ["City tours", "Market visits", "Museum visits", "Local hiking"],
+    "current_events": ["Kyzyl-Kiya Cultural Day in July"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Suluktu",
+    "places": ["Suluktu Coal Mining Museum", "City Park Suluktu", "Memorial Square"],
+    "halal_food": ["Suluktu Halal Cafe", "Nomad Restaurant Suluktu"],
+    "mosques": ["Suluktu Central Mosque"],
+    "hotels": {
+      "budget": ["Suluktu Guesthouse", "City Hostel Suluktu"],
+      "midrange": ["Suluktu Hotel", "Nomad Lodge Suluktu"],
+      "luxury": ["Suluktu Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses, shared vans",
+    "safety_tips": "Avoid isolated mining areas, stay in city center",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local mining traditions",
+    "season": "Spring and summer best",
+    "activities": ["City tours", "Museum visits", "Hiking nearby hills", "Photography"],
+    "current_events": ["Suluktu City Day in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Leilek",
+    "places": ["Leilek Mountains", "Sokuluk River", "Local Market"],
+    "halal_food": ["Leilek Halal Cafe", "Nomad Eatery Leilek"],
+    "mosques": ["Leilek Central Mosque"],
+    "hotels": {
+      "budget": ["Leilek Guesthouse", "Mountain Hostel Leilek"],
+      "midrange": ["Leilek Hotel", "Nomad Lodge"],
+      "luxury": ["Leilek Resort"]
+    },
+    "transport": "Taxis, minibuses, private cars",
+    "safety_tips": "Avoid remote mountain paths alone",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Engage respectfully with local villages",
+    "season": "Summer for hiking and exploration",
+    "activities": ["Hiking", "Fishing", "Village visits", "Nature photography"],
+    "current_events": ["Leilek Summer Festival in July"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Nookat",
+    "places": ["Nookat City Park", "Local History Museum", "Mountainside Trails"],
+    "halal_food": ["Nookat Halal Cafe", "Nomad Restaurant Nookat"],
+    "mosques": ["Nookat Central Mosque"],
+    "hotels": {
+      "budget": ["Nookat Guesthouse", "City Hostel Nookat"],
+      "midrange": ["Nookat Hotel", "Nomad Lodge Nookat"],
+      "luxury": ["Grand Hotel Nookat"]
+    },
+    "transport": "Taxis, minibuses, shared vans",
+    "safety_tips": "Stay in central areas, avoid walking alone at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local cultural events, respect local traditions",
+    "season": "Spring and summer ideal",
+    "activities": ["City tours", "Museum visits", "Hiking nearby hills", "Local market visits"],
+    "current_events": ["Nookat Cultural Day in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Kadamjay",
+    "places": ["Kadamjay Mountains", "Local Copper Mines", "Central Park Kadamjay"],
+    "halal_food": ["Kadamjay Halal Cafe", "Nomad Eatery Kadamjay"],
+    "mosques": ["Kadamjay Central Mosque"],
+    "hotels": {
+      "budget": ["Kadamjay Guesthouse", "City Hostel Kadamjay"],
+      "midrange": ["Kadamjay Hotel", "Nomad Lodge Kadamjay"],
+      "luxury": ["Grand Hotel Kadamjay"]
+    },
+    "transport": "Taxis, minibuses, private cars",
+    "safety_tips": "Avoid mining areas alone, stay near main streets",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect mining traditions and local culture",
+    "season": "Summer best for exploration",
+    "activities": ["City tours", "Hiking", "Mining museum visits", "Photography"],
+    "current_events": ["Kadamjay Cultural Festival in July"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "At-Bashy",
+    "places": ["At-Bashy Valley", "Ala-Bel Pass", "At-Bashy Mosque", "Local Bazaar At-Bashy"],
+    "halal_food": ["At-Bashy Halal Restaurant", "Nomad Eatery"],
+    "mosques": ["Central Mosque At-Bashy", "Ala-Bel Mosque"],
+    "hotels": {
+      "budget": ["At-Bashy Hostel", "Guesthouse Ala-Bel"],
+      "midrange": ["At-Bashy City Hotel", "Nomad Guesthouse"],
+      "luxury": ["Grand At-Bashy Hotel"]
+    },
+    "transport": "Buses, shared vans, taxis",
+    "safety_tips": "Stay on main roads, avoid isolated mountain paths alone",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local nomadic traditions, modest clothing recommended",
+    "season": "Summer for trekking, winter for snow activities",
+    "activities": ["Hiking in At-Bashy Valley", "Visit Ala-Bel Pass", "Cultural tours", "Local bazaar shopping"],
+    "current_events": ["At-Bashy Summer Festival in July", "Nomad Cultural Days in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Kochkor",
+    "places": ["Kochkor Handicraft Village", "Sary-Chelek Lake (nearby)", "Kochkor Museum", "Local Artisan Markets"],
+    "halal_food": ["Kochkor Halal Cafe", "Nomad Dastarkhan"],
+    "mosques": ["Kochkor Central Mosque", "Juma Mosque Kochkor"],
+    "hotels": {
+      "budget": ["Kochkor Guesthouse", "Village Hostel Kochkor"],
+      "midrange": ["Kochkor City Hotel", "Nomad Inn Kochkor"],
+      "luxury": ["Grand Kochkor Hotel"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid walking alone at night in remote areas",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$45-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Support local artisans, respect Kyrgyz crafts and customs",
+    "season": "Summer for handicraft tours, winter for cultural festivals",
+    "activities": ["Visit handicraft workshops", "Cultural tours", "Hiking nearby lakes", "Horseback riding experiences"],
+    "current_events": ["Kochkor Cultural Fair in August", "Local Handicraft Festival in July"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Chon-Alay",
+    "places": ["Alay Valley", "Pik Lenin Base Camp (nearby)", "Chon-Alay Mosque", "Local Markets"],
+    "halal_food": ["Alay Halal Cafe", "Nomad Eatery Chon-Alay"],
+    "mosques": ["Central Mosque Chon-Alay", "Juma Mosque Alay"],
+    "hotels": {
+      "budget": ["Chon-Alay Guesthouse", "Nomad Hostel"],
+      "midrange": ["Chon-Alay City Hotel", "Alay Valley Inn"],
+      "luxury": ["Grand Alay Hotel"]
+    },
+    "transport": "Shared vans, minibuses, taxis",
+    "safety_tips": "Stay in central areas, mountain treks only with guides",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$40-65/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect mountain nomadic lifestyle and local traditions",
+    "season": "Summer for trekking, winter for high-altitude visits",
+    "activities": ["Hiking in Alay Valley", "Cultural tours", "Visit mountain markets", "Photography expeditions"],
+    "current_events": ["Alay Valley Festival in July", "Traditional Nomad Games in August"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Kara-Suu",
+    "places": ["Kara-Suu Bazaar", "Local Historical Museum", "Central Mosque Kara-Suu", "Regional Park"],
+    "halal_food": ["Kara-Suu Halal Restaurant", "Nomad Cafe Kara-Suu"],
+    "mosques": ["Central Mosque Kara-Suu", "Juma Mosque Kara-Suu"],
+    "hotels": {
+      "budget": ["Kara-Suu Guesthouse", "City Hostel Kara-Suu"],
+      "midrange": ["Kara-Suu City Hotel", "Nomad Inn Kara-Suu"],
+      "luxury": ["Grand Kara-Suu Hotel"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid isolated streets at night, stay in main squares",
+    "budget": {
+      "budget": "$20-30/day",
+      "midrange": "$40-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local traditions, attend cultural fairs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Visit Kara-Suu Bazaar", "Museum tours", "Cultural festivals", "Local shopping excursions"],
+    "current_events": ["Kara-Suu Bazaar Festival in June", "Local Cultural Day in September"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Ala-Archa",
+    "places": ["Ala-Archa National Park", "Kyrgyz Alpine Hiking Routes", "Local Visitor Center", "Mountain Streams"],
+    "halal_food": ["Ala-Archa Halal Cafe", "Nomad Mountain Eatery"],
+    "mosques": ["Ala-Archa Mosque", "Small Juma Mosque"],
+    "hotels": {
+      "budget": ["Mountain Lodge Ala-Archa", "Guesthouse Ala-Archa"],
+      "midrange": ["Ala-Archa Inn", "National Park Guesthouse"],
+      "luxury": ["Grand Ala-Archa Resort"]
+    },
+    "transport": "Taxis, shared minibuses",
+    "safety_tips": "Hiking only with guides, stay on marked trails",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-75/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect natural environment and local mountain traditions",
+    "season": "Summer for trekking, winter for snow sports",
+    "activities": ["Hiking", "Photography tours", "Picnics by streams", "Bird watching"],
+    "current_events": ["Ala-Archa Hiking Festival in July", "National Park Clean-up Day in September"]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "city": "Jayyl",
+    "places": ["Jayyl District Museum", "Local Cultural Center", "Green Park Jayyl", "Historical Monuments"],
+    "halal_food": ["Jayyl Halal Cafe", "Nomad Restaurant Jayyl"],
+    "mosques": ["Central Mosque Jayyl", "Juma Mosque Jayyl"],
+    "hotels": {
+      "budget": ["Jayyl Guesthouse", "City Hostel Jayyl"],
+      "midrange": ["Jayyl City Hotel", "Nomad Inn Jayyl"],
+      "luxury": ["Grand Jayyl Hotel"]
+    },
+    "transport": "Buses, shared vans, taxis",
+    "safety_tips": "Stay near city center, avoid isolated roads at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$40-60/day",
+      "luxury": "$85+"
+    },
+    "culture": "Respect local traditions and heritage",
+    "season": "Spring and autumn best",
+    "activities": ["Cultural center visits", "Museum tours", "Park walks", "Local market shopping"],
+    "current_events": ["Jayyl Cultural Day in June", "Local Music Festival in August"]
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  {
+    "country": "Turkmenistan",
+    "city": "Balkanly",
+    "places": ["Balkanly Central Park", "Local Bazaar", "Historical Monument"],
+    "halal_food": ["Balkanly Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Balkanly Central Mosque"],
+    "hotels": {
+      "budget": ["Balkanly Guesthouse", "City Hostel Balkanly"],
+      "midrange": ["Balkanly Hotel", "Park View Hotel"],
+      "luxury": ["Balkanly Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay near city center at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Market visits", "Historical sightseeing"],
+    "current_events": ["Balkanly Cultural Day in May"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Derweze",
+    "places": ["Derweze Gas Crater (Door to Hell)", "Desert Tours"],
+    "halal_food": ["Derweze Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Derweze Central Mosque"],
+    "hotels": {
+      "budget": ["Derweze Guesthouse", "City Hostel Derweze"],
+      "midrange": ["Derweze Hotel", "Park View Hotel"],
+      "luxury": ["Derweze Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses, desert jeeps",
+    "safety_tips": "Avoid wandering alone in desert at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$55-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Visit Gas Crater", "Desert camping", "Stargazing"],
+    "current_events": ["Derweze Festival in October"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Türkmenbaşy şäherçesi",
+    "places": ["Local Port", "Caspian Sea Embankment", "Historical Museum"],
+    "halal_food": ["Town Halal Cafe", "Caspian Restaurant"],
+    "mosques": ["Town Central Mosque"],
+    "hotels": {
+      "budget": ["Town Guesthouse", "City Hostel Türkmenbaşy şäherçesi"],
+      "midrange": ["Town Hotel", "Caspian View Hotel"],
+      "luxury": ["Grand Hotel Türkmenbaşy şäherçesi"]
+    },
+    "transport": "Taxis, minibuses, ferries",
+    "safety_tips": "Stay near central areas at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions and port culture",
+    "season": "May to September",
+    "activities": ["Port visits", "Caspian Sea sightseeing", "Local market exploration"],
+    "current_events": ["Caspian Sea Festival in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Bagyr",
+    "places": ["Bagyr Central Park", "Historical Monument", "Local Bazaar"],
+    "halal_food": ["Bagyr Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Bagyr Central Mosque"],
+    "hotels": {
+      "budget": ["Bagyr Guesthouse", "City Hostel Bagyr"],
+      "midrange": ["Bagyr Hotel", "Park View Hotel"],
+      "luxury": ["Bagyr Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Market visits", "Historical sightseeing"],
+    "current_events": ["Bagyr Cultural Festival in July"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Gökdepe şäherçesi",
+    "places": ["Gökdepe Fortress", "Central Park", "Local Bazaar"],
+    "halal_food": ["Gökdepe Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Gökdepe Central Mosque"],
+    "hotels": {
+      "budget": ["Gökdepe Guesthouse", "City Hostel Gökdepe"],
+      "midrange": ["Gökdepe Hotel", "Park View Hotel"],
+      "luxury": ["Gökdepe Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect historical sites and local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Visit Gökdepe Fortress", "Park walks", "Market tours"],
+    "current_events": ["Gökdepe History Festival in April"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Türkmenabat şäherçesi",
+    "places": ["Local Museum", "Central Park", "Riverfront Walks"],
+    "halal_food": ["Town Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Central Mosque Türkmenabat şäherçesi"],
+    "hotels": {
+      "budget": ["Town Guesthouse", "City Hostel Türkmenabat şäherçesi"],
+      "midrange": ["Town Hotel", "River View Hotel"],
+      "luxury": ["Grand Hotel Türkmenabat şäherçesi"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in central areas at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "River walks", "Market visits"],
+    "current_events": ["City Festival in May"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Köneürgench şäherçesi",
+    "places": ["Köneürgench Ruins", "Central Park", "Local Bazaar"],
+    "halal_food": ["Köneürgench Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Köneürgench Central Mosque"],
+    "hotels": {
+      "budget": ["Guesthouse Köneürgench", "City Hostel Köneürgench"],
+      "midrange": ["Köneürgench Hotel", "Park View Hotel"],
+      "luxury": ["Köneürgench Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid deserted streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect historical sites",
+    "season": "Spring and autumn ideal",
+    "activities": ["Visit Köneürgench Ruins", "Park walks", "Market visits"],
+    "current_events": ["Köneürgench Heritage Festival in April"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Tagtabazar",
+    "places": ["Tagtabazar Central Park", "Local Bazaar", "Historical Monument"],
+    "halal_food": ["Tagtabazar Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Tagtabazar Central Mosque"],
+    "hotels": {
+      "budget": ["Tagtabazar Guesthouse", "City Hostel Tagtabazar"],
+      "midrange": ["Tagtabazar Hotel", "Park View Hotel"],
+      "luxury": ["Tagtabazar Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay near city center at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Market visits", "Historical sightseeing"],
+    "current_events": ["Tagtabazar Cultural Festival in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Tejen şäherçesi",
+    "places": ["Tejen Historical Museum", "Central Park", "Local Bazaar"],
+    "halal_food": ["Tejen Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Tejen Central Mosque"],
+    "hotels": {
+      "budget": ["Tejen Guesthouse", "City Hostel Tejen"],
+      "midrange": ["Tejen Hotel", "Park View Hotel"],
+      "luxury": ["Tejen Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid deserted streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local history and customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "Park walks", "Market visits"],
+    "current_events": ["Tejen Cultural Day in May"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Sakar şäherçesi",
+    "places": ["Sakar Central Park", "Historical Museum", "Local Market"],
+    "halal_food": ["Sakar Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Sakar Central Mosque"],
+    "hotels": {
+      "budget": ["Sakar Guesthouse", "City Hostel Sakar"],
+      "midrange": ["Sakar Hotel", "Park View Hotel"],
+      "luxury": ["Sakar Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in central areas at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Market visits", "Local sightseeing"],
+    "current_events": ["Sakar Cultural Day in June"]
+  },
+  
+  {
+    "country": "Tajikistan",
+    "city": "Norak",
+    "places": ["Norak Dam", "Norak Reservoir", "Central Park", "Local Bazaar"],
+    "halal_food": ["Norak Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Norak Central Mosque"],
+    "hotels": {
+      "budget": ["Norak Guesthouse", "City Hostel Norak"],
+      "midrange": ["Hotel Norak", "Park View Hotel"],
+      "luxury": ["Grand Hotel Norak"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid walking alone in isolated areas at night",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Visit Norak Dam", "Reservoir walks", "Bazaar visits", "Cultural events"],
+    "current_events": ["Norak City Day in July"]
+  },
+  {
+    "country": "Tajikistan",
+    "city": "Rasht",
+    "places": ["Rasht Valley", "Local Museum", "Central Bazaar", "Historical Monuments"],
+    "halal_food": ["Rasht Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Rasht Central Mosque"],
+    "hotels": {
+      "budget": ["Rasht Guesthouse", "City Hostel Rasht"],
+      "midrange": ["Hotel Rasht", "Park View Hotel"],
+      "luxury": ["Grand Hotel Rasht"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid remote areas at night",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Dress modestly, respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Valley hikes", "Visit museums", "Explore bazaars", "Attend local festivals"],
+    "current_events": ["Rasht Cultural Festival in June"]
+  },
+  {
+    "country": "Tajikistan",
+    "city": "Jirgatol",
+    "places": ["Jirgatol Mountains", "Local Historical Museum", "Central Bazaar", "Cultural Center"],
+    "halal_food": ["Jirgatol Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Jirgatol Central Mosque"],
+    "hotels": {
+      "budget": ["Jirgatol Guesthouse", "City Hostel Jirgatol"],
+      "midrange": ["Hotel Jirgatol", "Park View Hotel"],
+      "luxury": ["Grand Hotel Jirgatol"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid hiking alone without a guide",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs and traditions",
+    "season": "Summer ideal for mountain activities",
+    "activities": ["Hiking in mountains", "Museum visits", "Bazaar exploration", "Cultural workshops"],
+    "current_events": ["Jirgatol Mountain Festival in July"]
+  },
+  {
+    "country": "Tajikistan",
+    "city": "Kofarnihon",
+    "places": ["Kofarnihon River", "Central Park", "Local Museum", "City Bazaar"],
+    "halal_food": ["Kofarnihon Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Kofarnihon Central Mosque"],
+    "hotels": {
+      "budget": ["Kofarnihon Guesthouse", "City Hostel Kofarnihon"],
+      "midrange": ["Hotel Kofarnihon", "Park View Hotel"],
+      "luxury": ["Grand Hotel Kofarnihon"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid walking alone at night",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["River walks", "Museum visits", "Bazaar exploration", "Attend cultural events"],
+    "current_events": ["Kofarnihon City Day in June"]
+  },
+  {
+    "country": "Tajikistan",
+    "city": "Obigarm",
+    "places": ["Obigarm Hot Springs", "Central Park", "Local Bazaar", "Historical Monuments"],
+    "halal_food": ["Obigarm Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Obigarm Central Mosque"],
+    "hotels": {
+      "budget": ["Obigarm Guesthouse", "City Hostel Obigarm"],
+      "midrange": ["Hotel Obigarm", "Park View Hotel"],
+      "luxury": ["Grand Hotel Obigarm"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated hot springs without a guide",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Hot spring visits", "Bazaar exploration", "Park walks", "Cultural tours"],
+    "current_events": ["Obigarm Wellness Festival in August"]
+  },
+  {
+    "country": "Tajikistan",
+    "city": "Tavildara",
+    "places": ["Tavildara Mountains", "Local Museum", "Central Bazaar", "Cultural Center"],
+    "halal_food": ["Tavildara Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Tavildara Central Mosque"],
+    "hotels": {
+      "budget": ["Tavildara Guesthouse", "City Hostel Tavildara"],
+      "midrange": ["Hotel Tavildara", "Park View Hotel"],
+      "luxury": ["Grand Hotel Tavildara"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid hiking alone without guidance",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Summer ideal for mountain activities",
+    "activities": ["Mountain hiking", "Museum visits", "Bazaar exploration", "Cultural workshops"],
+    "current_events": ["Tavildara Mountain Festival in July"]
+  },
+  {
+    "country": "Tajikistan",
+    "city": "Yovon",
+    "places": ["Yovon Central Park", "Local Museum", "Bazaar Square", "Victory Monument"],
+    "halal_food": ["Yovon Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Yovon Central Mosque"],
+    "hotels": {
+      "budget": ["Yovon Guesthouse", "City Hostel Yovon"],
+      "midrange": ["Hotel Yovon", "Park View Hotel"],
+      "luxury": ["Grand Hotel Yovon"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid poorly lit streets at night",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Museum visits", "Bazaar exploration", "Attend cultural events"],
+    "current_events": ["Yovon City Day in June"]
+  }
+,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "country": "Turkmenistan",
+    "city": "Ashgabat",
+    "places": ["Independence Monument", "Turkmenistan Tower", "Arch of Neutrality", "National Museum of Turkmenistan"],
+    "halal_food": ["Altyn Asyr Restaurant", "Sunduk Halal Eatery", "Akhalteke Cafe"],
+    "mosques": ["Ertugrul Gazi Mosque", "Ashgabat Central Mosque"],
+    "hotels": {
+      "budget": ["Ashgabat Hostel", "Guesthouse Akhal"],
+      "midrange": ["Grand Turkmen Hotel", "Ramada Ashgabat"],
+      "luxury": ["Olympia Hotel Ashgabat", "Meridien Ashgabat"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in central areas, avoid isolated streets at night",
+    "budget": {
+      "budget": "$40-65/day",
+      "midrange": "$80-130/day",
+      "luxury": "$150+"
+    },
+    "culture": "Dress conservatively, respect local customs",
+    "season": "Spring and autumn ideal for sightseeing",
+    "activities": ["City tours", "Visit museums", "National park visits", "Architectural photography"],
+    "current_events": ["Ashgabat International Film Festival in October", "Turkmen Carpet Festival in April"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Türkmenbaşy",
+    "places": ["Türkmenbaşy Port", "Avaza National Resort Zone", "Shipbuilding Museum", "Local Market"],
+    "halal_food": ["Avaza Halal Restaurant", "Türkmenbaşy Grill"],
+    "mosques": ["Central Mosque Türkmenbaşy", "Juma Mosque Türkmenbaşy"],
+    "hotels": {
+      "budget": ["Türkmenbaşy Guesthouse", "Seaside Hostel"],
+      "midrange": ["Grand Türkmenbaşy Hotel", "Avaza Inn"],
+      "luxury": ["Avaza Resort Hotel"]
+    },
+    "transport": "Taxis, buses, minibuses",
+    "safety_tips": "Avoid remote port areas at night",
+    "budget": {
+      "budget": "$35-55/day",
+      "midrange": "$70-110/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local fishing community traditions",
+    "season": "Summer for beach activities, spring and autumn for city tours",
+    "activities": ["Beach visits", "Port tours", "Local shopping", "Cultural festivals"],
+    "current_events": ["Avaza Summer Festival in July", "Port Day in August"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Mary",
+    "places": ["Ancient Merv", "Mary Museum of History", "Local Bazaar", "Mary Park"],
+    "halal_food": ["Mary Halal Cafe", "Nomad Restaurant Mary"],
+    "mosques": ["Central Mosque Mary", "Juma Mosque Mary"],
+    "hotels": {
+      "budget": ["Mary Hostel", "Guesthouse Nomad"],
+      "midrange": ["Grand Mary Hotel", "Mary City Hotel"],
+      "luxury": ["Hotel Merv Palace"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay in central areas, avoid empty streets at night",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect historical sites, modest clothing",
+    "season": "Spring and autumn for visiting Ancient Merv",
+    "activities": ["Historical tours", "Museum visits", "Local bazaar shopping", "Park walks"],
+    "current_events": ["Mary Cultural Festival in September", "Ancient Merv Historical Day in July"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Dashoguz",
+    "places": ["Kunya-Urgench Historical Site", "Dashoguz Museum", "Local Park", "Central Bazaar"],
+    "halal_food": ["Dashoguz Halal Restaurant", "Nomad Eatery Dashoguz"],
+    "mosques": ["Central Mosque Dashoguz", "Juma Mosque Dashoguz"],
+    "hotels": {
+      "budget": ["Dashoguz Guesthouse", "City Hostel Dashoguz"],
+      "midrange": ["Grand Dashoguz Hotel", "Dashoguz Inn"],
+      "luxury": ["Hotel Kunya-Urgench"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid empty streets at night, stay in central neighborhoods",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$55-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Dress modestly, respect historical sites",
+    "season": "Spring and autumn for sightseeing",
+    "activities": ["Historical tours", "Museum visits", "Local market shopping", "Park walks"],
+    "current_events": ["Kunya-Urgench Festival in June", "Dashoguz Cultural Day in September"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Turkmenabat",
+    "places": ["Amu Darya River Embankment", "Turkmenabat Museum", "Central Park Turkmenabat", "Local Bazaar"],
+    "halal_food": ["Turkmenabat Halal Cafe", "Nomad Eatery Turkmenabat"],
+    "mosques": ["Central Mosque Turkmenabat", "Juma Mosque Turkmenabat"],
+    "hotels": {
+      "budget": ["Turkmenabat Guesthouse", "City Hostel Turkmenabat"],
+      "midrange": ["Grand Turkmenabat Hotel", "Turkmenabat City Hotel"],
+      "luxury": ["Hotel Amu Darya Palace"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay in central areas, avoid isolated streets",
+    "budget": {
+      "budget": "$30-50/day",
+      "midrange": "$60-90/day",
+      "luxury": "$110+"
+    },
+    "culture": "Respect local customs, modest dressing",
+    "season": "Spring and autumn ideal",
+    "activities": ["River walks", "Museum visits", "Local market shopping", "Park activities"],
+    "current_events": ["Turkmenabat City Day in July", "Amu Darya River Festival in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Balkanabat",
+    "places": ["Balkan Mountains", "Balkanabat Museum", "Local Bazaar", "Central Park Balkanabat"],
+    "halal_food": ["Balkanabat Halal Restaurant", "Nomad Cafe Balkanabat"],
+    "mosques": ["Central Mosque Balkanabat", "Juma Mosque Balkanabat"],
+    "hotels": {
+      "budget": ["Balkanabat Guesthouse", "City Hostel Balkanabat"],
+      "midrange": ["Grand Balkanabat Hotel", "Balkanabat Inn"],
+      "luxury": ["Hotel Balkan Palace"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid walking alone in remote mountain areas",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$55-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions and mountain communities",
+    "season": "Spring and autumn ideal for sightseeing",
+    "activities": ["Mountain hikes", "Museum tours", "Bazaar shopping", "Park walks"],
+    "current_events": ["Balkanabat Cultural Festival in July", "Mountain Hike Event in August"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Tejen",
+    "places": ["Tejen Museum", "Local Bazaar Tejen", "Central Park Tejen", "Tejen Mosque"],
+    "halal_food": ["Tejen Halal Cafe", "Nomad Eatery Tejen"],
+    "mosques": ["Central Mosque Tejen", "Juma Mosque Tejen"],
+    "hotels": {
+      "budget": ["Tejen Guesthouse", "City Hostel Tejen"],
+      "midrange": ["Grand Tejen Hotel", "Tejen City Hotel"],
+      "luxury": ["Hotel Tejen Palace"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay in central areas, avoid deserted streets",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions, modest dressing",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "Bazaar shopping", "Park walks", "Local cultural tours"],
+    "current_events": ["Tejen City Day in August", "Local Craft Festival in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Serdar",
+    "places": ["Serdar Museum", "Central Park Serdar", "Historical Monuments", "Local Bazaar"],
+    "halal_food": ["Serdar Halal Cafe", "Nomad Restaurant Serdar"],
+    "mosques": ["Central Mosque Serdar", "Juma Mosque Serdar"],
+    "hotels": {
+      "budget": ["Serdar Guesthouse", "City Hostel Serdar"],
+      "midrange": ["Grand Serdar Hotel", "Serdar Inn"],
+      "luxury": ["Hotel Serdar Palace"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid walking alone at night, stay near main streets",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs, attend cultural fairs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "Bazaar shopping", "Park walks", "Cultural tours"],
+    "current_events": ["Serdar Cultural Festival in July", "City Day in August"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Bayramaly",
+    "places": ["Ancient Merv (nearby)", "Local Museum", "Central Park Bayramaly", "Historical Monuments"],
+    "halal_food": ["Bayramaly Halal Restaurant", "Nomad Cafe Bayramaly"],
+    "mosques": ["Central Mosque Bayramaly", "Juma Mosque Bayramaly"],
+    "hotels": {
+      "budget": ["Bayramaly Guesthouse", "City Hostel Bayramaly"],
+      "midrange": ["Grand Bayramaly Hotel", "Bayramaly Inn"],
+      "luxury": ["Hotel Bayramaly Palace"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay in central areas, avoid deserted streets",
+    "budget": {
+      "budget": "$25-45/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect historical heritage and local traditions",
+    "season": "Spring and autumn ideal for visiting Ancient Merv",
+    "activities": ["Historical tours", "Museum visits", "Park walks", "Local market shopping"],
+    "current_events": ["Bayramaly Historical Day in June", "Cultural Festival in September"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Abadan",
+    "places": ["Abadan Central Park", "Local Historical Museum", "City Bazaar", "Juma Mosque Abadan"],
+    "halal_food": ["Abadan Halal Cafe", "Nomad Eatery Abadan"],
+    "mosques": ["Central Mosque Abadan", "Juma Mosque Abadan"],
+    "hotels": {
+      "budget": ["Abadan Guesthouse", "City Hostel Abadan"],
+      "midrange": ["Grand Abadan Hotel", "Abadan City Inn"],
+      "luxury": ["Hotel Abadan Palace"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stay in city center, avoid empty streets at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions and customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "Park walks", "Local shopping", "Cultural tours"],
+    "current_events": ["Abadan City Day in August", "Local Cultural Fair in July"]
+  },
+  
+  {
+    "country": "Turkmenistan",
+    "city": "Garabogaz",
+    "places": ["Garabogaz Gulf", "Salt Flats", "Local Fish Market"],
+    "halal_food": ["Garabogaz Halal Cafe", "Salt Restaurant"],
+    "mosques": ["Garabogaz Central Mosque"],
+    "hotels": {
+      "budget": ["Garabogaz Guesthouse", "Salt Flats Hostel"],
+      "midrange": ["Garabogaz Hotel", "Gulf View Hotel"],
+      "luxury": ["Garabogaz Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid walking alone near salt flats during high heat",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local fishing communities, modest dress recommended",
+    "season": "Spring and autumn best for visits",
+    "activities": ["Salt flat photography", "Gulf boat trips", "Local market visits"],
+    "current_events": ["Local Fishing Festival in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Hazar",
+    "places": ["Hazar Mountains", "Caspian Sea Coastline", "Hazar Archaeological Site"],
+    "halal_food": ["Hazar Halal Restaurant", "Caspian Seafood Cafe"],
+    "mosques": ["Hazar Central Mosque"],
+    "hotels": {
+      "budget": ["Hazar Hostel", "Guesthouse Hazar"],
+      "midrange": ["Hazar Hotel", "Sea View Hazar"],
+      "luxury": ["Hazar Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated coastal areas at night",
+    "budget": {
+      "budget": "$30-45/day",
+      "midrange": "$60-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local fishing and nomadic traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Coastal walks", "Hiking in Hazar Mountains", "Museum visits"],
+    "current_events": ["Hazar Sea Festival in May"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Serhetabat",
+    "places": ["Border Gate Monument", "Local Bazaar", "Serhetabat Park"],
+    "halal_food": ["Serhetabat Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Serhetabat Central Mosque"],
+    "hotels": {
+      "budget": ["Serhetabat Guesthouse", "Nomad Hostel"],
+      "midrange": ["Serhetabat Hotel", "Border View Hotel"],
+      "luxury": ["Serhetabat Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid restricted border areas",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local border customs and regulations",
+    "season": "Spring and autumn best",
+    "activities": ["Local bazaar visits", "Park walks", "Cultural photography"],
+    "current_events": ["Border Trade Festival in September"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Turkmenbasyya",
+    "places": ["Turkmenbasyya Port", "Seaside Promenade", "Local Marina"],
+    "halal_food": ["Seaside Halal Cafe", "Portside Restaurant"],
+    "mosques": ["Turkmenbasyya Central Mosque"],
+    "hotels": {
+      "budget": ["Guesthouse Marina", "Seaside Hostel"],
+      "midrange": ["Turkmenbasyya Hotel", "Port View Hotel"],
+      "luxury": ["Turkmenbasyya Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses, ferries",
+    "safety_tips": "Avoid walking alone at the port at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local maritime communities, modest dress recommended",
+    "season": "Spring and autumn best for coastal visits",
+    "activities": ["Port tours", "Boat trips", "Fishing excursions"],
+    "current_events": ["Marine Festival in July"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Gazojak",
+    "places": ["Gazojak Desert Outskirts", "Local Market", "Nomadic Cultural Exhibit"],
+    "halal_food": ["Gazojak Halal Eatery", "Desert Cafe"],
+    "mosques": ["Gazojak Central Mosque"],
+    "hotels": {
+      "budget": ["Gazojak Guesthouse", "Desert Hostel"],
+      "midrange": ["Gazojak Hotel", "Nomad View Hotel"],
+      "luxury": ["Gazojak Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid desert areas alone, carry water",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect nomadic traditions and desert etiquette",
+    "season": "Spring and autumn best",
+    "activities": ["Desert excursions", "Local cultural visits", "Market exploration"],
+    "current_events": ["Gazojak Nomad Festival in April"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Akdepe",
+    "places": ["Akdepe Central Park", "Local Historical Monument", "Market Square"],
+    "halal_food": ["Akdepe Halal Restaurant", "Nomad Cafe"],
+    "mosques": ["Akdepe Central Mosque"],
+    "hotels": {
+      "budget": ["Akdepe Guesthouse", "City Hostel Akdepe"],
+      "midrange": ["Akdepe Hotel", "Nomad View Hotel"],
+      "luxury": ["Akdepe Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in central areas, avoid deserted streets",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs and traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["City walking tours", "Market visits", "Cultural exhibitions"],
+    "current_events": ["Akdepe City Day in August"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Kaka",
+    "places": ["Kaka Historical Museum", "Central Park Kaka", "Local Market"],
+    "halal_food": ["Kaka Halal Cafe", "Nomad Restaurant Kaka"],
+    "mosques": ["Kaka Central Mosque"],
+    "hotels": {
+      "budget": ["Kaka Guesthouse", "City Hostel Kaka"],
+      "midrange": ["Kaka Hotel", "Park View Hotel"],
+      "luxury": ["Kaka Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid remote areas at night, stay in central districts",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local historical sites and traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "Park walks", "Local market exploration"],
+    "current_events": ["Kaka Cultural Festival in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Köneürgench",
+    "places": ["Köneürgench Mausoleum", "Historical Ruins", "Local Market"],
+    "halal_food": ["Köneürgench Halal Eatery", "Nomad Cafe"],
+    "mosques": ["Köneürgench Central Mosque"],
+    "hotels": {
+      "budget": ["Köneürgench Guesthouse", "City Hostel Köneürgench"],
+      "midrange": ["Köneürgench Hotel", "Historical View Hotel"],
+      "luxury": ["Köneürgench Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay near main streets and historical areas",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect historical sites and local customs",
+    "season": "Spring and autumn best",
+    "activities": ["Visit mausoleums", "Guided historical tours", "Local market visits"],
+    "current_events": ["Köneürgench History Festival in September"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Köýtendag",
+    "places": ["Köýtendag Mountains", "Caves and Natural Springs", "Local Nature Reserve"],
+    "halal_food": ["Köýtendag Halal Cafe", "Mountain View Restaurant"],
+    "mosques": ["Köýtendag Central Mosque"],
+    "hotels": {
+      "budget": ["Köýtendag Guesthouse", "Mountain Hostel"],
+      "midrange": ["Köýtendag Hotel", "Nature View Hotel"],
+      "luxury": ["Köýtendag Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Be cautious during mountain hikes, avoid traveling alone",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local natural areas and environmental rules",
+    "season": "Spring and autumn ideal for hiking",
+    "activities": ["Mountain hiking", "Cave exploration", "Nature photography"],
+    "current_events": ["Köýtendag Hiking Festival in April"]
+  },
+
+  {
+    "country": "Turkmenistan",
+    "city": "Bäherden",
+    "places": ["Bäherden Central Park", "Local Market", "Historical Monument"],
+    "halal_food": ["Bäherden Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Bäherden Central Mosque"],
+    "hotels": {
+      "budget": ["Bäherden Guesthouse", "City Hostel Bäherden"],
+      "midrange": ["Bäherden Hotel", "Park View Hotel"],
+      "luxury": ["Bäherden Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid walking alone at night in isolated areas",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs and historical monuments",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Market visits", "Local sightseeing"],
+    "current_events": ["Bäherden Cultural Day in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Gökdepe",
+    "places": ["Gökdepe Fortress", "Historical Museum", "Central Park Gökdepe"],
+    "halal_food": ["Gökdepe Halal Restaurant", "Nomad Cafe"],
+    "mosques": ["Gökdepe Central Mosque"],
+    "hotels": {
+      "budget": ["Gökdepe Guesthouse", "City Hostel Gökdepe"],
+      "midrange": ["Gökdepe Hotel", "Historical View Hotel"],
+      "luxury": ["Gökdepe Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay near central areas, avoid isolated streets",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect historical sites and local customs",
+    "season": "Spring and autumn best",
+    "activities": ["Visit Gökdepe Fortress", "Museum tours", "Park walks"],
+    "current_events": ["Gökdepe History Festival in April"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Dushak",
+    "places": ["Dushak Mountains", "Local Bazaar", "Nature Trails"],
+    "halal_food": ["Dushak Halal Cafe", "Nomad Restaurant Dushak"],
+    "mosques": ["Dushak Central Mosque"],
+    "hotels": {
+      "budget": ["Dushak Guesthouse", "Mountain Hostel"],
+      "midrange": ["Dushak Hotel", "Nature View Hotel"],
+      "luxury": ["Dushak Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid hiking alone in remote areas",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local nature and nomadic traditions",
+    "season": "Spring and autumn ideal for hiking",
+    "activities": ["Hiking", "Nature walks", "Local market visits"],
+    "current_events": ["Dushak Mountain Festival in May"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Gumy",
+    "places": ["Gumy Central Park", "Historical Site", "Local Market"],
+    "halal_food": ["Gumy Halal Cafe", "Nomad Restaurant Gumy"],
+    "mosques": ["Gumy Central Mosque"],
+    "hotels": {
+      "budget": ["Gumy Guesthouse", "City Hostel Gumy"],
+      "midrange": ["Gumy Hotel", "Park View Hotel"],
+      "luxury": ["Gumy Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in city center areas at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["City walking tours", "Market visits", "Cultural sightseeing"],
+    "current_events": ["Gumy City Day in July"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Magtymguly",
+    "places": ["Magtymguly Monument", "Historical Park", "Local Museum"],
+    "halal_food": ["Magtymguly Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Magtymguly Central Mosque"],
+    "hotels": {
+      "budget": ["Magtymguly Guesthouse", "City Hostel Magtymguly"],
+      "midrange": ["Magtymguly Hotel", "Park View Hotel"],
+      "luxury": ["Magtymguly Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated streets at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local monuments and traditions",
+    "season": "Spring and autumn best",
+    "activities": ["Visit monuments", "Museum tours", "Park walks"],
+    "current_events": ["Magtymguly Cultural Festival in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Ýolöten",
+    "places": ["Local Bazaar", "Historical Site", "City Park"],
+    "halal_food": ["Yoloten Halal Restaurant", "Nomad Cafe"],
+    "mosques": ["Yoloten Central Mosque"],
+    "hotels": {
+      "budget": ["Yoloten Guesthouse", "City Hostel"],
+      "midrange": ["Yoloten Hotel", "Park View Hotel"],
+      "luxury": ["Yoloten Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in central areas, avoid isolated streets",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Market visits", "City sightseeing", "Park walks"],
+    "current_events": ["Yolöten City Day in August"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Köpetdag",
+    "places": ["Köpetdag Mountains", "Nature Reserve", "Local Village Visits"],
+    "halal_food": ["Köpetdag Halal Cafe", "Mountain View Restaurant"],
+    "mosques": ["Köpetdag Central Mosque"],
+    "hotels": {
+      "budget": ["Köpetdag Guesthouse", "Mountain Hostel"],
+      "midrange": ["Köpetdag Hotel", "Nature View Hotel"],
+      "luxury": ["Köpetdag Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid hiking alone, carry water and guides",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-85/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect nature and local customs",
+    "season": "Spring and autumn ideal for hiking",
+    "activities": ["Mountain hiking", "Nature photography", "Village visits"],
+    "current_events": ["Köpetdag Hiking Festival in April"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Tagta",
+    "places": ["Tagta Central Park", "Local Market", "Historical Monument"],
+    "halal_food": ["Tagta Halal Restaurant", "Nomad Cafe"],
+    "mosques": ["Tagta Central Mosque"],
+    "hotels": {
+      "budget": ["Tagta Guesthouse", "City Hostel Tagta"],
+      "midrange": ["Tagta Hotel", "Park View Hotel"],
+      "luxury": ["Tagta Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in central districts, avoid isolated streets",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Market visits", "City tours", "Park walks"],
+    "current_events": ["Tagta Cultural Festival in July"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Serhet",
+    "places": ["Local Park", "Historical Site", "Nature Trails"],
+    "halal_food": ["Serhet Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Serhet Central Mosque"],
+    "hotels": {
+      "budget": ["Serhet Guesthouse", "City Hostel Serhet"],
+      "midrange": ["Serhet Hotel", "Park View Hotel"],
+      "luxury": ["Serhet Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in populated areas, avoid remote trails",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs and natural surroundings",
+    "season": "Spring and autumn best",
+    "activities": ["Park walks", "Historical visits", "Nature trails exploration"],
+    "current_events": ["Serhet Nature Festival in May"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Garrygala",
+    "places": ["Garrygala Central Park", "Local Bazaar", "Historical Monument"],
+    "halal_food": ["Garrygala Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Garrygala Central Mosque"],
+    "hotels": {
+      "budget": ["Garrygala Guesthouse", "City Hostel Garrygala"],
+      "midrange": ["Garrygala Hotel", "Park View Hotel"],
+      "luxury": ["Garrygala Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions and customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Market visits", "Local sightseeing"],
+    "current_events": ["Garrygala Cultural Festival in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Darganata",
+    "places": ["Darganata Central Park", "Historical Site", "Local Museum"],
+    "halal_food": ["Darganata Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Darganata Central Mosque"],
+    "hotels": {
+      "budget": ["Darganata Guesthouse", "City Hostel Darganata"],
+      "midrange": ["Darganata Hotel", "Park View Hotel"],
+      "luxury": ["Darganata Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay near the city center at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local history and customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "Park walks", "Historical sightseeing"],
+    "current_events": ["Darganata History Festival in April"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Farap",
+    "places": ["Farap Central Market", "Local Museum", "Historical Monument"],
+    "halal_food": ["Farap Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Farap Central Mosque"],
+    "hotels": {
+      "budget": ["Farap Guesthouse", "City Hostel Farap"],
+      "midrange": ["Farap Hotel", "Park View Hotel"],
+      "luxury": ["Farap Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid remote streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Market visits", "Museum tours", "Park walks"],
+    "current_events": ["Farap Cultural Day in May"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Saýat",
+    "places": ["Saýat Central Park", "Local Bazaar", "Historical Site"],
+    "halal_food": ["Saýat Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Saýat Central Mosque"],
+    "hotels": {
+      "budget": ["Saýat Guesthouse", "City Hostel Saýat"],
+      "midrange": ["Saýat Hotel", "Park View Hotel"],
+      "luxury": ["Saýat Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in populated areas at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs and traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Market visits", "Local sightseeing"],
+    "current_events": ["Saýat City Day in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Magdanly",
+    "places": ["Magdanly Central Park", "Local Historical Museum", "City Market"],
+    "halal_food": ["Magdanly Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Magdanly Central Mosque"],
+    "hotels": {
+      "budget": ["Magdanly Guesthouse", "City Hostel Magdanly"],
+      "midrange": ["Magdanly Hotel", "Park View Hotel"],
+      "luxury": ["Magdanly Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid walking in isolated streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect historical sites and local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum tours", "Market visits", "Park walks"],
+    "current_events": ["Magdanly History Festival in July"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Bagtyýarlyk",
+    "places": ["Bagtyýarlyk Central Park", "Local Market", "Historical Monument"],
+    "halal_food": ["Bagtyýarlyk Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Bagtyýarlyk Central Mosque"],
+    "hotels": {
+      "budget": ["Bagtyýarlyk Guesthouse", "City Hostel Bagtyýarlyk"],
+      "midrange": ["Bagtyýarlyk Hotel", "Park View Hotel"],
+      "luxury": ["Bagtyýarlyk Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in central areas, avoid deserted streets",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Market visits", "Local sightseeing"],
+    "current_events": ["Bagtyýarlyk Cultural Festival in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Sakar",
+    "places": ["Sakar Central Park", "Local Museum", "Historical Monument"],
+    "halal_food": ["Sakar Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Sakar Central Mosque"],
+    "hotels": {
+      "budget": ["Sakar Guesthouse", "City Hostel Sakar"],
+      "midrange": ["Sakar Hotel", "Park View Hotel"],
+      "luxury": ["Sakar Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs and historical sites",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "Park walks", "Market tours"],
+    "current_events": ["Sakar City Day in July"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Ýagtylyk",
+    "places": ["Ýagtylyk Central Park", "Local Bazaar", "Historical Museum"],
+    "halal_food": ["Ýagtylyk Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Ýagtylyk Central Mosque"],
+    "hotels": {
+      "budget": ["Ýagtylyk Guesthouse", "City Hostel Ýagtylyk"],
+      "midrange": ["Ýagtylyk Hotel", "Park View Hotel"],
+      "luxury": ["Ýagtylyk Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in populated areas, avoid remote areas at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs and traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Market visits", "Park walks", "Local sightseeing"],
+    "current_events": ["Ýagtylyk Cultural Day in June"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Akhal",
+    "places": ["Akhal Central Park", "Historical Museum", "Local Market"],
+    "halal_food": ["Akhal Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Akhal Central Mosque"],
+    "hotels": {
+      "budget": ["Akhal Guesthouse", "City Hostel Akhal"],
+      "midrange": ["Akhal Hotel", "Park View Hotel"],
+      "luxury": ["Akhal Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum tours", "Park walks", "Market visits"],
+    "current_events": ["Akhal City Day in August"]
+  },
+  {
+    "country": "Turkmenistan",
+    "city": "Babadayhan",
+    "places": ["Babadayhan Central Park", "Local Bazaar", "Historical Monument"],
+    "halal_food": ["Babadayhan Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Babadayhan Central Mosque"],
+    "hotels": {
+      "budget": ["Babadayhan Guesthouse", "City Hostel Babadayhan"],
+      "midrange": ["Babadayhan Hotel", "Park View Hotel"],
+      "luxury": ["Babadayhan Grand Hotel"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Stay in central areas, avoid isolated streets",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$50-75/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Park walks", "Market visits", "Local sightseeing"],
+    "current_events": ["Babadayhan Cultural Festival in June"]
+  },
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "country": "Uzbekistan",
+    "city": "Tashkent",
+    "places": ["Khast Imam Complex", "Chorsu Bazaar", "Amir Timur Museum", "Independence Square"],
+    "halal_food": ["Caravan Restaurant", "Afsona Cafe", "Plov Center Tashkent"],
+    "mosques": ["Minor Mosque Tashkent", "Friday Mosque Tashkent"],
+    "hotels": {
+      "budget": ["City Hostel Tashkent", "Guesthouse Amir Timur"],
+      "midrange": ["Lotte City Hotel", "Hotel Uzbekistan"],
+      "luxury": ["Hyatt Regency Tashkent", "International Hotel Tashkent"]
+    },
+    "transport": "Metro, buses, taxis",
+    "safety_tips": "Avoid walking alone in poorly lit streets at night",
+    "budget": {
+      "budget": "$20-40/day",
+      "midrange": "$60-100/day",
+      "luxury": "$150+"
+    },
+    "culture": "Dress modestly, respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["City sightseeing", "Museum visits", "Metro architecture tour", "Bazaar shopping"],
+    "current_events": ["Tashkent International Film Festival in September"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Samarkand",
+    "places": ["Registan Square", "Shah-i-Zinda", "Bibi-Khanym Mosque", "Ulugbek Observatory"],
+    "halal_food": ["Plov Center Samarkand", "Old City Cafe", "Samarkand Dastarkhan"],
+    "mosques": ["Bibi-Khanym Mosque", "Hazrati Khizr Mosque"],
+    "hotels": {
+      "budget": ["Samarkand Backpackers", "City Hostel Samarkand"],
+      "midrange": ["Hotel Samarkand", "Registan Plaza Hotel"],
+      "luxury": ["L’Argamak Hotel", "Orient Star Samarkand"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid deserted areas at night, watch belongings in crowded bazaars",
+    "budget": {
+      "budget": "$15-35/day",
+      "midrange": "$50-90/day",
+      "luxury": "$120+"
+    },
+    "culture": "Respect local traditions, especially around mosques",
+    "season": "Spring and autumn ideal",
+    "activities": ["Historical tours", "Photography at Registan", "Visit mausoleums", "Bazaar shopping"],
+    "current_events": ["Silk and Spices Festival in April"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Bukhara",
+    "places": ["Ark Fortress", "Bolo Haouz Mosque", "Lyabi Hauz Complex", "Samanid Mausoleum"],
+    "halal_food": ["Lyabi Hauz Cafe", "Minzifa Restaurant", "Chinar Restaurant"],
+    "mosques": ["Kalon Mosque", "Bolo Haouz Mosque"],
+    "hotels": {
+      "budget": ["Bukhara Hostel", "Guesthouse Lyabi Hauz"],
+      "midrange": ["Hotel Asia Bukhara", "Amelia Bukhara Hotel"],
+      "luxury": ["Silk Road Bukhara Hotel", "Oasis Bukhara"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Avoid walking alone late at night in small alleys",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$50-80/day",
+      "luxury": "$120+"
+    },
+    "culture": "Dress modestly, respect historic sites",
+    "season": "Spring and autumn ideal",
+    "activities": ["Walking tours", "Historical site visits", "Bazaar shopping", "Cultural performances"],
+    "current_events": ["Bukhara Silk Road Festival in May"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Khiva",
+    "places": ["Itchan Kala", "Kalta Minor Minaret", "Kunya-Ark Citadel", "Pahlavan Mahmud Mausoleum"],
+    "halal_food": ["Khiva Halal Restaurant", "Terrace Cafe Khiva"],
+    "mosques": ["Juma Mosque", "Pahlavan Mahmud Mosque"],
+    "hotels": {
+      "budget": ["Khiva Hostel", "Guesthouse Khiva"],
+      "midrange": ["Asia Khiva Hotel", "Orient Star Khiva"],
+      "luxury": ["Hotel Zarafshan Khiva"]
+    },
+    "transport": "Walking, taxis",
+    "safety_tips": "Stay within city walls at night, be cautious in alleys",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$40-70/day",
+      "luxury": "$100+"
+    },
+    "culture": "Follow local traditions, modest dressing recommended",
+    "season": "Spring and autumn ideal",
+    "activities": ["Walking tours inside city walls", "Visit museums", "Photography", "Cultural exhibitions"],
+    "current_events": ["Khiva Silk Road Festival in October"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Nukus",
+    "places": ["Savitsky Museum", "Nukus Regional Park", "Karakalpakstan Art Gallery", "Local Bazaar"],
+    "halal_food": ["Nomad Cafe Nukus", "Nukus Halal Eatery"],
+    "mosques": ["Nukus Central Mosque"],
+    "hotels": {
+      "budget": ["Nukus Hostel", "Guesthouse Nukus"],
+      "midrange": ["Hotel Nukus", "Art Hotel Nukus"],
+      "luxury": ["Grand Hotel Nukus"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated streets at night",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$35-60/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs, especially in museums",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "Park walks", "Bazaar exploration", "Art tours"],
+    "current_events": ["Nukus Arts Festival in August"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Fergana",
+    "places": ["Fergana Regional Museum", "Central Park Fergana", "Al Huda Bazaar", "Historic Madrasahs"],
+    "halal_food": ["Fergana Halal Cafe", "Nomad Restaurant Fergana"],
+    "mosques": ["Central Mosque Fergana", "Friday Mosque Fergana"],
+    "hotels": {
+      "budget": ["Fergana Hostel", "Guesthouse Fergana"],
+      "midrange": ["Hotel Fergana", "Park Inn Fergana"],
+      "luxury": ["Grand Hotel Fergana"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid walking alone at night, especially in small streets",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["City tours", "Bazaar shopping", "Museum visits", "Cultural performances"],
+    "current_events": ["Fergana Cultural Week in June"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Andijan",
+    "places": ["Babur Park", "Andijan Regional Museum", "Jalalabad Bazaar", "Historical Monuments"],
+    "halal_food": ["Andijan Halal Cafe", "Nomad Eatery Andijan"],
+    "mosques": ["Andijan Central Mosque", "Friday Mosque Andijan"],
+    "hotels": {
+      "budget": ["Andijan Hostel", "Guesthouse Andijan"],
+      "midrange": ["Hotel Andijan", "Park View Hotel"],
+      "luxury": ["Grand Hotel Andijan"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid poorly lit streets at night",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Dress modestly, respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["City sightseeing", "Bazaar visits", "Historical tours", "Cultural events"],
+    "current_events": ["Andijan City Day in May"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Namangan",
+    "places": ["Namangan Regional Museum", "Babur Square", "Chorsu Bazaar", "Central Park Namangan"],
+    "halal_food": ["Namangan Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Central Mosque Namangan", "Friday Mosque Namangan"],
+    "hotels": {
+      "budget": ["Namangan Hostel", "Guesthouse Namangan"],
+      "midrange": ["Hotel Namangan", "Park View Hotel"],
+      "luxury": ["Grand Hotel Namangan"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated streets at night",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["City tours", "Museum visits", "Bazaar shopping", "Attend cultural events"],
+    "current_events": ["Namangan Silk Festival in June"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Qarshi",
+    "places": ["Bibi-Khanym Mosque Qarshi", "Qarshi Fortress", "Central Park", "Local Bazaar"],
+    "halal_food": ["Qarshi Halal Cafe", "Nomad Restaurant"],
+    "mosques": ["Qarshi Central Mosque", "Friday Mosque Qarshi"],
+    "hotels": {
+      "budget": ["Qarshi Hostel", "Guesthouse Qarshi"],
+      "midrange": ["Hotel Qarshi", "Park View Hotel"],
+      "luxury": ["Grand Hotel Qarshi"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid deserted streets at night",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["City sightseeing", "Museum visits", "Bazaar shopping", "Cultural events"],
+    "current_events": ["Qarshi City Day in July"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Termez",
+    "places": ["Al-Hakim Termezi Mausoleum", "Buddhist Archaeological Sites", "Central Park", "Termez Fortress"],
+    "halal_food": ["Termez Halal Cafe", "Nomad Restaurant Termez"],
+    "mosques": ["Termez Central Mosque", "Friday Mosque Termez"],
+    "hotels": {
+      "budget": ["Termez Hostel", "Guesthouse Termez"],
+      "midrange": ["Hotel Termez", "Park View Hotel"],
+      "luxury": ["Grand Hotel Termez"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid walking alone in remote areas",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Historical site visits", "Museum tours", "Bazaar shopping", "Cultural performances"],
+    "current_events": ["Termez Heritage Festival in May"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Boysun",
+    "places": ["Boysun Mountain Range", "Boysun Fortress", "Cultural Museum Boysun", "Local Bazaar"],
+    "halal_food": ["Boysun Halal Cafe", "Nomad Eatery Boysun"],
+    "mosques": ["Boysun Central Mosque"],
+    "hotels": {
+      "budget": ["Boysun Hostel", "Guesthouse Boysun"],
+      "midrange": ["Hotel Boysun", "Mountain View Hotel"],
+      "luxury": ["Grand Hotel Boysun"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid traveling alone in remote areas",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$30-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local traditions and folklore",
+    "season": "Spring and autumn ideal",
+    "activities": ["Hiking", "Cultural tours", "Local market visits", "Photography"],
+    "current_events": ["Boysun Cultural Festival in August"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Denov",
+    "places": ["Denov Museum of Local History", "Kafir-Kala", "Hazrat Shah Mausoleum", "Denov Bazaar"],
+    "halal_food": ["Denov Halal Cafe", "Nomad Restaurant Denov"],
+    "mosques": ["Denov Central Mosque", "Friday Mosque Denov"],
+    "hotels": {
+      "budget": ["Denov Hostel", "Guesthouse Denov"],
+      "midrange": ["Hotel Denov", "Park View Hotel Denov"],
+      "luxury": ["Grand Hotel Denov"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated areas at night",
+    "budget": {
+      "budget": "$15-30/day",
+      "midrange": "$40-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Dress modestly, respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Historical tours", "Bazaar visits", "Photography", "Museum tours"],
+    "current_events": ["Denov Folk Festival in July"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Yangiobod",
+    "places": ["Local Bazaar Yangiobod", "Cultural Center", "Historical Monuments"],
+    "halal_food": ["Yangiobod Halal Cafe", "Nomad Eatery Yangiobod"],
+    "mosques": ["Yangiobod Central Mosque"],
+    "hotels": {
+      "budget": ["Yangiobod Hostel", "Guesthouse Yangiobod"],
+      "midrange": ["Hotel Yangiobod", "Park Hotel Yangiobod"],
+      "luxury": ["Grand Hotel Yangiobod"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid traveling alone at night",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$30-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["City tours", "Cultural events", "Bazaar visits", "Photography"],
+    "current_events": ["Yangiobod Local Festival in June"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Pakhtakor",
+    "places": ["Local Cotton Fields", "Historical Sites", "Central Park Pakhtakor"],
+    "halal_food": ["Pakhtakor Halal Cafe", "Nomad Restaurant Pakhtakor"],
+    "mosques": ["Pakhtakor Central Mosque"],
+    "hotels": {
+      "budget": ["Pakhtakor Hostel", "Guesthouse Pakhtakor"],
+      "midrange": ["Hotel Pakhtakor", "Park View Hotel"],
+      "luxury": ["Grand Hotel Pakhtakor"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Be cautious in remote areas",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$30-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Field tours", "Cultural visits", "Local markets", "Photography"],
+    "current_events": ["Pakhtakor Cotton Festival in September"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Qashqadaryo",
+    "places": ["Kitob Fortress", "Historical Monuments", "Local Bazaars"],
+    "halal_food": ["Qashqadaryo Halal Cafe", "Nomad Eatery Qashqadaryo"],
+    "mosques": ["Central Mosque Qashqadaryo"],
+    "hotels": {
+      "budget": ["Qashqadaryo Hostel", "Guesthouse Qashqadaryo"],
+      "midrange": ["Hotel Qashqadaryo", "Park View Hotel"],
+      "luxury": ["Grand Hotel Qashqadaryo"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid walking alone at night",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$30-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local traditions and customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Cultural tours", "Historical sightseeing", "Bazaar visits", "Photography"],
+    "current_events": ["Qashqadaryo Local Heritage Festival in July"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Kitob",
+    "places": ["Kitob Fortress", "Local Historical Museum", "Central Bazaar", "Kitob Mountain Trails"],
+    "halal_food": ["Kitob Halal Cafe", "Nomad Restaurant Kitob"],
+    "mosques": ["Central Mosque Kitob"],
+    "hotels": {
+      "budget": ["Kitob Hostel", "Guesthouse Kitob"],
+      "midrange": ["Hotel Kitob", "Park Hotel Kitob"],
+      "luxury": ["Grand Hotel Kitob"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated areas at night",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$30-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Historical tours", "Hiking", "Bazaar visits", "Photography"],
+    "current_events": ["Kitob Cultural Festival in June"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "G‘uzor",
+    "places": ["Historical Monuments", "Central Park G‘uzor", "Local Bazaar"],
+    "halal_food": ["G‘uzor Halal Cafe", "Nomad Eatery G‘uzor"],
+    "mosques": ["G‘uzor Central Mosque"],
+    "hotels": {
+      "budget": ["G‘uzor Hostel", "Guesthouse G‘uzor"],
+      "midrange": ["Hotel G‘uzor", "Park View Hotel"],
+      "luxury": ["Grand Hotel G‘uzor"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid traveling alone at night",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$30-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Historical sightseeing", "Bazaar visits", "Cultural tours", "Photography"],
+    "current_events": ["G‘uzor Local Festival in May"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Chortoq",
+    "places": ["Chortoq Historical Sites", "Central Park", "Local Market"],
+    "halal_food": ["Chortoq Halal Cafe", "Nomad Restaurant Chortoq"],
+    "mosques": ["Chortoq Central Mosque"],
+    "hotels": {
+      "budget": ["Chortoq Hostel", "Guesthouse Chortoq"],
+      "midrange": ["Hotel Chortoq", "Park View Hotel"],
+      "luxury": ["Grand Hotel Chortoq"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid deserted streets at night",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$30-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Historical sightseeing", "Cultural tours", "Bazaar visits", "Photography"],
+    "current_events": ["Chortoq Heritage Festival in July"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Kogon",
+    "places": ["Kogon Railway Station", "Historical Monuments", "Central Bazaar", "Local Park"],
+    "halal_food": ["Kogon Halal Cafe", "Nomad Eatery Kogon"],
+    "mosques": ["Kogon Central Mosque"],
+    "hotels": {
+      "budget": ["Kogon Hostel", "Guesthouse Kogon"],
+      "midrange": ["Hotel Kogon", "Park View Hotel"],
+      "luxury": ["Grand Hotel Kogon"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid isolated areas at night",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$30-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local traditions",
+    "season": "Spring and autumn ideal",
+    "activities": ["Historical sightseeing", "Bazaar visits", "Cultural tours", "Photography"],
+    "current_events": ["Kogon Local Festival in June"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Zarbdar",
+    "places": ["Zarbdar Historical Monuments", "Local Bazaar", "Central Park"],
+    "halal_food": ["Zarbdar Halal Cafe", "Nomad Restaurant Zarbdar"],
+    "mosques": ["Zarbdar Central Mosque"],
+    "hotels": {
+      "budget": ["Zarbdar Hostel", "Guesthouse Zarbdar"],
+      "midrange": ["Hotel Zarbdar", "Park View Hotel"],
+      "luxury": ["Grand Hotel Zarbdar"]
+    },
+    "transport": "Taxis, minibuses",
+    "safety_tips": "Avoid traveling alone at night",
+    "budget": {
+      "budget": "$10-25/day",
+      "midrange": "$30-60/day",
+      "luxury": "$80+"
+    },
+    "culture": "Respect local customs",
+    "season": "Spring and autumn ideal",
+    "activities": ["Bazaar visits", "Historical sightseeing", "Cultural tours", "Photography"],
+    "current_events": ["Zarbdar Local Festival in August"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Chust",
+    "places": ["Chust Fortress", "Local Bazaar", "Chust Historical Museum", "Pahlavon Mahmud Complex"],
+    "halal_food": ["Chust Halal Cafe", "Nomad Restaurant Chust"],
+    "mosques": ["Central Mosque Chust", "Juma Mosque Chust"],
+    "hotels": {
+      "budget": ["Chust Hostel", "Guesthouse Chust"],
+      "midrange": ["Hotel Chust", "Chust City Hotel"],
+      "luxury": ["Grand Chust Hotel"]
+    },
+    "transport": "Buses, shared taxis, private cars",
+    "safety_tips": "Avoid poorly lit areas at night, stay in central zones",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local traditions and dress modestly",
+    "season": "Spring and autumn ideal",
+    "activities": ["Bazaar visits", "Historical tours", "Local handicraft shopping", "Cultural performances"],
+    "current_events": ["Chust Folk Festival in September", "Bazaar Fair in July"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Yaypan",
+    "places": ["Yaypan Historical Site", "Local Market", "Cultural Center", "Small Fortress Ruins"],
+    "halal_food": ["Yaypan Halal Cafe", "Nomad Eatery Yaypan"],
+    "mosques": ["Central Mosque Yaypan", "Juma Mosque Yaypan"],
+    "hotels": {
+      "budget": ["Yaypan Hostel", "Guesthouse Yaypan"],
+      "midrange": ["Hotel Yaypan", "Yaypan City Inn"],
+      "luxury": ["Grand Yaypan Hotel"]
+    },
+    "transport": "Shared vans, taxis",
+    "safety_tips": "Stick to central areas, avoid walking alone at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$45-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Follow local etiquette, attend cultural events",
+    "season": "Spring and autumn ideal",
+    "activities": ["Bazaar shopping", "Cultural center visits", "Historic walks", "Local festival participation"],
+    "current_events": ["Yaypan Cultural Day in June", "Local Handicraft Fair in August"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Yangi Namangan",
+    "places": ["Namangan Regional Museum", "Central Park Yangi Namangan", "Local Bazaar", "Historical Monuments"],
+    "halal_food": ["Yangi Namangan Halal Restaurant", "Sultan Cafe"],
+    "mosques": ["Central Mosque Yangi Namangan", "Juma Mosque Yangi Namangan"],
+    "hotels": {
+      "budget": ["Yangi Namangan Hostel", "Guesthouse Central"],
+      "midrange": ["Yangi Namangan City Hotel", "Hotel Oasis"],
+      "luxury": ["Grand Yangi Namangan Hotel"]
+    },
+    "transport": "Buses, shared taxis, city minibuses",
+    "safety_tips": "Stay in populated areas, avoid isolated streets at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Respect local customs, dress modestly",
+    "season": "Spring and autumn recommended",
+    "activities": ["Bazaar tours", "Park walks", "Museum visits", "Attend local festivals"],
+    "current_events": ["Yangi Namangan Music Festival in July", "Traditional Food Fair in September"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Kosonsoy",
+    "places": ["Kosonsoy Historical Site", "Central Mosque Square", "Local Handicraft Center", "Kosonsoy Park"],
+    "halal_food": ["Kosonsoy Halal Cafe", "Nomad Eatery Kosonsoy"],
+    "mosques": ["Central Mosque Kosonsoy", "Juma Mosque Kosonsoy"],
+    "hotels": {
+      "budget": ["Kosonsoy Hostel", "Guesthouse Kosonsoy"],
+      "midrange": ["Hotel Kosonsoy", "Kosonsoy City Hotel"],
+      "luxury": ["Grand Kosonsoy Hotel"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid walking alone at night, stay in central zones",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$45-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Attend local cultural performances, dress modestly",
+    "season": "Spring and autumn ideal",
+    "activities": ["Historical tours", "Cultural center visits", "Bazaar shopping", "Park walks"],
+    "current_events": ["Kosonsoy Cultural Festival in August", "Local Handicraft Fair in June"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Poytug‘",
+    "places": ["Poytug‘ Historic Fort", "Local Market", "City Park", "Museum of Regional History"],
+    "halal_food": ["Poytug‘ Halal Restaurant", "Nomad Cafe Poytug‘"],
+    "mosques": ["Central Mosque Poytug‘", "Juma Mosque Poytug‘"],
+    "hotels": {
+      "budget": ["Poytug‘ Hostel", "Guesthouse Central Poytug‘"],
+      "midrange": ["Hotel Poytug‘", "Poytug‘ City Inn"],
+      "luxury": ["Grand Poytug‘ Hotel"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stick to city center areas, avoid isolated streets",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$45-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs and dress modestly",
+    "season": "Spring and autumn recommended",
+    "activities": ["Bazaar tours", "Historic walks", "Museum visits", "Park visits"],
+    "current_events": ["Poytug‘ City Day in July", "Local Cultural Festival in September"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Rishton",
+    "places": ["Rishton Ceramics Workshop", "Central Bazaar", "Historic Mosque", "Rishton Park"],
+    "halal_food": ["Rishton Halal Cafe", "Nomad Restaurant Rishton"],
+    "mosques": ["Central Mosque Rishton", "Juma Mosque Rishton"],
+    "hotels": {
+      "budget": ["Rishton Hostel", "Guesthouse Rishton"],
+      "midrange": ["Hotel Rishton", "Rishton City Hotel"],
+      "luxury": ["Grand Rishton Hotel"]
+    },
+    "transport": "Buses, taxis, minibuses",
+    "safety_tips": "Stay in populated areas, avoid walking alone at night",
+    "budget": {
+      "budget": "$25-40/day",
+      "midrange": "$50-80/day",
+      "luxury": "$100+"
+    },
+    "culture": "Attend local ceramic workshops, respect mosque etiquette",
+    "season": "Spring and autumn ideal",
+    "activities": ["Ceramics tours", "Bazaar shopping", "Park walks", "Museum visits"],
+    "current_events": ["Rishton Ceramics Festival in May", "Local Art Fair in August"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Dang‘ara",
+    "places": ["Dang‘ara Historical Monument", "Local Bazaar", "Central Park Dang‘ara", "Cultural Center"],
+    "halal_food": ["Dang‘ara Halal Eatery", "Nomad Restaurant Dang‘ara"],
+    "mosques": ["Central Mosque Dang‘ara", "Juma Mosque Dang‘ara"],
+    "hotels": {
+      "budget": ["Dang‘ara Hostel", "Guesthouse Dang‘ara"],
+      "midrange": ["Hotel Dang‘ara", "Dang‘ara City Hotel"],
+      "luxury": ["Grand Dang‘ara Hotel"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid walking alone in remote areas, stay in central zones",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$45-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Follow local traditions, dress modestly",
+    "season": "Spring and autumn recommended",
+    "activities": ["Bazaar tours", "Historical walks", "Cultural center visits", "Park walks"],
+    "current_events": ["Dang‘ara Cultural Day in June", "Local Bazaar Festival in September"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Qo‘rg‘ontepa (town)",
+    "places": ["Town Square", "Regional Museum", "Central Mosque", "Local Market"],
+    "halal_food": ["Qo‘rg‘ontepa Halal Cafe", "Nomad Restaurant Qo‘rg‘ontepa"],
+    "mosques": ["Central Mosque Qo‘rg‘ontepa", "Juma Mosque Qo‘rg‘ontepa"],
+    "hotels": {
+      "budget": ["Qo‘rg‘ontepa Hostel", "Guesthouse Central"],
+      "midrange": ["Hotel Qo‘rg‘ontepa", "Town City Hotel"],
+      "luxury": ["Grand Qo‘rg‘ontepa Hotel"]
+    },
+    "transport": "Buses, taxis",
+    "safety_tips": "Stay in city center, avoid isolated streets",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$45-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local customs and mosque etiquette",
+    "season": "Spring and autumn ideal",
+    "activities": ["Museum visits", "Bazaar shopping", "Park walks", "Cultural performances"],
+    "current_events": ["Town Cultural Festival in July", "Local Food Fair in September"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Shakhrikhan",
+    "places": ["Shakhrikhan Historical Complex", "Central Bazaar", "City Park", "Local Museum"],
+    "halal_food": ["Shakhrikhan Halal Cafe", "Nomad Restaurant Shakhrikhan"],
+    "mosques": ["Central Mosque Shakhrikhan", "Juma Mosque Shakhrikhan"],
+    "hotels": {
+      "budget": ["Shakhrikhan Hostel", "Guesthouse Shakhrikhan"],
+      "midrange": ["Hotel Shakhrikhan", "City Hotel Shakhrikhan"],
+      "luxury": ["Grand Shakhrikhan Hotel"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Avoid isolated areas, stay in central city zones",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$45-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Attend local cultural events, dress modestly",
+    "season": "Spring and autumn recommended",
+    "activities": ["Bazaar visits", "Museum tours", "Park walks", "Cultural performances"],
+    "current_events": ["Shakhrikhan Cultural Festival in June", "Local Market Fair in September"]
+  },
+  {
+    "country": "Uzbekistan",
+    "city": "Oltiariq",
+    "places": ["Oltiariq Central Mosque", "Regional Museum", "Oltiariq Bazaar", "City Park"],
+    "halal_food": ["Oltiariq Halal Restaurant", "Nomad Cafe Oltiariq"],
+    "mosques": ["Central Mosque Oltiariq", "Juma Mosque Oltiariq"],
+    "hotels": {
+      "budget": ["Oltiariq Hostel", "Guesthouse Oltiariq"],
+      "midrange": ["Hotel Oltiariq", "Oltiariq City Hotel"],
+      "luxury": ["Grand Oltiariq Hotel"]
+    },
+    "transport": "Buses, taxis, shared vans",
+    "safety_tips": "Stick to central areas, avoid isolated streets at night",
+    "budget": {
+      "budget": "$20-35/day",
+      "midrange": "$45-70/day",
+      "luxury": "$90+"
+    },
+    "culture": "Respect local traditions, modest dressing recommended",
+    "season": "Spring and autumn ideal",
+    "activities": ["Bazaar visits", "Museum tours", "Park walks", "Attend cultural events"],
+    "current_events": ["Oltiariq Cultural Day in July", "Local Bazaar Festival in September"]
+  }
+  ]

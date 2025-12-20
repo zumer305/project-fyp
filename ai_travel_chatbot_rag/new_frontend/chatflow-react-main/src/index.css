@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* Premium Chatbot Design System */
+
+@layer base {
+  :root {
+    --background: 220 30% 6%;
+    --foreground: 220 15% 95%;
+
+    --card: 220 30% 12%;
+    --card-foreground: 220 15% 95%;
+
+    --popover: 220 30% 12%;
+    --popover-foreground: 220 15% 95%;
+
+    --primary: 210 100% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 25% 18%;
+    --secondary-foreground: 220 15% 90%;
+
+    --muted: 220 25% 15%;
+    --muted-foreground: 220 15% 55%;
+
+    --accent: 270 80% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 20%;
+    --input: 220 25% 15%;
+    --ring: 210 100% 60%;
+
+    --radius: 1rem;
+
+    /* Chat specific tokens */
+    --chat-user-bg: 210 100% 55%;
+    --chat-user-fg: 0 0% 100%;
+    --chat-bot-bg: 220 30% 15%;
+    --chat-bot-fg: 220 15% 92%;
+    --chat-gradient-start: 220 40% 8%;
+    --chat-gradient-mid: 240 35% 12%;
+    --chat-gradient-end: 260 30% 10%;
+    --chat-input-bg: 220 30% 12%;
+    --chat-shadow: 220 50% 5%;
+    --typing-dot: 210 100% 65%;
+    --glow-primary: 210 100% 60%;
+    --glow-accent: 270 80% 60%;
+
+    --sidebar-background: 220 30% 10%;
+    --sidebar-foreground: 220 15% 90%;
+    --sidebar-primary: 210 100% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 25% 18%;
+    --sidebar-accent-foreground: 220 15% 90%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 210 100% 60%;
+  }
+
+  .dark {
+    --background: 220 30% 6%;
+    --foreground: 220 15% 95%;
+
+    --card: 220 30% 12%;
+    --card-foreground: 220 15% 95%;
+
+    --popover: 220 30% 12%;
+    --popover-foreground: 220 15% 95%;
+
+    --primary: 210 100% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 25% 18%;
+    --secondary-foreground: 220 15% 90%;
+
+    --muted: 220 25% 15%;
+    --muted-foreground: 220 15% 55%;
+
+    --accent: 270 80% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 20%;
+    --input: 220 25% 15%;
+    --ring: 210 100% 60%;
+
+    /* Chat specific tokens - dark mode */
+    --chat-user-bg: 210 100% 55%;
+    --chat-user-fg: 0 0% 100%;
+    --chat-bot-bg: 220 30% 15%;
+    --chat-bot-fg: 220 15% 92%;
+    --chat-gradient-start: 220 40% 8%;
+    --chat-gradient-mid: 240 35% 12%;
+    --chat-gradient-end: 260 30% 10%;
+    --chat-input-bg: 220 30% 12%;
+    --chat-shadow: 220 50% 5%;
+    --typing-dot: 210 100% 65%;
+    --glow-primary: 210 100% 60%;
+    --glow-accent: 270 80% 60%;
+
+    --sidebar-background: 220 30% 10%;
+    --sidebar-foreground: 220 15% 90%;
+    --sidebar-primary: 210 100% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 25% 18%;
+    --sidebar-accent-foreground: 220 15% 90%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 210 100% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+@layer utilities {
+  .chat-gradient {
+    background: linear-gradient(
+      160deg,
+      hsl(var(--chat-gradient-start)) 0%,
+      hsl(var(--chat-gradient-mid)) 50%,
+      hsl(var(--chat-gradient-end)) 100%
+    );
+  }
+
+  .glass {
+    background: hsl(var(--card) / 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .glass-strong {
+    background: hsl(var(--card) / 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .message-shadow {
+    box-shadow: 0 4px 24px hsl(var(--chat-shadow) / 0.4);
+  }
+
+  .input-shadow {
+    box-shadow: 0 8px 32px hsl(var(--chat-shadow) / 0.3);
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 40px hsl(var(--glow-primary) / 0.3),
+                0 0 80px hsl(var(--glow-primary) / 0.15);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 40px hsl(var(--glow-accent) / 0.25);
+  }
+
+  .user-bubble-gradient {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--chat-user-bg)) 0%,
+      hsl(270 70% 55%) 100%
+    );
+  }
+
+  .header-gradient {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--glow-primary) / 0.1) 0%,
+      hsl(var(--glow-accent) / 0.1) 100%
+    );
+  }
+}
