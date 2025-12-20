@@ -303,21 +303,34 @@
   </p>
 
   <% const budgetPackages = []; const midPackages = []; const luxuryPackages =
-  []; packagesList.forEach((pkg) => { if (pkg.totalEstimateUSD < 500) {
-  budgetPackages.push(pkg); } else if (pkg.totalEstimateUSD < 1500) {
-  midPackages.push(pkg); } else { luxuryPackages.push(pkg); } }); const
-  categories = [ { name: '💰 Budget-Friendly', packages: budgetPackages, color:
-  '#28a745' }, { name: '⭐ Mid-Range', packages: midPackages, color: '#ffc107'
-  }, { name: '👑 Luxury', packages: luxuryPackages, color: '#dc3545' }, ]; %> <%
+  []; packagesList.forEach((pkg) => { 
+    const tierFromName = pkg.name ? (pkg.name.toLowerCase().includes('budget') ? 'budget' : pkg.name.toLowerCase().includes('mid') ? 'mid' : 'luxury') : 'mid';
+    const tier = pkg.tier ? pkg.tier.toLowerCase() : tierFromName;
+    if (tier.includes('budget') || tier === 'budget') {
+      budgetPackages.push(pkg); 
+    } else if (tier.includes('mid') || tier === 'mid') {
+      midPackages.push(pkg); 
+    } else {
+      luxuryPackages.push(pkg); 
+    }
+  });
+  budgetPackages.sort((a, b) => b.totalEstimateUSD - a.totalEstimateUSD);
+  midPackages.sort((a, b) => b.totalEstimateUSD - a.totalEstimateUSD);
+  luxuryPackages.sort((a, b) => b.totalEstimateUSD - a.totalEstimateUSD);
+  const categories = [ { name: '💰 Budget-Friendly', packages: budgetPackages, color:
+  '#22a84f' }, { name: '⭐ Mid-Range', packages: midPackages, color: '#f59e0b'
+  }, { name: '👑 Luxury', packages: luxuryPackages, color: '#ef4444' }, ]; %> <%
   categories.forEach((category) => { %> <% if (category.packages.length > 0) {
   %>
   <div style="margin-bottom: 40px">
     <h3
       style="
-        color: <%= category.color %>;
+        background: <%= category.color %>;
+        color: white;
+        padding: 15px 20px;
         margin-bottom: 20px;
-        padding-left: 15px;
-        border-left: 4px solid <%= category.color %>;
+        border-radius: 8px;
+        font-size: 1.3rem;
       "
     >
       <%= category.name %> (<%= category.packages.length %> package<% if
@@ -329,7 +342,8 @@
       <div class="package-header">
         <div class="package-title">
           <%= package.name %>
-          <span class="duration-badge"><%= package.duration %></span>
+          <% const days = package.durationDays || parseInt(package.duration) || 5; const nights = Math.max(days - 1, 0); %>
+          <span class="duration-badge"><%= days %>D/<%= nights %>N</span>
         </div>
           <% if (package.city || package.country) { %>
           <div style="margin-top:6px;font-size:1rem;opacity:0.95">
