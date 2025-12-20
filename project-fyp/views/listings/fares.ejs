@@ -367,6 +367,9 @@
     <i class="fas fa-taxi" style="font-size: 3rem; margin-bottom: 15px"></i>
     <h1>Central Asian Taxi Fares</h1>
     <p>Affordable & reliable transport options for your journey</p>
+      <div style="margin-top: 12px; font-weight: 700;">
+        Currency: <span id="faresCurrencyLabel">USD</span>
+      </div>
   </div>
 
   <!-- Destination Info -->
@@ -406,7 +409,7 @@
     // Store fares by country globally for calculator
     let faresByCountryData = {};
 
-    // Currency management
+    // Currency management (synced with navbar selector)
     let currentCurrency = "USD";
     let exchangeRate = 1;
     let currencySymbol = "$";
@@ -454,6 +457,17 @@
           console.log(
             `✅ Loaded ${result.count} taxi fares from ${result.countries} countries`
           );
+
+          // Respect current navbar currency at render time
+          const navbarCurrencySelect = document.getElementById(
+            "navbar-currency-select"
+          );
+          if (navbarCurrencySelect) {
+            const navCurrency = navbarCurrencySelect.value;
+            if (navCurrency && navCurrency !== currentCurrency) {
+              await changeCurrency(navCurrency);
+            }
+          }
 
           renderFaresByCountry(faresByCountry);
         } else {
@@ -835,6 +849,8 @@
       try {
         currentCurrency = newCurrency;
         currencySymbol = currencySymbols[newCurrency] || newCurrency;
+        const label = document.getElementById("faresCurrencyLabel");
+        if (label) label.textContent = newCurrency;
 
         // Get exchange rate from USD to selected currency
         const rateData = await CurrencyConverter.getExchangeRate(
@@ -859,6 +875,14 @@
         alert("Error changing currency. Please try again.");
       }
     }
+
+    // Respond to navbar currency selector changes (event dispatched in layout)
+    document.addEventListener("currencyChanged", async (event) => {
+      const newCurrency = event.detail.currency;
+      document.getElementById("faresCurrencyLabel").textContent =
+        newCurrency;
+      await changeCurrency(newCurrency);
+    });
 
     // Convert USD to current currency
     function convertPrice(usdAmount) {
@@ -911,6 +935,8 @@
       if (savedCurrency) {
         currentCurrency = savedCurrency;
         currencySymbol = currencySymbols[savedCurrency] || savedCurrency;
+        const label = document.getElementById("faresCurrencyLabel");
+        if (label) label.textContent = savedCurrency;
       }
 
       // Set up navbar currency listener

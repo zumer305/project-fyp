@@ -265,7 +265,9 @@
 
 <div class="weather-map-container">
   <div id="weather-map"></div>
-  <div class="map-area-badge">🌤️ 18 Cities Across Central Asia</div>
+  <div class="map-area-badge">
+    🌤️ <%= (datasetLocations && datasetLocations.length) || 0 %> Cities From Dataset
+  </div>
 
   <div class="weather-layer-controls">
     <h3>Weather Layers</h3>
@@ -328,146 +330,39 @@
 </div>
 
 <script>
-  // Central Asian countries with multiple major cities and coordinates
-  const centralAsianLocations = [
-    // Azerbaijan
-    {
-      country: "Azerbaijan",
-      city: "Baku",
-      lat: 40.4093,
-      lon: 49.8671,
-      isCapital: true,
-    },
-    {
-      country: "Azerbaijan",
-      city: "Ganja",
-      lat: 40.6828,
-      lon: 46.3606,
-      isCapital: false,
-    },
-    {
-      country: "Azerbaijan",
-      city: "Sumqayit",
-      lat: 40.5897,
-      lon: 49.6686,
-      isCapital: false,
-    },
+  // Dataset-backed cities pulled from the travel packages CSV
+  const datasetLocations = <%- JSON.stringify(datasetLocations || []) %>;
 
-    // Kazakhstan
-    {
-      country: "Kazakhstan",
-      city: "Astana",
-      lat: 51.1694,
-      lon: 71.4491,
-      isCapital: true,
-    },
-    {
-      country: "Kazakhstan",
-      city: "Almaty",
-      lat: 43.222,
-      lon: 76.8512,
-      isCapital: false,
-    },
-    {
-      country: "Kazakhstan",
-      city: "Shymkent",
-      lat: 42.3,
-      lon: 69.6,
-      isCapital: false,
-    },
-
-    // Kyrgyzstan
-    {
-      country: "Kyrgyzstan",
-      city: "Bishkek",
-      lat: 42.8746,
-      lon: 74.5698,
-      isCapital: true,
-    },
-    {
-      country: "Kyrgyzstan",
-      city: "Osh",
-      lat: 40.5283,
-      lon: 72.7985,
-      isCapital: false,
-    },
-    {
-      country: "Kyrgyzstan",
-      city: "Jalal-Abad",
-      lat: 40.9333,
-      lon: 73.0,
-      isCapital: false,
-    },
-
-    // Tajikistan
-    {
-      country: "Tajikistan",
-      city: "Dushanbe",
-      lat: 38.5598,
-      lon: 68.7738,
-      isCapital: true,
-    },
-    {
-      country: "Tajikistan",
-      city: "Khujand",
-      lat: 40.2828,
-      lon: 69.62,
-      isCapital: false,
-    },
-    {
-      country: "Tajikistan",
-      city: "Kulob",
-      lat: 37.9167,
-      lon: 69.7833,
-      isCapital: false,
-    },
-
-    // Turkmenistan
-    {
-      country: "Turkmenistan",
-      city: "Ashgabat",
-      lat: 37.9601,
-      lon: 58.3261,
-      isCapital: true,
-    },
-    {
-      country: "Turkmenistan",
-      city: "Turkmenabat",
-      lat: 39.0833,
-      lon: 63.5667,
-      isCapital: false,
-    },
-    {
-      country: "Turkmenistan",
-      city: "Dasoguz",
-      lat: 41.8333,
-      lon: 59.9667,
-      isCapital: false,
-    },
-
-    // Uzbekistan
-    {
-      country: "Uzbekistan",
-      city: "Tashkent",
-      lat: 41.2995,
-      lon: 69.2401,
-      isCapital: true,
-    },
-    {
-      country: "Uzbekistan",
-      city: "Samarkand",
-      lat: 39.627,
-      lon: 66.975,
-      isCapital: false,
-    },
-    {
-      country: "Uzbekistan",
-      city: "Bukhara",
-      lat: 39.7747,
-      lon: 64.4286,
-      isCapital: false,
-    },
+  const fallbackDatasetLocations = [
+    { country: "Azerbaijan", city: "Baku", lat: 40.4093, lon: 49.8671, isCapital: true },
+    { country: "Azerbaijan", city: "Sheki", lat: 41.1975, lon: 47.1706, isCapital: false },
+    { country: "Azerbaijan", city: "Gabala", lat: 40.981, lon: 47.8457, isCapital: false },
+    { country: "Kazakhstan", city: "Astana", lat: 51.1694, lon: 71.4491, isCapital: true },
+    { country: "Kazakhstan", city: "Almaty", lat: 43.222, lon: 76.8512, isCapital: false },
+    { country: "Kazakhstan", city: "Shymkent", lat: 42.3, lon: 69.6, isCapital: false },
+    { country: "Kyrgyzstan", city: "Bishkek", lat: 42.8746, lon: 74.5698, isCapital: true },
+    { country: "Kyrgyzstan", city: "Osh", lat: 40.5283, lon: 72.7985, isCapital: false },
+    { country: "Kyrgyzstan", city: "Karakol", lat: 42.4907, lon: 78.3819, isCapital: false },
+    { country: "Tajikistan", city: "Dushanbe", lat: 38.5598, lon: 68.7738, isCapital: true },
+    { country: "Tajikistan", city: "Khujand", lat: 40.2828, lon: 69.62, isCapital: false },
+    { country: "Tajikistan", city: "Khorog", lat: 37.4907, lon: 71.553, isCapital: false },
+    { country: "Turkmenistan", city: "Ashgabat", lat: 37.9601, lon: 58.3261, isCapital: true },
+    { country: "Turkmenistan", city: "Turkmenbashi", lat: 40.022, lon: 52.9552, isCapital: false },
+    { country: "Turkmenistan", city: "Mary", lat: 37.6, lon: 61.8333, isCapital: false },
+    { country: "Uzbekistan", city: "Tashkent", lat: 41.2995, lon: 69.2401, isCapital: true },
+    { country: "Uzbekistan", city: "Samarkand", lat: 39.627, lon: 66.975, isCapital: false },
+    { country: "Uzbekistan", city: "Bukhara", lat: 39.7747, lon: 64.4286, isCapital: false },
   ];
+
+  const centralAsianLocations =
+    Array.isArray(datasetLocations) && datasetLocations.length
+      ? datasetLocations
+      : fallbackDatasetLocations;
+
+  const mapBadge = document.querySelector(".map-area-badge");
+  if (mapBadge) {
+    mapBadge.textContent = `🌤️ ${centralAsianLocations.length} Cities From Dataset`;
+  }
 
   let weatherMap = null;
   let weatherMarkers = [];
