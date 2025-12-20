@@ -5,13 +5,12 @@
 
 const fs = require("fs");
 const path = require("path");
-const { convertCurrency } = require("../project-fyp/utils/currencyHelper.js");
+const { convertCurrency } = require("../utils/currencyHelper.js");
 
 const FALLBACK_PKR_PER_USD = 278;
 const PACKAGES_FILE = path.join(
   __dirname,
   "..",
-  "project-fyp",
   "dataset",
   "central_asia_travel_packages.txt"
 );

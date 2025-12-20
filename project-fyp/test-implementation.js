@@ -4,7 +4,7 @@
  */
 
 const { convertBudgetToUSD } = require("./utils/currencyHelper.js");
-const { generatePackages } = require("../services/planner.js");
+const { generatePackages } = require("./services/planner.js");
 
 async function testCurrencyConversion() {
   console.log("=".repeat(60));

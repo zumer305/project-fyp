@@ -52,7 +52,6 @@ function loadDataset() {
   const datasetPath = path.join(
     __dirname,
     "..",
-    "project-fyp",
     "dataset",
     "central_asia_travel_dataset_500.csv"
   );

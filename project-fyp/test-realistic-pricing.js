@@ -13,8 +13,8 @@ const {
   isPriceRealistic,
   getPKRPerUSD,
   MIN_PKR_THRESHOLD,
-} = require("../services/pricing.js");
-const { generatePackages } = require("../services/planner.js");
+} = require("./services/pricing.js");
+const { generatePackages } = require("./services/planner.js");
 
 async function runTests() {
   console.log("=".repeat(60));

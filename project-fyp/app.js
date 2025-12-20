@@ -258,7 +258,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // Dataset-driven planner service
-const { generatePackages } = require("../services/planner.js");
+const { generatePackages } = require("./services/planner.js");
 
 // ===================
 // MIDDLEWARES
@@ -380,7 +380,7 @@ app.get("/packages", async (req, res) => {
 
     // TXT-based exact filtering: show all packages under the given budget (in PKR) for the selected country
     // Falls back to generator if no TXT matches are found
-    const { getPKRPerUSD, listPackagesUnderBudget } = require("../services/pricing.js");
+    const { getPKRPerUSD, listPackagesUnderBudget } = require("./services/pricing.js");
     const pkrPerUSD = await getPKRPerUSD();
     const budgetPKR = Math.round(budgetUSD * pkrPerUSD);
 
