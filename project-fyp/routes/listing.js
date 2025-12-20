@@ -9,17 +9,9 @@ const router = express.Router();
 const multer = require("multer");
 const { storage } = require("../cloudConfig.js");
 const upload = multer({ storage });
-const fs = require("fs");
-const path = require("path");
+const TravelPackage = require("../models/travelPackage.js");
 
 const listingController = require("../controllers/listings.js");
-
-const datasetPath = path.join(
-  __dirname,
-  "..",
-  "dataset",
-  "central_asia_travel_packages.txt"
-);
 
 // Coordinates for dataset-backed cities
 const datasetCoordinates = {
@@ -44,38 +36,12 @@ const datasetCoordinates = {
 };
 
 const parseDatasetLocations = () => {
-  try {
-    const raw = fs.readFileSync(datasetPath, "utf-8");
-    const lines = raw.trim().split(/\r?\n/).slice(1); // skip header
-    const seen = new Set();
-
-    return lines.reduce((acc, line) => {
-      if (!line.trim()) return acc;
-
-      const [country, city] = line.split(",").slice(0, 2);
-      if (!country || !city) return acc;
-
-      const key = `${country}|${city}`;
-      if (seen.has(key)) return acc;
-
-      const coords = datasetCoordinates[key];
-      if (!coords) return acc;
-
-      seen.add(key);
-      acc.push({ country, city, ...coords });
-      return acc;
-    }, []);
-  } catch (err) {
-    console.error("Failed to load dataset-backed weather locations:", err);
-    return [];
-  }
+  // Deprecated: no file-based source; retained for fallback only
+  return [];
 };
 
 const getWeatherDatasetLocations = () => {
-  const parsed = parseDatasetLocations();
-  if (parsed.length) return parsed;
-
-  // Fallback to coordinate map if dataset fails, but still limited to dataset countries
+  // Fallback only; primary source will be Mongo
   return Object.entries(datasetCoordinates).map(([key, coords]) => {
     const [country, city] = key.split("|");
     return { country, city, ...coords };
@@ -103,11 +69,32 @@ router.get("/eventbrite", (req, res) => {
   res.render("listings/eventbrite");
 });
 
-// Weather comparison page limited to dataset countries
-router.get("/weather-comparison", (req, res) => {
-  const datasetLocations = getWeatherDatasetLocations();
-  res.render("listings/weather-comparison", { datasetLocations });
-});
+// Weather comparison page limited to dataset countries (Mongo-backed)
+router.get(
+  "/weather-comparison",
+  wrapAsync(async (req, res) => {
+    const packages = await TravelPackage.find({}, { country: 1, city: 1 }).lean();
+    const seen = new Set();
+    const datasetLocations = [];
+
+    packages.forEach((p) => {
+      const key = `${p.country}|${p.city}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      const coords = datasetCoordinates[key];
+      if (coords) {
+        datasetLocations.push({ country: p.country, city: p.city, ...coords });
+      }
+    });
+
+    // Fallback if no DB data
+    const finalLocations = datasetLocations.length
+      ? datasetLocations
+      : getWeatherDatasetLocations();
+
+    res.render("listings/weather-comparison", { datasetLocations: finalLocations });
+  })
+);
 
 router
   .route("/:id")

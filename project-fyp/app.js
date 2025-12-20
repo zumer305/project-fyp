@@ -13,7 +13,6 @@ const { Server } = require("socket.io");
 const io = new Server(server, { cors: { origin: "*" } });
 const mongoose = require("mongoose");
 const path = require("path");
-const fs = require("fs");
 const methodOverride = require("method-override");
 const session = require("express-session");
 const flash = require("connect-flash");
@@ -25,6 +24,7 @@ const User = require("./models/user.js");
 const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
 const Booking = require("./models/booking.js");
+const TravelPackage = require("./models/travelPackage.js");
 
 // Import data from data.js
 const initData = require("./init/data.js");
@@ -100,51 +100,8 @@ const sendGroupEmail = async (group, { subject, html, excludeUserId }) => {
 };
 
 // ===================
-// DATASET HELPERS
+// DATA HELPERS (Mongo-backed)
 // ===================
-const packageDatasetPath = path.join(
-  __dirname,
-  "dataset",
-  "central_asia_travel_packages.txt"
-);
-
-let cachedPackageDataset = null;
-
-const parsePackageDataset = () => {
-  if (cachedPackageDataset) return cachedPackageDataset;
-
-  try {
-    const raw = fs.readFileSync(packageDatasetPath, "utf-8");
-    const lines = raw.trim().split(/\r?\n/);
-    // Remove header
-    lines.shift();
-
-    cachedPackageDataset = lines
-      .map((line) => line.split(","))
-      .filter((cols) => cols.length >= 12)
-      .map((cols) => ({
-        country: cols[0].trim(),
-        city: cols[1].trim(),
-        packageType: cols[2].trim(),
-        duration: cols[3].trim(),
-        flights: Number(cols[4]) || 0,
-        hotel: Number(cols[5]) || 0,
-        food: Number(cols[6]) || 0,
-        transport: Number(cols[7]) || 0,
-        attractions: Number(cols[8]) || 0,
-        shopping: Number(cols[9]) || 0,
-        misc: Number(cols[10]) || 0,
-        total: Number(cols[11]) || 0,
-      }));
-
-    return cachedPackageDataset;
-  } catch (err) {
-    console.error("Failed to read package dataset:", err);
-    cachedPackageDataset = [];
-    return cachedPackageDataset;
-  }
-};
-
 const normalize = (value) => (value || "").toString().trim().toLowerCase();
 
 const detectPackageType = (packageDetails = {}) => {
@@ -174,10 +131,8 @@ const detectPackageType = (packageDetails = {}) => {
   return null;
 };
 
-const findDatasetPackage = (latestBooking) => {
+const findDatasetPackage = async (latestBooking) => {
   if (!latestBooking || !latestBooking.packageDetails) return null;
-  const packages = parsePackageDataset();
-  if (!packages.length) return null;
 
   const details = latestBooking.packageDetails;
   const country =
@@ -192,34 +147,32 @@ const findDatasetPackage = (latestBooking) => {
     null;
   const packageType = detectPackageType(details);
 
-  const matches = packages.filter(
-    (p) =>
-      (!country || normalize(p.country) === normalize(country)) &&
-      (!city || normalize(p.city) === normalize(city))
-  );
+  const baseQuery = {};
+  if (country) baseQuery.country = country;
+  if (city) baseQuery.city = city;
 
-  if (matches.length) {
-    if (packageType) {
-      const typeMatch = matches.find(
-        (p) => normalize(p.packageType) === normalize(packageType)
-      );
-      if (typeMatch) return typeMatch;
-    }
-    return matches[0];
+  // 1) Match country + city + type
+  if (packageType) {
+    const match = await TravelPackage.findOne({ ...baseQuery, packageType });
+    if (match) return match;
   }
 
-  // Fallback: match by country only
-  const countryMatches = packages.filter(
-    (p) => country && normalize(p.country) === normalize(country)
-  );
-  if (countryMatches.length) {
-    if (packageType) {
-      const typeMatch = countryMatches.find(
-        (p) => normalize(p.packageType) === normalize(packageType)
-      );
-      if (typeMatch) return typeMatch;
-    }
-    return countryMatches[0];
+  // 2) Match country + city
+  if (country || city) {
+    const match = await TravelPackage.findOne(baseQuery);
+    if (match) return match;
+  }
+
+  // 3) Country only with type
+  if (country && packageType) {
+    const match = await TravelPackage.findOne({ country, packageType });
+    if (match) return match;
+  }
+
+  // 4) Country only fallback
+  if (country) {
+    const match = await TravelPackage.findOne({ country });
+    if (match) return match;
   }
 
   return null;
@@ -383,8 +336,8 @@ app.get("/expenses/latest", async (req, res) => {
       createdAt: -1,
     });
 
-    const datasetExpense = findDatasetPackage(latestBooking);
-    const datasetAvailable = parsePackageDataset();
+    const datasetExpense = await findDatasetPackage(latestBooking);
+    const datasetAvailable = null; // no longer needed in view; Mongo is source
 
     res.render("listings/expense-details", {
       latestBooking,
