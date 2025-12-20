@@ -303,7 +303,13 @@
     </p>
   </div>
 
-  <% if (packagesList && packagesList.length > 0) { %>
+  <% if (typeof noSelection !== 'undefined' && noSelection) { %>
+  <div class="no-packages">
+    <h3>😔 No package selected</h3>
+    <p>Please go back and choose a country and budget to view packages.</p>
+    <a href="/" class="btn-back">← Back to Home</a>
+  </div>
+  <% } else if (packagesList && packagesList.length > 0) { %>
   <h2 class="text-center mb-4">📦 Selected Packages for You</h2>
   <p class="text-center" style="color: #6c757d; margin-bottom: 30px">
     Showing packages across different budget categories
@@ -349,8 +355,8 @@
       <div class="package-header">
         <div class="package-title">
           <%= package.name %>
-          <% const days = package.durationDays || parseInt(package.duration) || 5; const nights = Math.max(days - 1, 0); %>
-          <span class="duration-badge"><%= days %>D/<%= nights %>N</span>
+          <% const days = package.durationDays || parseInt(package.duration) || 5; const nightsBadge = Math.max(days - 1, 0); %>
+          <span class="duration-badge"><%= days %>D/<%= nightsBadge %>N</span>
         </div>
           <% if (package.city || package.country) { %>
           <div style="margin-top:6px;font-size:1rem;opacity:0.95">
@@ -520,13 +526,18 @@
         <!-- Action buttons -->
         <div class="card-actions">
           <% const pkgId = package._id ? package._id.toString() : package.id ||
-          Date.now().toString(); const packageData = { packageId: pkgId,
-          packageTitle: package.name, destination: package.city, country:
-          package.country, duration: package.duration, totalCost: package.price,
-          currency: 'USD', hotel: package.hotel, food: package.food, transport:
-          package.transport, attractions: package.attractions, shopping:
-          package.shopping, muslimFeatures: package.muslimFeatures, weather:
-          package.weather, }; %>
+          Date.now().toString(); const nights = (package.durationDays || 0) > 0
+          ? Math.max((package.durationDays || 0) - 1, 0)
+          : null; const packageData = { packageId: pkgId, packageTitle:
+          package.name, destination: package.city, country: package.country,
+          tier: package.tier, duration: package.duration, durationDays:
+          package.durationDays, durationNights: nights, totalCost:
+          package.price, totalCostPKR: package.totalPKR, currency: 'USD',
+          hotel: package.hotel, food: package.food, transport: package.transport,
+          attractions: package.attractions, shopping: package.shopping,
+          muslimFeatures: package.muslimFeatures, weather: package.weather,
+          breakdownPKR: package.breakdownPKR, breakdownUSD: package.breakdownUSD,
+          flights: package.flights, misc: package.misc, }; %>
           <button
             class="btn btn-select"
             data-id="<%= pkgId %>"

@@ -236,6 +236,19 @@ app.get("/packages", async (req, res) => {
     const currency = (req.query.currency || "USD").toUpperCase();
     const durationDays = parseInt(req.query.days) || undefined;
 
+    // If user navigates without selecting a package/budget, show a friendly message
+    if (!country || !budget) {
+      return res.render("listings/packages", {
+        country,
+        budget,
+        currency,
+        budgetUSD: 0,
+        packagesList: [],
+        budgetCategory: null,
+        noSelection: true,
+      });
+    }
+
     // Convert budget to USD for filtering
     const budgetUSD = await convertBudgetToUSD(budget, currency);
     console.log(

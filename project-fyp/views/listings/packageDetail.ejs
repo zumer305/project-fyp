@@ -17,6 +17,20 @@
     color: #fff;
     padding: 28px;
   }
+  .subline {
+    opacity: 0.92;
+    margin-top: 6px;
+    font-size: 1rem;
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    margin-right: 8px;
+    font-weight: 600;
+  }
   .detail-body {
     padding: 24px;
   }
@@ -38,6 +52,23 @@
     padding: 18px;
     border-radius: 8px;
   }
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .pill {
+    background: #eef2f7;
+    padding: 12px;
+    border-radius: 10px;
+    border-left: 4px solid #3375ae;
+  }
+  .pill strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #1b3a57;
+  }
   .btn-action {
     padding: 10px 14px;
     border-radius: 8px;
@@ -57,13 +88,17 @@
   <div class="detail-card">
     <div class="detail-header">
       <h1 id="pkg-name">Package Details</h1>
-      <div id="pkg-sub" style="opacity: 0.95; margin-top: 6px"></div>
+        <div id="pkg-sub" class="subline"></div>
+        <div id="pkg-badges" style="margin-top:10px"></div>
     </div>
     <div class="detail-body">
       <div class="detail-grid">
         <div>
           <h3>Overview</h3>
           <p id="pkg-overview"></p>
+
+            <h4>Cost Breakdown</h4>
+            <div class="breakdown-grid" id="pkg-breakdown"></div>
 
           <h4>Highlights</h4>
           <ul id="pkg-highlights" class="feature-list"></ul>
@@ -77,13 +112,9 @@
 
         <aside class="side-box">
           <h4>Price & Booking</h4>
-          <div
-            style="font-size: 1.4rem; font-weight: 700; margin: 8px 0"
-            id="pkg-price"
-          >
-            $0
-          </div>
-          <div>Duration: <span id="pkg-duration"></span></div>
+          <div style="font-size: 1.1rem; margin: 6px 0">PKR: <span id="pkg-price-pkr">—</span></div>
+          <div style="font-size: 1.1rem; margin: 2px 0">USD: <span id="pkg-price-usd">—</span></div>
+          <div style="margin-top:6px">Duration: <span id="pkg-duration"></span></div>
           <div style="margin-top: 12px">
             <a id="btn-book" class="btn-action" href="#">Proceed to Booking</a>
           </div>
@@ -124,13 +155,43 @@
       return (window.location.href = "/");
     }
 
-    document.getElementById("pkg-name").textContent = pkg.name || "Package";
-    document.getElementById("pkg-sub").textContent = pkg._id
-      ? `ID: ${pkg._id}`
+    const displayName = pkg.packageTitle || pkg.name || "Package";
+    document.getElementById("pkg-name").textContent = displayName;
+
+    const durationText = pkg.duration
+      || (pkg.durationDays ? `${pkg.durationDays} Days` : "");
+    const nightsText = Number.isFinite(pkg.durationNights)
+      ? `${pkg.durationNights} Nights`
       : "";
-    document.getElementById("pkg-overview").textContent = `Transport: ${
-      pkg.transport || "N/A"
-    } · Hotel: ${pkg.hotel || "N/A"}`;
+    const tierText = pkg.tier ? pkg.tier.toString().replace(/_/g, " ") : "";
+    const locationText = [pkg.destination || pkg.city, pkg.country]
+      .filter(Boolean)
+      .join(", ");
+    const subParts = [locationText, tierText].filter(Boolean);
+    document.getElementById("pkg-sub").textContent = subParts.join(" • ");
+
+    const badgeWrap = document.getElementById("pkg-badges");
+    badgeWrap.innerHTML = "";
+    if (durationText) {
+      const b = document.createElement("span");
+      b.className = "badge";
+      b.textContent = durationText + (nightsText ? ` / ${nightsText}` : "");
+      badgeWrap.appendChild(b);
+    }
+    if (tierText) {
+      const b = document.createElement("span");
+      b.className = "badge";
+      b.textContent = tierText;
+      badgeWrap.appendChild(b);
+    }
+
+    const overviewParts = [
+      pkg.transport ? `Transport: ${pkg.transport}` : null,
+      pkg.hotel ? `Hotel: ${pkg.hotel}` : null,
+      pkg.food ? `Food: ${pkg.food}` : null,
+    ].filter(Boolean);
+    document.getElementById("pkg-overview").textContent =
+      overviewParts.join(" · ") || "N/A";
     const highlights = document.getElementById("pkg-highlights");
     (pkg.attractions || []).forEach((a) => {
       const li = document.createElement("li");
@@ -147,33 +208,43 @@
       ? `${pkg.weather.current || ""} — ${pkg.weather.forecast || ""}`
       : "N/A";
 
-    const priceAmount = pkg.price || 0;
-    const priceEl = document.getElementById("pkg-price");
-    priceEl.setAttribute("data-price", priceAmount);
-    priceEl.setAttribute("data-currency", "USD");
-    priceEl.classList.add("price-display");
+    const priceAmountUSD = pkg.totalCost || pkg.price || 0;
+    const pricePKR = pkg.totalCostPKR || pkg.totalPKR || null;
+    const priceElUSD = document.getElementById("pkg-price-usd");
+    const priceElPKR = document.getElementById("pkg-price-pkr");
 
-    // Initialize price with current currency
+    priceElUSD.setAttribute("data-price", priceAmountUSD);
+    priceElUSD.setAttribute("data-currency", "USD");
+    priceElUSD.classList.add("price-display");
+
+    // Initialize USD price
     const currentCurrency = CurrencyConverter.getUserCurrency();
     if (currentCurrency === "USD") {
-      priceEl.textContent = `$${priceAmount.toLocaleString()}`;
+      priceElUSD.textContent = `$${priceAmountUSD.toLocaleString()}`;
     } else {
       const result = await CurrencyConverter.convert(
-        priceAmount,
+        priceAmountUSD,
         "USD",
         currentCurrency
       );
       if (result.success) {
-        priceEl.textContent = CurrencyConverter.formatCurrency(
+        priceElUSD.textContent = CurrencyConverter.formatCurrency(
           result.result,
           currentCurrency
         );
       } else {
-        priceEl.textContent = `$${priceAmount.toLocaleString()}`;
+        priceElUSD.textContent = `$${priceAmountUSD.toLocaleString()}`;
       }
     }
 
-    document.getElementById("pkg-duration").textContent = pkg.duration || "N/A";
+    if (pricePKR) {
+      priceElPKR.textContent = `Rs${pricePKR.toLocaleString()}`;
+    } else {
+      priceElPKR.textContent = "N/A";
+    }
+
+    document.getElementById("pkg-duration").textContent =
+      durationText || "N/A";
     document.getElementById("pkg-hotel").textContent = pkg.hotel || "N/A";
     document.getElementById("pkg-food").textContent = pkg.food || "N/A";
 
@@ -191,7 +262,7 @@
     // Handle currency changes
     document.addEventListener("currencyChanged", async (e) => {
       const newCurrency = e.detail.currency;
-      const priceEl = document.getElementById("pkg-price");
+      const priceEl = document.getElementById("pkg-price-usd");
       const originalPrice = parseFloat(priceEl.getAttribute("data-price"));
 
       if (newCurrency === "USD") {
@@ -210,6 +281,39 @@
         }
       }
     });
+
+    // Render breakdown if available
+    const breakdownPKR = pkg.breakdownPKR || null;
+    const breakdownUSD = pkg.breakdownUSD || null;
+    const breakdownContainer = document.getElementById("pkg-breakdown");
+    if (breakdownPKR) {
+      const items = [
+        { label: "Flights", key: "flights" },
+        { label: "Hotel", key: "hotel" },
+        { label: "Food", key: "food" },
+        { label: "Transport", key: "transport" },
+        { label: "Attractions", key: "attractions" },
+        { label: "Shopping", key: "shopping" },
+        { label: "Misc & Insurance", key: "misc" },
+        { label: "Total", key: "total", total: true },
+      ];
+      items.forEach((item) => {
+        const valPKR = item.total
+          ? (pkg.totalCostPKR || pkg.totalPKR || 0)
+          : breakdownPKR[item.key];
+        const valUSD = breakdownUSD
+          ? item.total
+            ? pkg.totalCost || pkg.price || 0
+            : breakdownUSD[item.key]
+          : null;
+        const div = document.createElement("div");
+        div.className = "pill";
+        div.innerHTML = `<strong>${item.label}</strong>Rs${(valPKR || 0).toLocaleString()}${
+          valUSD ? ` (≈ $${valUSD})` : ""
+        }`;
+        breakdownContainer.appendChild(div);
+      });
+    }
 
     // clear temporary selection after rendering so it doesn't persist
     if (sessionStorage.getItem("selectedPackage_temp"))
