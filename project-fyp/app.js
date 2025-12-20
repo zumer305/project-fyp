@@ -252,30 +252,49 @@ app.get("/packages", async (req, res) => {
     if (country && budgetPKR > 0) {
       const txtMatches = listPackagesUnderBudget(country, budgetPKR);
       if (txtMatches && txtMatches.length > 0) {
-        // Map TXT rows to UI-friendly package objects
+        // Map TXT rows to UI-friendly package objects with exact TXT data
         packagesList = txtMatches.map((row, idx) => {
           const priceUSD = Math.round(row.price_pkr / pkrPerUSD);
           const breakdownUSD = {
+            flights: Math.round(row.breakdown.flights / pkrPerUSD),
             hotel: Math.round(row.breakdown.hotel / pkrPerUSD),
             food: Math.round(row.breakdown.food / pkrPerUSD),
             transport: Math.round(row.breakdown.transport / pkrPerUSD),
+            attractions: Math.round(row.breakdown.attractions / pkrPerUSD),
+            shopping: Math.round(row.breakdown.shopping / pkrPerUSD),
+            misc: Math.round(row.breakdown.misc / pkrPerUSD),
           };
           return {
             id: `${row.country}_${row.city}_${row.tier}_${row.days}_${idx}`,
             country: row.country,
             city: row.city,
             tier: row.tier,
-            name: `${row.city} - ${row.tier.charAt(0).toUpperCase() + row.tier.slice(1)} (${row.days}D)`,
+            name: `${row.city} - ${row.tier.charAt(0).toUpperCase() + row.tier.slice(1)}`,
             duration: `${row.days} Days`,
             durationDays: row.days,
             price: priceUSD,
             priceUSD: priceUSD,
             totalEstimateUSD: priceUSD,
-            hotel: `Estimated hotel budget - $${breakdownUSD.hotel} total`,
-            food: `Halal-friendly meals - $${breakdownUSD.food} total`,
-            transport: `Local transport & airport transfers - $${breakdownUSD.transport} total`,
-            attractions: ["City highlights", "Cultural sites", "Local markets"],
-            shopping: ["Souks & bazaars"],
+            totalPKR: row.price_pkr,
+            // Breakdown in PKR (from TXT file - exact values)
+            breakdownPKR: {
+              flights: row.breakdown.flights,
+              hotel: row.breakdown.hotel,
+              food: row.breakdown.food,
+              transport: row.breakdown.transport,
+              attractions: row.breakdown.attractions,
+              shopping: row.breakdown.shopping,
+              misc: row.breakdown.misc,
+            },
+            // Breakdown in USD (converted)
+            breakdownUSD: breakdownUSD,
+            hotel: `Hotel - Rs${row.breakdown.hotel.toLocaleString()} (~$${breakdownUSD.hotel})`,
+            food: `Food & Dining - Rs${row.breakdown.food.toLocaleString()} (~$${breakdownUSD.food})`,
+            transport: `Transport - Rs${row.breakdown.transport.toLocaleString()} (~$${breakdownUSD.transport})`,
+            attractions: [`Attractions - Rs${row.breakdown.attractions.toLocaleString()} (~$${breakdownUSD.attractions})`],
+            shopping: [`Shopping - Rs${row.breakdown.shopping.toLocaleString()} (~$${breakdownUSD.shopping})`],
+            misc: `Insurance & Misc - Rs${row.breakdown.misc.toLocaleString()} (~$${breakdownUSD.misc})`,
+            flights: `Flights - Rs${row.breakdown.flights.toLocaleString()} (~$${breakdownUSD.flights})`,
           };
         });
       }

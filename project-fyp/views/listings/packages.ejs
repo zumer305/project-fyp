@@ -31,11 +31,12 @@
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    transition: none;
   }
 
   .package-card:hover {
-    transform: translateY(-5px);
+    transform: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   }
 
   .package-header {
@@ -57,6 +58,12 @@
     padding: 10px 20px;
     border-radius: 25px;
     display: inline-block;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .price-display {
+    color: #fff;
   }
 
   .package-body {
@@ -317,9 +324,9 @@
   budgetPackages.sort((a, b) => b.totalEstimateUSD - a.totalEstimateUSD);
   midPackages.sort((a, b) => b.totalEstimateUSD - a.totalEstimateUSD);
   luxuryPackages.sort((a, b) => b.totalEstimateUSD - a.totalEstimateUSD);
-  const categories = [ { name: '💰 Budget-Friendly', packages: budgetPackages, color:
-  '#22a84f' }, { name: '⭐ Mid-Range', packages: midPackages, color: '#f59e0b'
-  }, { name: '👑 Luxury', packages: luxuryPackages, color: '#ef4444' }, ]; %> <%
+  const categories = [ { name: '� Luxury', packages: luxuryPackages, color:
+  '#ef4444' }, { name: '⭐ Mid-Range', packages: midPackages, color: '#f59e0b'
+  }, { name: '💰 Budget-Friendly', packages: budgetPackages, color: '#22a84f' }, ]; %> <%
   categories.forEach((category) => { %> <% if (category.packages.length > 0) {
   %>
   <div style="margin-bottom: 40px">
@@ -368,53 +375,119 @@
         <% } %>
 
         <div class="features-grid">
-          <div class="feature-section">
-            <div class="feature-title">
-              <span class="feature-icon">🏨</span>
-              Accommodation
+          <% if (package.breakdownPKR) { %>
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">✈️</span>
+                Flights
+              </div>
+              <p>Rs<%= package.breakdownPKR.flights.toLocaleString() %> (~$<%= package.breakdownUSD.flights %>)</p>
             </div>
-            <p><%= package.hotel %></p>
-          </div>
 
-          <div class="feature-section">
-            <div class="feature-title">
-              <span class="feature-icon">🍽️</span>
-              Food & Dining
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🏨</span>
+                Hotel
+              </div>
+              <p>Rs<%= package.breakdownPKR.hotel.toLocaleString() %> (~$<%= package.breakdownUSD.hotel %>)</p>
             </div>
-            <p><%= package.food %></p>
-          </div>
 
-          <div class="feature-section">
-            <div class="feature-title">
-              <span class="feature-icon">🚗</span>
-              Transportation
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🍽️</span>
+                Food & Dining
+              </div>
+              <p>Rs<%= package.breakdownPKR.food.toLocaleString() %> (~$<%= package.breakdownUSD.food %>)</p>
             </div>
-            <p><%= package.transport %></p>
-          </div>
 
-          <div class="feature-section">
-            <div class="feature-title">
-              <span class="feature-icon">🎯</span>
-              Must-Visit Attractions
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🚗</span>
+                Transportation
+              </div>
+              <p>Rs<%= package.breakdownPKR.transport.toLocaleString() %> (~$<%= package.breakdownUSD.transport %>)</p>
             </div>
-            <ul class="feature-list">
-              <% package.attractions.forEach((attraction) => { %>
-              <li><%= attraction %></li>
-              <% }); %>
-            </ul>
-          </div>
 
-          <div class="feature-section">
-            <div class="feature-title">
-              <span class="feature-icon">🛍️</span>
-              Shopping Destinations
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🎯</span>
+                Attractions
+              </div>
+              <p>Rs<%= package.breakdownPKR.attractions.toLocaleString() %> (~$<%= package.breakdownUSD.attractions %>)</p>
             </div>
-            <ul class="feature-list">
-              <% package.shopping.forEach((shop) => { %>
-              <li><%= shop %></li>
-              <% }); %>
-            </ul>
-          </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🛍️</span>
+                Shopping
+              </div>
+              <p>Rs<%= package.breakdownPKR.shopping.toLocaleString() %> (~$<%= package.breakdownUSD.shopping %>)</p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🛡️</span>
+                Insurance & Misc
+              </div>
+              <p>Rs<%= package.breakdownPKR.misc.toLocaleString() %> (~$<%= package.breakdownUSD.misc %>)</p>
+            </div>
+
+            <div class="feature-section" style="background: #e8f5e9; border-left-color: #2e7d32;">
+              <div class="feature-title" style="color: #1b5e20;">
+                <span class="feature-icon">💰</span>
+                Total Package Cost
+              </div>
+              <p style="font-size: 1.2rem; font-weight: bold; color: #2e7d32;">Rs<%= package.totalPKR.toLocaleString() %> (~$<%= package.priceUSD %>)</p>
+            </div>
+          <% } else { %>
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🏨</span>
+                Accommodation
+              </div>
+              <p><%= package.hotel %></p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🍽️</span>
+                Food & Dining
+              </div>
+              <p><%= package.food %></p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🚗</span>
+                Transportation
+              </div>
+              <p><%= package.transport %></p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🎯</span>
+                Must-Visit Attractions
+              </div>
+              <ul class="feature-list">
+                <% package.attractions.forEach((attraction) => { %>
+                <li><%= attraction %></li>
+                <% }); %>
+              </ul>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🛍️</span>
+                Shopping Destinations
+              </div>
+              <ul class="feature-list">
+                <% package.shopping.forEach((shop) => { %>
+                <li><%= shop %></li>
+                <% }); %>
+              </ul>
+            </div>
+          <% } %>
         </div>
 
         <% if (package.muslimFeatures) { %>
