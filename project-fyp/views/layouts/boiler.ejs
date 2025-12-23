@@ -39,7 +39,7 @@
     <!-- Base CSS -->
     <link rel="stylesheet" href="/css/base/reset.css" />
     
-    <!-- Component CSS -->
+    <!-- Component CSS (Old - will be overridden) -->
     <link rel="stylesheet" href="/css/components/navbar.css" />
     <link rel="stylesheet" href="/css/components/footer.css" />
     <link rel="stylesheet" href="/css/components/cards.css" />
@@ -56,6 +56,10 @@
     <link rel="stylesheet" href="/css/rating.css" />
     <link rel="stylesheet" href="/css/currency.css" />
     <link rel="stylesheet" href="/css/groups.css" />
+    
+    <!-- 🎨 PROFESSIONAL DESIGN SYSTEM - Loads LAST to override everything -->
+    <link rel="stylesheet" href="/css/style.css?v=3" />
+    <link rel="stylesheet" href="/css/enhancements.css?v=3" />
   </head>
   <body>
     <%-include("../partials/navbar.ejs")%>
@@ -78,6 +82,9 @@
     
     <!-- Currency Initialization -->
     <script src="/js/pages/currency-init.js"></script>
+    
+    <!-- 🎨 Professional Enhancements -->
+    <script src="/js/smooth-scroll.js"></script>
     
     <!-- Main Script -->
     <script src="/js/script.js"></script>

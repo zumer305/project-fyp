@@ -1,0 +1,507 @@
+<% layout("/layouts/boiler")%>
+
+<!-- 🎨 PROFESSIONAL LANDING PAGE -->
+<style>
+  /* Remove default container padding for full-width hero */
+  body > .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* Hero Section */
+  .hero-landing {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    background: linear-gradient(135deg, rgba(10, 37, 64, 0.95) 0%, rgba(46, 125, 210, 0.9) 50%, rgba(107, 207, 127, 0.85) 100%),
+                url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-landing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 215, 61, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(107, 207, 127, 0.3) 0%, transparent 50%);
+    animation: heroGlow 8s ease-in-out infinite;
+  }
+
+  @keyframes heroGlow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    padding: 0 2rem;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    animation: fadeInUp 1s ease-out 0.2s backwards;
+  }
+
+  .hero-landing h1 {
+    font-size: 4.5rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    font-family: var(--font-display);
+    animation: fadeInUp 1s ease-out 0.3s backwards;
+  }
+
+  .hero-landing .subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    opacity: 0.95;
+    font-weight: 500;
+    line-height: 1.6;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease-out 0.4s backwards;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.5s backwards;
+  }
+
+  .cta-btn {
+    padding: 1.125rem 3rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    font-family: var(--font-primary);
+  }
+
+  .cta-btn-primary {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%);
+    color: var(--primary-700);
+    border: 3px solid white;
+  }
+
+  .cta-btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 50px rgba(255, 255, 255, 0.4);
+    color: var(--primary-800);
+  }
+
+  .cta-btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    color: white;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .cta-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 50px rgba(255, 255, 255, 0.3);
+    color: white;
+  }
+
+  /* Features Section */
+  .features-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(180deg, #F7FAFC 0%, #FFFFFF 100%);
+  }
+
+  .features-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-badge {
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    background: var(--primary-100);
+    color: var(--primary-700);
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--primary-300);
+  }
+
+  .section-header h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+    font-family: var(--font-display);
+  }
+
+  .section-header p {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+  }
+
+  .feature-card-landing {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--gray-200);
+    transition: all var(--transition-base);
+    text-align: center;
+  }
+
+  .feature-card-landing:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-2xl);
+    border-color: var(--primary-400);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    border-radius: var(--radius-xl);
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    box-shadow: var(--shadow-primary);
+    color: white;
+  }
+
+  .feature-card-landing h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+    font-family: var(--font-display);
+  }
+
+  .feature-card-landing p {
+    font-size: 1rem;
+    color: var(--gray-600);
+    line-height: 1.7;
+  }
+
+  /* Testimonials */
+  .testimonials-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-700) 100%);
+    color: white;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .testimonial-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .testimonial-rating {
+    color: var(--accent-gold);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-text {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .testimonial-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-sunset);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+
+  .testimonial-info h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.0625rem;
+  }
+
+  .testimonial-info p {
+    margin: 0.25rem 0 0;
+    opacity: 0.8;
+    font-size: 0.875rem;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(135deg, var(--primary-100) 0%, var(--accent-emerald) 20%, var(--primary-100) 100%);
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    margin-bottom: 1.5rem;
+    font-family: var(--font-display);
+  }
+
+  .cta-section p {
+    font-size: 1.25rem;
+    color: var(--gray-700);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-landing h1 {
+      font-size: 2.5rem;
+    }
+    
+    .hero-landing .subtitle {
+      font-size: 1.125rem;
+    }
+    
+    .cta-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .cta-btn {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .section-header h2 {
+      font-size: 2rem;
+    }
+    
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Floating Animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .float-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+</style>
+
+<!-- Hero Section -->
+<div class="hero-landing">
+  <div class="hero-content">
+    <div class="hero-badge">
+      🌍 AI-Powered Travel Platform
+    </div>
+    <h1>Discover Your Perfect Journey</h1>
+    <p class="subtitle">
+      Experience Central Asia like never before with AI-driven recommendations, 
+      real-time insights, and seamless travel planning all in one place.
+    </p>
+    <div class="cta-buttons">
+      <a href="/signup" class="cta-btn cta-btn-primary">
+        <span>Get Started Free</span>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+      <a href="/login" class="cta-btn cta-btn-secondary">
+        <span>Sign In</span>
+        <i class="fas fa-sign-in-alt"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="features-section">
+  <div class="features-container">
+    <div class="section-header">
+      <div class="section-badge">✨ Why Choose Us</div>
+      <h2>Everything You Need for Perfect Travel</h2>
+      <p>Powerful features designed to make your travel planning effortless and enjoyable</p>
+    </div>
+    
+    <div class="features-grid">
+      <div class="feature-card-landing">
+        <div class="feature-icon float-animation">🤖</div>
+        <h3>AI-Powered Planning</h3>
+        <p>Get personalized recommendations based on your budget, preferences, and travel style</p>
+      </div>
+      
+      <div class="feature-card-landing">
+        <div class="feature-icon float-animation" style="animation-delay: 0.2s;">🗺️</div>
+        <h3>Interactive Maps</h3>
+        <p>Explore destinations with real-time maps, nearby attractions, and local insights</p>
+      </div>
+      
+      <div class="feature-card-landing">
+        <div class="feature-icon float-animation" style="animation-delay: 0.4s;">👥</div>
+        <h3>Group Travel</h3>
+        <p>Plan trips with friends, share expenses, and coordinate activities seamlessly</p>
+      </div>
+      
+      <div class="feature-card-landing">
+        <div class="feature-icon float-animation" style="animation-delay: 0.6s;">🕌</div>
+        <h3>Faith-Friendly</h3>
+        <p>Find mosques, prayer times, halal restaurants, and Qiblah direction anywhere</p>
+      </div>
+      
+      <div class="feature-card-landing">
+        <div class="feature-icon float-animation" style="animation-delay: 0.8s;">💰</div>
+        <h3>Budget Management</h3>
+        <p>Track expenses, split costs, and stay within your budget with smart tools</p>
+      </div>
+      
+      <div class="feature-card-landing">
+        <div class="feature-icon float-animation" style="animation-delay: 1s;">📱</div>
+        <h3>Real-Time Updates</h3>
+        <p>Get live weather, events, taxi fares, and local information for your destination</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials -->
+<div class="testimonials-section">
+  <div class="features-container">
+    <div class="section-header">
+      <div class="section-badge" style="background: rgba(255,255,255,0.2); color: white; border-color: rgba(255,255,255,0.3);">
+        💬 Testimonials
+      </div>
+      <h2 style="color: white;">Loved by Travelers Worldwide</h2>
+      <p style="color: rgba(255,255,255,0.9);">See what our users have to say about their experience</p>
+    </div>
+    
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">
+          "This platform made planning my Central Asia trip so easy! The AI recommendations were spot-on, and I discovered amazing hidden gems."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AK</div>
+          <div class="testimonial-info">
+            <h4>Ahmed Khan</h4>
+            <p>Traveled to Uzbekistan</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">
+          "The faith-friendly features are incredible! Finding mosques and halal food was so convenient. Highly recommended!"
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">FH</div>
+          <div class="testimonial-info">
+            <h4>Fatima Hassan</h4>
+            <p>Traveled to Kazakhstan</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">
+          "Group travel planning has never been easier. We coordinated everything perfectly and had an amazing time together!"
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SM</div>
+          <div class="testimonial-info">
+            <h4>Sara Martinez</h4>
+            <p>Group trip to Kyrgyzstan</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Final CTA -->
+<div class="cta-section">
+  <h2>Ready to Start Your Adventure?</h2>
+  <p>Join thousands of travelers who trust us for their journey</p>
+  <div class="cta-buttons">
+    <a href="/signup" class="cta-btn cta-btn-primary" style="color: var(--primary-700);">
+      <span>Create Free Account</span>
+      <i class="fas fa-rocket"></i>
+    </a>
+  </div>
+</div>

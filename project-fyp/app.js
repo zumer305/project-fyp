@@ -309,6 +309,12 @@ app.use((req, res, next) => {
 
 // Home page
 app.get("/", async (req, res) => {
+  // If user is not logged in, show landing page
+  if (!req.isAuthenticated()) {
+    return res.render("landing.ejs");
+  }
+
+  // If user is logged in, show the main homepage
   try {
     let latestBooking = null;
     if (req.user) {
