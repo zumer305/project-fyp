@@ -1,153 +1,506 @@
 <% layout("/layouts/boiler")%>
 
-<!-- 🎨 Professional Homepage Styling -->
+<!-- 🎨 STUNNING DASHBOARD STYLING - Consistent with Landing Page -->
 <style>
-  /* Hero Budget Section */
-  .travel-box {
-    max-width: 480px;
-    margin: 3rem auto;
-    padding: 2rem;
-    border-radius: var(--radius-2xl);
-    background: linear-gradient(135deg, rgba(46, 125, 210, 0.05) 0%, rgba(255, 255, 255, 1) 50%, rgba(107, 207, 127, 0.05) 100%);
+  /* Remove default container constraints */
+  body > .container {
+    max-width: 1400px !important;
+    padding: 2rem !important;
+  }
+
+  /* Page Header */
+  .page-header {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-700) 100%);
+    color: white;
+    margin: -2rem -2rem 3rem -2rem;
+    border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
     box-shadow: var(--shadow-xl);
-    font-family: var(--font-primary);
-    border: 2px solid var(--primary-200);
+  }
+
+  .page-header h1 {
+    font-size: 2.75rem;
+    font-weight: 900;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-header p {
+    font-size: 1.125rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* Travel Budget Box - Premium Design */
+  .travel-box {
+    max-width: 550px;
+    margin: 0 auto 3rem;
+    padding: 2.5rem;
+    border-radius: var(--radius-2xl);
+    background: white;
+    box-shadow: var(--shadow-2xl);
+    border: 3px solid var(--primary-300);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .travel-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--gradient-primary);
   }
   
   .travel-box h3 {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: var(--gray-900);
-    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: 900;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 2rem;
     text-align: center;
     font-family: var(--font-display);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
   }
   
   .travel-box label {
     display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--gray-700);
-    font-size: 0.9375rem;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    font-size: 1rem;
   }
   
   .travel-box select,
   .travel-box input[type="number"] {
     width: 100%;
-    padding: 0.875rem 1rem;
-    margin-bottom: 1.25rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
     border: 2px solid var(--gray-300);
     border-radius: var(--radius-lg);
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-family: var(--font-primary);
     transition: all var(--transition-base);
-    background: white;
+    background: var(--gray-100);
+    font-weight: 600;
   }
   
   .travel-box select:focus,
   .travel-box input[type="number"]:focus {
     outline: none;
     border-color: var(--primary-500);
-    box-shadow: 0 0 0 4px rgba(46, 125, 210, 0.1);
+    box-shadow: 0 0 0 5px rgba(46, 125, 210, 0.15);
+    background: white;
   }
   
   .travel-box button {
     width: 100%;
-    padding: 1rem 1.5rem;
+    padding: 1.125rem 2rem;
     background: var(--gradient-primary);
     color: white;
     border: none;
     border-radius: var(--radius-full);
     cursor: pointer;
-    font-size: 1.0625rem;
-    font-weight: 700;
+    font-size: 1.125rem;
+    font-weight: 800;
     margin-top: 1rem;
     transition: all var(--transition-base);
     box-shadow: var(--shadow-primary);
     font-family: var(--font-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   
   .travel-box button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-2xl);
   }
   
   .result {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     font-weight: 700;
-    color: var(--primary-700);
+    color: white;
     text-align: center;
-    font-size: 1.125rem;
-    padding: 1rem;
-    background: var(--primary-100);
+    font-size: 1.25rem;
+    padding: 1.25rem;
+    background: var(--gradient-primary);
     border-radius: var(--radius-lg);
-    border: 2px solid var(--primary-300);
+    box-shadow: var(--shadow-primary);
   }
   
   .currency-label {
-    font-weight: 800;
+    font-weight: 900;
     color: var(--primary-600);
   }
 
-  /* Map Badge */
-  .map-area-badge {
-    position: absolute;
-    top: 16px;
-    left: 18px;
-    background: rgba(46, 125, 210, 0.95);
-    backdrop-filter: blur(10px);
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-full);
-    font-size: 0.9375rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    z-index: 550;
-    pointer-events: none;
-    box-shadow: var(--shadow-lg);
-  }
-
-  /* Bookings Card */
-  .bookings-card {
-    max-width: 100%;
-    margin: 0 auto 2rem;
-    padding: 1.75rem 2rem;
-    border-radius: var(--radius-xl);
-    background: linear-gradient(135deg, #ffffff 0%, var(--primary-100) 100%);
-    border: 2px solid var(--primary-300);
-    box-shadow: var(--shadow-lg);
+  /* Section Headers */
+  .section-heading {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: var(--gray-900);
+    margin: 3rem 0 2rem;
+    font-family: var(--font-display);
+    position: relative;
+    padding-bottom: 1rem;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    transition: all var(--transition-base);
+    gap: 1rem;
   }
 
-  .bookings-card:hover {
-    transform: translateY(-4px);
+  .section-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 120px;
+    height: 5px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+  }
+
+  /* Grid System */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Premium Cards */
+  .bookings-card,
+  .feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--primary-200);
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bookings-card::before,
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+  }
+
+  .bookings-card:hover,
+  .feature-card:hover {
+    transform: translateY(-6px);
     box-shadow: var(--shadow-2xl);
     border-color: var(--primary-500);
   }
 
+  .bookings-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
   .bookings-card .icon-pill {
-    width: 64px;
-    height: 64px;
+    width: 70px;
+    height: 70px;
     border-radius: var(--radius-lg);
     background: var(--gradient-primary);
     display: grid;
     place-items: center;
     color: #fff;
-    font-size: 1.75rem;
+    font-size: 2rem;
     box-shadow: var(--shadow-primary);
     flex-shrink: 0;
   }
 
   .bookings-card h3 {
     margin: 0 0 0.5rem;
-    font-size: 1.5rem;
+    font-size: 1.625rem;
     color: var(--gray-900);
     font-weight: 800;
     font-family: var(--font-display);
   }
+
+  .bookings-card p {
+    margin: 0;
+    color: var(--gray-600);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  .bookings-card .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 1.75rem;
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 800;
+    box-shadow: var(--shadow-primary);
+    transition: all var(--transition-base);
+    white-space: nowrap;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    font-size: 0.9375rem;
+    letter-spacing: 0.5px;
+  }
+
+  .bookings-card .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+    color: white;
+  }
+
+  /* Feature Cards */
+  .feature-card {
+    text-align: center;
+  }
+
+  .icon-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .icon-title img {
+    width: 60px;
+    height: 60px;
+    padding: 15px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-primary);
+  }
+
+  .feature-card h3 {
+    margin: 0 0 1rem;
+    color: var(--gray-900);
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-family: var(--font-display);
+  }
+
+  .feature-card p {
+    color: var(--gray-600);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .feature-card button {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .feature-card button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* Location Pill */
+  .location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--primary-100) 0%, var(--accent-emerald) 20%);
+    color: var(--primary-800);
+    font-weight: 800;
+    font-size: 1rem;
+    border: 2px solid var(--primary-400);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Map */
+  .map {
+    width: 100%;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-2xl);
+    border: 4px solid white;
+    margin-top: 2rem;
+    position: relative;
+  }
+
+  .premium-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-2xl);
+    border: 3px solid var(--primary-200);
+  }
+
+  #map {
+    width: 100%;
+    height: 500px;
+    background: linear-gradient(135deg, var(--primary-100) 0%, var(--gray-100) 100%);
+  }
+
+  .map-area-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(46, 125, 210, 0.95);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-full);
+    font-size: 1rem;
+    font-weight: 800;
+    z-index: 550;
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* Insight Cards */
+  .insight-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--primary-200);
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+  }
+
+  .insight-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-2xl);
+    border-color: var(--primary-500);
+  }
+
+  .insight-card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.25rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow-primary);
+    color: white;
+  }
+
+  .insight-card h3 {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    font-family: var(--font-display);
+  }
+
+  .insight-location {
+    display: inline-block;
+    background: var(--primary-100);
+    color: var(--primary-800);
+    font-size: 0.9375rem;
+    font-weight: 800;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-full);
+    margin-bottom: 1rem;
+    border: 2px solid var(--primary-300);
+  }
+
+  .insight-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    background: var(--gradient-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    font-weight: 800;
+    margin-top: 1rem;
+    box-shadow: var(--shadow-primary);
+    transition: all var(--transition-base);
+    text-transform: uppercase;
+    font-size: 0.9375rem;
+    letter-spacing: 0.5px;
+  }
+
+  .insight-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+    color: white;
+  }
+
+  .taxi-fare-text,
+  .insight-card p {
+    color: var(--gray-600);
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .updated-note {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header h1 {
+      font-size: 2rem;
+    }
+    
+    .bookings-card {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .travel-box {
+      margin: 0 1rem 2rem;
+      padding: 2rem;
+    }
+  }
+</style>
 
   .bookings-card p {
     margin: 0;
@@ -360,8 +713,16 @@
 <!-- Mapbox GL JS CSS moved to global layout for consistency (see layouts/boiler.ejs) -->
 
 <body data-logged-in="<%= !!currUser %>">
+  
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>🌟 Welcome to Your Travel Dashboard</h1>
+    <p>Plan your perfect journey with AI-powered tools and real-time insights</p>
+  </div>
+
+  <!-- Travel Budget Box -->
   <div class="travel-box">
-    <h3>🌍 Travel Budget</h3>
+    <h3>🌍 Travel Budget Planner</h3>
 
     <label for="country">Select Central Asian Country:</label>
     <select id="country">
@@ -384,54 +745,52 @@
       oninput="showBudget()"
     />
 
-    <div class="result" id="result"></div>
+    <div class="result" id="result" style="display: none;"></div>
 
-    <!-- Button to go to packages page -->
-    <button onclick="goToPackages()">View Packages</button>
+    <button onclick="goToPackages()">🎯 View Packages</button>
   </div>
 
-  <h2 id="package-heading">🧠 My Bookings</h2>
+  <!-- My Bookings Section -->
+  <h2 class="section-heading">📋 My Bookings</h2>
   <div class="grid">
     <div class="bookings-card">
       <div class="icon-pill">📄</div>
-      <div>
+      <div style="flex: 1;">
         <h3>Access Your Bookings</h3>
         <p>Open your booking details and confirmations in one place.</p>
-      </div>
-      <div class="actions">
-        <a class="cta-btn" href="/bookings/my-bookings">Open My Bookings →</a>
+        <a class="cta-btn" href="/bookings/my-bookings">
+          <span>Open My Bookings</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
       </div>
     </div>
   </div>
 
-  <div class="section">
-    <h2>👥 Travel Manager</h2>
-    <div class="grid">
-      <div class="feature-card">
-        <div class="icon-title">
-          <img
-            src="https://img.icons8.com/ios-filled/50/add-user-group-man-man.png"
-          />
-          <h3>Group Travel Planner</h3>
-        </div>
-        <p>
-          Create groups, invite friends, chat in real-time, and plan your trips
-          together. Manage all your group travel activities in one place.
-        </p>
-        <button
-          id="btn-group-travel"
-        >
-          🎯 Manage Groups
-        </button>
+  <!-- Travel Manager Section -->
+  <h2 class="section-heading">👥 Travel Manager</h2>
+  <div class="grid">
+    <div class="feature-card">
+      <div class="icon-title">
+        <img
+          src="https://img.icons8.com/ios-filled/50/FFFFFF/add-user-group-man-man.png"
+        />
+        <h3>Group Travel Planner</h3>
       </div>
-      <div class="feature-card">
-        <div class="icon-title">
-          <img src="https://img.icons8.com/ios-glyphs/30/money.png" />
-          <h3>Expense Details</h3>
-        </div>
-        <p>Track spending and calculate balances between members.</p>
-        <button id="btn-expense-summary">💸 View Summary</button>
+      <p>
+        Create groups, invite friends, chat in real-time, and plan your trips
+        together. Manage all your group travel activities in one place.
+      </p>
+      <button id="btn-group-travel">
+        🎯 Manage Groups
+      </button>
+    </div>
+    <div class="feature-card">
+      <div class="icon-title">
+        <img src="https://img.icons8.com/ios-glyphs/50/FFFFFF/money.png" />
+        <h3>Expense Details</h3>
       </div>
+      <p>Track spending and calculate balances between members.</p>
+      <button id="btn-expense-summary">💸 View Summary</button>
     </div>
   </div>
 
@@ -439,64 +798,71 @@
   <% const latestCountry = latestBooking && (latestBooking.packageDetails.country || latestBooking.packageDetails.destination); %>
   <% const latestLocation = [latestCity, latestCountry].filter(Boolean).join(', '); %>
 
-  <div class="section">
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-      <h2 style="margin:0;">🕌 Faith-Friendly Travel Tools</h2>
+  <!-- Faith-Friendly Tools Section -->
+  <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:3rem;">
+    <h2 class="section-heading" style="margin:0;">🕌 Faith-Friendly Travel Tools</h2>
+    <% if (latestLocation) { %>
       <span class="location-pill">
-        📍 <%= latestLocation || 'Set a booking to personalize location' %>
+        📍 <%= latestLocation %>
+      </span>
+    <% } %>
       </span>
     </div>
     <div class="grid">
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/mosque.png" />
+          <img src="https://img.icons8.com/ios-filled/50/FFFFFF/mosque.png" />
           <h3>Nearby Mosques</h3>
         </div>
         <p>Find mosques near <%= latestLocation || 'your destination' %> with prayer times and distance info.</p>
-        <button id="btn-find-mosques">🕌 Find Mosques</button>
+        <button class="btn btn-gradient" id="btn-find-mosques">🕌 Find Mosques</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/compass.png" />
+          <img src="https://img.icons8.com/ios-filled/50/FFFFFF/compass.png" />
           <h3>Qiblah Direction</h3>
         </div>
-        <p>View direction of Qiblah from  your location.</p>
-        <button id="btn-show-qiblah">🕋 Show Qiblah</button>
+        <p>View direction of Qiblah from your location.</p>
+        <button class="btn btn-gradient" id="btn-show-qiblah">🕋 Show Qiblah</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/restaurant.png" />
+          <img src="https://img.icons8.com/ios-filled/50/FFFFFF/restaurant.png" />
           <h3>Halal Food Locator</h3>
         </div>
         <p>Discover halal restaurants in <%= latestLocation || 'your area' %>.</p>
-        <button id="btn-find-halal">🍽️ Find Halal</button>
+        <button class="btn btn-gradient" id="btn-find-halal">🍽️ Find Halal</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/bed.png" />
+          <img src="https://img.icons8.com/ios-filled/50/FFFFFF/bed.png" />
           <h3>Hotel Finder</h3>
         </div>
         <p>Find hotels and guest houses in <%= latestLocation || 'your destination' %>.</p>
-        <button id="btn-find-hotels">🏨 Find Hotels</button>
+        <button class="btn btn-gradient" id="btn-find-hotels">🏨 Find Hotels</button>
       </div>
     </div>
   </div>
   <!-- 📍 Map Section -->
   <div class="section">
-    <h2>Explore on Map</h2>
-    <div class="map">
+    <h2 class="section-heading">
+      <i class="fas fa-map-marked-alt"></i>
+      Explore on Map
+    </h2>
+    <div class="map premium-card">
       <!-- Interactive map: will load Mapbox GL dynamically -->
       <div
         id="map"
         style="
           width: 100%;
           height: 420px;
-          border-radius: 8px;
+          border-radius: 16px;
           overflow: hidden;
-          background: #e9eef3;
+          background: linear-gradient(135deg, #e9eef3 0%, #d4dfe8 100%);
           display: block;
           position: relative;
           min-height: 200px;
+          box-shadow: inset 0 2px 8px rgba(0,0,0,0.1);
         "
       ></div>
       <div
@@ -509,8 +875,11 @@
 
   <!-- 📡 Scraped Info Section -->
   <div class="section">
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-      <h2 style="margin:0;">Live Destination Insights</h2>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:24px;">
+      <h2 class="section-heading" style="margin:0;">
+        <i class="fas fa-globe-americas"></i>
+        Live Destination Insights
+      </h2>
       <% if (latestLocation) { %>
         <span class="location-pill">
           📍 <%= latestLocation %>
@@ -563,12 +932,13 @@
           <p class="insight-location"><%= latestCity || latestCountry %></p>
         <% } %>
         <div id="weather-info">
-          <p style="margin-bottom: 14px;color:#4a5674;">
+          <p style="margin-bottom: 14px;color:#5a6c8c;">
             Compare weather across all Central Asian countries on an interactive map.
           </p>
           <button
             onclick="window.location.href='/listings/weather-comparison'"
-            class="weather-map-btn"
+            class="btn btn-gradient"
+            style="width: 100%;"
           >
             🗺️ Open Weather Map
           </button>
@@ -612,17 +982,20 @@
 
       if (!budget) {
         result.innerHTML = "";
+        result.style.display = "none";
         return;
       }
 
+      result.style.display = "block";
+
       if (budgetNum < basic) {
-        result.innerHTML = `<span style="color: #dc3545;">💰 Budget: Rs${budgetNum.toLocaleString()} - Consider increasing for better packages (min ~Rs${basic.toLocaleString()})</span>`;
+        result.innerHTML = `<span style="color: #FF6B6B; font-weight: 600;">💰 Budget: Rs${budgetNum.toLocaleString()} - Consider increasing for better packages (min ~Rs${basic.toLocaleString()})</span>`;
       } else if (budgetNum >= basic && budgetNum < mid) {
-        result.innerHTML = `<span style="color: #ffc107;">💰 Budget: Rs${budgetNum.toLocaleString()} - Good for basic packages (mid-tier starts ~Rs${mid.toLocaleString()})</span>`;
+        result.innerHTML = `<span style="color: #FFD93D; font-weight: 600;">💰 Budget: Rs${budgetNum.toLocaleString()} - Good for basic packages (mid-tier starts ~Rs${mid.toLocaleString()})</span>`;
       } else if (budgetNum >= mid && budgetNum < luxury) {
-        result.innerHTML = `<span style="color: #28a745;">💰 Budget: Rs${budgetNum.toLocaleString()} - Great for premium packages (luxury starts ~Rs${luxury.toLocaleString()})</span>`;
+        result.innerHTML = `<span style="color: #6BCF7F; font-weight: 600;">💰 Budget: Rs${budgetNum.toLocaleString()} - Great for premium packages (luxury starts ~Rs${luxury.toLocaleString()})</span>`;
       } else {
-        result.innerHTML = `<span style="color: #28a745;">💰 Budget: Rs${budgetNum.toLocaleString()} - Luxury packages available!</span>`;
+        result.innerHTML = `<span style="color: #6BCF7F; font-weight: 600;">💰 Budget: Rs${budgetNum.toLocaleString()} - Luxury packages available!</span>`;
       }
     }
 

@@ -209,11 +209,34 @@ const url = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/wanderlust";
 const sessionSecret = process.env.SESSION_SECRET || "mysupersecretcode";
 
 async function main() {
-  await mongoose.connect(url);
-  console.log("Connected to MongoDB");
+  try {
+    await mongoose.connect(url, {
+      serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds instead of 30
+    });
+    console.log("✅ Connected to MongoDB successfully");
+  } catch (err) {
+    console.error("❌ MongoDB Connection Failed!");
+    console.error("Error:", err.message);
+    console.log("\n💡 Quick Fix:");
+    console.log("Option 1: Use MongoDB Atlas (Cloud - Recommended)");
+    console.log("  1. Go to: https://www.mongodb.com/cloud/atlas/register");
+    console.log("  2. Create free cluster");
+    console.log("  3. Get connection string");
+    console.log("  4. Add to .env: MONGO_URL=mongodb+srv://...");
+    console.log("\nOption 2: Install MongoDB locally");
+    console.log("  1. Download: https://www.mongodb.com/try/download/community");
+    console.log("  2. Install and start MongoDB service");
+    console.log("\nApp will continue without database (limited functionality)");
+  }
 }
 
 async function syncListingsFromInitData() {
+  // Only seed if MongoDB is connected
+  if (mongoose.connection.readyState !== 1) {
+    console.log("⏩ Skipping database seeding (MongoDB not connected)");
+    return;
+  }
+
   try {
     const listingsFromFile = Array.isArray(initData.data) ? initData.data : [];
 
@@ -239,15 +262,15 @@ async function syncListingsFromInitData() {
 
     await Listing.deleteMany({});
     const inserted = await Listing.insertMany(normalizedListings);
-    console.log(`Seeded ${inserted.length} listings from init/data.js`);
+    console.log(`✅ Seeded ${inserted.length} listings from init/data.js`);
   } catch (err) {
-    console.error("Error seeding listings from init/data.js:", err);
+    console.error("❌ Error seeding listings:", err.message);
   }
 }
 
 main()
-  .then(syncListingsFromInitData)
-  .catch((err) => console.log(err));
+  .then(() => syncListingsFromInitData())
+  .catch((err) => console.log("App initialization error:", err.message));
 
 // ===================
 // EJS MATE + VIEWS
@@ -317,10 +340,16 @@ app.get("/", async (req, res) => {
   // If user is logged in, show the main homepage
   try {
     let latestBooking = null;
-    if (req.user) {
-      latestBooking = await Booking.findOne({ user: req.user._id }).sort({
-        createdAt: -1,
-      });
+    
+    // Only try to fetch booking if MongoDB is connected
+    if (req.user && mongoose.connection.readyState === 1) {
+      try {
+        latestBooking = await Booking.findOne({ user: req.user._id }).sort({
+          createdAt: -1,
+        });
+      } catch (dbErr) {
+        console.warn("⚠️ Database query failed:", dbErr.message);
+      }
     }
 
     res.render("listings/h.ejs", { latestBooking });
