@@ -3,7 +3,8 @@
    ======================================== */
 
 // Configuration
-const CHATBOT_API_URL = 'http://localhost:8000/api/chat/'; // Update this with your Django server URL
+// TODO: Deploy Django chatbot separately and update this URL
+const CHATBOT_API_URL = 'http://localhost:8000/api/chat/'; // Django chatbot API (not deployed yet)
 
 // DOM Elements
 const chatbotToggle = document.getElementById('chatbot-toggle');
