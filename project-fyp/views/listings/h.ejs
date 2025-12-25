@@ -24,38 +24,40 @@
   /* Page Header */
   .page-header {
     text-align: center;
-    padding: 3rem 0 2rem;
-    background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-700) 100%);
-    color: white;
-    margin: -2rem -2rem 3rem -2rem;
+    padding: 2rem 0 1.75rem;
+    background: linear-gradient(135deg, #0A2540 0%, #16213E 100%);
+    color: #ffffff !important;
+    margin: -2rem -2rem 2.5rem -2rem;
     border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
     box-shadow: var(--shadow-xl);
   }
 
   .page-header h1 {
-    font-size: 2.75rem;
-    font-weight: 900;
-    margin-bottom: 0.75rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
     font-family: var(--font-display);
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   }
 
   .page-header p {
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
     opacity: 0.95;
     max-width: 700px;
     margin: 0 auto;
+    color: #E3F2FD !important;
   }
 
   /* Travel Budget Box - Premium Design with Animation */
   .travel-box {
-    max-width: 600px;
-    margin: 0 auto 3rem;
-    padding: 2.5rem;
-    border-radius: var(--radius-2xl);
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    padding: 1.75rem 2rem;
+    border-radius: var(--radius-xl);
     background: white;
-    box-shadow: var(--shadow-2xl);
-    border: 3px solid var(--primary-300);
+    box-shadow: var(--shadow-xl);
+    border: 2px solid var(--primary-300);
     position: relative;
     overflow: hidden;
     animation: fadeInUp 0.6s ease-out;
@@ -83,28 +85,28 @@
   }
   
   .travel-box h3 {
-    font-size: 2rem;
-    font-weight: 900;
+    font-size: 1.625rem;
+    font-weight: 800;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     text-align: center;
     font-family: var(--font-display);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
   
   /* Enhanced Labels - Fixed Visibility */
   .travel-box label {
     display: block;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     font-weight: 700;
     color: #0A2540 !important;  /* Dark blue - Always visible */
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     position: relative;
     z-index: 1;
     padding-left: 0.25rem;
@@ -117,40 +119,29 @@
   
   /* Form Input Groups */
   .form-input-group {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.25rem;
     position: relative;
-  }
-
-  .form-input-group::after {
-    content: '';
-    position: absolute;
-    bottom: -0.25rem;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--gradient-primary);
-    transition: width 0.3s ease;
-  }
-
-  .form-input-group:focus-within::after {
-    width: 100%;
   }
   
   /* Enhanced Select and Input Styling */
   .travel-box select,
   .travel-box input[type="number"] {
     width: 100%;
-    padding: 1.125rem 1.5rem;
-    margin-bottom: 0.5rem;
+    padding: 0.875rem 1.25rem;
+    margin-bottom: 0;
     border: 2px solid var(--gray-300);
     border-radius: var(--radius-lg);
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     font-family: var(--font-primary);
     transition: all var(--transition-base);
-    background: var(--gray-100);
+    background: #ffffff;
     font-weight: 600;
-    color: var(--gray-800);
+    color: #000000 !important;
     cursor: pointer;
+    opacity: 1 !important;
+    line-height: normal;
+    height: auto;
+    text-decoration: none !important;
   }
 
   .travel-box select {
@@ -159,7 +150,43 @@
     background-repeat: no-repeat;
     background-position: right 1.25rem center;
     background-size: 12px;
-    padding-right: 3rem;
+    background-color: #ffffff;
+    padding: 0.875rem 3rem 0.875rem 1.25rem;
+    color: #000000 !important;
+    opacity: 1 !important;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    height: auto;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    text-decoration: none !important;
+    border-bottom: 2px solid var(--gray-300) !important;
+  }
+  
+  .travel-box select:invalid {
+    color: #000000 !important;
+    opacity: 1 !important;
+  }
+  
+  .travel-box select:valid {
+    color: #000000 !important;
+    opacity: 1 !important;
+  }
+  
+  .travel-box select option {
+    color: #000000 !important;
+    background: #ffffff;
+    padding: 0.5rem;
+    font-weight: 600;
+    opacity: 1 !important;
+  }
+  
+  .travel-box select option[value=""] {
+    color: #000000 !important;
+    font-weight: 600;
+    opacity: 1 !important;
   }
 
   .travel-box input[type="number"] {
@@ -169,7 +196,7 @@
   .travel-box select:hover,
   .travel-box input[type="number"]:hover {
     border-color: var(--primary-400);
-    background: white;
+    background: #ffffff;
   }
 
   .travel-box select:focus,
@@ -177,22 +204,22 @@
     outline: none;
     border-color: var(--primary-500);
     box-shadow: 0 0 0 5px rgba(46, 125, 210, 0.15);
-    background: white;
+    background: #ffffff;
     transform: translateY(-2px);
   }
   
   /* Enhanced Button with Animation */
   .travel-box button {
     width: 100%;
-    padding: 1.25rem 2rem;
+    padding: 0.9375rem 1.75rem;
     background: var(--gradient-primary);
     color: white;
     border: none;
     border-radius: var(--radius-full);
     cursor: pointer;
-    font-size: 1.125rem;
-    font-weight: 800;
-    margin-top: 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 1rem;
     transition: all var(--transition-base);
     box-shadow: var(--shadow-primary);
     font-family: var(--font-primary);
@@ -231,15 +258,16 @@
   
   /* Enhanced Result Display */
   .result {
-    margin-top: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
     font-weight: 700;
     color: white;
     text-align: center;
-    font-size: 1.25rem;
-    padding: 1.25rem;
+    font-size: 1rem;
+    padding: 0.875rem 1rem;
     background: var(--gradient-primary);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-primary);
+    box-shadow: var(--shadow-md);
     animation: slideIn 0.4s ease-out;
   }
 
@@ -261,16 +289,16 @@
 
   /* Section Headers */
   .section-heading {
-    font-size: 2.25rem;
-    font-weight: 900;
-    color: var(--gray-900);
-    margin: 3rem 0 2rem;
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: #0A2540 !important;
+    margin: 2.5rem 0 1.5rem;
     font-family: var(--font-display);
     position: relative;
-    padding-bottom: 1rem;
+    padding-bottom: 0.875rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   .section-heading::after {
@@ -754,14 +782,23 @@
 
   /* Responsive Adjustments */
   @media (max-width: 768px) {
+    .page-header {
+      padding: 1.5rem 0 1.25rem;
+      margin: -2rem -1.5rem 2rem -1.5rem;
+    }
+    
     .page-header h1 {
-      font-size: 2rem;
+      font-size: 1.75rem;
+    }
+    
+    .page-header p {
+      font-size: 0.9375rem;
     }
     
     .bookings-card {
       flex-direction: column;
       text-align: center;
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
 
     .bookings-card .icon-pill {
@@ -770,15 +807,20 @@
     
     .travel-box {
       margin: 0 0 2rem;
-      padding: 1.75rem;
+      padding: 1.5rem;
+      max-width: 100%;
+    }
+    
+    .travel-box h3 {
+      font-size: 1.375rem;
     }
 
     .section-heading {
-      font-size: 1.75rem;
+      font-size: 1.5rem;
     }
 
     .feature-card {
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
   }
 
@@ -1012,8 +1054,8 @@
 
     <div class="form-input-group">
       <label for="country">Select Central Asian Country:</label>
-      <select id="country">
-        <option value="">-- Choose Country --</option>
+      <select id="country" required>
+        <option value="">Choose Country</option>
         <option value="Azerbaijan">Azerbaijan</option>
         <option value="Kazakhstan">Kazakhstan</option>
         <option value="Kyrgyzstan">Kyrgyzstan</option>

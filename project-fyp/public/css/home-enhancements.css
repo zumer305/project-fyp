@@ -1,0 +1,448 @@
+/* ============================================
+   HOME PAGE PROFESSIONAL ENHANCEMENTS
+   Compact & Clean Design
+   ============================================ */
+
+/* ============================================
+   PAGE HEADER - ALWAYS VISIBLE TEXT
+   ============================================ */
+
+.page-header {
+  animation: fadeInDown 0.8s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: float 6s ease-in-out infinite;
+}
+
+.page-header h1 {
+  animation: fadeInScale 0.8s ease-out 0.2s backwards;
+  color: #ffffff !important;
+  text-shadow: 0 3px 15px rgba(0, 0, 0, 0.5);
+}
+
+.page-header p {
+  animation: fadeInScale 0.8s ease-out 0.4s backwards;
+  color: #E3F2FD !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ============================================
+   TRAVEL BOX ENHANCEMENTS
+   ============================================ */
+
+.travel-box {
+  animation: fadeInUp 0.8s ease-out 0.3s backwards;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.travel-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 50px rgba(46, 125, 210, 0.25);
+}
+
+.travel-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.7s ease;
+}
+
+.travel-box:hover::after {
+  left: 100%;
+}
+
+/* Form Labels - Maximum Visibility */
+.travel-box label {
+  color: #0F3460 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  font-weight: 700 !important;
+}
+
+.travel-box label:hover {
+  color: #2E7DD2 !important;
+  transform: translateX(2px);
+}
+
+/* Enhanced Form Inputs */
+.travel-box select,
+.travel-box input[type="number"] {
+  background: #ffffff !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  color: #2D3748 !important;
+}
+
+.travel-box select {
+  color: #2D3748 !important;
+}
+
+.travel-box select:invalid {
+  color: #2D3748 !important;
+}
+
+.travel-box select:valid {
+  color: #1A1A1A !important;
+}
+
+.travel-box select option {
+  color: #1A1A1A !important;
+  background: #ffffff;
+  font-weight: 600;
+}
+
+.travel-box select option[value=""] {
+  color: #4A5568 !important;
+  font-weight: 600;
+}
+
+.travel-box select:hover,
+.travel-box input[type="number"]:hover {
+  background: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(46, 125, 210, 0.15);
+}
+
+.travel-box select:focus,
+.travel-box input[type="number"]:focus {
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(46, 125, 210, 0.2),
+              0 6px 20px rgba(46, 125, 210, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Enhanced Button */
+.travel-box button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2E7DD2 0%, #4A90E2 50%, #2E7DD2 100%);
+  background-size: 200% 100%;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.travel-box button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.travel-box button:hover::before {
+  width: 400px;
+  height: 400px;
+}
+
+.travel-box button::after {
+  content: '→';
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.travel-box button:hover {
+  background-position: 100% 0;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(46, 125, 210, 0.5);
+  padding-right: 2.5rem;
+}
+
+.travel-box button:hover::after {
+  opacity: 1;
+  right: 1.25rem;
+}
+
+.travel-box button:active {
+  transform: translateY(-1px) scale(1);
+}
+
+/* Result Display */
+.result {
+  animation: fadeInUp 0.5s ease-out;
+  color: #ffffff !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  font-weight: 700 !important;
+}
+
+/* ============================================
+   SECTION HEADINGS
+   ============================================ */
+
+.section-heading,
+#package-heading {
+  animation: fadeInUp 0.6s ease-out;
+  color: #0A2540 !important;
+  text-shadow: 0 2px 5px rgba(46, 125, 210, 0.1);
+}
+
+/* ============================================
+   CARDS - STAGGERED ANIMATIONS
+   ============================================ */
+
+.grid {
+  animation: fadeInUp 0.8s ease-out 0.4s backwards;
+}
+
+.card,
+.bookings-card,
+.feature-card {
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:nth-child(1),
+.bookings-card:nth-child(1),
+.feature-card:nth-child(1) {
+  animation: fadeInUp 0.6s ease-out 0.1s backwards;
+}
+
+.card:nth-child(2),
+.bookings-card:nth-child(2),
+.feature-card:nth-child(2) {
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+}
+
+.card:nth-child(3),
+.bookings-card:nth-child(3),
+.feature-card:nth-child(3) {
+  animation: fadeInUp 0.6s ease-out 0.3s backwards;
+}
+
+.card:nth-child(4),
+.bookings-card:nth-child(4),
+.feature-card:nth-child(4) {
+  animation: fadeInUp 0.6s ease-out 0.4s backwards;
+}
+
+/* Enhanced Hover Effects */
+.card:hover,
+.bookings-card:hover,
+.feature-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(46, 125, 210, 0.3);
+  border-color: #2E7DD2;
+}
+
+/* Shimmer Effect */
+.card::after,
+.bookings-card::after,
+.feature-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(46, 125, 210, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.card:hover::after,
+.bookings-card:hover::after,
+.feature-card:hover::after {
+  left: 150%;
+}
+
+/* Card Text Visibility */
+.card h3,
+.bookings-card h3,
+.feature-card h3 {
+  color: #0A2540 !important;
+  transition: all 0.3s ease;
+}
+
+.card:hover h3,
+.bookings-card:hover h3,
+.feature-card:hover h3 {
+  color: #2E7DD2 !important;
+  transform: translateX(4px);
+}
+
+.card p,
+.bookings-card p,
+.feature-card p {
+  color: #4A5568 !important;
+}
+
+/* Icon Animations */
+.icon-pill,
+.icon-title img {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bookings-card:hover .icon-pill,
+.feature-card:hover .icon-title img {
+  transform: rotate(360deg) scale(1.15);
+  box-shadow: 0 12px 30px rgba(46, 125, 210, 0.5);
+}
+
+/* Button Enhancements */
+.feature-card button,
+.bookings-card .cta-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card button:hover,
+.bookings-card .cta-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 15px 35px rgba(46, 125, 210, 0.5);
+}
+
+.feature-card button:active,
+.bookings-card .cta-btn:active {
+  transform: translateY(-1px) scale(1.01);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 1.875rem;
+  }
+  
+  .travel-box {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+  
+  .travel-box:hover {
+    transform: translateY(-2px);
+  }
+  
+  .card:hover,
+  .bookings-card:hover,
+  .feature-card:hover {
+    transform: translateY(-6px) scale(1.01);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #2E7DD2;
+  outline-offset: 3px;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F7FAFC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2E7DD2 0%, #4A90E2 100%);
+  border-radius: 10px;
+  border: 2px solid #F7FAFC;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #1A5490 0%, #2E7DD2 100%);
+}
+
+/* ============================================
+   SELECTION STYLING
+   ============================================ */
+
+::selection {
+  background: #2E7DD2;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: #2E7DD2;
+  color: #ffffff;
+}
