@@ -4,8 +4,21 @@
 <style>
   /* Remove default container constraints */
   body > .container {
-    max-width: 1400px !important;
-    padding: 2rem !important;
+    max-width: 1280px !important;
+    padding: 2rem 3rem !important;
+    margin: 0 auto !important;
+  }
+
+  @media (max-width: 1400px) {
+    body > .container {
+      padding: 2rem !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body > .container {
+      padding: 1.5rem !important;
+    }
   }
 
   /* Page Header */
@@ -34,9 +47,9 @@
     margin: 0 auto;
   }
 
-  /* Travel Budget Box - Premium Design */
+  /* Travel Budget Box - Premium Design with Animation */
   .travel-box {
-    max-width: 550px;
+    max-width: 600px;
     margin: 0 auto 3rem;
     padding: 2.5rem;
     border-radius: var(--radius-2xl);
@@ -45,6 +58,18 @@
     border: 3px solid var(--primary-300);
     position: relative;
     overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .travel-box::before {
@@ -73,19 +98,50 @@
     gap: 0.75rem;
   }
   
+  /* Enhanced Labels - Fixed Visibility */
   .travel-box label {
     display: block;
     margin-bottom: 0.75rem;
     font-weight: 700;
-    color: var(--gray-800);
-    font-size: 1rem;
+    color: #0A2540 !important;  /* Dark blue - Always visible */
+    font-size: 1.0625rem;
+    position: relative;
+    z-index: 1;
+    padding-left: 0.25rem;
+    transition: color 0.3s ease;
+  }
+
+  .travel-box label:hover {
+    color: var(--primary-500) !important;
   }
   
+  /* Form Input Groups */
+  .form-input-group {
+    margin-bottom: 1.75rem;
+    position: relative;
+  }
+
+  .form-input-group::after {
+    content: '';
+    position: absolute;
+    bottom: -0.25rem;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: width 0.3s ease;
+  }
+
+  .form-input-group:focus-within::after {
+    width: 100%;
+  }
+  
+  /* Enhanced Select and Input Styling */
   .travel-box select,
   .travel-box input[type="number"] {
     width: 100%;
-    padding: 1rem 1.25rem;
-    margin-bottom: 1.5rem;
+    padding: 1.125rem 1.5rem;
+    margin-bottom: 0.5rem;
     border: 2px solid var(--gray-300);
     border-radius: var(--radius-lg);
     font-size: 1.0625rem;
@@ -93,19 +149,42 @@
     transition: all var(--transition-base);
     background: var(--gray-100);
     font-weight: 600;
+    color: var(--gray-800);
+    cursor: pointer;
+  }
+
+  .travel-box select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232E7DD2' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.25rem center;
+    background-size: 12px;
+    padding-right: 3rem;
+  }
+
+  .travel-box input[type="number"] {
+    cursor: text;
   }
   
+  .travel-box select:hover,
+  .travel-box input[type="number"]:hover {
+    border-color: var(--primary-400);
+    background: white;
+  }
+
   .travel-box select:focus,
   .travel-box input[type="number"]:focus {
     outline: none;
     border-color: var(--primary-500);
     box-shadow: 0 0 0 5px rgba(46, 125, 210, 0.15);
     background: white;
+    transform: translateY(-2px);
   }
   
+  /* Enhanced Button with Animation */
   .travel-box button {
     width: 100%;
-    padding: 1.125rem 2rem;
+    padding: 1.25rem 2rem;
     background: var(--gradient-primary);
     color: white;
     border: none;
@@ -113,19 +192,44 @@
     cursor: pointer;
     font-size: 1.125rem;
     font-weight: 800;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     transition: all var(--transition-base);
     box-shadow: var(--shadow-primary);
     font-family: var(--font-primary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .travel-box button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .travel-box button:hover::before {
+    width: 300px;
+    height: 300px;
   }
   
   .travel-box button:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-2xl);
+    box-shadow: 0 15px 40px rgba(46, 125, 210, 0.4);
+  }
+
+  .travel-box button:active {
+    transform: translateY(-1px);
   }
   
+  /* Enhanced Result Display */
   .result {
     margin-top: 1.25rem;
     font-weight: 700;
@@ -136,6 +240,18 @@
     background: var(--gradient-primary);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-primary);
+    animation: slideIn 0.4s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
   
   .currency-label {
@@ -168,26 +284,72 @@
     border-radius: var(--radius-full);
   }
 
-  /* Grid System */
+  /* Grid System - Improved Spacing and Sizing */
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
     gap: 2rem;
     margin-bottom: 3rem;
+    justify-content: center;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  /* Premium Cards */
+  @media (min-width: 1200px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1200px;
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 800px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .grid {
+      grid-template-columns: 1fr;
+      max-width: 500px;
+      gap: 1.5rem;
+    }
+  }
+
+  /* Premium Cards with Enhanced Animations */
   .bookings-card,
   .feature-card {
     background: white;
-    padding: 2rem;
+    padding: 1.375rem;
     border-radius: var(--radius-xl);
     border: 2px solid var(--primary-200);
     box-shadow: var(--shadow-lg);
     transition: all var(--transition-base);
     position: relative;
     overflow: hidden;
+    animation: fadeInScale 0.5s ease-out backwards;
+    max-width: 100%;
   }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .bookings-card:nth-child(1) { animation-delay: 0.1s; }
+  .bookings-card:nth-child(2) { animation-delay: 0.2s; }
+  .bookings-card:nth-child(3) { animation-delay: 0.3s; }
+  .feature-card:nth-child(1) { animation-delay: 0.1s; }
+  .feature-card:nth-child(2) { animation-delay: 0.2s; }
+  .feature-card:nth-child(3) { animation-delay: 0.3s; }
 
   .bookings-card::before,
   .feature-card::before {
@@ -198,46 +360,80 @@
     right: 0;
     height: 4px;
     background: var(--gradient-primary);
+    transition: height 0.3s ease;
+  }
+
+  .bookings-card::after,
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(46, 125, 210, 0.1), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .bookings-card:hover::after,
+  .feature-card:hover::after {
+    left: 100%;
   }
 
   .bookings-card:hover,
   .feature-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-2xl);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(46, 125, 210, 0.25);
     border-color: var(--primary-500);
+  }
+
+  .bookings-card:hover::before,
+  .feature-card:hover::before {
+    height: 6px;
   }
 
   .bookings-card {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .bookings-card .icon-pill {
-    width: 70px;
-    height: 70px;
+    width: 52px;
+    height: 52px;
     border-radius: var(--radius-lg);
     background: var(--gradient-primary);
     display: grid;
     place-items: center;
     color: #fff;
-    font-size: 2rem;
+    font-size: 1.5rem;
     box-shadow: var(--shadow-primary);
     flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .bookings-card:hover .icon-pill {
+    transform: rotate(10deg) scale(1.1);
+    box-shadow: 0 15px 35px rgba(46, 125, 210, 0.4);
   }
 
   .bookings-card h3 {
     margin: 0 0 0.5rem;
-    font-size: 1.625rem;
+    font-size: 1.2rem;
     color: var(--gray-900);
-    font-weight: 800;
+    font-weight: 700;
     font-family: var(--font-display);
+    transition: color 0.3s ease;
+  }
+
+  .bookings-card:hover h3 {
+    color: var(--primary-600);
   }
 
   .bookings-card p {
     margin: 0;
     color: var(--gray-600);
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
     line-height: 1.6;
   }
 
@@ -248,6 +444,46 @@
     padding: 0.875rem 1.75rem;
     background: var(--gradient-primary);
     color: white;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 700;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bookings-card .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+  }
+
+  .bookings-card .cta-btn:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .bookings-card .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(46, 125, 210, 0.4);
+  }
+
+  .bookings-card .cta-btn i {
+    transition: transform 0.3s ease;
+  }
+
+  .bookings-card .cta-btn:hover i {
+    transform: translateX(5px);
+  }
     border-radius: var(--radius-full);
     text-decoration: none;
     font-weight: 800;
@@ -266,7 +502,7 @@
     color: white;
   }
 
-  /* Feature Cards */
+  /* Feature Cards - Enhanced */
   .feature-card {
     text-align: center;
   }
@@ -280,32 +516,43 @@
   }
 
   .icon-title img {
-    width: 60px;
-    height: 60px;
-    padding: 15px;
+    width: 52px;
+    height: 52px;
+    padding: 12px;
     background: var(--gradient-primary);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-primary);
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover .icon-title img {
+    transform: rotateY(360deg) scale(1.1);
+    box-shadow: 0 15px 35px rgba(46, 125, 210, 0.4);
   }
 
   .feature-card h3 {
-    margin: 0 0 1rem;
+    margin: 0 0 0.875rem;
     color: var(--gray-900);
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-size: 1.25rem;
+    font-weight: 700;
     font-family: var(--font-display);
+    transition: color 0.3s ease;
+  }
+
+  .feature-card:hover h3 {
+    color: var(--primary-600);
   }
 
   .feature-card p {
     color: var(--gray-600);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    font-size: 0.9375rem;
   }
 
   .feature-card button {
     width: 100%;
-    padding: 1rem 1.5rem;
+    padding: 1.125rem 1.5rem;
     background: var(--gradient-primary);
     color: white;
     border: none;
@@ -317,11 +564,35 @@
     box-shadow: var(--shadow-primary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .feature-card button:hover::before {
+    width: 400px;
+    height: 400px;
   }
 
   .feature-card button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(46, 125, 210, 0.4);
+  }
+
+  .feature-card button:active {
+    transform: translateY(-1px);
   }
 
   /* Location Pill */
@@ -360,7 +631,7 @@
 
   #map {
     width: 100%;
-    height: 500px;
+    height: 600px;
     background: linear-gradient(135deg, var(--primary-100) 0%, var(--gray-100) 100%);
   }
 
@@ -385,10 +656,11 @@
     border-radius: var(--radius-xl);
     border: 2px solid var(--primary-200);
     box-shadow: var(--shadow-lg);
-    padding: 2rem;
+    padding: 1.25rem;
     transition: all var(--transition-base);
     position: relative;
     overflow: hidden;
+    max-height: 340px;
   }
 
   .insight-card::before {
@@ -408,23 +680,23 @@
   }
 
   .insight-card-icon {
-    width: 70px;
-    height: 70px;
+    width: 48px;
+    height: 48px;
     border-radius: var(--radius-lg);
     background: var(--gradient-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.25rem;
-    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.875rem;
     box-shadow: var(--shadow-primary);
     color: white;
   }
 
   .insight-card h3 {
-    margin: 0 0 1rem;
-    font-size: 1.5rem;
-    font-weight: 800;
+    margin: 0 0 0.625rem;
+    font-size: 1.125rem;
+    font-weight: 700;
     color: var(--gray-900);
     font-family: var(--font-display);
   }
@@ -433,11 +705,11 @@
     display: inline-block;
     background: var(--primary-100);
     color: var(--primary-800);
-    font-size: 0.9375rem;
-    font-weight: 800;
-    padding: 0.5rem 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.3125rem 0.875rem;
     border-radius: var(--radius-full);
-    margin-bottom: 1rem;
+    margin-bottom: 0.625rem;
     border: 2px solid var(--primary-300);
   }
 
@@ -445,17 +717,17 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
+    padding: 0.625rem 1rem;
     background: var(--gradient-primary);
     color: white;
     text-decoration: none;
     border-radius: var(--radius-full);
-    font-weight: 800;
-    margin-top: 1rem;
+    font-weight: 700;
+    margin-top: 0.75rem;
     box-shadow: var(--shadow-primary);
     transition: all var(--transition-base);
     text-transform: uppercase;
-    font-size: 0.9375rem;
+    font-size: 0.8125rem;
     letter-spacing: 0.5px;
   }
 
@@ -468,9 +740,9 @@
   .taxi-fare-text,
   .insight-card p {
     color: var(--gray-600);
-    line-height: 1.7;
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.625rem;
+    font-size: 0.875rem;
   }
 
   .updated-note {
@@ -480,7 +752,7 @@
     font-style: italic;
   }
 
-  /* Responsive */
+  /* Responsive Adjustments */
   @media (max-width: 768px) {
     .page-header h1 {
       font-size: 2rem;
@@ -489,18 +761,27 @@
     .bookings-card {
       flex-direction: column;
       text-align: center;
+      padding: 1.5rem;
     }
-    
-    .grid {
-      grid-template-columns: 1fr;
+
+    .bookings-card .icon-pill {
+      margin: 0 auto 1rem;
     }
     
     .travel-box {
-      margin: 0 1rem 2rem;
-      padding: 2rem;
+      margin: 0 0 2rem;
+      padding: 1.75rem;
+    }
+
+    .section-heading {
+      font-size: 1.75rem;
+    }
+
+    .feature-card {
+      padding: 1.5rem;
     }
   }
-</style>
+
 
   .bookings-card p {
     margin: 0;
@@ -576,12 +857,14 @@
     border-radius: var(--radius-xl);
     border: 2px solid var(--primary-200);
     box-shadow: var(--shadow-lg);
-    padding: 1.75rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
     transition: all var(--transition-base);
+    max-width: 100%;
+    min-height: 280px;
   }
 
   .insight-card::before {
@@ -601,22 +884,22 @@
   }
 
   .insight-card-icon {
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
     border-radius: var(--radius-lg);
     background: var(--gradient-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.875rem;
     box-shadow: var(--shadow-primary);
     color: white;
   }
 
   .insight-card h3 {
-    margin: 0 0 0.75rem 0;
-    font-size: 1.375rem;
+    margin: 0 0 0.625rem 0;
+    font-size: 1.125rem;
     font-weight: 700;
     color: var(--gray-900);
     font-family: var(--font-display);
@@ -626,11 +909,11 @@
     display: inline-block;
     background: linear-gradient(135deg, var(--primary-100) 0%, var(--accent-300) 20%);
     color: var(--primary-700);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 700;
-    padding: 0.375rem 1rem;
+    padding: 0.3125rem 0.875rem;
     border-radius: var(--radius-full);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.625rem;
     border: 2px solid var(--primary-300);
     box-shadow: var(--shadow-sm);
   }
@@ -639,16 +922,18 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
+    padding: 0.625rem 1rem;
     background: var(--gradient-primary);
     color: white;
     text-decoration: none;
     border-radius: var(--radius-full);
     font-weight: 700;
-    margin-top: 1rem;
+    margin-top: auto;
     box-shadow: var(--shadow-primary);
     transition: all var(--transition-base);
-    width: fit-content;
+    width: 100%;
+    justify-content: center;
+    font-size: 0.875rem;
   }
 
   .insight-btn:hover {
@@ -659,7 +944,8 @@
 
   .taxi-fare-text,
   .insight-card p {
-    color: var(--gray-600);
+    color: var(--gray75rem;
+    font-size: 0.937-600);
     line-height: 1.6;
     margin-bottom: 0.5rem;
   }
@@ -683,7 +969,7 @@
 
   #map {
     width: 100%;
-    height: 450px;
+    height: 600px;
     background: linear-gradient(135deg, var(--primary-100) 0%, var(--gray-100) 100%);
   }
 
@@ -712,7 +998,7 @@
 
 <!-- Mapbox GL JS CSS moved to global layout for consistency (see layouts/boiler.ejs) -->
 
-<body data-logged-in="<%= !!currUser %>">
+<div data-logged-in="<%= !!currUser %>">
   
   <!-- Page Header -->
   <div class="page-header">
@@ -724,26 +1010,30 @@
   <div class="travel-box">
     <h3>🌍 Travel Budget Planner</h3>
 
-    <label for="country">Select Central Asian Country:</label>
-    <select id="country">
-      <option value="">-- Choose Country --</option>
-      <option value="Azerbaijan">Azerbaijan</option>
-      <option value="Kazakhstan">Kazakhstan</option>
-      <option value="Kyrgyzstan">Kyrgyzstan</option>
-      <option value="Tajikistan">Tajikistan</option>
-      <option value="Turkmenistan">Turkmenistan</option>
-      <option value="Uzbekistan">Uzbekistan</option>
-    </select>
+    <div class="form-input-group">
+      <label for="country">Select Central Asian Country:</label>
+      <select id="country">
+        <option value="">-- Choose Country --</option>
+        <option value="Azerbaijan">Azerbaijan</option>
+        <option value="Kazakhstan">Kazakhstan</option>
+        <option value="Kyrgyzstan">Kyrgyzstan</option>
+        <option value="Tajikistan">Tajikistan</option>
+        <option value="Turkmenistan">Turkmenistan</option>
+        <option value="Uzbekistan">Uzbekistan</option>
+      </select>
+    </div>
 
-    <label for="budget">
-      Enter Budget (<span id="budget-currency" class="currency-label"></span>):
-    </label>
-    <input
-      type="number"
-      id="budget"
-      placeholder="e.g. 10000"
-      oninput="showBudget()"
-    />
+    <div class="form-input-group">
+      <label for="budget">
+        Enter Budget (<span id="budget-currency" class="currency-label"></span>):
+      </label>
+      <input
+        type="number"
+        id="budget"
+        placeholder="e.g. 10000"
+        oninput="showBudget()"
+      />
+    </div>
 
     <div class="result" id="result" style="display: none;"></div>
 
@@ -855,7 +1145,7 @@
         id="map"
         style="
           width: 100%;
-          height: 420px;
+          height: 600px;
           border-radius: 16px;
           overflow: hidden;
           background: linear-gradient(135deg, #e9eef3 0%, #d4dfe8 100%);
@@ -1971,4 +2261,4 @@
       }
     }
   </script>
-</body>
+</div>

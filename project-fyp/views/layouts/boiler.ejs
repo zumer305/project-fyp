@@ -60,11 +60,18 @@
     <!-- 🎨 PROFESSIONAL DESIGN SYSTEM - Loads LAST to override everything -->
     <link rel="stylesheet" href="/css/style.css?v=3" />
     <link rel="stylesheet" href="/css/enhancements.css?v=3" />
+    <link rel="stylesheet" href="/css/professional-theme.css?v=1" />
+    
+    <!-- AI Chatbot CSS -->
+    <link rel="stylesheet" href="/css/chatbot.css" />
   </head>
   <body>
     <%-include("../partials/navbar.ejs")%>
     <div class="container"><%-include("../partials/flash.ejs")%> <%-body%></div>
     <%-include("../partials/footer.ejs")%>
+    
+    <!-- AI Chatbot Widget -->
+    <%-include("../partials/chatbot.ejs")%>
     
     <!-- Mapbox GL JS -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
@@ -88,5 +95,8 @@
     
     <!-- Main Script -->
     <script src="/js/script.js"></script>
+    
+    <!-- AI Chatbot Script -->
+    <script src="/js/chatbot.js"></script>
   </body>
 </html>

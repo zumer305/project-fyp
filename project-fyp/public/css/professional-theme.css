@@ -1,0 +1,385 @@
+/* ================================================
+   PROFESSIONAL ENHANCEMENTS
+   Additional modern styling for FYP
+   ================================================ */
+
+/* Remove container padding for auth pages */
+body:has(.auth-page-wrapper) .container {
+  padding: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Enhanced Navbar Branding */
+.navbar-brand .brand-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0A2540 0%, #2E7DD2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.navbar {
+  box-shadow: 0 2px 15px rgba(10, 37, 64, 0.08) !important;
+}
+
+.navbar-brand:hover .brand-text {
+  background: linear-gradient(135deg, #2E7DD2 0%, #6BCF7F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Professional Button Styles */
+.btn-primary {
+  background: linear-gradient(135deg, #2E7DD2 0%, #4A90E2 100%) !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(46, 125, 210, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1A5490 0%, #2E7DD2 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 125, 210, 0.4) !important;
+}
+
+/* Professional Card Enhancements */
+.card {
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.3s ease !important;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12) !important;
+  border-color: #2E7DD2 !important;
+}
+
+/* Professional Form Inputs */
+.form-control:focus {
+  border-color: #2E7DD2 !important;
+  box-shadow: 0 0 0 0.2rem rgba(46, 125, 210, 0.15) !important;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #2D3748;
+}
+
+/* Enhanced Links */
+a {
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #2E7DD2;
+}
+
+/* Professional Footer */
+footer {
+  background: linear-gradient(180deg, #F7FAFC 0%, #E3F2FD 100%);
+  border-top: 2px solid #E2E8F0;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Professional Loading State */
+.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 3px solid #2E7DD2;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Professional Alerts */
+.alert {
+  border-radius: 12px;
+  border-left: 4px solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+  border-left-color: #10B981;
+  color: #065F46;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
+  border-left-color: #EF4444;
+  color: #991B1B;
+}
+
+.alert-info {
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  border-left-color: #3B82F6;
+  color: #1E40AF;
+}
+
+/* Professional Tables */
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead th {
+  background: linear-gradient(135deg, #2E7DD2 0%, #4A90E2 100%);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 1rem;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #F7FAFC;
+  transform: scale(1.01);
+}
+
+/* Professional Badges */
+.badge {
+  padding: 0.5em 1em;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Currency Selector Enhancement */
+#navbar-currency-select {
+  border: 2px solid #2E7DD2 !important;
+  background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%) !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+#navbar-currency-select:focus {
+  box-shadow: 0 0 0 0.2rem rgba(46, 125, 210, 0.2) !important;
+  border-color: #1A5490 !important;
+}
+
+/* Professional Page Headers */
+.page-header {
+  padding: 3rem 0;
+  background: linear-gradient(135deg, #0A2540 0%, #2E7DD2 100%);
+  color: white;
+  margin-bottom: 2rem;
+  border-radius: 0 0 24px 24px;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  font-size: 1.125rem;
+  opacity: 0.9;
+}
+
+/* Professional Container */
+.container {
+  max-width: 1200px;
+}
+
+/* Professional Section Spacing */
+section {
+  padding: 4rem 0;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 768px) {
+  .navbar-brand .brand-text {
+    font-size: 1rem;
+  }
+  
+  .page-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .page-header {
+    padding: 2rem 1rem;
+  }
+}
+
+/* Professional Hover Effects for Interactive Elements */
+button, .btn, a[class*="btn"] {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Professional Focus Styles */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid #2E7DD2;
+  outline-offset: 2px;
+}
+
+/* Professional Shadows for Elevation */
+.elevation-1 {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.elevation-2 {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.elevation-3 {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Professional Text Colors */
+.text-primary {
+  color: #2E7DD2 !important;
+}
+
+.text-secondary {
+  color: #718096 !important;
+}
+
+.text-muted {
+  color: #A0AEC0 !important;
+}
+
+/* Professional Background Colors */
+.bg-light {
+  background-color: #F7FAFC !important;
+}
+
+.bg-primary {
+  background: linear-gradient(135deg, #2E7DD2 0%, #4A90E2 100%) !important;
+}
+
+/* Professional Spacing Utilities */
+.mt-professional {
+  margin-top: 3rem;
+}
+
+.mb-professional {
+  margin-bottom: 3rem;
+}
+
+.py-professional {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Professional Dividers */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #E2E8F0, transparent);
+  margin: 2rem 0;
+}
+
+/* Professional Icons */
+i[class*="fa-"], i[class*="fas"], i[class*="far"] {
+  transition: all 0.3s ease;
+}
+
+/* Listing Card Enhancements */
+.listing-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+}
+
+.listing-card:hover {
+  border-color: #2E7DD2 !important;
+}
+
+.listing-card .card-img-top {
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Professional Action Buttons */
+.btn-group .btn {
+  border-radius: 8px;
+  margin: 0 0.25rem;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  border: none !important;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%) !important;
+  border: none !important;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  border: none !important;
+}
+
+/* Professional Modal */
+.modal-content {
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #2E7DD2 0%, #4A90E2 100%);
+  color: white;
+  border-radius: 20px 20px 0 0;
+  border-bottom: none;
+}
+
+.modal-title {
+  font-weight: 700;
+}
+
+/* Professional Pagination */
+.pagination .page-link {
+  color: #2E7DD2;
+  border: 2px solid #E2E8F0;
+  border-radius: 8px;
+  margin: 0 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+  background: #2E7DD2;
+  color: white;
+  border-color: #2E7DD2;
+}
+
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #2E7DD2 0%, #4A90E2 100%);
+  border-color: #2E7DD2;
+}
