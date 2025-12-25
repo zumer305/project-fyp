@@ -1281,17 +1281,14 @@
           <p class="insight-location"><%= latestCity || latestCountry %></p>
         <% } %>
         <div id="weather-info">
-          <p style="margin-bottom: 14px;color:#5a6c8c;">
+          <p style="margin-bottom: 14px;color:#64748b;">
             Compare weather across all Central Asian countries on an interactive map.
           </p>
-          <button
-            onclick="window.location.href='/listings/weather-comparison'"
-            class="btn btn-gradient"
-            style="width: 100%;"
-          >
-            🗺️ Open Weather Map
-          </button>
         </div>
+        <a class="insight-btn" href="/listings/weather-comparison">
+          <span>🗺️ Open Weather Map</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
         <div class="updated-note">Live weather data</div>
       </div>
     </div>
