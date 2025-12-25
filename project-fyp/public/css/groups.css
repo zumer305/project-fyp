@@ -2,36 +2,79 @@
 
 /* Group Cards */
 .group-card {
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  border: 1px solid #e0e0e0;
+  border: none;
   height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.group-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.group-card:hover::before {
+  opacity: 1;
 }
 
 .group-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0, 123, 255, 0.15);
-  border-color: #007bff;
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.25);
+  border-color: transparent;
 }
 
 .group-card .card-body {
   display: flex;
   flex-direction: column;
+  padding: 1.25rem 1.5rem;
+}
+
+.group-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.group-card .card-footer {
+  background: rgba(102, 126, 234, 0.03);
+  border-top: 1px solid rgba(102, 126, 234, 0.1);
+  padding: 0.875rem 1.5rem;
 }
 
 /* Invite Code Display */
 .invite-code {
   font-family: "Courier New", "Consolas", monospace;
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: #007bff;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  padding: 12px 20px;
-  border-radius: 8px;
-  border: 2px dashed #007bff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #667eea;
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 2px dashed #667eea;
   display: inline-block;
   user-select: all;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+  transition: all 0.3s ease;
+}
+
+.invite-code:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
 }
 
 /* Member Avatars */
@@ -54,6 +97,42 @@
   padding: 10px;
   border-radius: 8px;
   transition: background-color 0.2s ease;
+}
+
+.member-item:hover {
+  background-color: rgba(102, 126, 234, 0.08);
+}
+
+/* Card Buttons Row */
+.group-card .card-footer .row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  margin: 0 !important;
+}
+
+.group-card .card-footer .col-6 {
+  flex: 1;
+  max-width: 50%;
+  padding: 0 0.25rem;
+  transition: transform 0.3s ease;
+}
+
+.group-card .card-footer .col-6:first-child {
+  padding-left: 0;
+}
+
+.group-card .card-footer .col-6:last-child {
+  padding-right: 0;
+}
+
+.group-card:hover .card-footer .col-6:first-child {
+  transform: translateX(-2px);
+}
+
+.group-card:hover .card-footer .col-6:last-child {
+  transform: translateX(2px);
 }
 
 .member-item:hover {
@@ -198,33 +277,96 @@
 
 /* Action Cards on Index Page */
 .card.shadow-sm {
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.card.shadow-sm::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card.shadow-sm:hover::after {
+  opacity: 1;
 }
 
 .card.shadow-sm:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
 }
 
 .card-body .fa-3x {
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .card:hover .fa-3x {
-  transform: scale(1.1);
+  transform: scale(1.15) rotate(5deg);
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+}
+
+/* Card Title Styling */
+.card-title {
+  font-weight: 700;
+  color: #2d3748;
+  font-size: 1.25rem;
+}
+
+.card-text {
+  color: #64748b;
+  line-height: 1.6;
 }
 
 /* Modals */
 .modal-content {
-  border-radius: 16px;
+  border-radius: 20px;
   border: none;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
 .modal-header {
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-  border-bottom: 2px solid #e9ecef;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom: 2px solid #e0e7ff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+}
+
+.modal-header .btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+}
+
+.modal-header .btn-close:hover {
+  opacity: 1;
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-footer {
+  border-top: 2px solid #e0e7ff;
+  padding: 1.25rem 2rem;
 }
 
 /* Loading State */
@@ -236,9 +378,100 @@
 
 /* Badges */
 .badge {
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 12px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.badge.bg-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Icons in Cards */
+.group-card i.fa-users {
+  font-size: 1rem;
+  margin-right: 8px;
+  color: #667eea;
+  filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.3));
+}
+
+.group-card i.fa-map-marker-alt {
+  color: #ef4444;
+  margin-right: 6px;
+}
+
+/* Small Text Styling */
+.group-card small {
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Destination Badge */
+.group-card .mb-2:has(i.fa-map-marker-alt) {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border-left: 3px solid #ef4444;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Members Count Badge */
+.group-card .mb-2:has(i.fa-users:not(.text-primary)) {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border-left: 3px solid #0ea5e9;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Invite Code Section */
+.group-card .mt-2.pt-2.border-top {
+  margin-top: 0.75rem !important;
+  padding-top: 0.75rem !important;
+  border-top: 2px solid rgba(102, 126, 234, 0.15) !important;
+  text-align: center;
+}
+
+.group-card .mt-2.pt-2.border-top small {
+  display: block;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  color: #667eea;
+  margin-bottom: 6px;
+}
+
+/* Also support old mt-3 pt-3 classes */
+.group-card .mt-3.pt-3.border-top {
+  margin-top: 0.75rem !important;
+  padding-top: 0.75rem !important;
+  border-top: 2px solid rgba(102, 126, 234, 0.15) !important;
+  text-align: center;
+}
+
+.group-card .mt-2.pt-2.border-top small {
+  display: block;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  color: #667eea;
+  margin-bottom: 6px;
+}
+
+.group-card .mt-3.pt-3.border-top small {
+  display: block;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  color: #667eea;
+  margin-bottom: 6px;
 }
 
 /* Responsive Adjustments */
@@ -248,8 +481,9 @@
   }
 
   .invite-code {
-    font-size: 1rem;
-    padding: 10px 15px;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    letter-spacing: 0.12em;
   }
 
   #messageInput {
@@ -260,6 +494,54 @@
   #messageForm button[type="submit"] {
     border-radius: 20px;
     padding: 10px 16px;
+  }
+
+  .group-card {
+    border-radius: 16px;
+  }
+
+  .group-card .card-body {
+    padding: 1rem;
+  }
+
+  .group-card .card-footer {
+    padding: 0.75rem 1rem;
+  }
+
+  .group-card .card-footer .row {
+    gap: 0.375rem;
+  }
+
+  .group-card .card-footer .col-6 {
+    padding: 0 0.2rem;
+  }
+
+  .btn-sm {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+  }
+
+  .btn-sm i {
+    margin-right: 4px;
+  }
+
+  .card.shadow-sm:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  .group-card:hover {
+    transform: translateY(-6px) scale(1.01);
+  }
+}
+
+/* Large screens - make cards even wider */
+@media (min-width: 1200px) {
+  .group-card .card-body {
+    padding: 1.25rem 2rem;
+  }
+  
+  .group-card .card-footer {
+    padding: 0.875rem 2rem;
   }
 }
 
@@ -327,13 +609,81 @@ button:active {
 
 /* Button Hover Effects */
 .btn {
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 10px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 .btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .btn:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
+}
+
+/* Primary Button - Chat */
+.btn-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #4338ca 0%, #4f46e5 100%);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+}
+
+/* Success Button - Location */
+.btn-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Small Buttons in Cards */
+.btn-sm {
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Icon Styling in Buttons */
+.btn i {
+  margin-right: 6px;
+  transition: transform 0.3s ease;
+}
+
+.btn:hover i {
+  transform: translateX(2px);
 }

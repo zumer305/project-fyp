@@ -68,7 +68,7 @@
     <link rel="stylesheet" href="/css/professional-theme.css?v=1" />
     <link rel="stylesheet" href="/css/home-enhancements.css?v=1" />
   </head>
-  <body>
+  <body data-logged-in="<%= !!currUser %>">
     <%-include("../partials/navbar.ejs")%>
     <div class="container"><%-include("../partials/flash.ejs")%> <%-body%></div>
     <%-include("../partials/footer.ejs")%>
