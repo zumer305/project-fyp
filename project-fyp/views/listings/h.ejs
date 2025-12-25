@@ -1279,13 +1279,13 @@
       result.style.display = "block";
 
       if (budgetNum < basic) {
-        result.innerHTML = `<span style="color: #FF6B6B; font-weight: 600;">💰 Budget: Rs${budgetNum.toLocaleString()} - Consider increasing for better packages (min ~Rs${basic.toLocaleString()})</span>`;
+        result.innerHTML = `<span style="color: #ffffff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">💰 Budget: Rs${budgetNum.toLocaleString()} - Consider increasing for better packages (min ~Rs${basic.toLocaleString()})</span>`;
       } else if (budgetNum >= basic && budgetNum < mid) {
-        result.innerHTML = `<span style="color: #FFD93D; font-weight: 600;">💰 Budget: Rs${budgetNum.toLocaleString()} - Good for basic packages (mid-tier starts ~Rs${mid.toLocaleString()})</span>`;
+        result.innerHTML = `<span style="color: #ffffff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">💰 Budget: Rs${budgetNum.toLocaleString()} - Good for basic packages (mid-tier starts ~Rs${mid.toLocaleString()})</span>`;
       } else if (budgetNum >= mid && budgetNum < luxury) {
-        result.innerHTML = `<span style="color: #6BCF7F; font-weight: 600;">💰 Budget: Rs${budgetNum.toLocaleString()} - Great for premium packages (luxury starts ~Rs${luxury.toLocaleString()})</span>`;
+        result.innerHTML = `<span style="color: #ffffff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">💰 Budget: Rs${budgetNum.toLocaleString()} - Great for premium packages (luxury starts ~Rs${luxury.toLocaleString()})</span>`;
       } else {
-        result.innerHTML = `<span style="color: #6BCF7F; font-weight: 600;">💰 Budget: Rs${budgetNum.toLocaleString()} - Luxury packages available!</span>`;
+        result.innerHTML = `<span style="color: #ffffff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">💰 Budget: Rs${budgetNum.toLocaleString()} - Luxury packages available!</span>`;
       }
     }
 

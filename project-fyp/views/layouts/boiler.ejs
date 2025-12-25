@@ -57,21 +57,26 @@
     <link rel="stylesheet" href="/css/currency.css" />
     <link rel="stylesheet" href="/css/groups.css" />
     
+    <!-- AI Chatbot CSS - Only for authenticated users -->
+    <% if (currUser) { %>
+      <link rel="stylesheet" href="/css/chatbot.css" />
+    <% } %>
+    
     <!-- 🎨 PROFESSIONAL DESIGN SYSTEM - Loads LAST to override everything -->
     <link rel="stylesheet" href="/css/style.css?v=3" />
     <link rel="stylesheet" href="/css/enhancements.css?v=3" />
     <link rel="stylesheet" href="/css/professional-theme.css?v=1" />
-    
-    <!-- AI Chatbot CSS -->
-    <link rel="stylesheet" href="/css/chatbot.css" />
+    <link rel="stylesheet" href="/css/home-enhancements.css?v=1" />
   </head>
   <body>
     <%-include("../partials/navbar.ejs")%>
     <div class="container"><%-include("../partials/flash.ejs")%> <%-body%></div>
     <%-include("../partials/footer.ejs")%>
     
-    <!-- AI Chatbot Widget -->
-    <%-include("../partials/chatbot.ejs")%>
+    <!-- AI Chatbot Widget - Only visible after signin -->
+    <% if (currUser) { %>
+      <%-include("../partials/chatbot.ejs")%>
+    <% } %>
     
     <!-- Mapbox GL JS -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
@@ -96,7 +101,9 @@
     <!-- Main Script -->
     <script src="/js/script.js"></script>
     
-    <!-- AI Chatbot Script -->
-    <script src="/js/chatbot.js"></script>
+    <!-- AI Chatbot Script - Only for authenticated users -->
+    <% if (currUser) { %>
+      <script src="/js/chatbot.js"></script>
+    <% } %>
   </body>
 </html>
