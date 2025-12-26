@@ -443,19 +443,71 @@ class TravelChatbot:
     
     def chat(self, user_input: str) -> str:
         """Process user input and generate response."""
+        user_lower = user_input.lower().strip()
+        
+        # Handle greetings
+        if any(greeting in user_lower for greeting in ['hi', 'hello', 'hey', 'greetings']):
+            return """Hello! I'm your Central Asia travel assistant. 🌍
+
+I can help with:
+• Destinations in Kazakhstan, Kyrgyzstan, Tajikistan, Turkmenistan, Uzbekistan
+• Hotels, halal food, mosques
+• Trip planning & itineraries
+• Budget estimates & safety tips
+
+Try asking:
+- "Tell me about Bishkek"
+- "Hotels in Samarkand"
+- "Best places in Tashkent"
+- "3 day itinerary for Bukhara"
+
+Which destination interests you?"""
+        
+        # Handle help/info requests
+        if any(word in user_lower for word in ['help', 'what can you', 'how do you', 'which cities']):
+            return """I cover 180+ cities across Central Asia:
+
+🇰🇿 Kazakhstan: Taraz, Aksu, Shymkent, and 66 more
+🇰🇬 Kyrgyzstan: Bishkek, Osh, Karakol, and 24 more
+🇹🇯 Tajikistan: Khujand, Dushanbe area cities
+🇹🇲 Turkmenistan: Ashgabat, Turkmenabat, Mary, and 45 more
+🇺🇿 Uzbekistan: Tashkent, Samarkand, Bukhara, Khiva, and 26 more
+
+Ask about hotels, food, attractions, or create an itinerary!"""
+        
         # Analyze query
         analysis = self.query_analyzer.analyze(user_input)
-        
-        # Check if in scope
-        if analysis['location'] is None:
-           return "❌ I only provide travel information for Central Asian cities in my dataset."
-
         
         # Use context if no location specified
         location = analysis['location'] or self.context.get('last_location')
         
-        if not location and 'itinerary' in analysis['intent']:
-            return "📍 Please specify a city or country for the itinerary."
+        # If no location found, suggest available locations
+        if not location:
+            if 'itinerary' in analysis['intent']:
+                return "📍 Please specify a city for the itinerary.\n\nPopular destinations: Bishkek, Tashkent, Samarkand, Bukhara, Khiva, Ashgabat, or browse other cities!"
+            else:
+                # Get sample cities from dataset
+                sample_cities = []
+                for country in ['Uzbekistan', 'Kyrgyzstan', 'Kazakhstan', 'Turkmenistan', 'Tajikistan']:
+                    entries = self.dataset_manager.get_entries_by_country(country)
+                    if entries:
+                        sample_cities.append(f"{entries[0]['city']}")
+                    if len(sample_cities) >= 3:
+                        break
+                
+                cities_text = ", ".join(sample_cities) if sample_cities else "Bishkek, Samarkand, Tashkent"
+                
+                return f"""I need a specific city or country to help you! 
+
+Popular destinations: {cities_text}, Bukhara, Khiva, Ashgabat, Osh
+
+Try asking:
+• "Tell me about [city name]"
+• "Hotels in [city]"
+• "Best places to visit in [city]"
+• "[X] day itinerary for [city]"
+
+Which location would you like to know about?"""
         
         # Update context
         if location:
