@@ -1,0 +1,57 @@
+[debug] [2025-12-20T15:26:24.254Z] ----------------------------------------------------------------------
+[debug] [2025-12-20T15:26:24.261Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Hp\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-12-20T15:26:24.262Z] CLI Version:   15.1.0
+[debug] [2025-12-20T15:26:24.262Z] Platform:      win32
+[debug] [2025-12-20T15:26:24.263Z] Node Version:  v22.18.0
+[debug] [2025-12-20T15:26:24.264Z] Time:          Sat Dec 20 2025 20:26:24 GMT+0500 (Pakistan Standard Time)
+[debug] [2025-12-20T15:26:24.264Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Hp\Desktop\fyp\project-fyp
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2025-12-20T15:27:44.458Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-20T15:27:44.460Z] > authorizing via signed-in user (zumerniaz305@gmail.com)
+[debug] [2025-12-20T15:27:44.463Z] Checked if tokens are valid: true, expires at: 1766247961419
+[debug] [2025-12-20T15:27:44.463Z] Checked if tokens are valid: true, expires at: 1766247961419
+[debug] [2025-12-20T15:27:44.467Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-12-20T15:27:45.438Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-12-20T15:27:45.438Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] 
+=== Hosting Setup
+[debug] [2025-12-20T15:27:47.817Z] Checked if tokens are valid: true, expires at: 1766247961419
+[debug] [2025-12-20T15:27:47.818Z] Checked if tokens are valid: true, expires at: 1766247961419
+[debug] [2025-12-20T15:27:47.818Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ai-based-destination-explorer [none]
+[debug] [2025-12-20T15:27:48.149Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ai-based-destination-explorer 200
+[debug] [2025-12-20T15:27:48.150Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ai-based-destination-explorer {"projectId":"ai-based-destination-explorer","projectNumber":"367782209068","displayName":"Ai Based Destination Explorer","name":"projects/ai-based-destination-explorer","resources":{"hostingSite":"ai-based-destination-explorer"},"state":"ACTIVE","etag":"1_f03ee49d-b382-4fd6-88a2-33efc21375d8"}
+[info] 
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 
+[debug] [2025-12-20T16:40:49.224Z] ExitPromptError: User force closed the prompt with SIGINT
+    at Interface.sigint (C:\Users\Hp\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
+    at Interface.emit (node:events:518:28)
+    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1132:18)
+    at ReadStream.onkeypress (node:internal/readline/interface:271:20)
+    at ReadStream.emit (node:events:530:35)
+    at emitKeys (node:internal/readline/utils:370:14)
+    at emitKeys.next (<anonymous>)
+    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+    at ReadStream.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+[error] 
+[error] Error: An unexpected error has occurred.

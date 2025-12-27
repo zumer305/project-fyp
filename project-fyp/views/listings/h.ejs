@@ -1,568 +1,2033 @@
 <% layout("/layouts/boiler")%>
+
+<!-- 🎨 STUNNING DASHBOARD STYLING - Consistent with Landing Page -->
 <style>
-  .travel-box {
-    width: 300px;
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 10px;
-    background: #e0f0ff; /* light blue theme */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+  /* Remove default container constraints */
+  body > .container {
+    max-width: 1280px !important;
+    padding: 2rem 3rem !important;
+    margin: 0 auto !important;
   }
-  .travel-box h3 {
+
+  @media (max-width: 1400px) {
+    body > .container {
+      padding: 2rem !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body > .container {
+      padding: 1.5rem !important;
+    }
+  }
+
+  /* Page Header */
+  .page-header {
     text-align: center;
-    color: #007acc;
+    padding: 2rem 0 1.75rem;
+    background: linear-gradient(135deg, #0A2540 0%, #16213E 100%);
+    color: #ffffff !important;
+    margin: -2rem -2rem 2.5rem -2rem;
+    border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
   }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-display);
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  .page-header p {
+    font-size: 1.0625rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+    color: #E3F2FD !important;
+  }
+
+  /* Travel Budget Box - Premium Design with Animation */
+  .travel-box {
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    padding: 1.75rem 2rem;
+    border-radius: var(--radius-xl);
+    background: white;
+    box-shadow: var(--shadow-xl);
+    border: 2px solid var(--primary-300);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .travel-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--gradient-primary);
+  }
+  
+  .travel-box h3 {
+    font-size: 1.625rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: var(--font-display);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  /* Enhanced Labels - Fixed Visibility */
   .travel-box label {
     display: block;
-    margin-top: 10px;
-    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: #0A2540 !important;  /* Dark blue - Always visible */
+    font-size: 0.9375rem;
+    position: relative;
+    z-index: 1;
+    padding-left: 0.25rem;
+    transition: color 0.3s ease;
   }
+
+  .travel-box label:hover {
+    color: var(--primary-500) !important;
+  }
+  
+  /* Form Input Groups */
+  .form-input-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+  
+  /* Enhanced Select and Input Styling */
   .travel-box select,
-  .travel-box input {
+  .travel-box input[type="number"] {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #007acc;
+    padding: 0.875rem 1.25rem;
+    margin-bottom: 0;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-lg);
+    font-size: 0.9375rem;
+    font-family: var(--font-primary);
+    transition: all var(--transition-base);
+    background: #ffffff;
+    font-weight: 600;
+    color: #000000 !important;
+    cursor: pointer;
+    opacity: 1 !important;
+    line-height: normal;
+    height: auto;
+    text-decoration: none !important;
   }
+
+  .travel-box select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232E7DD2' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.25rem center;
+    background-size: 12px;
+    background-color: #ffffff;
+    padding: 0.875rem 3rem 0.875rem 1.25rem;
+    color: #000000 !important;
+    opacity: 1 !important;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    height: auto;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    text-decoration: none !important;
+    border-bottom: 2px solid var(--gray-300) !important;
+  }
+  
+  .travel-box select:invalid {
+    color: #000000 !important;
+    opacity: 1 !important;
+  }
+  
+  .travel-box select:valid {
+    color: #000000 !important;
+    opacity: 1 !important;
+  }
+  
+  .travel-box select option {
+    color: #000000 !important;
+    background: #ffffff;
+    padding: 0.5rem;
+    font-weight: 600;
+    opacity: 1 !important;
+  }
+  
+  .travel-box select option[value=""] {
+    color: #000000 !important;
+    font-weight: 600;
+    opacity: 1 !important;
+  }
+
+  .travel-box input[type="number"] {
+    cursor: text;
+  }
+  
+  .travel-box select:hover,
+  .travel-box input[type="number"]:hover {
+    border-color: var(--primary-400);
+    background: #ffffff;
+  }
+
+  .travel-box select:focus,
+  .travel-box input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 5px rgba(46, 125, 210, 0.15);
+    background: #ffffff;
+    transform: translateY(-2px);
+  }
+  
+  /* Enhanced Button with Animation */
   .travel-box button {
-    margin-top: 15px;
     width: 100%;
-    padding: 10px;
-    background-color: #007acc;
+    padding: 0.9375rem 1.75rem;
+    background: var(--gradient-primary);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-primary);
+    font-family: var(--font-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .travel-box button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .travel-box button:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .travel-box button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(46, 125, 210, 0.4);
+  }
+
+  .travel-box button:active {
+    transform: translateY(-1px);
+  }
+  
+  /* Enhanced Result Display */
+  .result {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.875rem 1rem;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    animation: slideIn 0.4s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .currency-label {
+    font-weight: 900;
+    color: var(--primary-600);
+  }
+
+  /* Section Headers */
+  .section-heading {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: #0A2540 !important;
+    margin: 2.5rem 0 1.5rem;
+    font-family: var(--font-display);
+    position: relative;
+    padding-bottom: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 120px;
+    height: 5px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+  }
+
+  /* Grid System - Improved Spacing and Sizing */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
+    gap: 2rem;
+    margin-bottom: 3rem;
+    justify-content: center;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (min-width: 1200px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1200px;
+    }
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 800px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .grid {
+      grid-template-columns: 1fr;
+      max-width: 500px;
+      gap: 1.5rem;
+    }
+  }
+
+  /* Premium Cards with Enhanced Animations */
+  .bookings-card,
+  .feature-card {
+    background: white;
+    padding: 1.375rem;
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--primary-200);
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInScale 0.5s ease-out backwards;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .bookings-card:nth-child(1) { animation-delay: 0.1s; }
+  .bookings-card:nth-child(2) { animation-delay: 0.2s; }
+  .bookings-card:nth-child(3) { animation-delay: 0.3s; }
+  .feature-card:nth-child(1) { animation-delay: 0.1s; }
+  .feature-card:nth-child(2) { animation-delay: 0.2s; }
+  .feature-card:nth-child(3) { animation-delay: 0.3s; }
+
+  .bookings-card::before,
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    transition: height 0.3s ease;
+  }
+
+  .bookings-card::after,
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(46, 125, 210, 0.1), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .bookings-card:hover::after,
+  .feature-card:hover::after {
+    left: 100%;
+  }
+
+  .bookings-card:hover,
+  .feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(46, 125, 210, 0.25);
+    border-color: var(--primary-500);
+  }
+
+  .bookings-card:hover::before,
+  .feature-card:hover::before {
+    height: 6px;
+  }
+
+  .bookings-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .bookings-card .icon-pill {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-primary);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow-primary);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .bookings-card:hover .icon-pill {
+    transform: rotate(10deg) scale(1.1);
+    box-shadow: 0 15px 35px rgba(46, 125, 210, 0.4);
+  }
+
+  .bookings-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+    color: var(--gray-900);
+    font-weight: 700;
+    font-family: var(--font-display);
+    transition: color 0.3s ease;
+  }
+
+  .bookings-card:hover h3 {
+    color: var(--primary-600);
+  }
+
+  .bookings-card p {
+    margin: 0;
+    color: var(--gray-600);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .bookings-card .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 1.75rem;
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 700;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bookings-card .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+  }
+
+  .bookings-card .cta-btn:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .bookings-card .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(46, 125, 210, 0.4);
+  }
+
+  .bookings-card .cta-btn i {
+    transition: transform 0.3s ease;
+  }
+
+  .bookings-card .cta-btn:hover i {
+    transform: translateX(5px);
+  }
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 800;
+    box-shadow: var(--shadow-primary);
+    transition: all var(--transition-base);
+    white-space: nowrap;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    font-size: 0.9375rem;
+    letter-spacing: 0.5px;
+  }
+
+  .bookings-card .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+    color: white;
+  }
+
+  /* Feature Cards - Enhanced */
+  .feature-card {
+    text-align: center;
+  }
+
+  .icon-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .icon-title img {
+    width: 52px;
+    height: 52px;
+    padding: 12px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-primary);
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover .icon-title img {
+    transform: rotateY(360deg) scale(1.1);
+    box-shadow: 0 15px 35px rgba(46, 125, 210, 0.4);
+  }
+
+  .feature-card h3 {
+    margin: 0 0 0.875rem;
+    color: var(--gray-900);
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    transition: color 0.3s ease;
+  }
+
+  .feature-card:hover h3 {
+    color: var(--primary-600);
+  }
+
+  .feature-card p {
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    font-size: 0.9375rem;
+    flex-grow: 1;
+  }
+
+  .feature-card button {
+    width: 100%;
+    padding: 1.125rem 1.5rem;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    margin-top: auto;
+  }
+
+  .feature-card button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .feature-card button:hover::before {
+    width: 400px;
+    height: 400px;
+  }
+
+  .feature-card button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(46, 125, 210, 0.4);
+  }
+
+  .feature-card button:active {
+    transform: translateY(-1px);
+  }
+
+  /* Location Pill */
+  .location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--primary-100) 0%, var(--accent-emerald) 20%);
+    color: var(--primary-800);
+    font-weight: 800;
+    font-size: 1rem;
+    border: 2px solid var(--primary-400);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Map */
+  .map {
+    width: 100%;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-2xl);
+    border: 4px solid white;
+    margin-top: 2rem;
+    position: relative;
+  }
+
+  .premium-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-2xl);
+    border: 3px solid var(--primary-200);
+  }
+
+  #map {
+    width: 100%;
+    height: 600px;
+    background: linear-gradient(135deg, var(--primary-100) 0%, var(--gray-100) 100%);
+  }
+
+  .map-area-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(46, 125, 210, 0.95);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-full);
+    font-size: 1rem;
+    font-weight: 800;
+    z-index: 550;
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* Insight Cards */
+  .insight-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--primary-200);
+    box-shadow: var(--shadow-lg);
+    padding: 1.25rem;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+    max-height: 340px;
+  }
+
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+  }
+
+  .insight-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-2xl);
+    border-color: var(--primary-500);
+  }
+
+  .insight-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 0.875rem;
+    box-shadow: var(--shadow-primary);
+    color: white;
+  }
+
+  .insight-card h3 {
+    margin: 0 0 0.625rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    font-family: var(--font-display);
+  }
+
+  .insight-location {
+    display: inline-block;
+    background: var(--primary-100);
+    color: var(--primary-800);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.3125rem 0.875rem;
+    border-radius: var(--radius-full);
+    margin-bottom: 0.625rem;
+    border: 2px solid var(--primary-300);
+  }
+
+  .insight-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background: var(--gradient-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    margin-top: 0.75rem;
+    box-shadow: var(--shadow-primary);
+    transition: all var(--transition-base);
+    text-transform: uppercase;
+    font-size: 0.8125rem;
+    letter-spacing: 0.5px;
+  }
+
+  .insight-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: white;
+  }
+
+  .taxi-fare-text,
+  .insight-card p {
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin-bottom: 0.625rem;
+    font-size: 0.875rem;
+  }
+
+  .updated-note {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 1.5rem 0 1.25rem;
+      margin: -2rem -1.5rem 2rem -1.5rem;
+    }
+    
+    .page-header h1 {
+      font-size: 1.75rem;
+    }
+    
+    .page-header p {
+      font-size: 0.9375rem;
+    }
+    
+    .bookings-card {
+      flex-direction: column;
+      text-align: center;
+      padding: 1.25rem;
+    }
+
+    .bookings-card .icon-pill {
+      margin: 0 auto 1rem;
+    }
+    
+    .travel-box {
+      margin: 0 0 2rem;
+      padding: 1.5rem;
+      max-width: 100%;
+    }
+    
+    .travel-box h3 {
+      font-size: 1.375rem;
+    }
+
+    .section-heading {
+      font-size: 1.5rem;
+    }
+
+    .feature-card {
+      padding: 1.25rem;
+    }
+  }
+
+
+  .bookings-card p {
+    margin: 0;
+    color: var(--gray-600);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .bookings-card .actions {
+    margin-left: auto;
+  }
+
+  .bookings-card .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--gradient-primary);
+    color: #fff;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: var(--shadow-primary);
+    transition: all var(--transition-base);
+    white-space: nowrap;
+  }
+
+  .bookings-card .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* Location Pill */
+  .location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--primary-100) 0%, var(--accent-emerald) 20%);
+    color: var(--primary-700);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    border: 2px solid var(--primary-300);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Section Headings */
+  #package-heading {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    margin: 3rem 0 1.5rem;
+    font-family: var(--font-display);
+    position: relative;
+    padding-bottom: 1rem;
+  }
+
+  #package-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100px;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+  }
+
+  /* Insight Cards Enhancement */
+  .insight-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+    border-radius: 16px;
+    border: 2px solid #bfdbfe;
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    max-width: 100%;
+    min-height: 320px;
+  }
+
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+  }
+
+  .insight-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-2xl);
+    border-color: var(--primary-500);
+  }
+
+  .insight-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 0.875rem;
+    box-shadow: var(--shadow-primary);
+    color: white;
+  }
+
+  .insight-card h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    font-family: var(--font-display);
+    line-height: 1.3;
+  }
+
+  .insight-location {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    color: #1e40af;
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0.875rem 1.5rem;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+    border: 2px solid #93c5fd;
+    box-shadow: 0 2px 8px rgba(147, 197, 253, 0.3);
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+  }
+
+  .insight-location:hover {
+    background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+    border-color: #60a5fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(147, 197, 253, 0.4);
+  }
+
+  .insight-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    margin-top: auto;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s ease;
+    width: 100%;
+    font-size: 0.9375rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
     cursor: pointer;
   }
-  .travel-box button:hover {
-    background-color: #005f99;
+
+  .insight-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: white;
   }
-  .result {
-    margin-top: 10px;
-    font-weight: bold;
-    color: #005f99;
+
+  .taxi-fare-text,
+  .insight-card p {
+    color: #64748b;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+  }
+
+  .updated-note {
+    font-size: 0.8125rem;
+    color: #94a3b8;
+    margin-top: 1rem;
+    font-style: italic;
     text-align: center;
+  }
+
+  /* Map Container */
+  .map {
+    width: 100%;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    border: 4px solid white;
+    margin-top: 1rem;
+  }
+
+  #map {
+    width: 100%;
+    height: 600px;
+    background: linear-gradient(135deg, var(--primary-100) 0%, var(--gray-100) 100%);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .bookings-card {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .bookings-card .actions {
+      margin-left: 0;
+      width: 100%;
+    }
+    
+    .bookings-card .cta-btn {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .travel-box {
+      margin: 2rem 1rem;
+    }
   }
 </style>
 
-<!-- Leaflet CSS moved to global layout for consistency (see layouts/boiler.ejs) -->
+<!-- Mapbox GL JS CSS moved to global layout for consistency (see layouts/boiler.ejs) -->
 
-<body data-logged-in="<%= !!currUser %>">
+<div data-logged-in="<%= !!currUser %>">
+  
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>🌟 Welcome to Your Travel Dashboard</h1>
+    <p>Plan your perfect journey with AI-powered tools and real-time insights</p>
+  </div>
+
+  <!-- Travel Budget Box -->
   <div class="travel-box">
-    <h3>🌍 Travel Budget</h3>
+    <h3>🌍 Travel Budget Planner</h3>
 
-    <label for="country">Select Central Asian Country:</label>
-    <select id="country">
-      <option value="">-- Choose Country --</option>
-      <option value="Azerbaijan">Azerbaijan</option>
-      <option value="Kazakhstan">Kazakhstan</option>
-      <option value="Kyrgyzstan">Kyrgyzstan</option>
-      <option value="Tajikistan">Tajikistan</option>
-      <option value="Turkmenistan">Turkmenistan</option>
-      <option value="Uzbekistan">Uzbekistan</option>
-    </select>
+    <div class="form-input-group">
+      <label for="country">Select Central Asian Country:</label>
+      <select id="country" required>
+        <option value="">Choose Country</option>
+        <option value="Azerbaijan">Azerbaijan</option>
+        <option value="Kazakhstan">Kazakhstan</option>
+        <option value="Kyrgyzstan">Kyrgyzstan</option>
+        <option value="Tajikistan">Tajikistan</option>
+        <option value="Turkmenistan">Turkmenistan</option>
+        <option value="Uzbekistan">Uzbekistan</option>
+      </select>
+    </div>
 
-    <label for="budget">Enter Budget (USD):</label>
-    <input
-      type="number"
-      id="budget"
-      placeholder="e.g. 10000"
-      oninput="showBudget()"
-    />
-
-    <div class="result" id="result"></div>
-
-    <!-- Button to go to packages page -->
-    <button onclick="goToPackages()">View Packages</button>
-  </div>
-
-  <h2 id="package-heading">✨ Recommendations for You</h2>
-  <div class="grid">
-    <div class="card">
-      <img
-        src="https://concept.kg/media/redactor/ik.jpg"
-        alt="Issyk-Kul Lake"
+    <div class="form-input-group">
+      <label for="budget">
+        Enter Budget (<span id="budget-currency" class="currency-label"></span>):
+      </label>
+      <input
+        type="number"
+        id="budget"
+        placeholder="e.g. 10000"
+        oninput="showBudget()"
       />
-      <h3>Issyk-Kul Lake, Kyrgyzstan</h3>
-      <p>💰 $620 / trip</p>
-      <p>⭐ 4.6 (185 reviews)</p>
-      <div class="tags">
-        <span>#Cool</span><span>#Mountain</span><span>#CentralAsia</span>
-      </div>
-      <div class="actions">
-        <button class="view">👁️ View Details</button>
+    </div>
+
+    <div class="result" id="result" style="display: none;"></div>
+
+    <button onclick="goToPackages()">🎯 View Packages</button>
+  </div>
+
+  <!-- My Bookings Section -->
+  <h2 class="section-heading">📋 My Bookings</h2>
+  <div class="grid">
+    <div class="bookings-card">
+      <div class="icon-pill">📄</div>
+      <div style="flex: 1;">
+        <h3>Access Your Bookings</h3>
+        <p>Open your booking details and confirmations in one place.</p>
+        <a class="cta-btn" href="/bookings/my-bookings">
+          <span>Open My Bookings</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
       </div>
     </div>
   </div>
 
-  <div class="section">
-    <h2>👥 Group Travel Planner</h2>
-    <div class="grid">
-      <div class="feature-card">
-        <div class="icon-title">
-          <img
-            src="https://img.icons8.com/ios-filled/50/add-user-group-man-man.png"
-          />
-          <h3>Create Group</h3>
-        </div>
-        <p>Start a new travel group and invite friends via email or code.</p>
-        <button id="btn-create-group">➕ Create</button>
+  <!-- Travel Manager Section -->
+  <h2 class="section-heading">👥 Travel Manager</h2>
+  <div class="grid">
+    <div class="feature-card">
+      <div class="icon-title">
+        <img
+          src="https://img.icons8.com/ios-filled/50/FFFFFF/add-user-group-man-man.png"
+        />
+        <h3>Group Travel Planner</h3>
       </div>
-      <div class="feature-card">
-        <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/link--v1.png" />
-          <h3>Join Group</h3>
-        </div>
-        <p>Join a group using an invite code from your friends.</p>
-        <button id="btn-join-group">🔗 Join</button>
+      <p>
+        Create groups, invite friends, chat in real-time, and plan your trips
+        together. Manage all your group travel activities in one place.
+      </p>
+      <button id="btn-group-travel">
+        🎯 Manage Groups
+      </button>
+    </div>
+    <div class="feature-card">
+      <div class="icon-title">
+        <img src="https://img.icons8.com/ios-glyphs/50/FFFFFF/money.png" />
+        <h3>Expense Details</h3>
       </div>
-      <div class="feature-card">
-        <div class="icon-title">
-          <img src="https://img.icons8.com/ios-glyphs/30/chat--v1.png" />
-          <h3>Group Chat</h3>
-        </div>
-        <p>Chat with your group members in real-time.</p>
-        <button id="btn-open-chat">💬 Open Chat</button>
-      </div>
-      <div class="feature-card">
-        <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/map.png" />
-          <h3>Shared Itinerary</h3>
-        </div>
-        <p>View and export your planned group trip itinerary.</p>
-        <button id="btn-view-plan">🗺️ View Plan</button>
-      </div>
-      <div class="feature-card">
-        <div class="icon-title">
-          <img src="https://img.icons8.com/ios-glyphs/30/money.png" />
-          <h3>Expense Split</h3>
-        </div>
-        <p>Track spending and calculate balances between members.</p>
-        <button id="btn-expense-summary">💸 View Summary</button>
-      </div>
-      <div class="feature-card">
-        <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/marker.png" />
-          <h3>Share Live Location</h3>
-        </div>
-        <p>Share your real-time location with group members during the trip.</p>
-        <button id="btn-share-location">📍 Share Now</button>
-      </div>
+      <p>Track spending and calculate balances between members.</p>
+      <button id="btn-expense-summary">💸 View Summary</button>
     </div>
   </div>
 
-  <div class="section">
-    <h2>🕌 Faith-Friendly Travel Tools</h2>
+  <% const latestCity = latestBooking && (latestBooking.packageDetails.destination || latestBooking.packageDetails.city); %>
+  <% const latestCountry = latestBooking && (latestBooking.packageDetails.country || latestBooking.packageDetails.destination); %>
+  <% const latestLocation = [latestCity, latestCountry].filter(Boolean).join(', '); %>
+
+  <!-- Faith-Friendly Tools Section -->
+  <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:3rem;">
+    <h2 class="section-heading" style="margin:0;">🕌 Faith-Friendly Travel Tools</h2>
+    <% if (latestLocation) { %>
+      <span class="location-pill">
+        📍 <%= latestLocation %>
+      </span>
+    <% } %>
+      </span>
+    </div>
     <div class="grid">
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/mosque.png" />
+          <img src="https://img.icons8.com/ios-filled/50/FFFFFF/mosque.png" />
           <h3>Nearby Mosques</h3>
         </div>
-        <p>Find mosques nearby with prayer times and distance info.</p>
-        <button id="btn-find-mosques">🕌 Find Mosques</button>
+        <p>Find mosques near <%= latestLocation || 'your destination' %> with prayer times and distance info.</p>
+        <button class="btn btn-gradient" id="btn-find-mosques">🕌 Find Mosques</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/compass.png" />
+          <img src="https://img.icons8.com/ios-filled/50/FFFFFF/compass.png" />
           <h3>Qiblah Direction</h3>
         </div>
-        <p>View direction of Qiblah from your current location.</p>
-        <button id="btn-show-qiblah">🕋 Show Qiblah</button>
+        <p>View direction of Qiblah from your location.</p>
+        <button class="btn btn-gradient" id="btn-show-qiblah">🕋 Show Qiblah</button>
       </div>
       <div class="feature-card">
         <div class="icon-title">
-          <img src="https://img.icons8.com/ios-filled/50/restaurant.png" />
+          <img src="https://img.icons8.com/ios-filled/50/FFFFFF/restaurant.png" />
           <h3>Halal Food Locator</h3>
         </div>
-        <p>Discover nearby halal restaurants and certified food places.</p>
-        <button id="btn-find-halal">🍽️ Find Halal</button>
+        <p>Discover halal restaurants in <%= latestLocation || 'your area' %>.</p>
+        <button class="btn btn-gradient" id="btn-find-halal">🍽️ Find Halal</button>
+      </div>
+      <div class="feature-card">
+        <div class="icon-title">
+          <img src="https://img.icons8.com/ios-filled/50/FFFFFF/bed.png" />
+          <h3>Hotel Finder</h3>
+        </div>
+        <p>Find hotels and guest houses in <%= latestLocation || 'your destination' %>.</p>
+        <button class="btn btn-gradient" id="btn-find-hotels">🏨 Find Hotels</button>
       </div>
     </div>
   </div>
   <!-- 📍 Map Section -->
   <div class="section">
-    <h2>Explore on Map</h2>
-    <div class="map">
-      <!-- Interactive map: will load Leaflet (OpenStreetMap) dynamically -->
+    <h2 class="section-heading">
+      <i class="fas fa-map-marked-alt"></i>
+      Explore on Map
+    </h2>
+    <div class="map premium-card">
+      <!-- Interactive map: will load Mapbox GL dynamically -->
       <div
         id="map"
         style="
           width: 100%;
-          height: 420px;
-          border-radius: 8px;
+          height: 600px;
+          border-radius: 16px;
           overflow: hidden;
-          background: #e9eef3;
+          background: linear-gradient(135deg, #e9eef3 0%, #d4dfe8 100%);
           display: block;
           position: relative;
           min-height: 200px;
+          box-shadow: inset 0 2px 8px rgba(0,0,0,0.1);
         "
+      ></div>
+      <div
+        id="map-area-badge"
+        class="map-area-badge"
+        style="display: none"
       ></div>
     </div>
   </div>
 
   <!-- 📡 Scraped Info Section -->
   <div class="section">
-    <h2>Live Destination Insights</h2>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:24px;">
+      <h2 class="section-heading" style="margin:0;">
+        <i class="fas fa-globe-americas"></i>
+        Live Destination Insights
+      </h2>
+      <% if (latestLocation) { %>
+        <span class="location-pill">
+          📍 <%= latestLocation %>
+        </span>
+      <% } %>
+    </div>
     <div class="cards">
-      <div class="card">
-        <h3>💸 Local Taxi Fares</h3>
-        <p>Base fare starts at $1.2 with $0.5/km. Rideshare apps available.</p>
-        <a class="view-more" href="#">View More</a>
-        <div class="updated-note">Updated automatically</div>
+      <div class="insight-card">
+        <div class="insight-card-icon">💸</div>
+        <h3>Local Taxi Fares</h3>
+        <% if (latestCountry) { %>
+          <p class="insight-location"><%= latestCountry %></p>
+          <p class="taxi-fare-text">
+            Base fare starts at <span data-price="334.20" data-currency="PKR" class="inline-price"></span> with <span data-price="139.25" data-currency="PKR" class="inline-price"></span>/km. Rideshare apps available.
+          </p>
+        <% } else { %>
+          <p class="taxi-fare-text">
+            View real-time taxi fares for Central Asian destinations.
+          </p>
+        <% } %>
+        <a class="insight-btn" href="/fares" onclick="saveFaresContext()">
+          <span>View More</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
       </div>
-      <div class="card">
-        <h3>📅 Festivals & Events</h3>
-        <p>
-          Don't miss the "Nowruz Spring Festival" in March with local music and
-          food.
-        </p>
-        <a class="view-more" href="#">View More</a>
-        <div class="updated-note">Updated automatically</div>
+      <div class="insight-card">
+        <div class="insight-card-icon">📅</div>
+        <h3>Festivals & Events</h3>
+        <% if (latestCity || latestCountry) { %>
+          <p class="insight-location"><%= latestCity || latestCountry %></p>
+          <p>
+            Discover local festivals like Nowruz, cultural celebrations, and seasonal events happening in your destination.
+          </p>
+        <% } else { %>
+          <p>
+            Explore cultural festivals and events across Central Asia.
+          </p>
+        <% } %>
+        <a class="insight-btn" href="/listings/eventbrite">
+          <span>View More</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
       </div>
-      <div class="card">
-        <h3>🥘 Famous Food Spots</h3>
-        <p>Try "Osh" at Faiza Restaurant or local cafes on Chuy Avenue.</p>
-        <a class="view-more" href="#">View More</a>
-        <div class="updated-note">Updated automatically</div>
-      </div>
-      <div class="card">
-        <h3>💡 Budgeted Tour Suggestions</h3>
-        <p>
-          3-Day Trip: City Tour → Ala Archa Park → Osh Bazaar. Budget under
-          $100.
-        </p>
-        <a class="view-more" href="#">View More</a>
-        <div class="updated-note">Updated automatically</div>
+      <div class="insight-card">
+        <div class="insight-card-icon">🌤️</div>
+        <h3>Weather Comparison</h3>
+        <% if (latestCity || latestCountry) { %>
+          <p class="insight-location"><%= latestCity || latestCountry %></p>
+        <% } %>
+        <div id="weather-info">
+          <p style="margin-bottom: 14px;color:#64748b;">
+            Compare weather across all Central Asian countries on an interactive map.
+          </p>
+        </div>
+        <a class="insight-btn" href="/listings/weather-comparison">
+          <span>🗺️ Open Weather Map</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
       </div>
     </div>
   </div>
 
-  <button onclick="goToPackages()">View Packages</button>
+  <!-- <button onclick="goToPackages()">View Packages</button> -->
 
   <script>
     const isLoggedIn = document.body.dataset.loggedIn === "true";
+    // Country-specific budget thresholds (PKR) derived from CSV packages
+    const COUNTRY_BUDGET_THRESHOLDS = {
+      Azerbaijan: { basic: 167000, mid: 288000, luxury: 590000 },
+      Kazakhstan: { basic: 152000, mid: 288000, luxury: 805000 },
+      Kyrgyzstan: { basic: 136000, mid: 259000, luxury: 710000 },
+      Tajikistan: { basic: 141000, mid: 275000, luxury: 785000 },
+      Turkmenistan: { basic: 306000, mid: 580000, luxury: 1150000 },
+      Uzbekistan: { basic: 112000, mid: 240000, luxury: 680000 },
+    };
+
+    let cachedRate = null; // Cache the rate globally for this page (kept for future currency use)
+    let cachedCurrency = null;
+
+    function getThresholdsPKR(country) {
+      return COUNTRY_BUDGET_THRESHOLDS[country] || {
+        basic: 112000,
+        mid: 240000,
+        luxury: 680000,
+      };
+    }
+
     function showBudget() {
       const budget = document.getElementById("budget").value;
+      const country = document.getElementById("country").value;
       const result = document.getElementById("result");
+      const { basic, mid, luxury } = getThresholdsPKR(country);
+      const budgetNum = parseFloat(budget);
 
-      if (budget) {
-        if (budget < 5000) {
-          result.innerHTML = `<span style="color: #dc3545;">💰 Budget: $${budget} - Consider increasing for better packages</span>`;
-        } else if (budget >= 5000 && budget < 10000) {
-          result.innerHTML = `<span style="color: #ffc107;">💰 Budget: $${budget} - Good for basic packages</span>`;
-        } else if (budget >= 10000 && budget < 15000) {
-          result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Excellent for premium packages!</span>`;
-        } else {
-          result.innerHTML = `<span style="color: #28a745;">💰 Budget: $${budget} - Luxury packages available!</span>`;
-        }
-      } else {
+      if (!budget) {
         result.innerHTML = "";
+        result.style.display = "none";
+        return;
+      }
+
+      result.style.display = "block";
+
+      if (budgetNum < basic) {
+        result.innerHTML = `<span style="color: #ffffff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">💰 Budget: Rs${budgetNum.toLocaleString()} - Consider increasing for better packages (min ~Rs${basic.toLocaleString()})</span>`;
+      } else if (budgetNum >= basic && budgetNum < mid) {
+        result.innerHTML = `<span style="color: #ffffff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">💰 Budget: Rs${budgetNum.toLocaleString()} - Good for basic packages (mid-tier starts ~Rs${mid.toLocaleString()})</span>`;
+      } else if (budgetNum >= mid && budgetNum < luxury) {
+        result.innerHTML = `<span style="color: #ffffff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">💰 Budget: Rs${budgetNum.toLocaleString()} - Great for premium packages (luxury starts ~Rs${luxury.toLocaleString()})</span>`;
+      } else {
+        result.innerHTML = `<span style="color: #ffffff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">💰 Budget: Rs${budgetNum.toLocaleString()} - Luxury packages available!</span>`;
       }
     }
 
     function goToPackages() {
       const country = document.getElementById("country").value;
       const budget = document.getElementById("budget").value;
+      const currency = CurrencyConverter.getUserCurrency();
 
       if (country && budget) {
-        window.location.href = `/packages?country=${country}&budget=${budget}`;
+        window.location.href = `/packages?country=${encodeURIComponent(
+          country
+        )}&budget=${budget}&currency=${currency}`;
       } else {
         alert("Please select a country and enter your budget first!");
+      }
+    }
+
+    // Update currency label and reset cache when currency changes
+    document.addEventListener("DOMContentLoaded", function () {
+      updateCurrencyLabels();
+    });
+
+    document.addEventListener("currencyChanged", function () {
+      cachedRate = null; // Reset cache on currency change
+      cachedCurrency = null;
+      updateCurrencyLabels();
+      // Note: Price conversion is handled by global layout (boiler.ejs)
+    });
+
+    function updateCurrencyLabels() {
+      const currentCurrency = CurrencyConverter.getUserCurrency();
+      const labels = document.querySelectorAll(".currency-label");
+      labels.forEach((label) => {
+        label.textContent = currentCurrency;
+      });
+    }
+
+    function saveFaresContext() {
+      // Save destination information to localStorage for the fares page
+      const country =
+        document.getElementById("country").value || "Selected Destination";
+      const pkg = getSelectedPackageCached();
+
+      if (pkg && pkg.name) {
+        localStorage.setItem("selectedDestination", pkg.name);
+      } else if (country) {
+        localStorage.setItem("selectedDestination", country);
+      } else {
+        localStorage.setItem(
+          "selectedDestination",
+          "Your Selected Destination"
+        );
+      }
+
+      // Set a default estimated distance (can be updated on the fares page)
+      localStorage.setItem("estimatedDistance", "10");
+    }
+
+    function saveEventsContext() {
+      // Save destination and package information to localStorage for the events page
+      const country =
+        document.getElementById("country").value || "Selected Destination";
+      const pkg = getSelectedPackageCached();
+
+      if (pkg && pkg.name) {
+        localStorage.setItem("selectedDestination", pkg.name);
+      } else if (country) {
+        localStorage.setItem("selectedDestination", country);
+      } else {
+        localStorage.setItem(
+          "selectedDestination",
+          "Your Selected Destination"
+        );
+      }
+
+      // Save the entire package data for events page to access
+      if (pkg) {
+        localStorage.setItem("selectedPackage", JSON.stringify(pkg));
       }
     }
 
     // Helpers
     async function getCoords() {
       return new Promise((resolve) => {
-        if (!navigator.geolocation) return resolve({ lat: null, lon: null });
+        if (!navigator.geolocation) {
+          console.log("Geolocation not supported");
+          return resolve({ lat: null, lon: null });
+        }
         navigator.geolocation.getCurrentPosition(
-          (pos) =>
-            resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-          () => resolve({ lat: null, lon: null })
+          (pos) => {
+            console.log(
+              "Got user location:",
+              pos.coords.latitude,
+              pos.coords.longitude
+            );
+            resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+          },
+          (err) => {
+            console.warn("Geolocation denied or failed:", err.message);
+            resolve({ lat: null, lon: null });
+          },
+          { timeout: 10000, enableHighAccuracy: false }
         );
       });
     }
 
-    // Groups
-    document
-      .getElementById("btn-create-group")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const name = prompt("Enter group name:", "My Trip Group");
-        if (!name) return;
-        const res = await fetch("/api/groups", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name }),
-        });
-        const data = await res.json();
-        if (res.ok) {
-          alert("Group created: " + data.group._id);
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
+    function normalizePackageDestination(pkg) {
+      if (!pkg || typeof pkg !== "object") return null;
+      const normalized = { ...pkg };
 
-    document
-      .getElementById("btn-join-group")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const id = prompt("Enter group ID to join:");
-        if (!id) return;
-        const res = await fetch(`/api/groups/${id}/join`, { method: "POST" });
-        const data = await res.json();
-        alert(
-          res.ok ? "Joined group!" : "Error: " + (data.message || "Failed")
-        );
-      });
+      if (!normalized.city && normalized.location) {
+        normalized.city = normalized.location;
+      }
 
-    document
-      .getElementById("btn-open-chat")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const id = prompt("Enter group ID to view messages:");
-        if (!id) return;
-        const res = await fetch(`/api/groups/${id}/messages`);
-        const data = await res.json();
-        if (res.ok) {
-          alert(`Messages loaded: ${data.messages.length}`);
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
+      if (!normalized.country && normalized.region) {
+        normalized.country = normalized.region;
+      }
 
-    document
-      .getElementById("btn-view-plan")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const id = prompt("Enter group ID to view plan:");
-        if (!id) return;
-        const res = await fetch(`/api/groups/${id}/plan`);
-        const data = await res.json();
-        if (res.ok) {
-          const lines = data.itinerary
-            .map((i) => `Day ${i.day}: ${i.title}`)
-            .join("\n");
-          alert(`Itinerary Loaded:\n${lines}`);
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    document
-      .getElementById("btn-expense-summary")
-      .addEventListener("click", async () => {
-        if (!isLoggedIn) return (window.location.href = "/login");
-        const id = prompt("Enter group ID to view expenses:");
-        if (!id) return;
-        const res = await fetch(`/api/groups/${id}/expenses`);
-        const data = await res.json();
-        if (res.ok) {
-          alert(
-            `Total: $${data.summary.total} | Per Member: $${data.summary.perMember}`
-          );
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    // Map/Location
-    document
-      .getElementById("btn-share-location")
-      .addEventListener("click", async () => {
-        const coords = await getCoords();
-        const res = await fetch(
-          `/api/map/nearby?lat=${coords.lat}&lon=${coords.lon}&type=hotel`
-        );
-        const data = await res.json();
-        if (res.ok) {
-          // Render hotels on map with routing
-          await renderHalalMarkers(data.hotels, {
-            area: "Nearby Hotels",
-          });
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    // Faith tools
-    document
-      .getElementById("btn-find-mosques")
-      .addEventListener("click", async () => {
-        const c = await getCoords();
-        const res = await fetch(`/api/faith/mosques?lat=${c.lat}&lon=${c.lon}`);
-        const data = await res.json();
-        if (res.ok) {
-          // Render mosques on map with routing (same as halal food)
-          await renderHalalMarkers(data.items, {
-            area: data.area || "Current Location",
-          });
-        } else {
-          alert("Error: " + (data.message || "Failed"));
-        }
-      });
-
-    document
-      .getElementById("btn-show-qiblah")
-      .addEventListener("click", async () => {
-        const c = await getCoords();
-        if (!c.lat || !c.lon) {
-          alert("Please enable location access to view Qiblah direction");
-          return;
-        }
-
-        const res = await fetch(`/api/faith/qiblah?lat=${c.lat}&lon=${c.lon}`);
-        const data = await res.json();
-        if (res.ok) {
-          // Initialize map at user location
-          initLeafletMap();
-          const map = window.__leaflet_map;
-
-          // Center map at user location
-          map.setView([c.lat, c.lon], 15);
-
-          // Remove existing Qiblah marker if any
-          if (window.__qiblah_marker) {
-            map.removeLayer(window.__qiblah_marker);
-          }
-
-          // Create a custom Qiblah indicator (arrow pointing to Mecca)
-          const qiblahAngle = data.angle; // degrees from north
-
-          // Create a rotated arrow using HTML/CSS
-          const qiblahMarker = L.marker([c.lat, c.lon], {
-            icon: L.divIcon({
-              html: `
-                <div style="
-                  width: 50px;
-                  height: 50px;
-                  background: radial-gradient(circle, #32CD32 0%, #228B22 100%);
-                  border-radius: 50%;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  transform: rotate(${qiblahAngle}deg);
-                  border: 3px solid white;
-                  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-                  font-size: 24px;
-                  font-weight: bold;
-                  color: white;
-                ">
-                  ▲
-                </div>
-              `,
-              iconSize: [50, 50],
-              iconAnchor: [25, 25],
-              popupAnchor: [0, -25],
-            }),
-          }).addTo(map);
-
-          // Add popup with Qiblah information
-          qiblahMarker.bindPopup(
-            `<strong>Qiblah Direction</strong><br/>
-             Angle: ${qiblahAngle.toFixed(1)}° from North<br/>
-             <small style="color: green;">Your location (green arrow points to Mecca)</small>`,
-            { maxWidth: 250 }
-          );
-          qiblahMarker.openPopup();
-
-          // Draw a line from user to Mecca direction (visual aid)
-          const distanceToMecca = 10000; // 10km in meters (just for visualization)
-          const angleRad = (qiblahAngle * Math.PI) / 180;
-          const endLat = c.lat + Math.cos(angleRad) * 0.1;
-          const endLon = c.lon + Math.sin(angleRad) * 0.1;
-
-          if (window.__qiblah_line) {
-            map.removeLayer(window.__qiblah_line);
-          }
-
-          window.__qiblah_line = L.polyline(
-            [
-              [c.lat, c.lon],
-              [endLat, endLon],
-            ],
-            {
-              color: "#32CD32",
-              weight: 3,
-              opacity: 0.8,
-              dashArray: "5, 5",
-              lineCap: "round",
+      if (!normalized.country) {
+        const ctxRaw = localStorage.getItem("selectedPackage_context");
+        if (ctxRaw) {
+          try {
+            const ctx = JSON.parse(ctxRaw);
+            if (ctx && ctx.country) {
+              normalized.country = ctx.country;
             }
-          ).addTo(map);
-
-          window.__qiblah_marker = qiblahMarker;
-        } else {
-          alert("Error: " + (data.message || "Failed"));
+          } catch (e) {
+            console.warn("Failed to parse selected package context", e);
+          }
         }
-      });
+      }
 
-    document
-      .getElementById("btn-find-halal")
-      .addEventListener("click", async () => {
-        // Try to use selected package (session temporary or persistent) for destination lookup
-        const tmpRaw = sessionStorage.getItem("selectedPackage_temp");
-        const selRaw = localStorage.getItem("selectedPackage");
-        const pkgRaw = tmpRaw || selRaw;
+      return normalized;
+    }
+
+    function hasDestinationInfo(pkg) {
+      return !!(pkg && (pkg.city || pkg.country));
+    }
+
+    function getSelectedPackageCached() {
+      const temp = sessionStorage.getItem("selectedPackage_temp");
+      if (temp) {
         try {
-          if (pkgRaw) {
-            const pkg = JSON.parse(pkgRaw);
-            // prefer city, then country
-            const city = pkg.city || undefined;
-            const country = pkg.country || undefined;
-            const q = city
-              ? `?city=${encodeURIComponent(city)}`
-              : country
-              ? `?country=${encodeURIComponent(country)}`
-              : "";
-            if (q) {
-              const res = await fetch(`/api/faith/halal${q}`);
-              const data = await res.json();
-              if (res.ok) {
-                // Render markers on the map for the returned items; pass the area so we can geocode for centering
-                await renderHalalMarkers(data.items, {
-                  area: data.area || city || country,
-                });
-                return;
-              } else {
-                alert("Error: " + (data.message || "Failed"));
-                return;
-              }
-            }
+          const parsedTemp = normalizePackageDestination(JSON.parse(temp));
+          if (parsedTemp && hasDestinationInfo(parsedTemp)) {
+            sessionStorage.setItem(
+              "selectedPackage_temp",
+              JSON.stringify(parsedTemp)
+            );
+            return parsedTemp;
           }
+          sessionStorage.removeItem("selectedPackage_temp");
         } catch (e) {
-          console.warn("Failed to lookup halal by package", e);
+          console.warn("Failed to parse temporary selected package", e);
         }
+      }
 
-        // Fallback to geolocation-based lookup
-        const c = await getCoords();
-        const res = await fetch(`/api/faith/halal?lat=${c.lat}&lon=${c.lon}`);
-        const data = await res.json();
-        if (res.ok) {
-          renderHalalMarkers(data.items, null);
-        } else {
-          alert("Error: " + (data.message || "Failed"));
+      const stored = localStorage.getItem("selectedPackage");
+      if (!stored) return null;
+      try {
+        const parsedStored = normalizePackageDestination(JSON.parse(stored));
+        if (parsedStored && hasDestinationInfo(parsedStored)) {
+          localStorage.setItem("selectedPackage", JSON.stringify(parsedStored));
+          return parsedStored;
         }
+        localStorage.removeItem("selectedPackage");
+        return null;
+      } catch (e) {
+        console.warn("Failed to parse stored selected package", e);
+        return null;
+      }
+    }
+
+    function buildFaithQueryParams(pkg) {
+      if (!pkg) return "";
+      const params = new URLSearchParams();
+      if (pkg.city) params.set("city", pkg.city);
+      if (pkg.country) params.set("country", pkg.country);
+      const str = params.toString();
+      return str ? `?${str}` : "";
+    }
+
+    function buildMapCenter(data, fallbackArea) {
+      const coords = data && data.coords ? data.coords : null;
+      const label =
+        (data && data.area) || fallbackArea || "Selected Destination";
+      if (coords && coords.lat != null && coords.lon != null) {
+        return {
+          lat: Number(coords.lat),
+          lon: Number(coords.lon),
+          area: label,
+        };
+      }
+      return label ? { area: label } : null;
+    }
+
+    function updateMapAreaLabel(text) {
+      const badge = document.getElementById("map-area-badge");
+      if (!badge) return;
+      if (text) {
+        badge.textContent = `📍 ${text}`;
+        badge.style.display = "block";
+      } else {
+        badge.style.display = "none";
+      }
+    }
+
+    // Wait for DOM to be ready before attaching event listeners
+    document.addEventListener("DOMContentLoaded", function () {
+      // Group Travel Planner - Redirect to groups page
+      document
+        .getElementById("btn-group-travel")
+        .addEventListener("click", () => {
+          if (!isLoggedIn) return (window.location.href = "/login");
+          window.location.href = "/groups";
+        });
+
+      // Shared Itinerary card removed
+
+      document
+        .getElementById("btn-expense-summary")
+        .addEventListener("click", () => {
+          if (!isLoggedIn) return (window.location.href = "/login");
+          window.location.href = "/expenses/latest";
+        });
+
+      // Map/Location card removed
+
+      // Faith tools
+      document
+        .getElementById("btn-find-mosques")
+        .addEventListener("click", async () => {
+          let destination = null;
+          let destinationType = "city"; // or 'country'
+          const pkg = getSelectedPackageCached();
+
+          // First priority: Use cached package destination
+          if (pkg && (pkg.city || pkg.country)) {
+            if (pkg.city) {
+              destination = pkg.city;
+              destinationType = "city";
+            } else {
+              destination = pkg.country;
+              destinationType = "country";
+            }
+            console.log(
+              `Using cached destination: ${destination} (${destinationType})`
+            );
+          } else {
+            // Fallback: Prompt user
+            destination = prompt(
+              "Enter destination (city or country name):",
+              "Bishkek"
+            );
+            if (!destination || !destination.trim()) {
+              alert("Please enter a destination to search for mosques.");
+              return;
+            }
+            destinationType = "city"; // assume city by default
+          }
+
+          const fallbackArea = destination;
+          try {
+            // Build query with both city and country if available
+            let queryParams = new URLSearchParams();
+            if (destinationType === "city") {
+              queryParams.set("city", destination);
+              if (pkg && pkg.country) {
+                queryParams.set("country", pkg.country);
+              }
+            } else {
+              queryParams.set("country", destination);
+            }
+
+            console.log(`Fetching mosques for: ${queryParams.toString()}`);
+            const res = await fetch(
+              `/api/faith/mosques?${queryParams.toString()}`
+            );
+            const data = await res.json();
+
+            console.log("Mosque API response:", data);
+
+            if (!res.ok) {
+              alert("Error: " + (data.message || "Failed to find mosques"));
+              return;
+            }
+            if (data.fallback) {
+              console.warn("Using fallback data:", data.message);
+              alert(
+                data.message ||
+                  "Using fallback mosque results. Live lookup unavailable."
+              );
+            }
+            const center = buildMapCenter(data, fallbackArea || destination);
+            await renderMapboxMarkers(data.items, center);
+            updateMapAreaLabel(center && center.area);
+          } catch (e) {
+            console.error("Failed to load mosques", e);
+            alert(
+              "Could not load mosques right now. Please check your connection or try again later."
+            );
+          }
+        });
+
+      document
+        .getElementById("btn-show-qiblah")
+        .addEventListener("click", async () => {
+          const c = await getCoords();
+          if (!c.lat || !c.lon) {
+            alert("Please enable location access to view Qiblah direction");
+            return;
+          }
+
+          const res = await fetch(
+            `/api/faith/qiblah?lat=${c.lat}&lon=${c.lon}`
+          );
+          const data = await res.json();
+          if (res.ok) {
+            // Initialize Mapbox map at user location
+            initMapboxMap();
+            const map = window.__mapbox_map;
+
+            // Center map at user location
+            map.flyTo({ center: [c.lon, c.lat], zoom: 15 });
+
+            // Remove existing Qiblah marker if any
+            if (window.__qiblah_marker) {
+              window.__qiblah_marker.remove();
+            }
+
+            // Create a custom Qiblah indicator (arrow pointing to Mecca)
+            const qiblahAngle = data.angle; // degrees from north
+
+            // Create a rotated arrow using HTML/CSS as a DOM element
+            const qiblahElement = document.createElement("div");
+            qiblahElement.innerHTML = `
+            <div style="
+              width: 50px;
+              height: 50px;
+              background: radial-gradient(circle, #32CD32 0%, #228B22 100%);
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transform: rotate(${qiblahAngle}deg);
+              border: 3px solid white;
+              box-shadow: 0 0 10px rgba(0,0,0,0.3);
+              font-size: 24px;
+              font-weight: bold;
+              color: white;
+            ">
+              ▲
+            </div>
+          `;
+
+            // Create popup content
+            const popupHTML = `
+            <strong>Qiblah Direction</strong><br/>
+            Angle: ${qiblahAngle.toFixed(1)}° from North<br/>
+            <small style="color: green;">Your location (green arrow points to Mecca)</small>
+          `;
+
+            // Create Mapbox marker with custom element
+            const qiblahMarker = new mapboxgl.Marker({ element: qiblahElement })
+              .setLngLat([c.lon, c.lat])
+              .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML))
+              .addTo(map);
+
+            qiblahMarker.togglePopup();
+
+            // Draw a line from user to Mecca direction (visual aid)
+            const angleRad = (qiblahAngle * Math.PI) / 180;
+            const endLat = c.lat + Math.cos(angleRad) * 0.1;
+            const endLon = c.lon + Math.sin(angleRad) * 0.1;
+
+            // Remove old line if exists
+            if (map.getSource("qiblah-line")) {
+              map.removeLayer("qiblah-line-layer");
+              map.removeSource("qiblah-line");
+            }
+
+            // Add line to map
+            map.addSource("qiblah-line", {
+              type: "geojson",
+              data: {
+                type: "Feature",
+                geometry: {
+                  type: "LineString",
+                  coordinates: [
+                    [c.lon, c.lat],
+                    [endLon, endLat],
+                  ],
+                },
+              },
+            });
+
+            map.addLayer({
+              id: "qiblah-line-layer",
+              type: "line",
+              source: "qiblah-line",
+              paint: {
+                "line-color": "#32CD32",
+                "line-width": 3,
+                "line-opacity": 0.8,
+                "line-dasharray": [2, 2],
+              },
+            });
+
+            window.__qiblah_marker = qiblahMarker;
+          } else {
+            alert("Error: " + (data.message || "Failed"));
+          }
+        });
+
+      document
+        .getElementById("btn-find-halal")
+        .addEventListener("click", async () => {
+          let destination = null;
+          let destinationType = "city";
+          const pkg = getSelectedPackageCached();
+
+          // First priority: Use cached package destination
+          if (pkg && (pkg.city || pkg.country)) {
+            if (pkg.city) {
+              destination = pkg.city;
+              destinationType = "city";
+            } else {
+              destination = pkg.country;
+              destinationType = "country";
+            }
+            console.log(
+              `Using cached destination: ${destination} (${destinationType})`
+            );
+          } else {
+            // Fallback: Prompt user
+            destination = prompt(
+              "Enter destination (city or country name):",
+              "Bishkek"
+            );
+            if (!destination || !destination.trim()) {
+              alert("Please enter a destination to search for halal food.");
+              return;
+            }
+            destinationType = "city";
+          }
+
+          const fallbackArea = destination;
+          try {
+            // Build query with both city and country if available
+            let queryParams = new URLSearchParams();
+            if (destinationType === "city") {
+              queryParams.set("city", destination);
+              if (pkg && pkg.country) {
+                queryParams.set("country", pkg.country);
+              }
+            } else {
+              queryParams.set("country", destination);
+            }
+
+            console.log(`Fetching halal places for: ${queryParams.toString()}`);
+            const res = await fetch(
+              `/api/faith/halal?${queryParams.toString()}`
+            );
+            const data = await res.json();
+
+            console.log("Halal API response:", data);
+
+            if (!res.ok) {
+              alert("Error: " + (data.message || "Failed to find halal food"));
+              return;
+            }
+            if (data.fallback) {
+              console.warn("Using fallback data:", data.message);
+              alert(
+                data.message ||
+                  "Using fallback halal listings. Live lookup unavailable."
+              );
+            }
+            const center = buildMapCenter(data, fallbackArea);
+            await renderMapboxMarkers(data.items, center);
+            updateMapAreaLabel(center && center.area);
+          } catch (e) {
+            console.error("Failed to lookup halal food", e);
+            alert(
+              "Could not load halal food spots for this destination right now. Please try again later."
+            );
+          }
+        });
+
+      document
+        .getElementById("btn-find-hotels")
+        .addEventListener("click", async () => {
+          let destination = null;
+          let destinationType = "city";
+          const pkg = getSelectedPackageCached();
+
+          if (pkg && (pkg.city || pkg.country)) {
+            if (pkg.city) {
+              destination = pkg.city;
+              destinationType = "city";
+            } else {
+              destination = pkg.country;
+              destinationType = "country";
+            }
+            console.log(
+              `Using cached destination: ${destination} (${destinationType})`
+            );
+          } else {
+            destination = prompt(
+              "Enter destination (city or country name):",
+              "Bishkek"
+            );
+            if (!destination || !destination.trim()) {
+              alert("Please enter a destination to search for hotels.");
+              return;
+            }
+            destinationType = "city";
+          }
+
+          const fallbackArea = destination;
+          try {
+            let queryParams = new URLSearchParams();
+            if (destinationType === "city") {
+              queryParams.set("city", destination);
+              if (pkg && pkg.country) {
+                queryParams.set("country", pkg.country);
+              }
+            } else {
+              queryParams.set("country", destination);
+            }
+
+            console.log(`Fetching hotels for: ${queryParams.toString()}`);
+            const res = await fetch(
+              `/api/faith/hotels?${queryParams.toString()}`
+            );
+            const data = await res.json();
+
+            console.log("Hotels API response:", data);
+
+            if (!res.ok) {
+              alert("Error: " + (data.message || "Failed to find hotels"));
+              return;
+            }
+            if (data.fallback) {
+              console.warn("Using fallback data:", data.message);
+              alert(
+                data.message ||
+                  "Using fallback hotel listings. Live lookup unavailable."
+              );
+            }
+            const center = buildMapCenter(data, fallbackArea);
+            await renderMapboxMarkers(data.items, center);
+            updateMapAreaLabel(center && center.area);
+          } catch (e) {
+            console.error("Failed to lookup hotels", e);
+            alert(
+              "Could not load hotels for this destination right now. Please try again later."
+            );
+          }
+        });
+    }); // End of DOMContentLoaded
+
+    // --- Mapbox GL Map (using your Mapbox token) ---
+    function initMapboxMap() {
+      if (window.__mapbox_map) return; // already initialized
+
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
+
+      const map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/zumer/cmj3y5j60003c01qt3urcac07", // Custom Mapbox style
+        center: [74.5698, 42.8746], // [lng, lat] for Bishkek
+        zoom: 11,
       });
 
-    // --- Standard Leaflet Map (from https://leafletjs.com/) ---
-    function initLeafletMap() {
-      if (window.__leaflet_map) return; // already initialized
-      const map = L.map("map").setView([42.8746, 74.5698], 12);
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
-      window.__leaflet_map = map;
+      // Add navigation controls (zoom buttons)
+      map.addControl(new mapboxgl.NavigationControl());
+
+      window.__mapbox_map = map;
+      window.__mapbox_markers = [];
     }
 
     // Initialize map on page load
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initLeafletMap);
+      document.addEventListener("DOMContentLoaded", initMapboxMap);
     } else {
-      initLeafletMap();
+      initMapboxMap();
+    }
+
+    // Mapbox Directions function
+    async function getDirectionsTo(destLat, destLon, destName) {
+      try {
+        // Get user's current location
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        const userLon = position.coords.longitude;
+        const userLat = position.coords.latitude;
+
+        const map = window.__mapbox_map;
+
+        // Mapbox Directions API
+        const accessToken =
+          "pk.eyJ1IjoienVtZXIiLCJhIjoiY21pdWVvNnp4MGI4cjNnczhyNHdjYWJwZyJ9.bUa1KnOak9YFcggGRw4-2w";
+        const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${userLon},${userLat};${destLon},${destLat}?geometries=geojson&access_token=${accessToken}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.routes && data.routes.length > 0) {
+          const route = data.routes[0];
+          const distance = (route.distance / 1000).toFixed(2); // Convert to km
+          const duration = Math.round(route.duration / 60); // Convert to minutes
+
+          // Remove existing route if any
+          if (map.getSource("route")) {
+            map.removeLayer("route");
+            map.removeSource("route");
+          }
+
+          // Add route line to map
+          map.addSource("route", {
+            type: "geojson",
+            data: {
+              type: "Feature",
+              properties: {},
+              geometry: route.geometry,
+            },
+          });
+
+          map.addLayer({
+            id: "route",
+            type: "line",
+            source: "route",
+            layout: {
+              "line-join": "round",
+              "line-cap": "round",
+            },
+            paint: {
+              "line-color": "#007acc",
+              "line-width": 5,
+              "line-opacity": 0.75,
+            },
+          });
+
+          // Add user location marker
+          if (window.__user_marker) {
+            window.__user_marker.remove();
+          }
+          window.__user_marker = new mapboxgl.Marker({ color: "#22c55e" })
+            .setLngLat([userLon, userLat])
+            .setPopup(
+              new mapboxgl.Popup().setHTML("<strong>Your Location</strong>")
+            )
+            .addTo(map);
+
+          // Fit map to show entire route
+          const coordinates = route.geometry.coordinates;
+          const bounds = coordinates.reduce((bounds, coord) => {
+            return bounds.extend(coord);
+          }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+          map.fitBounds(bounds, { padding: 50 });
+
+          alert(
+            `Route to ${destName}\n\nDistance: ${distance} km\nEstimated time: ${duration} minutes`
+          );
+        } else {
+          alert("Could not find a route to this location");
+        }
+      } catch (error) {
+        console.error("Directions error:", error);
+        if (error.code === 1) {
+          alert("Please enable location access to get directions");
+        } else {
+          alert("Failed to get directions. Please try again.");
+        }
+      }
     }
 
     async function geocodeAreaNominatim(area) {
@@ -596,114 +2061,49 @@
       return R * c;
     }
 
-    async function renderHalalMarkers(items, center) {
-      if (!items || !items.length) return alert("No halal places found");
+    async function renderMapboxMarkers(items, center) {
+      if (!items || !items.length) {
+        alert(
+          "No places found for this destination. Try a different city or country."
+        );
+        return;
+      }
+
       try {
-        const mapEl = document.getElementById("map");
+        console.log("Rendering", items.length, "items on Mapbox map");
+
         // Ensure map is initialized
-        initLeafletMap();
-        const map = window.__leaflet_map;
+        initMapboxMap();
+        const map = window.__mapbox_map;
 
-        // Determine center: prefer provided lat/lon, else geocode area, else fallback
+        // Determine center: prefer provided lat/lon, else fallback
         let mapCenter = { lat: 42.8746, lon: 74.5698 };
-        if (center && center.lat && center.lon)
+        if (center && center.lat && center.lon) {
           mapCenter = { lat: Number(center.lat), lon: Number(center.lon) };
-        else if (center && center.area) {
-          const geo = await geocodeAreaNominatim(center.area);
-          if (geo) mapCenter = geo;
         }
 
-        // Re-center map and clear old markers
-        map.setView([mapCenter.lat, mapCenter.lon], 12);
-        if (window.__leaflet_markers) {
-          window.__leaflet_markers.forEach((m) => map.removeLayer(m));
+        console.log("Map center:", mapCenter);
+        updateMapAreaLabel(center && center.area);
+
+        // Clear old markers
+        if (window.__mapbox_markers) {
+          window.__mapbox_markers.forEach((m) => m.remove());
         }
-        window.__leaflet_markers = [];
+        window.__mapbox_markers = [];
 
-        // Filter and process items: only show restaurants near destination (within 5km radius)
-        const MAX_DISTANCE_KM = 5;
-        const processedItems = [];
+        // Process all items
+        const processedItems = items
+          .map((it) => {
+            let lat, lon;
 
-        items.forEach((it, index) => {
-          let lat, lon, distance;
+            if (it.lat != null && it.lon != null) {
+              lat = Number(it.lat);
+              lon = Number(it.lon);
+            } else {
+              console.warn("Item missing coordinates:", it.name);
+              return null;
+            }
 
-          if (it.lat && it.lon) {
-            // Use provided coordinates
-            lat = Number(it.lat);
-            lon = Number(it.lon);
-            distance = calculateDistance(
-              mapCenter.lat,
-              mapCenter.lon,
-              lat,
-              lon
-            );
-          } else {
-            // Generate coordinates within proximity to the destination center
-            // Create a pseudo-random but consistent location based on item name and index
-            const seed = it.name
-              .split("")
-              .reduce((acc, char) => acc + char.charCodeAt(0), 0) + index * 1337;
-            const pseudoRandom1 = Math.sin(seed * 12.9898) * 43758.5453;
-            const pseudoRandom2 = Math.sin(seed * 78.233) * 43758.5453;
-            const frac1 = pseudoRandom1 - Math.floor(pseudoRandom1);
-            const frac2 = pseudoRandom2 - Math.floor(pseudoRandom2);
-
-            // Distribute items within a 0.5-3km radius from center
-            // 1 degree ≈ 111 km, so 0.01 degree ≈ 1.1 km
-            const distanceRadius = 0.5 + frac1 * 2.5; // 0.5 to 3 km
-            const angle = frac2 * 2 * Math.PI; // random angle in radians
-
-            // Convert distance and angle to lat/lon offset
-            const latOffset = (distanceRadius / 111) * Math.cos(angle);
-            const lonOffset = (distanceRadius / 111) * Math.sin(angle);
-
-            lat = mapCenter.lat + latOffset;
-            lon = mapCenter.lon + lonOffset;
-            distance = calculateDistance(
-              mapCenter.lat,
-              mapCenter.lon,
-              lat,
-              lon
-            );
-          }
-
-          // Only include items within max distance
-          if (distance <= MAX_DISTANCE_KM) {
-            processedItems.push({
-              name: it.name,
-              note: it.note || "",
-              lat,
-              lon,
-              distance: distance.toFixed(1),
-              distanceKm: it.distanceKm || distance.toFixed(1),
-            });
-          }
-        });
-
-        // If no items within range after filtering, show message and all items anyway
-        if (processedItems.length === 0) {
-          alert(
-            `No halal restaurants found within ${MAX_DISTANCE_KM}km of the destination. Showing all available options.`
-          );
-          // Show original items with generated locations for reference
-          items.forEach((it, index) => {
-            const seed = it.name
-              .split("")
-              .reduce((acc, char) => acc + char.charCodeAt(0), 0) + index * 1337;
-            const pseudoRandom1 = Math.sin(seed * 12.9898) * 43758.5453;
-            const pseudoRandom2 = Math.sin(seed * 78.233) * 43758.5453;
-            const frac1 = pseudoRandom1 - Math.floor(pseudoRandom1);
-            const frac2 = pseudoRandom2 - Math.floor(pseudoRandom2);
-
-            // Distribute items within a 0.5-5km radius from center for fallback
-            const distanceRadius = 0.5 + frac1 * 4.5; // 0.5 to 5 km
-            const angle = frac2 * 2 * Math.PI;
-
-            const latOffset = (distanceRadius / 111) * Math.cos(angle);
-            const lonOffset = (distanceRadius / 111) * Math.sin(angle);
-
-            const lat = mapCenter.lat + latOffset;
-            const lon = mapCenter.lon + lonOffset;
             const distance = calculateDistance(
               mapCenter.lat,
               mapCenter.lon,
@@ -711,106 +2111,99 @@
               lon
             );
 
-            processedItems.push({
+            return {
               name: it.name,
-              note: it.note || "(Approximate location)",
+              note: it.note || "",
               lat,
               lon,
               distance: distance.toFixed(1),
-              distanceKm: distance.toFixed(1),
-            });
-          });
+            };
+          })
+          .filter(Boolean);
+
+        if (processedItems.length === 0) {
+          alert(
+            "No valid location data found. The destination may not have mapped mosques/restaurants."
+          );
+          return;
         }
 
         // Sort items by distance
-        processedItems.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+        processedItems.sort(
+          (a, b) => parseFloat(a.distance) - parseFloat(b.distance)
+        );
 
-        // Add new markers for each processed item
+        console.log("Processed items:", processedItems.length);
+
+        // Add new Mapbox markers
         const markers = [];
-        processedItems.forEach((it) => {
-          const marker = L.marker([it.lat, it.lon]).addTo(map);
-          marker.bindPopup(
-            `<strong>${it.name}</strong><div style="font-size:0.9rem">${
-              it.note
-            }<div style="margin-top: 5px; font-weight: bold;">📍 ${
-              it.distance
-            } km away</div></div>`
-          );
+        const bounds = new mapboxgl.LngLatBounds();
 
-          // Add click handler to show directions
-          marker.on("click", async () => {
-            try {
-              // Get user's current location
-              const userCoords = await getCoords();
-              if (!userCoords.lat || !userCoords.lon) {
-                alert("Please enable location access to view directions");
-                return;
-              }
+        processedItems.forEach((it, index) => {
+          // Create popup content with directions button
+          const popupHTML = `
+            <div style="font-family: Arial, sans-serif;">
+              <strong style="font-size: 14px;">${it.name}</strong>
+              <div style="font-size: 12px; margin-top: 4px;">${it.note}</div>
+              <div style="margin-top: 6px; font-weight: bold; font-size: 12px;">📍 ${
+                it.distance
+              } km from center</div>
+              <button onclick="getDirectionsTo(${it.lat}, ${
+            it.lon
+          }, '${it.name.replace(/'/g, "\\'")}')" 
+                      style="margin-top: 8px; padding: 6px 12px; background: #007acc; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 12px;">
+                🚗 Get Directions
+              </button>
+            </div>
+          `;
 
-              // Clear any existing routing control
-              if (window.__leaflet_routing) {
-                map.removeControl(window.__leaflet_routing);
-              }
-
-              // Create routing control with event listener for distance
-              window.__leaflet_routing = L.Routing.control({
-                waypoints: [
-                  L.latLng(userCoords.lat, userCoords.lon), // Start: user location
-                  L.latLng(it.lat, it.lon), // End: marker location
-                ],
-                routeWhileDragging: false,
-                showAlternatives: true,
-                altLineOptions: {
-                  styles: [{ color: "black", opacity: 0.15, weight: 5 }],
-                },
-              }).addTo(map);
-
-              // Listen for route calculation completion and update marker popup with actual distance
-              window.__leaflet_routing.on('routesfound', function(e) {
-                const routes = e.routes;
-                if (routes && routes.length > 0) {
-                  const distance = (routes[0].summary.totalDistance / 1000).toFixed(1); // Convert meters to km
-                  marker.setPopupContent(
-                    `<strong>${it.name}</strong><div style="font-size:0.9rem">${
-                      it.note
-                    }<div style="margin-top: 5px; font-weight: bold;">📍 ${
-                      distance
-                    } km away (by road)</div></div>`
-                  );
-                  marker.openPopup();
-                }
-              });
-
-              // Fit map to show the route
-              map.fitBounds(
-                L.latLngBounds(
-                  [userCoords.lat, userCoords.lon],
-                  [it.lat, it.lon]
-                )
-              );
-            } catch (e) {
-              console.warn("Failed to show directions", e);
-              alert("Could not load directions. Try again.");
-            }
-          });
+          // Create marker
+          const marker = new mapboxgl.Marker({ color: "#007acc" })
+            .setLngLat([it.lon, it.lat])
+            .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML))
+            .addTo(map);
 
           markers.push(marker);
-        });
-        window.__leaflet_markers = markers;
+          bounds.extend([it.lon, it.lat]);
 
-        // Show summary of restaurants found
-        if (processedItems.length > 0) {
-          console.log(
-            `Found ${processedItems.length} halal restaurants within ${MAX_DISTANCE_KM}km`
-          );
+          // Open first marker popup automatically
+          if (index === 0) {
+            marker.togglePopup();
+          }
+        });
+
+        window.__mapbox_markers = markers;
+
+        // Fit map to show all markers
+        if (markers.length > 1) {
+          map.fitBounds(bounds, { padding: 50 });
+        } else if (markers.length === 1) {
+          map.flyTo({
+            center: [processedItems[0].lon, processedItems[0].lat],
+            zoom: 14,
+          });
         }
+
+        console.log(
+          `Successfully rendered ${markers.length} markers on Mapbox map`
+        );
       } catch (e) {
-        console.warn("Leaflet rendering failed", e);
+        console.error("Map rendering failed:", e);
         const list = items
           .map((i) => `- ${i.name}${i.note ? " — " + i.note : ""}`)
           .join("\n");
-        alert("Halal places:\n" + list + "\n\n(Map rendering failed)");
+        alert(
+          "Found places:\n" +
+            list +
+            "\n\n(Map rendering failed - check console)"
+        );
       }
+    }
+
+    // Keep old Leaflet function for backward compatibility (rename to avoid conflicts)
+    async function renderHalalMarkers(items, center) {
+      // Redirect to new Mapbox function
+      return renderMapboxMarkers(items, center);
     }
 
     // View Details button: show the cached selected package on a detail page
@@ -838,157 +2231,7 @@
       })
     );
 
-    // If a package is cached, replace the hard-coded AI card with its details
-    (async function populateAICardFromCache() {
-      try {
-        const raw = localStorage.getItem("selectedPackage");
-        const card = document.querySelector(".grid .card");
-        const heading = document.getElementById("package-heading");
-        if (!card) return;
-
-        let pkg = null;
-        let usedRecommendation = false;
-
-        // Check if user has selected a package
-        if (raw) {
-          try {
-            pkg = JSON.parse(raw);
-          } catch (e) {
-            pkg = null;
-          }
-        }
-
-        // Update heading based on whether package is selected or recommended
-        if (raw && pkg) {
-          // User has selected a package
-          if (heading) {
-            heading.textContent = "🧠 My Selected Package";
-          }
-        } else {
-          // No package selected - show recommendations
-          if (heading) {
-            heading.textContent = "✨ Recommendations for You";
-          }
-          
-          // fetch random destination from server
-          try {
-            const countryInput =
-              (document.getElementById("country") &&
-                document.getElementById("country").value) ||
-              "";
-            const budgetInput =
-              (document.getElementById("budget") &&
-                document.getElementById("budget").value) ||
-              "";
-            const q = `?country=${encodeURIComponent(
-              countryInput
-            )}&budget=${encodeURIComponent(budgetInput)}`;
-            const res = await fetch("/api/packages" + q);
-            if (res.ok) {
-              const data = await res.json();
-              const items = data.items || [];
-              if (items.length > 0) {
-                pkg = items[Math.floor(Math.random() * items.length)];
-                usedRecommendation = true;
-              }
-            }
-          } catch (e) {
-            // fallback: leave pkg null
-            console.warn(
-              "Failed to fetch package recommendations from server",
-              e
-            );
-          }
-        }
-
-        if (!pkg) return; // nothing to show
-
-        // Add a small badge indicating this is a recommendation when using server-provided item
-        const header = card.querySelector("h3");
-        if (usedRecommendation && header) {
-          const badge = document.createElement("div");
-          badge.textContent = "Recommendation for you";
-          badge.style.fontSize = "0.85rem";
-          badge.style.color = "#0f8e95";
-          badge.style.fontWeight = "700";
-          badge.style.marginBottom = "6px";
-          header.parentNode.insertBefore(badge, header);
-        }
-
-        // Update image if present
-        const img = card.querySelector("img");
-        if (img && pkg.image) img.src = pkg.image;
-        else if (img && pkg.images && pkg.images.length)
-          img.src = pkg.images[0];
-
-        // Update title
-        const titleEl = card.querySelector("h3");
-        if (titleEl && pkg.name) titleEl.textContent = pkg.name;
-
-        // Update price paragraph (first <p> after title)
-        const pEls = card.querySelectorAll("p");
-        if (pEls && pEls.length > 0) {
-          const priceEl = pEls[0];
-          if (pkg.minBudget || pkg.maxBudget) {
-            const priceText =
-              pkg.minBudget && pkg.maxBudget
-                ? `${pkg.minBudget}-${pkg.maxBudget}`
-                : pkg.minBudget || pkg.maxBudget || "N/A";
-            priceEl.textContent = `💰 $${priceText} / trip`;
-          } else if (pkg.price) {
-            priceEl.textContent = `💰 $${Number(
-              pkg.price
-            ).toLocaleString()} / trip`;
-          }
-          if (pEls[1])
-            pEls[1].textContent = pkg.description
-              ? pkg.description.substring(0, 80) + "..."
-              : pkg.country
-              ? pkg.country
-              : "";
-        }
-
-        // Update tags to show duration and first attractions
-        const tags = card.querySelector(".tags");
-        if (tags) {
-          tags.innerHTML = "";
-          if (pkg.duration) {
-            const s = document.createElement("span");
-            s.textContent = `#${pkg.duration}`;
-            tags.appendChild(s);
-          } else if (pkg.typicalDuration) {
-            const s = document.createElement("span");
-            s.textContent = `#${pkg.typicalDuration}d`;
-            tags.appendChild(s);
-          }
-          if (pkg.attractions && pkg.attractions.length) {
-            pkg.attractions.slice(0, 3).forEach((t) => {
-              const s = document.createElement("span");
-              s.textContent = `#${t.replace(/\s+/g, "")}`;
-              tags.appendChild(s);
-            });
-          }
-        }
-
-        // Attach recommendation data to View button when not using a real cached package
-        const viewBtn = card.querySelector(".view");
-        if (viewBtn) {
-          if (usedRecommendation) {
-            // store the full package object returned by generatePackages so detail page can render it
-            viewBtn.dataset.recommendation = encodeURIComponent(
-              JSON.stringify(pkg)
-            );
-          } else {
-            delete viewBtn.dataset.recommendation;
-          }
-        }
-      } catch (e) {
-        console.warn(
-          "Could not populate AI card from cached package or server recommendations",
-          e
-        );
-      }
-    })();
+    // Removed cached package card population; showing bookings link instead
 
     // Ensure map redraw on window resize or when page becomes visible again (fixes tiles in some layouts)
     (function () {
@@ -1031,5 +2274,53 @@
         }
       });
     })();
+
+    // Update budget label with selected currency
+    const updateBudgetLabel = () => {
+      const selectedCurrency = CurrencyConverter.getUserCurrency();
+      const budgetLabel = document.getElementById("budget-currency");
+      if (budgetLabel) {
+        budgetLabel.textContent = selectedCurrency;
+      }
+    };
+
+    // Update on page load
+    updateBudgetLabel();
+
+    // Handle currency changes for package prices
+    document.addEventListener("currencyChanged", async (e) => {
+      const newCurrency = e.detail.currency;
+      updateBudgetLabel(); // Update the budget label
+      await updatePackagePrices(newCurrency);
+    });
+
+    // Function to update package prices
+    async function updatePackagePrices(currency) {
+      const priceElements = document.querySelectorAll("[data-price]");
+
+      for (const element of priceElements) {
+        const originalPrice = parseFloat(element.getAttribute("data-price"));
+        const fromCurrency = element.getAttribute("data-currency") || "USD";
+
+        if (!isNaN(originalPrice)) {
+          if (currency === fromCurrency) {
+            // Reset to original
+            element.textContent = `$${originalPrice.toLocaleString()}`;
+          } else {
+            const result = await CurrencyConverter.convert(
+              originalPrice,
+              fromCurrency,
+              currency
+            );
+            if (result.success) {
+              element.textContent = CurrencyConverter.formatCurrency(
+                result.result,
+                currency
+              );
+            }
+          }
+        }
+      }
+    }
   </script>
-</body>
+</div>

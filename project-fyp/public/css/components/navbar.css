@@ -1,0 +1,94 @@
+/* ===========================
+   NAVBAR COMPONENT STYLES
+   =========================== */
+
+.navbar {
+  background-color: #ffffff;
+  border-bottom: 2px solid #004aad;
+  padding: 0.8rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 74, 173, 0.1);
+}
+
+.navbar-brand {
+  color: #004aad !important;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.navbar-brand i {
+  color: #004aad;
+  font-size: 1.4rem;
+}
+
+.navbar-nav h2.navbar-brand {
+  color: #004aad;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 0 1.5rem;
+}
+
+.navbar-nav .nav-link {
+  color: #276ef1 !important;
+  font-weight: 500;
+  margin: 0 10px;
+  font-size: 1rem;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #276ef1 !important;
+}
+
+.navbar-collapse {
+  justify-content: center;
+}
+
+.navbar-nav {
+  align-items: center;
+}
+
+.navbar-nav.ms-auto .nav-link {
+  background-color: #004aad;
+  color: #ffffff !important;
+  border-radius: 50px;
+  padding: 6px 16px;
+  margin-left: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.navbar-nav.ms-auto .nav-link:hover {
+  background-color: #ffffff;
+  color: #004aad !important;
+  border: 1px solid #004aad;
+}
+
+.navbar-nav.ms-auto .nav-link[href="/logout"] {
+  background-color: #c82333;
+  border-color: #c82333;
+}
+
+.navbar-nav.ms-auto .nav-link[href="/logout"]:hover {
+  background-color: #ffffff;
+  color: #c82333 !important;
+  border: 1px solid #c82333;
+}
+
+@media (max-width: 768px) {
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .navbar-nav h2.navbar-brand {
+    font-size: 1rem;
+    margin: 8px 0;
+  }
+
+  .navbar-nav .nav-link {
+    display: inline-block;
+    margin: 5px 8px;
+  }
+}

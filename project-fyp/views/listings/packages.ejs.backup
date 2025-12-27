@@ -1,0 +1,605 @@
+<% layout("/layouts/boiler")%>
+
+<style>
+  .packages-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+  }
+
+  .budget-info {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    border-left: 5px solid #007bff;
+  }
+
+  .package-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .package-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .package-header {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    padding: 25px;
+    text-align: center;
+  }
+
+  .package-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .package-price {
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: inline-block;
+  }
+
+  .package-body {
+    padding: 30px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+
+  .feature-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #28a745;
+  }
+
+  .feature-title {
+    color: #495057;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  .feature-icon {
+    margin-right: 10px;
+    font-size: 1.3rem;
+  }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .feature-list li {
+    padding: 5px 0;
+    color: #6c757d;
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .feature-list li:before {
+    content: "✓";
+    color: #28a745;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+
+  .muslim-features {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+
+  .muslim-features h4 {
+    color: #f39c12;
+    margin-bottom: 15px;
+  }
+
+  .tech-features {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+
+  .tech-features h4 {
+    color: #ecf0f1;
+    margin-bottom: 15px;
+  }
+
+  /* Make lists inside Muslim-friendly and Advanced feature boxes white for better contrast */
+  .muslim-features .feature-list li,
+  .tech-features .feature-list li {
+    color: #ffffff;
+  }
+
+  /* Tweak the checkmark color for better contrast inside those sections */
+  .muslim-features .feature-list li:before {
+    color: #f39c12;
+  }
+  .tech-features .feature-list li:before {
+    color: #ecf0f1;
+  }
+
+  .no-packages {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    margin: 20px 0;
+  }
+
+  .no-packages h3 {
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+
+  .btn-back {
+    background: linear-gradient(45deg, #6c757d, #495057);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .btn-back:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    color: white;
+  }
+
+  .duration-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-left: 10px;
+  }
+
+  .weather-info {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  .weather-info strong {
+    color: #fdcb6e;
+  }
+
+  /* Action buttons */
+  .card-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-select {
+    background: linear-gradient(90deg, #3375ae, #0f8e95);
+    color: #fff;
+    padding: 10px 14px;
+  }
+
+  /* subtle responsive adjustments */
+  @media (max-width: 768px) {
+    .package-title {
+      font-size: 1.25rem;
+    }
+    .package-price {
+      font-size: 1.1rem;
+    }
+    .card-actions {
+      justify-content: center;
+    }
+  }
+
+  /* toast */
+  .toast-notice {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.25s ease;
+    z-index: 9999;
+  }
+
+  .toast-notice.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<div
+  class="packages-container"
+  data-logged-in="<%= !!currUser %>"
+  data-country="<%= country %>"
+  data-budget="<%= budget %>"
+>
+  <div class="page-header">
+    <h1>🌍 Travel Packages for <%= country %></h1>
+    <p>Discover your perfect journey with AI-powered recommendations</p>
+  </div>
+
+  <div class="budget-info">
+    <% // Get currency symbol const currencySymbols = { USD: '$', EUR: '€', GBP:
+    '£', JPY: '¥', AUD: 'A$', CAD: 'C$', CNY: '¥', INR: '₹', PKR: '₨', SAR: '﷼',
+    AED: 'د.إ', TRY: '₺', KZT: '₸', UZS: 'soʻm', KGS: 'с', TJS: 'сом', TMT: 'm',
+    AZN: '₼' }; const symbol = currencySymbols[currency] || currency + ' ';
+    const formattedBudget = symbol + parseFloat(budget).toLocaleString(); %>
+    <h3>💰 Your Budget: <strong><%= formattedBudget %></strong></h3>
+    <p style="font-size: 0.9rem; color: #6c757d; margin-top: 8px">
+      Budget in USD:
+      <strong>$<%= parseFloat(budgetUSD).toLocaleString() %></strong> | Your
+      currency: <strong><%= currency || 'USD' %></strong>
+    </p>
+    <p
+      style="
+        font-size: 1.1rem;
+        color: #28a745;
+        font-weight: bold;
+        margin-top: 10px;
+      "
+    >
+      ✅ Found <%= packagesList.length %> package<% if (packagesList.length !== 1) { %>s<% } %> within your budget
+    </p>
+  </div>
+
+  <% if (packagesList.length > 0) { %>
+  <h2 class="text-center mb-4">📦 Selected Packages for You</h2>
+  <p class="text-center" style="color: #6c757d; margin-bottom: 30px">
+    Showing packages across different budget categories
+  </p>
+
+  <% 
+  // Group packages by price range for display
+  var budgetPackages = [];
+  var midPackages = [];
+  var luxuryPackages = [];
+  
+  for (var i = 0; i < packagesList.length; i++) {
+    if (packagesList[i].totalEstimateUSD < 500) {
+      budgetPackages.push(packagesList[i]);
+    } else if (packagesList[i].totalEstimateUSD >= 500 && packagesList[i].totalEstimateUSD < 1500) {
+      midPackages.push(packagesList[i]);
+    } else if (packagesList[i].totalEstimateUSD >= 1500) {
+      luxuryPackages.push(packagesList[i]);
+    }
+  }
+  
+  var categories = [];
+  categories.push({name: '💰 Budget-Friendly', packages: budgetPackages, color: '#28a745'});
+  categories.push({name: '⭐ Mid-Range', packages: midPackages, color: '#ffc107'});
+  categories.push({name: '👑 Luxury', packages: luxuryPackages, color: '#dc3545'});
+  
+  for (var catIndex = 0; catIndex < categories.length; catIndex++) {
+    var category = categories[catIndex];
+    if (category.packages.length > 0) {
+  %>
+  <div style="margin-bottom: 40px">
+    <h3
+      style="
+        color: <%= category.color %>;
+        margin-bottom: 20px;
+        padding-left: 15px;
+        border-left: 4px solid <%= category.color %>;
+      "
+    >
+      <%= category.name %> (<%= category.packages.length %> package<% if (category.packages.length !== 1) { %>s<% } %>)
+    </h3>
+
+    <% for (var pkgIndex = 0; pkgIndex < category.packages.length; pkgIndex++) { 
+       var package = category.packages[pkgIndex];
+    %>
+    <div class="package-card">
+      <div class="package-header">
+        <div class="package-title">
+          <%= package.name %>
+          <span class="duration-badge"><%= package.duration %></span>
+        </div>
+        <div class="package-price">
+          <span
+            class="price-display"
+            data-price="<%= package.price %>"
+            data-currency="USD"
+          ></span>
+        </div>
+      </div>
+
+      <div class="package-body">
+        <% if (package.weather) { %>
+        <div class="weather-info">
+          <strong>🌤️ Current Weather:</strong> <%= package.weather.current %> |
+          <strong>Forecast:</strong> <%= package.weather.forecast %>
+        </div>
+        <% } %>
+
+        <div class="features-grid">
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🏨</span>
+              Accommodation
+            </div>
+            <p><%= package.hotel %></p>
+          </div>
+
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🍽️</span>
+              Food & Dining
+            </div>
+            <p><%= package.food %></p>
+          </div>
+
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🚗</span>
+              Transportation
+            </div>
+            <p><%= package.transport %></p>
+          </div>
+
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🎯</span>
+              Must-Visit Attractions
+            </div>
+            <ul class="feature-list">
+              <% for (var a = 0; a < package.attractions.length; a++) { %>
+              <li><%= package.attractions[a] %></li>
+              <% } %>
+            </ul>
+          </div>
+
+          <div class="feature-section">
+            <div class="feature-title">
+              <span class="feature-icon">🛍️</span>
+              Shopping Destinations
+            </div>
+            <ul class="feature-list">
+              <% for (var s = 0; s < package.shopping.length; s++) { %>
+              <li><%= package.shopping[s] %></li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+
+        <% if (package.muslimFeatures) { %>
+        <div class="muslim-features">
+          <h4>🕌 Muslim-Friendly Features</h4>
+          <ul class="feature-list">
+            <% for (var f = 0; f < package.muslimFeatures.length; f++) { %>
+            <li><%= package.muslimFeatures[f] %></li>
+            <% } %>
+          </ul>
+        </div>
+        <% } %>
+
+        <div class="tech-features">
+          <h4>📱 Advanced Travel Features</h4>
+          <ul class="feature-list">
+            <li>🔐 Multi-device login synchronization</li>
+            <li>📍 Live location sharing with family & friends</li>
+            <li>🌐 Real-time language translation</li>
+            <li>🕐 Prayer time notifications</li>
+            <li>🧭 Qibla direction finder</li>
+            <li>🕌 Nearby mosque locator</li>
+            <li>🍽️ Halal food finder with reviews</li>
+            <li>🌤️ Weather forecast integration</li>
+            <li>💰 Budget tracking and alerts</li>
+            <li>📱 Mobile app with offline capabilities</li>
+          </ul>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="card-actions">
+          <% 
+          // Create package ID safely
+          var pkgId;
+          if (package._id) {
+            pkgId = package._id.toString();
+          } else if (package.id) {
+            pkgId = package.id;
+          } else {
+            pkgId = Date.now().toString();
+          }
+          
+          // Create safe package data for booking
+          var packageData = {};
+          packageData.packageId = pkgId;
+          packageData.packageTitle = package.name;
+          packageData.destination = package.city;
+          packageData.country = package.country;
+          packageData.duration = package.duration;
+          packageData.totalCost = package.price;
+          packageData.currency = 'USD';
+          packageData.hotel = package.hotel;
+          packageData.food = package.food;
+          packageData.transport = package.transport;
+          packageData.attractions = package.attractions;
+          packageData.shopping = package.shopping;
+          packageData.muslimFeatures = package.muslimFeatures;
+          packageData.weather = package.weather;
+          %>
+          <button
+            class="btn btn-select"
+            data-id="<%= pkgId %>"
+            data-package="<%= encodeURIComponent(JSON.stringify(packageData)) %>"
+          >
+            Select
+          </button>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <% } 
+  } 
+  } else { %>
+  <div class="no-packages">
+    <h3>
+      😔 No packages available for <%= country || 'your selected destination' %>
+    </h3>
+    <p>We couldn't find any packages matching your criteria.</p>
+    <p style="margin-top: 10px">Try:</p>
+    <ul style="list-style: none; padding: 0; margin-top: 10px">
+      <li>✓ Increasing your budget</li>
+      <li>✓ Selecting a different country</li>
+      <li>✓ Adjusting your trip duration</li>
+    </ul>
+    <a href="/" class="btn-back">← Back to Home</a>
+  </div>
+  <% } %>
+
+  <div class="text-center mt-4">
+    <a href="/" class="btn-back">← Back to Home</a>
+  </div>
+</div>
+
+<div id="toast" class="toast-notice" aria-hidden="true"></div>
+
+<script>
+  (function () {
+    const container = document.querySelector(".packages-container");
+    if (!container) return;
+    const isLoggedIn = container.dataset.loggedIn === "true";
+    const country = container.dataset.country || "";
+    const budget = container.dataset.budget || "";
+
+    function showToast(msg, timeout = 2200) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      t.setAttribute("aria-hidden", "false");
+      setTimeout(() => {
+        t.classList.remove("show");
+        t.setAttribute("aria-hidden", "true");
+      }, timeout);
+    }
+
+    // Select buttons
+    document.querySelectorAll(".btn-select").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const id = btn.dataset.id;
+        if (!isLoggedIn) return (window.location.href = "/login");
+
+        // Try to persist the selected package into browser storage (localStorage)
+        try {
+          const raw = btn.getAttribute("data-package");
+          if (raw) {
+            const pkg = JSON.parse(decodeURIComponent(raw));
+            // Store under a single key. Overwrites previous selection.
+            localStorage.setItem("selectedPackage", JSON.stringify(pkg));
+            // Also store some context to make it easy to resume
+            localStorage.setItem(
+              "selectedPackage_context",
+              JSON.stringify({ country, budget })
+            );
+            showToast("Package saved in browser cache");
+          }
+        } catch (err) {
+          // Non-fatal: continue to redirect even if storage fails
+          console.warn("Failed to save package to localStorage", err);
+          showToast("Continuing without saving");
+        }
+
+        // if id is missing, avoid going to /book with empty id — go home instead
+        if (!id) {
+          showToast("Invalid package selected. Redirecting home...");
+          setTimeout(() => (window.location.href = "/"), 700);
+          return;
+        }
+
+        // redirect to booking/selection page with context
+        const u = `/book?packageId=${encodeURIComponent(
+          id
+        )}&country=${encodeURIComponent(country)}&budget=${encodeURIComponent(
+          budget
+        )}`;
+        setTimeout(() => (window.location.href = u), 600);
+      });
+    });
+
+    // Save buttons: POST to an API endpoint (best-effort)
+    document.querySelectorAll(".btn-save").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.dataset.id;
+        if (!isLoggedIn) return (window.location.href = "/login");
+        try {
+          const res = await fetch(
+            `/api/packages/${encodeURIComponent(id)}/save`,
+            { method: "POST", headers: { "Content-Type": "application/json" } }
+          );
+          const data = await res.json();
+          if (res.ok) showToast("Saved to your wishlist");
+          else showToast(data.message || "Save failed");
+        } catch (err) {
+          showToast("Network error");
+        }
+      });
+    });
+
+    // Note: Currency conversion is handled by the global layout (boiler.ejs)
+    // which calls CurrencyConverter.convertAllPrices() on DOMContentLoaded
+    // and when currency changes. No need for duplicate conversion here.
+  })();
+</script>

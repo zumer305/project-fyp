@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Country Fares - Central Asia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .country-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .country-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(30, 58, 138, 0.4);
+        }
+
+        .country-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .country-flag {
+            font-size: 3rem;
+        }
+
+        .country-name {
+            flex: 1;
+        }
+
+        .country-name h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .currency-info {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .fare-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fare-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .fare-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .fare-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .test-section {
+            background: #f1f5f9;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .test-section h2 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .test-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .test-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 58, 138, 0.4);
+        }
+
+        .info-box {
+            background: #dbeafe;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #3b82f6;
+            margin-top: 20px;
+        }
+
+        .info-box h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: #1e3a8a;
+            line-height: 1.6;
+        }
+
+        .info-box ul {
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+
+        .info-box li {
+            color: #1e3a8a;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-taxi"></i> Central Asian Taxi Fare System</h1>
+        <p class="subtitle">6 Countries with Real Market Rates (December 2025)</p>
+
+        <div class="country-grid" id="countryGrid"></div>
+
+        <div class="test-section">
+            <h2><i class="fas fa-flask"></i> Test the Fare System</h2>
+            <p style="text-align: center; margin-bottom: 20px; color: #475569;">
+                Click a button to simulate selecting a destination in that country
+            </p>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testCountry('Baku, Azerbaijan')">
+                    <span>🇦🇿</span> Test Azerbaijan
+                </button>
+                <button class="test-btn" onclick="testCountry('Almaty, Kazakhstan')">
+                    <span>🇰🇿</span> Test Kazakhstan
+                </button>
+                <button class="test-btn" onclick="testCountry('Tashkent, Uzbekistan')">
+                    <span>🇺🇿</span> Test Uzbekistan
+                </button>
+                <button class="test-btn" onclick="testCountry('Bishkek, Kyrgyzstan')">
+                    <span>🇰🇬</span> Test Kyrgyzstan
+                </button>
+                <button class="test-btn" onclick="testCountry('Dushanbe, Tajikistan')">
+                    <span>🇹🇯</span> Test Tajikistan
+                </button>
+                <button class="test-btn" onclick="testCountry('Ashgabat, Turkmenistan')">
+                    <span>🇹🇲</span> Test Turkmenistan
+                </button>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> How It Works</h3>
+                <p>The system automatically detects the country based on the destination name stored in localStorage:</p>
+                <ul>
+                    <li><strong>Azerbaijan:</strong> Baku, Ganja → Uses AZN (₼) rates</li>
+                    <li><strong>Kazakhstan:</strong> Almaty, Astana, Nur-Sultan → Uses KZT (₸) rates</li>
+                    <li><strong>Uzbekistan:</strong> Tashkent, Samarkand, Bukhara → Uses UZS (soʻm) rates</li>
+                    <li><strong>Kyrgyzstan:</strong> Bishkek, Osh → Uses KGS (с) rates</li>
+                    <li><strong>Tajikistan:</strong> Dushanbe → Uses TJS (ЅМ) rates</li>
+                    <li><strong>Turkmenistan:</strong> Ashgabat → Uses TMT (m) rates</li>
+                </ul>
+                <p style="margin-top: 15px;">
+                    <strong>Note:</strong> All prices are based on current December 2025 market rates from official taxi services 
+                    and ride-sharing apps in each country.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Country fare data (same as in fares.ejs)
+        const COUNTRY_FARES = {
+            "Azerbaijan": {
+                baseFare: { min: 222.80, max: 417.75 },
+                perKm: { min: 83.55, max: 167.10 },
+                waitingTime: 41.78,
+                nightCharge: 0.20,
+                currency: "AZN",
+                currencySymbol: "₼",
+                flag: "🇦🇿"
+            },
+            "Kazakhstan": {
+                baseFare: { min: 300, max: 500 },
+                perKm: { min: 100, max: 200 },
+                waitingTime: 50,
+                nightCharge: 0.25,
+                currency: "KZT",
+                currencySymbol: "₸",
+                flag: "🇰🇿"
+            },
+            "Uzbekistan": {
+                baseFare: { min: 10000, max: 20000 },
+                perKm: { min: 3000, max: 6000 },
+                waitingTime: 2000,
+                nightCharge: 0.30,
+                currency: "UZS",
+                currencySymbol: "soʻm",
+                flag: "🇺🇿"
+            },
+            "Kyrgyzstan": {
+                baseFare: { min: 80, max: 150 },
+                perKm: { min: 30, max: 60 },
+                waitingTime: 15,
+                nightCharge: 0.20,
+                currency: "KGS",
+                currencySymbol: "с",
+                flag: "🇰🇬"
+            },
+            "Tajikistan": {
+                baseFare: { min: 15, max: 30 },
+                perKm: { min: 5, max: 12 },
+                waitingTime: 3,
+                nightCharge: 0.25,
+                currency: "TJS",
+                currencySymbol: "ЅМ",
+                flag: "🇹🇯"
+            },
+            "Turkmenistan": {
+                baseFare: { min: 5, max: 10 },
+                perKm: { min: 2, max: 5 },
+                waitingTime: 1.5,
+                nightCharge: 0.20,
+                currency: "TMT",
+                currencySymbol: "m",
+                flag: "🇹🇲"
+            }
+        };
+
+        // Display all countries
+        function displayCountries() {
+            const grid = document.getElementById('countryGrid');
+            grid.innerHTML = Object.entries(COUNTRY_FARES).map(([country, fares]) => `
+                <div class="country-card">
+                    <div class="country-header">
+                        <div class="country-flag">${fares.flag}</div>
+                        <div class="country-name">
+                            <h2>${country}</h2>
+                            <div class="currency-info">${fares.currency} (${fares.currencySymbol})</div>
+                        </div>
+                    </div>
+                    <div class="fare-item">
+                        <span class="fare-label"><i class="fas fa-dollar-sign"></i> Base Fare</span>
+                        <span class="fare-value">${fares.currencySymbol}${fares.baseFare.min.toFixed(2)} - ${fares.currencySymbol}${fares.baseFare.max.toFixed(2)}</span>
+                    </div>
+                    <div class="fare-item">
+                        <span class="fare-label"><i class="fas fa-route"></i> Per Kilometer</span>
+                        <span class="fare-value">${fares.currencySymbol}${fares.perKm.min.toFixed(2)} - ${fares.currencySymbol}${fares.perKm.max.toFixed(2)}</span>
+                    </div>
+                    <div class="fare-item">
+                        <span class="fare-label"><i class="fas fa-clock"></i> Waiting Time</span>
+                        <span class="fare-value">${fares.currencySymbol}${fares.waitingTime.toFixed(2)}/min</span>
+                    </div>
+                    <div class="fare-item">
+                        <span class="fare-label"><i class="fas fa-moon"></i> Night Charge</span>
+                        <span class="fare-value">+${(fares.nightCharge * 100).toFixed(0)}%</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Test country selection
+        function testCountry(destination) {
+            localStorage.setItem('selectedDestination', destination);
+            localStorage.setItem('estimatedDistance', '10');
+            alert(`✅ Set destination to: ${destination}\n\nNow open the fares page to see the country-specific pricing!`);
+            console.log(`Selected: ${destination}`);
+        }
+
+        // Initialize
+        displayCountries();
+    </script>
+</body>
+</html>

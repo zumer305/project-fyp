@@ -6,49 +6,108 @@ const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 // const{validateListing}=require("../middleware.js");
 const express = require("express");
 const router = express.Router();
-const multer=require("multer");
-const {storage}=require("../cloudConfig.js");
-const upload=multer({storage});
+const multer = require("multer");
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
+const TravelPackage = require("../models/travelPackage.js");
 
-const listingController=require("../controllers/listings.js");
+const listingController = require("../controllers/listings.js");
 
-router.route("/")
-.get( wrapAsync(listingController.index))
-.post(
+// Coordinates for dataset-backed cities
+const datasetCoordinates = {
+  "Azerbaijan|Baku": { lat: 40.4093, lon: 49.8671, isCapital: true },
+  "Azerbaijan|Sheki": { lat: 41.1975, lon: 47.1706, isCapital: false },
+  "Azerbaijan|Gabala": { lat: 40.981, lon: 47.8457, isCapital: false },
+  "Kazakhstan|Astana": { lat: 51.1694, lon: 71.4491, isCapital: true },
+  "Kazakhstan|Almaty": { lat: 43.222, lon: 76.8512, isCapital: false },
+  "Kazakhstan|Shymkent": { lat: 42.3, lon: 69.6, isCapital: false },
+  "Kyrgyzstan|Bishkek": { lat: 42.8746, lon: 74.5698, isCapital: true },
+  "Kyrgyzstan|Osh": { lat: 40.5283, lon: 72.7985, isCapital: false },
+  "Kyrgyzstan|Karakol": { lat: 42.4907, lon: 78.3819, isCapital: false },
+  "Tajikistan|Dushanbe": { lat: 38.5598, lon: 68.7738, isCapital: true },
+  "Tajikistan|Khujand": { lat: 40.2828, lon: 69.62, isCapital: false },
+  "Tajikistan|Khorog": { lat: 37.4907, lon: 71.553, isCapital: false },
+  "Turkmenistan|Ashgabat": { lat: 37.9601, lon: 58.3261, isCapital: true },
+  "Turkmenistan|Turkmenbashi": { lat: 40.022, lon: 52.9552, isCapital: false },
+  "Turkmenistan|Mary": { lat: 37.6, lon: 61.8333, isCapital: false },
+  "Uzbekistan|Tashkent": { lat: 41.2995, lon: 69.2401, isCapital: true },
+  "Uzbekistan|Samarkand": { lat: 39.627, lon: 66.975, isCapital: false },
+  "Uzbekistan|Bukhara": { lat: 39.7747, lon: 64.4286, isCapital: false },
+};
 
+const parseDatasetLocations = () => {
+  // Deprecated: no file-based source; retained for fallback only
+  return [];
+};
+
+const getWeatherDatasetLocations = () => {
+  // Fallback only; primary source will be Mongo
+  return Object.entries(datasetCoordinates).map(([key, coords]) => {
+    const [country, city] = key.split("|");
+    return { country, city, ...coords };
+  });
+};
+
+router.route("/").get(wrapAsync(listingController.index)).post(
   isLoggedIn,
-  
+
   upload.single("listing[image]"),
   validateListing,
   wrapAsync(listingController.createListing)
 );
 
-
 //new route
-router.get("/new", isLoggedIn,listingController.renderNewForm);
+router.get("/new", isLoggedIn, listingController.renderNewForm);
 
-router.route("/:id")
-.get(
+// World time test page
+router.get("/worldtime", (req, res) => {
+  res.render("listings/worldtime");
+});
 
-  wrapAsync(listingController.showListing)
-)
-.put(
+// Eventbrite events page
+router.get("/eventbrite", (req, res) => {
+  res.render("listings/eventbrite");
+});
 
-  isLoggedIn,
-  isOwner,
-    
-  upload.single("listing[image]"),
-  validateListing,
-  wrapAsync(listingController.updateListing)
-)
-.delete(
-  
-  isLoggedIn,
-  isOwner,
-  wrapAsync(listingController.destroyListing)
+// Weather comparison page limited to dataset countries (Mongo-backed)
+router.get(
+  "/weather-comparison",
+  wrapAsync(async (req, res) => {
+    const packages = await TravelPackage.find({}, { country: 1, city: 1 }).lean();
+    const seen = new Set();
+    const datasetLocations = [];
+
+    packages.forEach((p) => {
+      const key = `${p.country}|${p.city}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      const coords = datasetCoordinates[key];
+      if (coords) {
+        datasetLocations.push({ country: p.country, city: p.city, ...coords });
+      }
+    });
+
+    // Fallback if no DB data
+    const finalLocations = datasetLocations.length
+      ? datasetLocations
+      : getWeatherDatasetLocations();
+
+    res.render("listings/weather-comparison", { datasetLocations: finalLocations });
+  })
 );
 
+router
+  .route("/:id")
+  .get(wrapAsync(listingController.showListing))
+  .put(
+    isLoggedIn,
+    isOwner,
 
+    upload.single("listing[image]"),
+    validateListing,
+    wrapAsync(listingController.updateListing)
+  )
+  .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing));
 
 // //index route
 // router.get("/", wrapAsync(listingController.index));

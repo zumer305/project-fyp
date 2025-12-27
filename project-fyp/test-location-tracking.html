@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Location Tracking Feature</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+      .section {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .step {
+        margin: 20px 0;
+        padding: 15px;
+        background: #f8f9fa;
+        border-left: 4px solid #007bff;
+        border-radius: 5px;
+      }
+      .step h3 {
+        margin-top: 0;
+        color: #007bff;
+      }
+      .feature-box {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        border-radius: 5px;
+        margin: 5px;
+        font-weight: bold;
+      }
+      .warning {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 15px 0;
+      }
+      .code {
+        background: #282c34;
+        color: #61dafb;
+        padding: 15px;
+        border-radius: 5px;
+        font-family: "Courier New", monospace;
+        overflow-x: auto;
+      }
+      .button-demo {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin: 10px;
+        font-weight: bold;
+        text-decoration: none;
+        color: white;
+      }
+      .btn-chat {
+        background: #007bff;
+      }
+      .btn-location {
+        background: #28a745;
+      }
+      ul {
+        line-height: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🗺️ Group Location Tracking Feature</h1>
+      <p>Real-time member location sharing for travel groups</p>
+    </div>
+
+    <div class="section">
+      <h2>✨ Features Overview</h2>
+      <div class="feature-box">📍 Real-time Location</div>
+      <div class="feature-box">🗺️ Interactive Map</div>
+      <div class="feature-box">👥 All Members</div>
+      <div class="feature-box">🔒 Privacy Control</div>
+      <div class="feature-box">🔄 Auto Refresh</div>
+      <div class="feature-box">📱 Mobile Friendly</div>
+    </div>
+
+    <div class="section">
+      <h2>🚀 Quick Start Guide</h2>
+
+      <div class="step">
+        <h3>Step 1: Navigate to Your Groups</h3>
+        <p>Go to: <code>http://localhost:8080/groups</code></p>
+        <p>You'll see all your groups with two buttons for each:</p>
+        <div>
+          <span class="button-demo btn-chat">💬 Open Chat</span>
+          <span class="button-demo btn-location">📍 See Location</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3>Step 2: Open Location Map</h3>
+        <p>
+          Click the <strong>"See Location"</strong> button on any group card
+        </p>
+        <p>
+          You'll be redirected to: <code>/groups/{groupId}/location-map</code>
+        </p>
+      </div>
+
+      <div class="step">
+        <h3>Step 3: Enable Location Sharing</h3>
+        <p>Click the <strong>"Enable Sharing"</strong> button</p>
+        <p>
+          Your browser will ask for location permission -
+          <strong>click "Allow"</strong>
+        </p>
+        <div class="warning">
+          ⚠️ <strong>Important:</strong> You must allow location access for this
+          feature to work!
+        </div>
+      </div>
+
+      <div class="step">
+        <h3>Step 4: View Member Locations</h3>
+        <p>Once sharing is enabled:</p>
+        <ul>
+          <li>Your location appears on the map with your initial</li>
+          <li>
+            Other members who share their location will appear as colored
+            markers
+          </li>
+          <li>Click any marker to see member details</li>
+          <li>
+            Use the member list below the map to focus on specific members
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🎨 Map Features</h2>
+      <ul>
+        <li>
+          <strong>Color-coded Markers:</strong> Each member has a unique color
+        </li>
+        <li>
+          <strong>Member Initials:</strong> Markers show the first letter of
+          usernames
+        </li>
+        <li>
+          <strong>Info Popups:</strong> Click markers to see coordinates and
+          last update time
+        </li>
+        <li>
+          <strong>Auto-fit Bounds:</strong> Map automatically zooms to show all
+          members
+        </li>
+        <li>
+          <strong>Navigation Controls:</strong> Zoom in/out, rotate, fullscreen
+        </li>
+        <li>
+          <strong>Refresh Button:</strong> Floating button (bottom-right) to
+          manually refresh
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>🔐 Privacy & Security</h2>
+      <div class="warning">
+        <strong>Your Privacy is Protected:</strong>
+        <ul>
+          <li>Location sharing is <strong>OFF by default</strong></li>
+          <li>You must manually enable sharing for each session</li>
+          <li>Only group members can see your location</li>
+          <li>Stop sharing anytime by clicking "Stop Sharing"</li>
+          <li>Location data is not stored permanently</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🧪 Testing Instructions</h2>
+
+      <div class="step">
+        <h3>Test with Multiple Users</h3>
+        <ol>
+          <li>Open your browser (Chrome recommended)</li>
+          <li>Login with first user account</li>
+          <li>Go to groups and enable location sharing</li>
+          <li>Open an <strong>Incognito/Private window</strong></li>
+          <li>Login with a different user (must be in the same group)</li>
+          <li>Enable location sharing on second account</li>
+          <li>Both users should see each other on the map!</li>
+        </ol>
+      </div>
+
+      <div class="step">
+        <h3>Test Location Simulation (For Testing)</h3>
+        <p><strong>Chrome DevTools Method:</strong></p>
+        <ol>
+          <li>Open Chrome DevTools (F12)</li>
+          <li>Press <code>Ctrl+Shift+P</code> (or Cmd+Shift+P on Mac)</li>
+          <li>Type "sensor" and select <strong>"Show Sensors"</strong></li>
+          <li>
+            In the Sensors tab, select a location or enter custom coordinates
+          </li>
+          <li>
+            Now enable location sharing - it will use the simulated location!
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📋 API Endpoints</h2>
+
+      <div class="code">
+        POST /api/groups/location/update Body: { "longitude": 74.3587,
+        "latitude": 31.5204, "sharingEnabled": true } GET
+        /api/groups/:groupId/locations Returns: { "success": true, "locations":
+        [ { "userId": "...", "username": "zumer", "coordinates": [74.3587,
+        31.5204], "lastUpdated": "2025-12-16T..." } ] }
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🐛 Troubleshooting</h2>
+
+      <div class="step">
+        <h3>Location Permission Denied</h3>
+        <p><strong>Solution:</strong></p>
+        <ul>
+          <li>Click the lock icon in browser address bar</li>
+          <li>Change Location permission to "Allow"</li>
+          <li>Refresh the page and try again</li>
+        </ul>
+      </div>
+
+      <div class="step">
+        <h3>Map Not Loading</h3>
+        <p><strong>Check:</strong></p>
+        <ul>
+          <li>Internet connection (Mapbox requires online access)</li>
+          <li>Browser console for any errors (F12)</li>
+          <li>Mapbox access token is valid</li>
+        </ul>
+      </div>
+
+      <div class="step">
+        <h3>Locations Not Showing</h3>
+        <p><strong>Verify:</strong></p>
+        <ul>
+          <li>You are a member of the group</li>
+          <li>Other members have enabled location sharing</li>
+          <li>Try clicking the refresh button</li>
+          <li>Check browser console for errors</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🎯 Use Cases</h2>
+      <ul>
+        <li>
+          <strong>Airport Meetups:</strong> Find group members at large airports
+        </li>
+        <li>
+          <strong>City Tours:</strong> Track group during city exploration
+        </li>
+        <li>
+          <strong>Hiking Trips:</strong> Ensure no one gets lost on trails
+        </li>
+        <li><strong>Festival Groups:</strong> Meet up in crowded events</li>
+        <li>
+          <strong>Emergency Situations:</strong> Quickly locate all members
+        </li>
+      </ul>
+    </div>
+
+    <div
+      class="section"
+      style="
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      "
+    >
+      <h2>🎉 Ready to Test!</h2>
+      <p style="font-size: 18px">
+        Your location tracking feature is now live and ready to use!
+      </p>
+      <p>
+        Navigate to <strong>http://localhost:8080/groups</strong> to get
+        started.
+      </p>
+    </div>
+
+    <script>
+      // Add some interactivity
+      document.querySelectorAll(".step").forEach((step) => {
+        step.addEventListener("click", function () {
+          this.style.transform = "scale(1.02)";
+          setTimeout(() => {
+            this.style.transform = "scale(1)";
+          }, 200);
+        });
+        step.style.transition = "transform 0.2s";
+      });
+    </script>
+  </body>
+</html>

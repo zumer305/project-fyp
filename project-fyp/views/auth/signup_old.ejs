@@ -1,0 +1,263 @@
+<% layout("/layouts/boiler")%>
+
+<style>
+  .auth-page-wrapper {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, #0A2540 0%, #1A5490 50%, #2E7DD2 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .auth-page-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(107, 207, 127, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -300px;
+    right: -200px;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .auth-page-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 215, 61, 0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -250px;
+    left: -150px;
+    animation: float 8s ease-in-out infinite reverse;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-30px); }
+  }
+
+  .auth-card {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    padding: 3rem;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: slideUp 0.6s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .auth-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .auth-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #2E7DD2 0%, #6BCF7F 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(46, 125, 210, 0.3);
+  }
+
+  .auth-icon i {
+    font-size: 2rem;
+    color: white;
+  }
+
+  .auth-header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #0A2540;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-display);
+  }
+
+  .auth-header p {
+    color: #718096;
+    font-size: 1rem;
+  }
+
+  .auth-form .form-label {
+    font-weight: 600;
+    color: #2D3748;
+    font-size: 0.9375rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .auth-form .form-control {
+    padding: 0.875rem 1rem;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #F7FAFC;
+  }
+
+  .auth-form .form-control:focus {
+    background: white;
+    border-color: #2E7DD2;
+    box-shadow: 0 0 0 4px rgba(46, 125, 210, 0.1);
+  }
+
+  .auth-form .form-control::placeholder {
+    color: #A0AEC0;
+  }
+
+  .auth-submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #2E7DD2 0%, #4A90E2 100%);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    font-size: 1.0625rem;
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(46, 125, 210, 0.3);
+  }
+
+  .auth-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(46, 125, 210, 0.4);
+    background: linear-gradient(135deg, #1A5490 0%, #2E7DD2 100%);
+  }
+
+  .auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #E2E8F0;
+    color: #718096;
+  }
+
+  .auth-footer a {
+    color: #2E7DD2;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .auth-footer a:hover {
+    color: #1A5490;
+  }
+
+  .input-icon {
+    position: relative;
+  }
+
+  .input-icon i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #A0AEC0;
+    font-size: 1.125rem;
+  }
+
+  .input-icon .form-control {
+    padding-left: 3rem;
+  }
+
+  @media (max-width: 576px) {
+    .auth-card {
+      padding: 2rem 1.5rem;
+    }
+    .auth-header h1 {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<div class="auth-page-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-icon">
+        <i class="fas fa-user-plus"></i>
+      </div>
+      <h1>Create Account</h1>
+      <p>Join AI Destination Explorer today</p>
+    </div>
+
+    <form action="/signup" method="POST" autocomplete="off" class="auth-form needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <div class="input-icon">
+          <i class="fas fa-user"></i>
+          <input
+            name="username"
+            id="username"
+            type="text"
+            class="form-control"
+            placeholder="Choose a username"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-icon">
+          <i class="fas fa-envelope"></i>
+          <input
+            name="email"
+            id="email"
+            type="email"
+            class="form-control"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-icon">
+          <i class="fas fa-lock"></i>
+          <input
+            name="password"
+            id="password"
+            type="password"
+            class="form-control"
+            placeholder="Create a strong password"
+            autocomplete="new-password"
+            required
+          />
+        </div>
+      </div>
+
+      <button type="submit" class="auth-submit-btn">
+        <i class="fas fa-user-plus me-2"></i> Create Account
+      </button>
+
+      <div class="auth-footer">
+        Already have an account? 
+        <a href="/login">Sign In</a>
+      </div>
+    </form>
+  </div>
+</div>

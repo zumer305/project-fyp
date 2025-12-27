@@ -1,0 +1,611 @@
+<% layout("/layouts/boiler") -%>
+
+<link rel="stylesheet" href="/css/groups.css?v=5" />
+
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <h1 class="display-4 text-center mb-4">
+        <i class="fas fa-users"></i> Group Travel Planner
+      </h1>
+      <p class="lead text-center text-muted">
+        Plan your trips together with friends and family
+      </p>
+    </div>
+  </div>
+
+  <!-- Action Cards -->
+  <div class="row mb-5">
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fas fa-user-plus fa-3x text-primary"></i>
+          </div>
+          <h5 class="card-title">Create Group</h5>
+          <p class="card-text text-muted">
+            Start a new travel group and invite friends via email or code.
+          </p>
+          <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#createGroupModal"
+          >
+            <i class="fas fa-plus"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fas fa-link fa-3x text-success"></i>
+          </div>
+          <h5 class="card-title">Join Group</h5>
+          <p class="card-text text-muted">
+            Join a group using an invite code from your friends.
+          </p>
+          <button
+            class="btn btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#joinGroupModal"
+          >
+            <i class="fas fa-sign-in-alt"></i> Join
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fas fa-comments fa-3x text-info"></i>
+          </div>
+          <h5 class="card-title">Group Chat</h5>
+          <p class="card-text text-muted">
+            Chat with your group members in real-time.
+          </p>
+          <button class="btn btn-info text-white" onclick="scrollToGroups()">
+            <i class="fas fa-arrow-down"></i> View Groups
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Groups Section -->
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="mb-3" id="myGroups"><i class="fas fa-users"></i> My Groups</h2>
+      <div id="groupsList" class="row">
+        <div class="col-12 text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2 text-muted">Loading your groups...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Group Modal -->
+<div
+  class="modal fade"
+  id="createGroupModal"
+  tabindex="-1"
+  aria-labelledby="createGroupModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createGroupModalLabel">
+          <i class="fas fa-plus-circle"></i> Create New Group
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="createGroupForm">
+          <div class="mb-3">
+            <label for="groupName" class="form-label">Group Name *</label>
+            <input
+              type="text"
+              class="form-control"
+              id="groupName"
+              name="name"
+              required
+              maxlength="100"
+              placeholder="e.g., Summer Trip to Paris"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="groupDescription" class="form-label">Description</label>
+            <textarea
+              class="form-control"
+              id="groupDescription"
+              name="description"
+              rows="3"
+              maxlength="500"
+              placeholder="Brief description of your trip..."
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="groupDestination" class="form-label">Destination</label>
+            <input
+              type="text"
+              class="form-control"
+              id="groupDestination"
+              name="destination"
+              placeholder="e.g., Paris, France"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="startDate" class="form-label">Start Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="startDate"
+                name="startDate"
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="endDate" class="form-label">End Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="endDate"
+                name="endDate"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="budgetAmount" class="form-label">Budget</label>
+              <input
+                type="number"
+                class="form-control"
+                id="budgetAmount"
+                name="budgetAmount"
+                min="0"
+                placeholder="1000"
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="budgetCurrency" class="form-label">Currency</label>
+              <select
+                class="form-select"
+                id="budgetCurrency"
+                name="budgetCurrency"
+              >
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="PKR">PKR</option>
+                <option value="INR">INR</option>
+              </select>
+            </div>
+          </div>
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> An invite code will be generated
+            automatically
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" onclick="createGroup()">
+          <i class="fas fa-check"></i> Create Group
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Join Group Modal -->
+<div
+  class="modal fade"
+  id="joinGroupModal"
+  tabindex="-1"
+  aria-labelledby="joinGroupModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="joinGroupModalLabel">
+          <i class="fas fa-sign-in-alt"></i> Join Group
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="joinGroupForm">
+          <div class="mb-3">
+            <label for="inviteCode" class="form-label">Invite Code *</label>
+            <input
+              type="text"
+              class="form-control form-control-lg text-center"
+              id="inviteCode"
+              name="inviteCode"
+              required
+              maxlength="8"
+              placeholder="ABCD1234"
+              style="letter-spacing: 0.2em; text-transform: uppercase"
+            />
+            <div class="form-text">
+              Enter the 8-character code shared by your friend
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-success" onclick="joinGroup()">
+          <i class="fas fa-check"></i> Join Group
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div
+  class="modal fade"
+  id="successModal"
+  tabindex="-1"
+  aria-labelledby="successModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="successModalLabel">
+          <i class="fas fa-check-circle"></i> Success!
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" id="successMessage"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .group-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+  .group-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .invite-code {
+    font-family: "Courier New", monospace;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    background: #f8f9fa;
+    padding: 8px 16px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .member-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #007bff;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+</style>
+
+<script>
+  console.log("✅ Groups page loaded - Version 2.0");
+  let userGroups = [];
+
+  // Load groups on page load
+  document.addEventListener("DOMContentLoaded", function () {
+    loadGroups();
+  });
+
+  // Load user's groups
+  async function loadGroups() {
+    try {
+      const response = await fetch("/api/groups", {
+        credentials: "include", // Use session cookies
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to load groups");
+      }
+
+      const data = await response.json();
+      userGroups = data.groups || [];
+      displayGroups();
+    } catch (error) {
+      console.error("Error loading groups:", error);
+      document.getElementById("groupsList").innerHTML = `
+      <div class="col-12 text-center py-5">
+        <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+        <h5>Unable to load groups</h5>
+        <p class="text-muted">${error.message}</p>
+        <button class="btn btn-primary" onclick="loadGroups()">Retry</button>
+      </div>
+    `;
+    }
+  }
+
+  // Display groups
+  function displayGroups() {
+    const groupsList = document.getElementById("groupsList");
+
+    if (userGroups.length === 0) {
+      groupsList.innerHTML = `
+      <div class="col-12 text-center py-5">
+        <i class="fas fa-users fa-3x text-muted mb-3"></i>
+        <h5>No groups yet</h5>
+        <p class="text-muted">Create a new group or join an existing one to get started</p>
+      </div>
+    `;
+      return;
+    }
+
+    groupsList.innerHTML = userGroups
+      .map(
+        (group) => `
+    <div class="col-md-6 col-lg-6 mb-4">
+      <div class="card group-card shadow-sm h-100" onclick="openGroupChat('${
+        group._id
+      }')">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <h5 class="card-title mb-0">
+              <i class="fas fa-users text-primary"></i> ${escapeHtml(
+                group.name
+              )}
+            </h5>
+            ${
+              group.creator._id === "${group.creator._id}"
+                ? '<span class="badge bg-primary">Creator</span>'
+                : ""
+            }
+          </div>
+          
+          ${
+            group.description
+              ? `<p class="card-text text-muted small">${escapeHtml(
+                  group.description
+                )}</p>`
+              : ""
+          }
+          
+          ${
+            group.destination
+              ? `
+            <div class="mb-2">
+              <i class="fas fa-map-marker-alt text-danger"></i>
+              <small>${escapeHtml(group.destination)}</small>
+            </div>
+          `
+              : ""
+          }
+          
+          <div class="mb-2">
+            <i class="fas fa-users"></i>
+            <small>${group.members.length} member${
+          group.members.length !== 1 ? "s" : ""
+        }</small>
+          </div>
+          
+          <div class="mt-2 pt-2 border-top">
+            <small class="text-muted">Invite Code:</small>
+            <div class="invite-code">${group.inviteCode}</div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <div class="row g-2">
+            <div class="col-6">
+              <button class="btn btn-sm btn-primary w-100" onclick="event.stopPropagation(); openGroupChat('${
+                group._id
+              }')">
+                <i class="fas fa-comment"></i> Open Chat
+              </button>
+            </div>
+            <div class="col-6">
+              <button class="btn btn-sm btn-success w-100" onclick="event.stopPropagation(); openLocationMap('${
+                group._id
+              }')">
+                <i class="fas fa-map-marker-alt"></i> See Location
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+      )
+      .join("");
+  }
+
+  // Create group
+  async function createGroup() {
+    const form = document.getElementById("createGroupForm");
+    const formData = new FormData(form);
+
+    const groupData = {
+      name: formData.get("name"),
+      description: formData.get("description"),
+      destination: formData.get("destination"),
+      startDate: formData.get("startDate"),
+      endDate: formData.get("endDate"),
+      budget: {
+        amount: formData.get("budgetAmount"),
+        currency: formData.get("budgetCurrency"),
+      },
+    };
+
+    try {
+      const response = await fetch("/api/groups", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Use session cookies
+        body: JSON.stringify(groupData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to create group");
+      }
+
+      // Close create modal
+      const createModal = bootstrap.Modal.getInstance(
+        document.getElementById("createGroupModal")
+      );
+      createModal.hide();
+
+      // Show success modal
+      document.getElementById("successMessage").innerHTML = `
+      <div class="text-center">
+        <h5>Group created successfully!</h5>
+        <p>Share this invite code with your friends:</p>
+        <div class="invite-code mb-3">${data.inviteCode}</div>
+        <button class="btn btn-sm btn-outline-primary" onclick="copyInviteCode('${data.inviteCode}')">
+          <i class="fas fa-copy"></i> Copy Code
+        </button>
+      </div>
+    `;
+      const successModal = new bootstrap.Modal(
+        document.getElementById("successModal")
+      );
+      successModal.show();
+
+      // Reset form and reload groups
+      form.reset();
+      loadGroups();
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  }
+
+  // Join group
+  async function joinGroup() {
+    const inviteCode = document
+      .getElementById("inviteCode")
+      .value.trim()
+      .toUpperCase();
+
+    if (!inviteCode) {
+      alert("Please enter an invite code");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/groups/join-code", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Use session cookies
+        body: JSON.stringify({ inviteCode }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to join group");
+      }
+
+      // Close join modal
+      const joinModal = bootstrap.Modal.getInstance(
+        document.getElementById("joinGroupModal")
+      );
+      joinModal.hide();
+
+      // Show success
+      document.getElementById("successMessage").innerHTML = `
+      <h5>Successfully joined "${escapeHtml(data.group.name)}"!</h5>
+      <p>You can now chat with your group members and plan your trip together.</p>
+    `;
+      const successModal = new bootstrap.Modal(
+        document.getElementById("successModal")
+      );
+      successModal.show();
+
+      // Reset form and reload groups
+      document.getElementById("joinGroupForm").reset();
+      loadGroups();
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  }
+
+  // Open group chat
+  function openGroupChat(groupId) {
+    window.location.href = `/groups/${groupId}/chat`;
+  }
+
+  // Open location map
+  function openLocationMap(groupId) {
+    window.location.href = `/groups/${groupId}/location-map`;
+  }
+
+  // Copy invite code
+  function copyInviteCode(code) {
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = event.target.closest("button");
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      setTimeout(() => {
+        btn.innerHTML = originalHtml;
+      }, 2000);
+    });
+  }
+
+  // Scroll to groups section
+  function scrollToGroups() {
+    document.getElementById("myGroups").scrollIntoView({ behavior: "smooth" });
+  }
+
+  // Utility function to escape HTML
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+</script>

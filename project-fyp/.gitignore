@@ -1,0 +1,30 @@
+node_modules/
+.env
+.DS_Store
+mongodb_backup/
+mongodb_export/
+*.log
+npm-debug.log*
+.vscode/
+.idea/
+
+# Python virtual environments
+venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+
+# AI chatbot - don't upload large ML models
+ai_travel_chatbot_rag/backend/venv/
+ai_travel_chatbot_rag/new_frontend/chatflow-react-main/node_modules/
+
+# Large model files
+*.dll
+*.so
+*.dylib
+*.npy
+*.npz
+*.bin
+*.pth
+*.pt

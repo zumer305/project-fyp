@@ -1,0 +1,188 @@
+<% layout('/layouts/boiler') %>
+<%
+  const pkg = datasetExpense;
+  const hasBooking = !!latestBooking;
+  const pd = (latestBooking && latestBooking.packageDetails) || {};
+  const city = pd.destination || pd.city || (pkg && pkg.city);
+  const country = pd.country || pd.destination || (pkg && pkg.country);
+  const pkgType = (pkg && pkg.packageType) || null;
+  const duration = (pkg && pkg.duration) || pd.duration || pd.days || null;
+  const formatPKR = (val) =>
+    typeof val === 'number'
+      ? `Rs ${val.toLocaleString('en-PK', { maximumFractionDigits: 0 })}`
+      : 'Rs 0';
+%>
+
+<style>
+  .expense-hero {
+    margin: 30px 0 20px;
+    padding: 28px;
+    border-radius: 18px;
+    background: linear-gradient(120deg, #eef3ff 0%, #f8f4ff 100%);
+    border: 1px solid #e1e8ff;
+    box-shadow: 0 16px 40px rgba(64, 87, 255, 0.08);
+  }
+  .expense-hero h1 {
+    margin: 0 0 8px;
+    color: #1f3b8f;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+  }
+  .expense-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    color: #43506b;
+    font-weight: 600;
+  }
+  .expense-pill {
+    padding: 8px 14px;
+    background: #fff;
+    border-radius: 999px;
+    border: 1px solid #e3e9ff;
+    box-shadow: 0 6px 18px rgba(31, 111, 235, 0.08);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .expense-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    margin: 20px 0 10px;
+  }
+  .expense-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #e6ecf9;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+    padding: 18px;
+  }
+  .expense-card h3 {
+    margin: 0 0 12px;
+    color: #243b69;
+    font-weight: 700;
+  }
+  .expense-breakdown {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .expense-breakdown th,
+  .expense-breakdown td {
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 1px solid #eef1f7;
+    font-size: 14px;
+    color: #33415c;
+  }
+  .expense-breakdown th {
+    font-weight: 700;
+    color: #1f3b8f;
+  }
+  .expense-total {
+    font-weight: 800;
+    color: #1f3b8f;
+  }
+  .dataset-note {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #5b6b88;
+  }
+  .empty-state {
+    background: #fff;
+    border: 1px dashed #cbd5f5;
+    border-radius: 14px;
+    padding: 28px;
+    text-align: center;
+    color: #4a5674;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    color: #1f6feb;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="expense-hero">
+  <h1>💸 Expense Details</h1>
+  <div class="expense-meta">
+    <span class="expense-pill">📍 <%= [city, country].filter(Boolean).join(', ') || 'No destination set' %></span>
+    <% if (pkgType) { %>
+      <span class="expense-pill">🏷️ <%= pkgType %> Package</span>
+    <% } %>
+    <% if (duration) { %>
+      <span class="expense-pill">🕒 <%= duration %></span>
+    <% } %>
+    <% if (latestBooking && latestBooking.bookingReference) { %>
+      <span class="expense-pill">📄 Ref: <%= latestBooking.bookingReference %></span>
+    <% } %>
+  </div>
+</div>
+
+<% if (!hasBooking) { %>
+  <div class="empty-state">
+    <p>No bookings found. Book a package to see its expense breakdown.</p>
+    <a class="back-link" href="/">← Back to Home</a>
+  </div>
+<% } else if (!pkg) { %>
+  <div class="empty-state">
+    <p>We couldn't locate this package in the dataset. Please ensure the package country and city exist in the packages file.</p>
+    <a class="back-link" href="/">← Back to Home</a>
+  </div>
+<% } else { %>
+  <div class="expense-grid">
+    <div class="expense-card">
+      <h3>Booking Summary</h3>
+      <p><strong>Traveler:</strong> <%= pd?.fullName || pd?.name || (latestBooking.contactInfo && latestBooking.contactInfo.fullName) || 'N/A' %></p>
+      <% if (latestBooking.travelDates) { %>
+        <p><strong>Dates:</strong> <%= new Date(latestBooking.travelDates.startDate).toDateString() %> → <%= new Date(latestBooking.travelDates.endDate).toDateString() %></p>
+      <% } %>
+      <p><strong>Guests:</strong> <%= (latestBooking.travelers && (latestBooking.travelers.adults + (latestBooking.travelers.children || 0))) || 'N/A' %></p>
+      <p><strong>Status:</strong> <%= latestBooking.status %></p>
+    </div>
+    <div class="expense-card">
+      <h3>Package From Dataset</h3>
+      <p><strong>Country:</strong> <%= pkg.country %></p>
+      <p><strong>City:</strong> <%= pkg.city %></p>
+      <p><strong>Type:</strong> <%= pkg.packageType %></p>
+      <p><strong>Duration:</strong> <%= pkg.duration %></p>
+      <p><strong>Total (PKR):</strong> <%= formatPKR(pkg.total) %></p>
+      <div class="dataset-note">Sourced from database (imported packages)</div>
+    </div>
+  </div>
+
+  <div class="expense-card" style="margin-top:18px;">
+    <h3>Expense Breakdown (PKR)</h3>
+    <table class="expense-breakdown">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Flights</td><td><%= formatPKR(pkg.flights) %></td></tr>
+        <tr><td>Hotel</td><td><%= formatPKR(pkg.hotel) %></td></tr>
+        <tr><td>Food</td><td><%= formatPKR(pkg.food) %></td></tr>
+        <tr><td>Transport</td><td><%= formatPKR(pkg.transport) %></td></tr>
+        <tr><td>Attractions</td><td><%= formatPKR(pkg.attractions) %></td></tr>
+        <tr><td>Shopping</td><td><%= formatPKR(pkg.shopping) %></td></tr>
+        <tr><td>Misc & Insurance</td><td><%= formatPKR(pkg.misc) %></td></tr>
+        <tr>
+          <td class="expense-total">Total</td>
+          <td class="expense-total"><%= formatPKR(pkg.total) %></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="dataset-note">All amounts are in PKR as stored in the database.</div>
+  </div>
+<% } %>
+
+<a class="back-link" href="/">← Back to Home</a>

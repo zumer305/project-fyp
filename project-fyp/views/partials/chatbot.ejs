@@ -1,0 +1,49 @@
+<!-- AI Travel Chatbot Widget -->
+<div id="chatbot-widget">
+  <!-- Chatbot Toggle Button -->
+  <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Open Chatbot">
+    <i class="fas fa-comment-dots"></i>
+  </button>
+
+  <!-- Chatbot Window -->
+  <div id="chatbot-window" class="chatbot-window">
+    <!-- Header -->
+    <div class="chatbot-header">
+      <div class="chatbot-header-content">
+        <i class="fas fa-robot"></i>
+        <span>Travel Assistant</span>
+      </div>
+      <button id="chatbot-close" class="chatbot-close-btn" aria-label="Close Chatbot">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Messages Container -->
+    <div id="chatbot-messages" class="chatbot-messages">
+      <div class="chatbot-message bot-message">
+        <div class="message-content">
+          <i class="fas fa-robot message-icon"></i>
+          <div class="message-text">
+            Hello! I'm your Central Asia travel assistant. Ask me anything about destinations, travel packages, or planning your trip!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="chatbot-input-container">
+      <form id="chatbot-form">
+        <input
+          type="text"
+          id="chatbot-input"
+          class="chatbot-input"
+          placeholder="Ask me about Central Asia travel..."
+          autocomplete="off"
+        />
+        <button type="submit" class="chatbot-send-btn" aria-label="Send Message">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

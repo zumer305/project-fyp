@@ -1,0 +1,115 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <i class="fa-solid fa-compass me-2"></i>
+      <span class="brand-text">AI Destination Explorer</span>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-3">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/listings">All Listings</a>
+        <a class="nav-link" href="/listings/new">Add Listing</a>
+        <a class="nav-link" href="/packages">Packages</a>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <!-- Currency Selector -->
+        <div class="nav-item dropdown me-3">
+          <select
+            id="navbar-currency-select"
+            class="form-select form-select-sm"
+            style="
+              min-width: 180px;
+              border: 2px solid #667eea;
+              border-radius: 8px;
+              padding: 6px 12px;
+              font-weight: 600;
+              background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+            "
+          >
+            <option value="USD">💵 USD - US Dollar</option>
+            <option value="EUR">💶 EUR - Euro</option>
+            <option value="GBP">💷 GBP - British Pound</option>
+            <option value="AED">🇦🇪 AED - UAE Dirham</option>
+            <option value="AFN">🇦🇫 AFN - Afghan Afghani</option>
+            <option value="ALL">🇦🇱 ALL - Albanian Lek</option>
+            <option value="AMD">🇦🇲 AMD - Armenian Dram</option>
+            <option value="ARS">🇦🇷 ARS - Argentine Peso</option>
+            <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+            <option value="AZN">🇦🇿 AZN - Azerbaijani Manat</option>
+            <option value="BAM">🇧🇦 BAM - Bosnia Convertible Mark</option>
+            <option value="BDT">🇧🇩 BDT - Bangladeshi Taka</option>
+            <option value="BGN">🇧🇬 BGN - Bulgarian Lev</option>
+            <option value="BHD">🇧🇭 BHD - Bahraini Dinar</option>
+            <option value="BRL">🇧🇷 BRL - Brazilian Real</option>
+            <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+            <option value="CHF">🇨🇭 CHF - Swiss Franc</option>
+            <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+            <option value="CZK">🇨🇿 CZK - Czech Koruna</option>
+            <option value="DKK">�🇰 DKK - Danish Krone</option>
+            <option value="EGP">🇪🇬 EGP - Egyptian Pound</option>
+            <option value="GEL">🇬🇪 GEL - Georgian Lari</option>
+            <option value="HKD">🇭🇰 HKD - Hong Kong Dollar</option>
+            <option value="HUF">🇭🇺 HUF - Hungarian Forint</option>
+            <option value="IDR">🇮🇩 IDR - Indonesian Rupiah</option>
+            <option value="ILS">🇮🇱 ILS - Israeli Shekel</option>
+            <option value="INR">🇮🇳 INR - Indian Rupee</option>
+            <option value="IQD">🇮🇶 IQD - Iraqi Dinar</option>
+            <option value="IRR">🇮🇷 IRR - Iranian Rial</option>
+            <option value="JOD">🇯🇴 JOD - Jordanian Dinar</option>
+            <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+            <option value="KGS">🇰🇬 KGS - Kyrgyzstani Som</option>
+            <option value="KRW">🇰🇷 KRW - South Korean Won</option>
+            <option value="KWD">🇰🇼 KWD - Kuwaiti Dinar</option>
+            <option value="KZT">�🇿 KZT - Kazakhstani Tenge</option>
+            <option value="LBP">🇱🇧 LBP - Lebanese Pound</option>
+            <option value="LKR">🇱🇰 LKR - Sri Lankan Rupee</option>
+            <option value="MAD">🇲🇦 MAD - Moroccan Dirham</option>
+            <option value="MXN">🇲🇽 MXN - Mexican Peso</option>
+            <option value="MYR">🇲🇾 MYR - Malaysian Ringgit</option>
+            <option value="NGN">🇳🇬 NGN - Nigerian Naira</option>
+            <option value="NOK">🇳🇴 NOK - Norwegian Krone</option>
+            <option value="NPR">🇳🇵 NPR - Nepalese Rupee</option>
+            <option value="NZD">�🇿 NZD - New Zealand Dollar</option>
+            <option value="OMR">🇴🇲 OMR - Omani Rial</option>
+            <option value="PHP">🇵🇭 PHP - Philippine Peso</option>
+            <option value="PKR">🇵🇰 PKR - Pakistani Rupee</option>
+            <option value="PLN">🇵🇱 PLN - Polish Zloty</option>
+            <option value="QAR">🇶🇦 QAR - Qatari Riyal</option>
+            <option value="RON">🇷🇴 RON - Romanian Leu</option>
+            <option value="RUB">🇷🇺 RUB - Russian Ruble</option>
+            <option value="SAR">🇸🇦 SAR - Saudi Riyal</option>
+            <option value="SEK">🇸🇪 SEK - Swedish Krona</option>
+            <option value="SGD">🇸🇬 SGD - Singapore Dollar</option>
+            <option value="SYP">🇸🇾 SYP - Syrian Pound</option>
+            <option value="THB">🇹🇭 THB - Thai Baht</option>
+            <option value="TJS">🇹🇯 TJS - Tajikistani Somoni</option>
+            <option value="TMT">🇹🇲 TMT - Turkmen Manat</option>
+            <option value="TRY">🇹🇷 TRY - Turkish Lira</option>
+            <option value="TWD">🇹🇼 TWD - Taiwan Dollar</option>
+            <option value="UAH">🇺🇦 UAH - Ukrainian Hryvnia</option>
+            <option value="UZS">�� UZS - Uzbek Som</option>
+            <option value="VND">🇻🇳 VND - Vietnamese Dong</option>
+            <option value="YER">�🇪 YER - Yemeni Rial</option>
+            <option value="ZAR">�🇦 ZAR - South African Rand</option>
+          </select>
+        </div>
+
+        <%if(!currUser){%>
+        <a class="nav-link" href="/signup">Signup</a>
+        <a class="nav-link" href="/login">Login</a>
+        <%}%> <%if(currUser){%>
+        <a class="nav-link" href="/logout">Logout</a>
+        <%}%>
+      </div>
+    </div>
+  </div>
+</nav>

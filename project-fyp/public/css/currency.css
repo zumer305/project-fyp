@@ -1,0 +1,233 @@
+/* Currency Converter Widget Styles */
+
+.currency-converter-container {
+  margin: 20px 0;
+}
+
+.currency-widget {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.15);
+  margin-bottom: 20px;
+}
+
+.currency-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.currency-selector label {
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.currency-selector label i {
+  font-size: 1.2rem;
+  color: #ffd700;
+}
+
+.currency-select {
+  flex: 1;
+  padding: 10px 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  max-width: 350px;
+}
+
+.currency-select:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: white;
+}
+
+.currency-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(56,189,248,0.12);
+}
+
+/* Currency display elements */
+[data-price],
+[data-currency-amount] {
+  font-weight: 600;
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+
+[data-price]:hover,
+[data-currency-amount]:hover {
+  color: var(--primary-dark);
+  transform: scale(1.05);
+}
+
+/* Inline currency converter */
+.inline-converter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f0f9ff;
+  border-radius: 6px;
+  border: 1px solid #bae6fd;
+}
+
+.inline-converter input {
+  width: 100px;
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.inline-converter select {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: white;
+}
+
+.inline-converter .convert-btn {
+  padding: 6px 12px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.inline-converter .convert-btn:hover {
+  background: var(--primary-dark);
+}
+
+.inline-converter .result {
+  font-weight: 700;
+  color: #059669;
+  padding: 4px 8px;
+  background: #d1fae5;
+  border-radius: 4px;
+}
+
+/* Loading state */
+.currency-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.currency-loading::after {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  border: 2px solid #2563eb;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .currency-selector {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .currency-select {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .inline-converter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .inline-converter input,
+  .inline-converter select {
+    width: 100%;
+  }
+}
+
+/* Currency comparison table */
+.currency-comparison {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.currency-comparison h4 {
+  color: #1e40af;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.currency-comparison table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.currency-comparison th,
+.currency-comparison td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.currency-comparison th {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+}
+
+.currency-comparison tr:hover {
+  background: #f9fafb;
+}
+
+.currency-comparison .rate {
+  font-weight: 600;
+  color: #059669;
+}
+
+/* Currency badge */
+.currency-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.currency-badge i {
+  font-size: 0.9rem;
+}

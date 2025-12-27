@@ -31,11 +31,12 @@
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    transition: none;
   }
 
   .package-card:hover {
-    transform: translateY(-5px);
+    transform: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   }
 
   .package-header {
@@ -57,6 +58,12 @@
     padding: 10px 20px;
     border-radius: 25px;
     display: inline-block;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .price-display {
+    color: #fff;
   }
 
   .package-body {
@@ -281,130 +288,280 @@
   </div>
 
   <div class="budget-info">
-    <h3>💰 Your Budget: $<%= budget.toLocaleString() %></h3>
-    <p>
-      Budget Category:
-      <strong
-        ><%= budgetCategory === 'budget20k' ? 'Premium Range ($15,000+)' :
-        'Economy Range ($10,000-$14,999)' %></strong
-      >
+    <% const currencySymbols = { USD: '$', EUR: '€', GBP: '£', JPY: '¥', AUD:
+    'A$', CAD: 'C$', CNY: '¥', INR: '₹', PKR: '₨', SAR: '﷼', AED: 'د.إ', TRY:
+    '₺', KZT: '₸', UZS: 'soʻm', KGS: 'с', TJS: 'сом', TMT: 'm', AZN: '₼' };
+    const symbol = currencySymbols[currency] || (currency ? currency + ' ' :
+    '$'); const formattedBudget = symbol + (budget ?
+    parseFloat(budget).toLocaleString() : '0'); const budgetUSDValue = budgetUSD
+    ? parseFloat(budgetUSD).toLocaleString() : '0'; %>
+    <h3>💰 Your Budget: <strong><%= formattedBudget %></strong></h3>
+    <p style="font-size: 0.9rem; color: #6c757d; margin-top: 8px">
+      Budget in USD:
+      <strong>$<%= budgetUSDValue %></strong> | Your currency:
+      <strong><%= currency || 'USD' %></strong>
     </p>
   </div>
 
-  <% if (packagesList.length > 0) { %>
-  <h2 class="text-center mb-4">📦 Available Packages</h2>
-
-  <% packagesList.forEach(package => { %>
-  <div class="package-card">
-    <div class="package-header">
-      <div class="package-title">
-        <%= package.name %>
-        <span class="duration-badge"><%= package.duration %></span>
-      </div>
-      <div class="package-price">$<%= package.price.toLocaleString() %></div>
-    </div>
-
-    <div class="package-body">
-      <% if (package.weather) { %>
-      <div class="weather-info">
-        <strong>🌤️ Current Weather:</strong> <%= package.weather.current %> |
-        <strong>Forecast:</strong> <%= package.weather.forecast %>
-      </div>
-      <% } %>
-
-      <div class="features-grid">
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🏨</span>
-            Accommodation
-          </div>
-          <p><%= package.hotel %></p>
-        </div>
-
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🍽️</span>
-            Food & Dining
-          </div>
-          <p><%= package.food %></p>
-        </div>
-
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🚗</span>
-            Transportation
-          </div>
-          <p><%= package.transport %></p>
-        </div>
-
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🎯</span>
-            Must-Visit Attractions
-          </div>
-          <ul class="feature-list">
-            <% package.attractions.forEach(attraction => { %>
-            <li><%= attraction %></li>
-            <% }) %>
-          </ul>
-        </div>
-
-        <div class="feature-section">
-          <div class="feature-title">
-            <span class="feature-icon">🛍️</span>
-            Shopping Destinations
-          </div>
-          <ul class="feature-list">
-            <% package.shopping.forEach(shop => { %>
-            <li><%= shop %></li>
-            <% }) %>
-          </ul>
-        </div>
-      </div>
-
-      <% if (package.muslimFeatures) { %>
-      <div class="muslim-features">
-        <h4>🕌 Muslim-Friendly Features</h4>
-        <ul class="feature-list">
-          <% package.muslimFeatures.forEach(feature => { %>
-          <li><%= feature %></li>
-          <% }) %>
-        </ul>
-      </div>
-      <% } %>
-
-      <div class="tech-features">
-        <h4>📱 Advanced Travel Features</h4>
-        <ul class="feature-list">
-          <li>🔐 Multi-device login synchronization</li>
-          <li>📍 Live location sharing with family & friends</li>
-          <li>🌐 Real-time language translation</li>
-          <li>🕐 Prayer time notifications</li>
-          <li>🧭 Qibla direction finder</li>
-          <li>🕌 Nearby mosque locator</li>
-          <li>🍽️ Halal food finder with reviews</li>
-          <li>🌤️ Weather forecast integration</li>
-          <li>💰 Budget tracking and alerts</li>
-          <li>📱 Mobile app with offline capabilities</li>
-        </ul>
-      </div>
-
-      <!-- Action buttons -->
-      <div class="card-actions">
-        <button
-          class="btn btn-select"
-          data-id="<%= (package._id && package._id.toString) ? package._id.toString() : (package.id || '') %>"
-          data-package="<%= encodeURIComponent(JSON.stringify({ _id: ((package._id && package._id.toString) ? package._id.toString() : (package.id || '')), name: package.name, price: package.price, duration: package.duration, hotel: package.hotel, food: package.food, transport: package.transport, attractions: package.attractions, shopping: package.shopping, muslimFeatures: package.muslimFeatures, weather: package.weather })) %>"
-        >
-          Select
-        </button>
-      </div>
-    </div>
-  </div>
-  <% }) %> <% } else { %>
+  <% if (typeof noSelection !== 'undefined' && noSelection) { %>
   <div class="no-packages">
-    <h3>😔 No packages available for your selected criteria</h3>
-    <p>Try adjusting your budget or selecting a different destination</p>
+    <h3>😔 No package selected</h3>
+    <p>Please go back and choose a country and budget to view packages.</p>
+    <a href="/" class="btn-back">← Back to Home</a>
+  </div>
+  <% } else if (packagesList && packagesList.length > 0) { %>
+  <h2 class="text-center mb-4">📦 Selected Packages for You</h2>
+  <p class="text-center" style="color: #6c757d; margin-bottom: 30px">
+    Showing packages across different budget categories
+  </p>
+
+  <% const budgetPackages = []; const midPackages = []; const luxuryPackages =
+  []; packagesList.forEach((pkg) => { 
+    const tierFromName = pkg.name ? (pkg.name.toLowerCase().includes('budget') ? 'budget' : pkg.name.toLowerCase().includes('mid') ? 'mid' : 'luxury') : 'mid';
+    const tier = pkg.tier ? pkg.tier.toLowerCase() : tierFromName;
+    if (tier.includes('budget') || tier === 'budget') {
+      budgetPackages.push(pkg); 
+    } else if (tier.includes('mid') || tier === 'mid') {
+      midPackages.push(pkg); 
+    } else {
+      luxuryPackages.push(pkg); 
+    }
+  });
+  budgetPackages.sort((a, b) => b.totalEstimateUSD - a.totalEstimateUSD);
+  midPackages.sort((a, b) => b.totalEstimateUSD - a.totalEstimateUSD);
+  luxuryPackages.sort((a, b) => b.totalEstimateUSD - a.totalEstimateUSD);
+  const categories = [ { name: '� Luxury', packages: luxuryPackages, color:
+  '#ef4444' }, { name: '⭐ Mid-Range', packages: midPackages, color: '#f59e0b'
+  }, { name: '💰 Budget-Friendly', packages: budgetPackages, color: '#22a84f' }, ]; %> <%
+  categories.forEach((category) => { %> <% if (category.packages.length > 0) {
+  %>
+  <div style="margin-bottom: 40px">
+    <h3
+      style="
+        background: <%= category.color %>;
+        color: white;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        font-size: 1.3rem;
+      "
+    >
+      <%= category.name %> (<%= category.packages.length %> package<% if
+      (category.packages.length !== 1) { %>s<% } %>)
+    </h3>
+
+    <% category.packages.forEach((package) => { %>
+    <div class="package-card">
+      <div class="package-header">
+        <div class="package-title">
+          <%= package.name %>
+          <% const days = package.durationDays || parseInt(package.duration) || 5; const nightsBadge = Math.max(days - 1, 0); %>
+          <span class="duration-badge"><%= days %>D/<%= nightsBadge %>N</span>
+        </div>
+          <% if (package.city || package.country) { %>
+          <div style="margin-top:6px;font-size:1rem;opacity:0.95">
+            📍 <%= [package.city, package.country].filter(Boolean).join(', ') %>
+          </div>
+          <% } %>
+        <div class="package-price">
+          <span
+            class="price-display"
+            data-price="<%= package.price %>"
+            data-currency="USD"
+          ></span>
+        </div>
+      </div>
+
+      <div class="package-body">
+        <% if (package.weather) { %>
+        <div class="weather-info">
+          <strong>🌤️ Current Weather:</strong> <%= package.weather.current %> |
+          <strong>Forecast:</strong> <%= package.weather.forecast %>
+        </div>
+        <% } %>
+
+        <div class="features-grid">
+          <% if (package.breakdownPKR) { %>
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">✈️</span>
+                Flights
+              </div>
+              <p>Rs<%= package.breakdownPKR.flights.toLocaleString() %> (~$<%= package.breakdownUSD.flights %>)</p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🏨</span>
+                Hotel
+              </div>
+              <p>Rs<%= package.breakdownPKR.hotel.toLocaleString() %> (~$<%= package.breakdownUSD.hotel %>)</p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🍽️</span>
+                Food & Dining
+              </div>
+              <p>Rs<%= package.breakdownPKR.food.toLocaleString() %> (~$<%= package.breakdownUSD.food %>)</p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🚗</span>
+                Transportation
+              </div>
+              <p>Rs<%= package.breakdownPKR.transport.toLocaleString() %> (~$<%= package.breakdownUSD.transport %>)</p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🎯</span>
+                Attractions
+              </div>
+              <p>Rs<%= package.breakdownPKR.attractions.toLocaleString() %> (~$<%= package.breakdownUSD.attractions %>)</p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🛍️</span>
+                Shopping
+              </div>
+              <p>Rs<%= package.breakdownPKR.shopping.toLocaleString() %> (~$<%= package.breakdownUSD.shopping %>)</p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🛡️</span>
+                Insurance & Misc
+              </div>
+              <p>Rs<%= package.breakdownPKR.misc.toLocaleString() %> (~$<%= package.breakdownUSD.misc %>)</p>
+            </div>
+
+            <div class="feature-section" style="background: #e8f5e9; border-left-color: #2e7d32;">
+              <div class="feature-title" style="color: #1b5e20;">
+                <span class="feature-icon">💰</span>
+                Total Package Cost
+              </div>
+              <p style="font-size: 1.2rem; font-weight: bold; color: #2e7d32;">Rs<%= package.totalPKR.toLocaleString() %> (~$<%= package.priceUSD %>)</p>
+            </div>
+          <% } else { %>
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🏨</span>
+                Accommodation
+              </div>
+              <p><%= package.hotel %></p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🍽️</span>
+                Food & Dining
+              </div>
+              <p><%= package.food %></p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🚗</span>
+                Transportation
+              </div>
+              <p><%= package.transport %></p>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🎯</span>
+                Must-Visit Attractions
+              </div>
+              <ul class="feature-list">
+                <% package.attractions.forEach((attraction) => { %>
+                <li><%= attraction %></li>
+                <% }); %>
+              </ul>
+            </div>
+
+            <div class="feature-section">
+              <div class="feature-title">
+                <span class="feature-icon">🛍️</span>
+                Shopping Destinations
+              </div>
+              <ul class="feature-list">
+                <% package.shopping.forEach((shop) => { %>
+                <li><%= shop %></li>
+                <% }); %>
+              </ul>
+            </div>
+          <% } %>
+        </div>
+
+        <% if (package.muslimFeatures) { %>
+        <div class="muslim-features">
+          <h4>🕌 Muslim-Friendly Features</h4>
+          <ul class="feature-list">
+            <% package.muslimFeatures.forEach((feat) => { %>
+            <li><%= feat %></li>
+            <% }); %>
+          </ul>
+        </div>
+        <% } %>
+
+        <div class="tech-features">
+          <h4>📱 Advanced Travel Features</h4>
+          <ul class="feature-list">
+            <li>🔐 Multi-device login synchronization</li>
+            <li>📍 Live location sharing with family & friends</li>
+            <li>🌐 Real-time language translation</li>
+            <li>🕐 Prayer time notifications</li>
+            <li>🧭 Qibla direction finder</li>
+            <li>🕌 Nearby mosque locator</li>
+            <li>🍽️ Halal food finder with reviews</li>
+            <li>🌤️ Weather forecast integration</li>
+            <li>💰 Budget tracking and alerts</li>
+            <li>📱 Mobile app with offline capabilities</li>
+          </ul>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="card-actions">
+          <% const pkgId = package._id ? package._id.toString() : package.id ||
+          Date.now().toString(); const nights = (package.durationDays || 0) > 0
+          ? Math.max((package.durationDays || 0) - 1, 0)
+          : null; const packageData = { packageId: pkgId, packageTitle:
+          package.name, destination: package.city, country: package.country,
+          tier: package.tier, duration: package.duration, durationDays:
+          package.durationDays, durationNights: nights, totalCost:
+          package.price, totalCostPKR: package.totalPKR, currency: 'USD',
+          hotel: package.hotel, food: package.food, transport: package.transport,
+          attractions: package.attractions, shopping: package.shopping,
+          muslimFeatures: package.muslimFeatures, weather: package.weather,
+          breakdownPKR: package.breakdownPKR, breakdownUSD: package.breakdownUSD,
+          flights: package.flights, misc: package.misc, }; %>
+          <button
+            class="btn btn-select"
+            data-id="<%= pkgId %>"
+            data-package="<%= encodeURIComponent(JSON.stringify(packageData)) %>"
+          >
+            Select
+          </button>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+  <% } %> <% }); %> <% } else { %>
+  <div class="no-packages">
+    <h3>
+      😔 No packages available for <%= country || 'your selected destination' %>
+    </h3>
+    <p>We couldn't find any packages matching your criteria.</p>
+    <p style="margin-top: 10px">Try:</p>
+    <ul style="list-style: none; padding: 0; margin-top: 10px">
+      <li>✓ Increasing your budget</li>
+      <li>✓ Selecting a different country</li>
+      <li>✓ Adjusting your trip duration</li>
+    </ul>
     <a href="/" class="btn-back">← Back to Home</a>
   </div>
   <% } %>
@@ -496,5 +653,9 @@
         }
       });
     });
+
+    // Note: Currency conversion is handled by the global layout (boiler.ejs)
+    // which calls CurrencyConverter.convertAllPrices() on DOMContentLoaded
+    // and when currency changes. No need for duplicate conversion here.
   })();
 </script>

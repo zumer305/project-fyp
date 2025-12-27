@@ -1,0 +1,10 @@
+django>=4.2
+djangorestframework>=3.16
+django-cors-headers>=4.3
+transformers>=4.40
+sentence-transformers>=2.2
+torch>=2.1
+faiss-cpu>=1.7
+flask>=2.3
+nest-asyncio>=1.5
+pyngrok>=5.2
