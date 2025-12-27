@@ -687,3 +687,270 @@ button:active {
 .btn:hover i {
   transform: translateX(2px);
 }
+/* ============================================
+   RESPONSIVE DESIGN FOR GROUPS
+   ============================================ */
+
+/* Tablet and Below (768px and below) */
+@media (max-width: 768px) {
+  /* Group Cards */
+  .group-card {
+    border-radius: 16px;
+  }
+
+  .group-card .card-body {
+    padding: 1rem 1.25rem;
+  }
+
+  .group-card .card-title {
+    font-size: 1rem;
+  }
+
+  .group-card .card-footer {
+    padding: 0.75rem 1.25rem;
+  }
+
+  /* Invite Code */
+  .invite-code {
+    font-size: 1rem;
+    padding: 8px 14px;
+    letter-spacing: 0.15em;
+  }
+
+  /* Member Avatars */
+  .member-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    border: 2px solid white;
+  }
+
+  .member-item {
+    padding: 8px;
+  }
+
+  /* Card Buttons */
+  .group-card .card-footer .row {
+    gap: 0.375rem;
+  }
+
+  .group-card .card-footer .col-6 {
+    padding: 0 0.25rem;
+  }
+
+  /* Chat Messages */
+  .message {
+    margin-bottom: 16px;
+  }
+
+  .message-bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    border-radius: 16px;
+  }
+
+  .message-time {
+    font-size: 0.7rem;
+  }
+
+  .message-sender {
+    font-size: 0.8rem;
+  }
+
+  .message-system {
+    font-size: 0.8rem;
+    padding: 6px;
+    margin: 12px 0;
+  }
+
+  /* Buttons */
+  .btn {
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .btn-sm {
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .btn i {
+    margin-right: 4px;
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+  /* Group Cards */
+  .group-card {
+    border-radius: 12px;
+  }
+
+  .group-card .card-body {
+    padding: 0.875rem 1rem;
+  }
+
+  .group-card .card-title {
+    font-size: 0.95rem;
+  }
+
+  .group-card .card-footer {
+    padding: 0.625rem 1rem;
+  }
+
+  /* Invite Code */
+  .invite-code {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    letter-spacing: 0.12em;
+  }
+
+  /* Member Avatars */
+  .member-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+    border: 2px solid white;
+  }
+
+  .member-item {
+    padding: 6px;
+  }
+
+  /* Card Buttons Row */
+  .group-card .card-footer .row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .group-card .card-footer .col-6 {
+    flex: 1;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .group-card .card-footer .col-6:first-child {
+    padding-left: 0;
+  }
+
+  .group-card .card-footer .col-6:last-child {
+    padding-right: 0;
+  }
+
+  .group-card:hover .card-footer .col-6:first-child,
+  .group-card:hover .card-footer .col-6:last-child {
+    transform: none;
+  }
+
+  /* Chat Messages */
+  .message {
+    margin-bottom: 14px;
+  }
+
+  .message-bubble {
+    max-width: 85%;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 14px;
+  }
+
+  .message-own .message-bubble {
+    border-bottom-right-radius: 3px;
+  }
+
+  .message-other .message-bubble {
+    border-bottom-left-radius: 3px;
+  }
+
+  .message-time {
+    font-size: 0.65rem;
+    margin-top: 4px;
+  }
+
+  .message-sender {
+    font-size: 0.75rem;
+  }
+
+  .message-system {
+    font-size: 0.75rem;
+    padding: 5px;
+    margin: 10px 0;
+  }
+
+  /* Buttons */
+  .btn {
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 0.85rem;
+    width: 100%;
+  }
+
+  .btn-sm {
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 0.7rem;
+  }
+
+  .btn i {
+    margin-right: 3px;
+    font-size: 0.8rem;
+  }
+
+  /* Form Controls */
+  .form-control,
+  .form-select {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* Small Mobile (360px and below) */
+@media (max-width: 360px) {
+  /* Group Cards */
+  .group-card .card-body {
+    padding: 0.75rem 0.875rem;
+  }
+
+  .group-card .card-title {
+    font-size: 0.9rem;
+  }
+
+  .group-card .card-footer {
+    padding: 0.5rem 0.875rem;
+  }
+
+  /* Invite Code */
+  .invite-code {
+    font-size: 0.85rem;
+    padding: 5px 10px;
+    letter-spacing: 0.1em;
+  }
+
+  /* Member Avatars */
+  .member-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.85rem;
+  }
+
+  /* Chat Messages */
+  .message-bubble {
+    max-width: 90%;
+    padding: 7px 10px;
+    font-size: 0.8rem;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .btn-sm {
+    padding: 4px 6px;
+    font-size: 0.65rem;
+  }
+}

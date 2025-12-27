@@ -1,0 +1,642 @@
+/* ============================================
+   COMPREHENSIVE RESPONSIVE STYLES
+   Mobile, Tablet, and Desktop Optimizations
+   ============================================ */
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Display utilities */
+.mobile-only {
+  display: none !important;
+}
+
+.desktop-only {
+  display: block !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block !important;
+  }
+  
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .mobile-flex {
+    display: flex !important;
+  }
+  
+  .mobile-grid {
+    display: grid !important;
+  }
+}
+
+/* Text alignment utilities */
+@media (max-width: 768px) {
+  .text-mobile-center {
+    text-align: center !important;
+  }
+  
+  .text-mobile-left {
+    text-align: left !important;
+  }
+}
+
+/* Spacing utilities */
+@media (max-width: 768px) {
+  .p-mobile-0 { padding: 0 !important; }
+  .p-mobile-1 { padding: 0.5rem !important; }
+  .p-mobile-2 { padding: 1rem !important; }
+  
+  .m-mobile-0 { margin: 0 !important; }
+  .m-mobile-1 { margin: 0.5rem !important; }
+  .m-mobile-2 { margin: 1rem !important; }
+}
+
+/* ============================================
+   BUTTONS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .btn,
+  button:not(.navbar-toggler) {
+    padding: 0.625rem 1rem !important;
+    font-size: 0.9375rem !important;
+  }
+  
+  .btn-sm,
+  .btn-small {
+    padding: 0.5rem 0.875rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  .btn-lg,
+  .btn-large {
+    padding: 0.75rem 1.25rem !important;
+    font-size: 1rem !important;
+  }
+  
+  .btn-block-mobile {
+    width: 100% !important;
+    display: block !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn,
+  button:not(.navbar-toggler) {
+    padding: 0.5rem 0.875rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  .btn-sm,
+  .btn-small {
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.8125rem !important;
+  }
+}
+
+/* ============================================
+   TABLES - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .table-responsive-mobile {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  table {
+    font-size: 0.875rem;
+  }
+  
+  th, td {
+    padding: 0.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    font-size: 0.8125rem;
+  }
+  
+  th, td {
+    padding: 0.375rem !important;
+  }
+}
+
+/* ============================================
+   IMAGES & MEDIA - RESPONSIVE
+   ============================================ */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  iframe,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .img-mobile-full {
+    width: 100% !important;
+  }
+}
+
+/* ============================================
+   CARDS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: 1rem;
+  }
+  
+  .card-body {
+    padding: 1rem !important;
+  }
+  
+  .card-title {
+    font-size: 1.125rem !important;
+  }
+  
+  .card-text {
+    font-size: 0.875rem !important;
+  }
+  
+  .card-img-top {
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-body {
+    padding: 0.75rem !important;
+  }
+  
+  .card-title {
+    font-size: 1rem !important;
+  }
+  
+  .card-text {
+    font-size: 0.8125rem !important;
+  }
+  
+  .card-img-top {
+    max-height: 180px;
+  }
+}
+
+/* ============================================
+   FORMS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .form-group {
+    margin-bottom: 0.875rem;
+  }
+  
+  label {
+    font-size: 0.9375rem;
+    margin-bottom: 0.375rem;
+  }
+  
+  .form-control,
+  .form-select,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 0.9375rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+  
+  textarea {
+    min-height: 100px !important;
+  }
+  
+  .form-check-label {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  label {
+    font-size: 0.875rem;
+  }
+  
+  .form-control,
+  .form-select,
+  input,
+  textarea,
+  select {
+    font-size: 0.875rem !important;
+    padding: 0.5rem 0.625rem !important;
+  }
+  
+  textarea {
+    min-height: 80px !important;
+  }
+}
+
+/* ============================================
+   MODALS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    margin: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+  
+  .modal-content {
+    border-radius: var(--radius-lg);
+  }
+  
+  .modal-header {
+    padding: 1rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+    font-size: 0.9375rem;
+  }
+  
+  .modal-footer {
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  
+  .modal-title {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-dialog {
+    margin: 0.5rem;
+    max-width: calc(100% - 1rem);
+  }
+  
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 0.75rem;
+  }
+  
+  .modal-body {
+    font-size: 0.875rem;
+  }
+  
+  .modal-title {
+    font-size: 1rem;
+  }
+  
+  .modal-footer {
+    flex-direction: column;
+  }
+  
+  .modal-footer button {
+    width: 100%;
+  }
+}
+
+/* ============================================
+   GRID LAYOUTS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .row > [class*='col-'] {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .row > [class*='col-'] {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .col-mobile-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* ============================================
+   NAVIGATION - MOBILE MENU
+   ============================================ */
+
+@media (max-width: 991px) {
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: var(--shadow-lg);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    z-index: 1000;
+  }
+  
+  .navbar-nav {
+    padding: 1rem;
+  }
+  
+  .navbar-nav .nav-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .navbar-nav .nav-link {
+    padding: 0.75rem 1rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+}
+
+/* ============================================
+   LIST ITEMS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .list-group-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .list-group-item {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* ============================================
+   BREADCRUMBS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .breadcrumb {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .breadcrumb-item + .breadcrumb-item::before {
+    padding: 0 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumb {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.5rem;
+  }
+}
+
+/* ============================================
+   DROPDOWNS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .dropdown-menu {
+    font-size: 0.9375rem;
+  }
+  
+  .dropdown-item {
+    padding: 0.625rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dropdown-menu {
+    font-size: 0.875rem;
+  }
+  
+  .dropdown-item {
+    padding: 0.5rem 0.875rem;
+  }
+}
+
+/* ============================================
+   PAGINATION - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .pagination {
+    font-size: 0.875rem;
+  }
+  
+  .page-link {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    font-size: 0.8125rem;
+    flex-wrap: wrap;
+  }
+  
+  .page-link {
+    padding: 0.375rem 0.625rem;
+  }
+}
+
+/* ============================================
+   TOOLTIPS & POPOVERS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .tooltip-inner {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.625rem;
+  }
+  
+  .popover {
+    font-size: 0.875rem;
+  }
+}
+
+/* ============================================
+   ACCORDIONS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .accordion-button {
+    padding: 0.875rem 1rem;
+    font-size: 0.9375rem;
+  }
+  
+  .accordion-body {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .accordion-button {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.875rem;
+  }
+  
+  .accordion-body {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* ============================================
+   TABS - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .nav-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .nav-tabs .nav-link {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.875rem;
+  }
+  
+  .tab-content {
+    padding: 1rem 0.75rem;
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-tabs .nav-link {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.75rem;
+  }
+  
+  .tab-content {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* ============================================
+   BADGES - RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .badge {
+    font-size: 0.6875rem;
+    padding: 0.1875rem 0.5rem;
+  }
+}
+
+/* ============================================
+   CUSTOM SCROLLBARS - MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+/* ============================================
+   TOUCH OPTIMIZATIONS
+   ============================================ */
+
+@media (hover: none) and (pointer: coarse) {
+  /* Increase touch targets for mobile */
+  a, button, .btn, .nav-link, input[type="checkbox"], input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  *:hover {
+    transition: none !important;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .navbar {
+    padding: 0.375rem 1rem !important;
+  }
+  
+  .modal-dialog {
+    margin: 0.5rem auto;
+    max-height: calc(100vh - 1rem);
+  }
+  
+  .modal-body {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Reduce animations on mobile for better performance */
+  * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  /* Disable complex animations on mobile */
+  .float-animation,
+  .pulse-animation {
+    animation: none !important;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Ensure readable font sizes */
+  body {
+    font-size: 16px !important; /* Prevent zoom on iOS */
+  }
+  
+  /* Increase contrast for better readability */
+  .text-muted {
+    color: var(--gray-600) !important;
+  }
+}

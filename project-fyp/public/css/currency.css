@@ -149,26 +149,152 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .currency-widget {
+    padding: 12px 16px;
+  }
+
   .currency-selector {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
 
+  .currency-selector label {
+    font-size: 0.9375rem;
+  }
+
   .currency-select {
     width: 100%;
     max-width: 100%;
+    font-size: 0.875rem;
+    padding: 8px 12px;
   }
 
   .inline-converter {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
+    padding: 8px 10px;
   }
 
   .inline-converter input,
   .inline-converter select {
     width: 100%;
+    font-size: 0.875rem;
+  }
+
+  .currency-comparison {
+    padding: 15px;
+    overflow-x: auto;
+  }
+
+  .currency-comparison h4 {
+    font-size: 1.125rem;
+  }
+
+  .currency-comparison th,
+  .currency-comparison td {
+    padding: 10px 8px;
+    font-size: 0.875rem;
+  }
+
+  .currency-badge {
+    font-size: 0.8125rem;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .currency-widget {
+    padding: 10px 12px;
+    border-radius: 8px;
+  }
+
+  .currency-selector label {
+    font-size: 0.875rem;
+  }
+
+  .currency-selector label i {
+    font-size: 1rem;
+  }
+
+  .currency-select {
+    font-size: 0.8125rem;
+    padding: 7px 10px;
+  }
+
+  .inline-converter {
+    padding: 6px 8px;
+    gap: 8px;
+  }
+
+  .inline-converter input,
+  .inline-converter select {
+    font-size: 0.8125rem;
+    padding: 5px 8px;
+  }
+
+  .inline-converter .convert-btn {
+    padding: 5px 10px;
+    font-size: 0.8125rem;
+  }
+
+  .inline-converter .result {
+    font-size: 0.8125rem;
+    padding: 3px 6px;
+  }
+
+  .currency-comparison {
+    padding: 12px;
+  }
+
+  .currency-comparison h4 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .currency-comparison th,
+  .currency-comparison td {
+    padding: 8px 6px;
+    font-size: 0.8125rem;
+  }
+
+  .currency-badge {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+  }
+
+  .currency-badge i {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .currency-widget {
+    padding: 8px 10px;
+  }
+
+  .currency-selector label {
+    font-size: 0.8125rem;
+  }
+
+  .currency-select {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+  }
+
+  .currency-comparison {
+    padding: 10px;
+  }
+
+  .currency-comparison h4 {
+    font-size: 0.9375rem;
+  }
+
+  .currency-comparison th,
+  .currency-comparison td {
+    padding: 6px 4px;
+    font-size: 0.75rem;
   }
 }
 

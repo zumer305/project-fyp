@@ -1450,6 +1450,576 @@ input[type="range"] {
 }
 
 
-    
- 
+/* ============================================
+   RESPONSIVE DESIGN - MOBILE, TABLET, DESKTOP
+   ============================================ */
+
+/* Tablet Landscape and Below (1024px and below) */
+@media (max-width: 1024px) {
+  :root {
+    --spacing-3xl: 3rem;
+    --spacing-2xl: 2rem;
+  }
+
+  .container {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .categories,
+  .cards,
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .hero {
+    height: 350px;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1.125rem;
+  }
+
+  .emergency-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .emergency-card-icon {
+    margin: 0 auto;
+  }
+
+  .map {
+    height: 350px;
+  }
+}
+
+/* Tablet Portrait and Below (768px and below) */
+@media (max-width: 768px) {
+  :root {
+    --spacing-3xl: 2rem;
+    --spacing-2xl: 1.5rem;
+    --spacing-xl: 1.25rem;
+  }
+
+  /* Typography Scaling */
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+  h5 { font-size: 1.125rem; }
+  h6 { font-size: 1rem; }
+
+  body {
+    font-size: 0.9375rem;
+  }
+
+  /* Container */
+  .container {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+
+  /* Navigation */
+  .navbar {
+    padding: 0.625rem 1rem !important;
+  }
+
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+
+  .navbar-brand i {
+    font-size: 1.5rem;
+    margin-right: 0.375rem;
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    margin: 0.375rem 0;
+  }
+
+  .navbar-nav.ms-auto .nav-link {
+    padding: 0.5rem 1.25rem;
+    margin: 0.375rem 0;
+    width: 100%;
+  }
+
+  .navbar-collapse {
+    background: white;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Hero Section */
+  .hero {
+    height: 300px;
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  /* Cards and Grids */
+  .categories,
+  .cards,
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .category-card img {
+    height: 180px;
+  }
+
+  /* Forms */
+  .input-field,
+  select,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  textarea {
+    font-size: 0.9375rem;
+  }
+
+  .chips {
+    gap: 0.375rem;
+  }
+
+  .chip {
+    padding: 0.375rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  /* Buttons */
+  .actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .actions button {
+    width: 100%;
+    padding: 0.625rem 1rem;
+  }
+
+  /* Emergency Cards */
+  .emergency-card {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--spacing-md);
+  }
+
+  .emergency-card-icon {
+    font-size: 1.75rem;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto var(--spacing-sm);
+  }
+
+  .emergency-card-content h3 {
+    font-size: 1.125rem;
+  }
+
+  /* Map */
+  .map {
+    height: 280px;
+    border-radius: var(--radius-xl);
+    border: 2px solid white;
+  }
+
+  /* Footer */
+  .site-footer {
+    margin-top: var(--spacing-2xl) !important;
+    padding: var(--spacing-xl) 0 !important;
+  }
+
+  .footer-simple {
+    padding: 0 var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+
+  .footer-brand-line {
+    font-size: 1.25rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.9375rem;
+  }
+
+  .footer-contact-line {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+  }
+
+  /* Chat Button */
+  .chat-button {
+    width: 60px;
+    height: 60px;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    font-size: 1.75rem;
+  }
+
+  .chat-button::after {
+    display: none; /* Hide tooltip on mobile */
+  }
+
+  /* Tags */
+  .tags span {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.875rem;
+  }
+
+  /* Section Titles */
+  .section h2 {
+    font-size: 1.75rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .section h2::after {
+    width: 60px;
+    height: 3px;
+  }
+
+  /* Info Overlay */
+  .info-overlay {
+    padding: var(--spacing-md);
+  }
+
+  .info-overlay h1 {
+    font-size: 1.5rem;
+  }
+
+  .quick-stats {
+    gap: var(--spacing-sm);
+    font-size: 0.8125rem;
+  }
+
+  .quick-stats span {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  /* Feature Cards */
+  .feature-card {
+    padding: var(--spacing-md);
+  }
+
+  .feature-card h3 {
+    font-size: 1.125rem;
+  }
+
+  .feature-card button {
+    padding: 0.5rem 1.25rem;
+    width: 100%;
+  }
+}
+
+/* Mobile Landscape and Below (640px and below) */
+@media (max-width: 640px) {
+  :root {
+    --spacing-2xl: 1.25rem;
+    --spacing-xl: 1rem;
+    --spacing-lg: 0.875rem;
+  }
+
+  /* Typography */
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  body {
+    font-size: 0.875rem;
+  }
+
+  /* Container */
+  .container {
+    padding: var(--spacing-sm) var(--spacing-xs);
+  }
+
+  /* Navigation */
+  .navbar {
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  .navbar-brand {
+    font-size: 1.125rem;
+  }
+
+  .navbar-brand i {
+    font-size: 1.25rem;
+  }
+
+  /* Hero */
+  .hero {
+    height: 250px;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero p {
+    font-size: 0.9375rem;
+  }
+
+  /* Cards */
+  .category-card img {
+    height: 160px;
+  }
+
+  .category-card h3 {
+    padding: var(--spacing-md);
+    font-size: 1.125rem;
+  }
+
+  /* Map */
+  .map {
+    height: 240px;
+  }
+
+  /* Emergency Section */
+  .emergency-section {
+    padding: var(--spacing-lg);
+  }
+
+  .emergency-card {
+    padding: var(--spacing-sm);
+  }
+
+  .emergency-card-icon {
+    font-size: 1.5rem;
+    width: 45px;
+    height: 45px;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: var(--spacing-lg) 0 !important;
+  }
+
+  .footer-brand-line {
+    font-size: 1.125rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.875rem;
+  }
+
+  /* Chat Button */
+  .chat-button {
+    width: 55px;
+    height: 55px;
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobile Portrait and Below (480px and below) */
+@media (max-width: 480px) {
+  /* Typography */
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.375rem; }
+  h3 { font-size: 1.125rem; }
+
+  body {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* Navigation */
+  .navbar-brand {
+    font-size: 1rem;
+  }
+
+  /* Hero */
+  .hero {
+    height: 220px;
+  }
+
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero p {
+    font-size: 0.875rem;
+  }
+
+  /* Cards */
+  .category-card img {
+    height: 140px;
+  }
+
+  /* Forms */
+  .input-field,
+  select,
+  input,
+  textarea {
+    height: 40px;
+    font-size: 0.875rem;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  /* Buttons */
+  .actions button {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  /* Map */
+  .map {
+    height: 200px;
+    border-radius: var(--radius-lg);
+  }
+
+  /* Footer */
+  .footer-contact-line {
+    font-size: 0.8125rem;
+  }
+
+  /* Section */
+  .section {
+    margin-top: var(--spacing-xl);
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Very Small Screens (360px and below) */
+@media (max-width: 360px) {
+  /* Typography */
+  h1 { font-size: 1.375rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1rem; }
+
+  body {
+    font-size: 0.8125rem;
+  }
+
+  /* Navigation */
+  .navbar {
+    padding: 0.375rem 0.5rem !important;
+  }
+
+  .navbar-brand {
+    font-size: 0.9375rem;
+  }
+
+  .navbar-brand i {
+    font-size: 1.125rem;
+    margin-right: 0.25rem;
+  }
+
+  /* Hero */
+  .hero {
+    height: 200px;
+  }
+
+  .hero h1 {
+    font-size: 1.25rem;
+  }
+
+  .hero p {
+    font-size: 0.8125rem;
+  }
+
+  /* Cards */
+  .category-card img {
+    height: 120px;
+  }
+
+  .category-card h3 {
+    font-size: 1rem;
+    padding: var(--spacing-sm);
+  }
+
+  /* Chat Button */
+  .chat-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  /* Map */
+  .map {
+    height: 180px;
+  }
+
+  /* Footer */
+  .footer-brand-line {
+    font-size: 1rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Landscape Orientation Fixes */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    height: 280px;
+    min-height: auto;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero p {
+    font-size: 0.9375rem;
+  }
+
+  .navbar {
+    padding: 0.5rem 1rem !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .navbar,
+  .chat-button,
+  .site-footer,
+  .actions {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .hero {
+    height: auto;
+    padding: 2rem;
+    background: none !important;
+    color: black !important;
+  }
+
+  .map {
+    display: none;
+  }
+}
  
