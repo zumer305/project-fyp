@@ -211,7 +211,9 @@ const sessionSecret = process.env.SESSION_SECRET || "mysupersecretcode";
 async function main() {
   try {
     await mongoose.connect(url, {
-      serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds instead of 30
+      serverSelectionTimeoutMS: 10000, // Increase timeout to 10 seconds
+      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+      family: 4 // Use IPv4, skip trying IPv6
     });
     console.log("✅ Connected to MongoDB successfully");
   } catch (err) {
@@ -268,10 +270,6 @@ async function syncListingsFromInitData() {
   }
 }
 
-main()
-  .then(() => syncListingsFromInitData())
-  .catch((err) => console.log("App initialization error:", err.message));
-
 // ===================
 // EJS MATE + VIEWS
 // ===================
@@ -312,6 +310,18 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// ===================
+// CONNECT TO MONGODB & START SEEDING
+// ===================
+// Note: Server will start AFTER MongoDB connection is established
+async function initializeApp() {
+  await main();
+  await syncListingsFromInitData();
+}
+
+// Don't call initializeApp() here - it will be called in startServer()
+// This prevents duplicate MongoDB connections
 
 // ===================
 // FLASH & CURRENT USER FOR ALL VIEWS
@@ -719,7 +729,26 @@ io.on("connection", (socket) => {
 // ===================
 // SERVER START
 // ===================
+// Only start server after MongoDB is connected
 const PORT = process.env.PORT || 8080;
-server.listen(PORT, () => {
-  console.log(`App is listening on port ${PORT}`);
-});
+
+async function startServer() {
+  try {
+    // Wait for MongoDB connection to be ready
+    await initializeApp();
+    
+    // Give mongoose a moment to stabilize connection state
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    server.listen(PORT, () => {
+      console.log(`🚀 App is listening on port ${PORT}`);
+      console.log(`📊 MongoDB connection state: ${mongoose.connection.readyState === 1 ? 'Connected ✅' : 'Not connected ❌'}`);
+      console.log(`\n✨ Login/Signup is ready! Visit http://localhost:${PORT}\n`);
+    });
+  } catch (err) {
+    console.error("Failed to start server:", err);
+    process.exit(1);
+  }
+}
+
+startServer();
