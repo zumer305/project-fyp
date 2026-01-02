@@ -576,6 +576,7 @@ module.exports.getMemberLocations = async (req, res) => {
     return res.json({
       success: true,
       locations,
+      currentUserId: req.user.id, // Add current user ID
     });
   } catch (e) {
     console.error("Error fetching member locations:", e);

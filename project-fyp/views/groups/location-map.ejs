@@ -358,20 +358,20 @@
         <div class="card-body">
           <div class="mb-3">
             <label class="form-label small fw-bold"
-              >From (Start Location):</label
+              >From (Your Location):</label
             >
-            <select class="form-select form-select-sm" id="startMemberSelect">
-              <option value="">Select start member...</option>
+            <select class="form-select form-select-sm" id="startMemberSelect" disabled>
+              <option value="">Loading...</option>
             </select>
           </div>
           <div class="mb-3">
-            <label class="form-label small fw-bold">To (Destinations):</label>
+            <label class="form-label small fw-bold">To (Other Members):</label>
             <div
               id="targetMembersContainer"
               class="border rounded p-2"
               style="background: #f8f9fa"
             >
-              <small class="text-muted">Select start member first...</small>
+              <small class="text-muted">Loading members...</small>
             </div>
           </div>
           <button
@@ -439,6 +439,7 @@
   let markers = [];
   let locationSharingEnabled = false;
   let watchId = null;
+  let currentUserId = null; // Store current user ID
 
   // Color palette for member markers
   const colors = [
@@ -510,6 +511,7 @@
       if (!response.ok) throw new Error("Failed to load locations");
 
       const data = await response.json();
+      currentUserId = data.currentUserId; // Store current user ID
       displayLocationsOnMap(data.locations);
       displayMembersList(data.locations);
     } catch (error) {
@@ -719,18 +721,23 @@
   // Update member selectors for route planning
   function updateMemberSelectors(locations) {
     const startSelect = document.getElementById("startMemberSelect");
-    const currentStart = startSelect.value;
-
-    startSelect.innerHTML =
-      '<option value="">Select start member...</option>' +
-      locations
-        .map((loc, idx) => `<option value="${idx}">${loc.username}</option>`)
-        .join("");
-
-    // Restore selection if still valid
-    if (currentStart && locations[currentStart]) {
-      startSelect.value = currentStart;
-      populateTargetMembers(currentStart);
+    
+    // Find current user index
+    const currentUserIndex = locations.findIndex(loc => loc.userId === currentUserId);
+    
+    // Populate start selector with only current user or all members as fallback
+    if (currentUserIndex !== -1) {
+      const currentUser = locations[currentUserIndex];
+      startSelect.innerHTML = `<option value="${currentUserIndex}" selected>${currentUser.username} (You)</option>`;
+      // Automatically populate targets
+      populateTargetMembers(currentUserIndex);
+    } else {
+      // Fallback: show all members if current user not found
+      startSelect.innerHTML =
+        '<option value="">Select start member...</option>' +
+        locations
+          .map((loc, idx) => `<option value="${idx}">${loc.username}</option>`)
+          .join("");
     }
   }
 
@@ -747,6 +754,16 @@
     }
 
     selectedStartMember = startIdx;
+
+    // Show only OTHER members (excluding the start member)
+    const otherMembers = memberLocationsData.filter((loc, idx) => idx !== parseInt(startIdx));
+    
+    if (otherMembers.length === 0) {
+      container.innerHTML =
+        '<small class="text-muted">No other members available</small>';
+      document.getElementById("showRoutesBtn").disabled = true;
+      return;
+    }
 
     container.innerHTML = memberLocationsData
       .map((loc, idx) => {
