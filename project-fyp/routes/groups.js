@@ -36,7 +36,10 @@ router.get("/:id/chat", isLoggedIn, async (req, res) => {
       return res.redirect("/groups");
     }
 
-    res.render("groups/chat.ejs", { groupId: req.params.id });
+    res.render("groups/chat.ejs", { 
+      groupId: req.params.id,
+      disableChatbot: true 
+    });
   } catch (error) {
     console.error("Error loading group chat:", error);
     req.flash("error", "Error loading group chat");
